@@ -14,7 +14,9 @@ open Informal
 
 #doc (Manual) "Boolean functions and coding" =>
 
-Carlet Chapter 3 begins the coding-theoretic layer.  The current compiled leaf
-is the first-order Reed--Muller distance theorem.
+Chapter 3 develops the coding-theoretic structure of Boolean functions. The verified surface defines
+first-order Reed--Muller codes through algebraic degree and establishes their distance lower bound.
+The general-order distance theorem, equality classification, dimension formula, and duality remain
+visible as subsequent source-facing objectives.
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter03.ReedMuller}

@@ -17,7 +17,7 @@ open Informal
 :::definition "carlet-2-function-degree-distance" (lean := "CryptBoolean.functionAlgebraicDegree, CryptBoolean.functionAlgebraicDegree_le_dimension, CryptBoolean.algebraicDegree_le_iff, CryptBoolean.anfCoeff_add, CryptBoolean.anfCoeff_zero, CryptBoolean.algebraicDegree_zero, CryptBoolean.functionAlgebraicDegree_zero, CryptBoolean.algebraicDegree_add_le_max, CryptBoolean.functionAlgebraicDegree_add_le_max, CryptBoolean.hammingDistance, CryptBoolean.hammingDistance_eq_hammingWeight_add, CryptBoolean.hammingDistance_eq_two_pow_mul_relativeHammingDist") (uses := "carlet-2-anf-existence-uniqueness, carlet-2-def-support-weight") (tags := "carlet, chapter-2, algebraic-degree, hamming-distance, mathlib-reuse")
 Function-level algebraic degree is the degree of the unique ANF and remains distinct
 from real Fourier degree.  It is submaximal under addition.  Raw Hamming distance is
-Mathlib's `hammingDist`, equals the weight of the Boolean sum, and scales FABL's
+[Mathlib](https://github.com/leanprover-community/mathlib4)'s `hammingDist`, equals the weight of the Boolean sum, and scales [FABL](https://github.com/Polarnova/FABL)'s
 relative distance by $`2^n`.
 :::
 

@@ -22,12 +22,15 @@ open Informal
 
 #doc (Manual) "Generalities on Boolean functions" =>
 
-Carlet Chapter 2 fixes scalar Boolean-function representations and the Fourier-Walsh interface.
+Chapter 2 develops scalar Boolean-function representations and the Fourier--Walsh interface. The
+verified surface covers algebraic and numerical normal forms, raw Walsh and pseudo-Boolean Fourier
+transforms, subspace identities, derivatives, finite-field representations, Hamming distance, and
+affine functions. Fourier-analytic results reuse
+[FABL](https://github.com/Polarnova/FABL) through explicit normalization bridges.
 
-Open source-facing work remains visible rather than being counted as proved:
-the complete affine-change and restriction laws, Proposition 5's integrality
-criterion, the full trace-monomial degree formula, and the spectral-support
-bounds.
+The Blueprint also records the remaining source-facing families: the complete affine-change and
+restriction laws, Proposition 5's integrality criterion, the full trace-monomial degree formula,
+and the spectral-support bounds. Their open status remains visible in the dependency graph.
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}
 

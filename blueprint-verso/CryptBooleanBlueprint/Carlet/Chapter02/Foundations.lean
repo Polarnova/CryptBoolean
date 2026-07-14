@@ -29,7 +29,7 @@ $`\sum_x (-1)^{f(x)+a\cdot x}`.
 :::
 
 :::theorem "carlet-2-bridge-walsh-normalization" (lean := "CryptBoolean.card_f₂Cube, CryptBoolean.walshTerm_cast_eq_realSignView_mul_character, CryptBoolean.walshTransform_cast_eq_sum_realSignView_mul_character, CryptBoolean.walshTransform_eq_two_pow_mul_vectorFourierCoeff") (uses := "carlet-2-def-walsh-transform") (tags := "carlet, chapter-2, section-2-2, bridge")
-With the FABL sign convention, Carlet's unnormalized Walsh transform satisfies
+With the [FABL](https://github.com/Polarnova/FABL) sign convention, Carlet's unnormalized Walsh transform satisfies
 $`W_f(a)=2^n\widehat{(-1)^f}(a)`, where the coefficient on the right is FABL's normalized vector Fourier coefficient.
 :::
 
