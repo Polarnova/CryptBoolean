@@ -1,5 +1,13 @@
 # CryptBoolean contributor contract
 
+## Required agent reading
+
+Before planning, formalizing, or reviewing the library, read `.agents/SPEC.md` and
+`.agents/PLAN.md`. Review `.agents/inventory/` for source coverage and open statement families.
+Consult `.agents/audit/dependency-dag.md` for the reviewed proof structure and
+`.agents/audit/fidelity.md` for statement-to-declaration fidelity. These files are internal working
+contracts rather than public project documentation.
+
 ## Mission and sources of truth
 
 CryptBoolean formalizes cryptographic Boolean-function theory in Lean 4 and Mathlib. Claude
@@ -11,7 +19,8 @@ is a pinned upstream dependency for Boolean Fourier analysis.
 2. Production declarations under `CryptBoolean/**/*.lean` determine formal statements and proofs.
 3. Verso sources under `blueprint-verso/CryptBooleanBlueprint/**/*.lean` associate source-facing
    statements with compiled declarations and record the reviewed mathematical dependency DAG.
-4. Inventories under `inventory/` record reviewed source coverage and open statement families.
+4. Inventories under `.agents/inventory/` record reviewed source coverage and open statement
+   families.
 
 Never silently weaken a source statement, add an assumption, change its domain, or conflate two
 normalizations. Record deliberate generalizations and representation bridges in the matching Verso
@@ -19,20 +28,25 @@ node and production declaration.
 
 ## Current verified surface
 
-The Blueprint baseline is 23 proof-complete statement nodes, 114 associated Lean declarations, and
-26 reviewed dependency edges.
+The Blueprint baseline is 43 source-facing statement nodes: 41 formalized nodes associated with 180
+proved Lean declarations and 2 visibly open nodes, connected by 64 reviewed dependency edges.
 
-- Chapter 2 contributes 21 nodes, 106 declarations, and 23 incoming edges. It covers the scalar
+- Chapter 2 contributes 36 nodes (35 formalized and 1 open), 159 declarations, and 45 incoming
+  edges. It covers the scalar
   Boolean-function domain, support and weight, balancedness, raw Walsh transforms, the scaling
   bridge to FABL, Walsh inversion, Parseval, algebraic and numerical normal forms, raw
-  pseudo-Boolean Fourier operations, subspace indicators, Poisson summation, derivatives,
-  autocorrelation, finite-field trace and representation, distance scaling, and affine functions.
-- Chapter 3 contributes 2 nodes, 8 declarations, and 3 incoming edges. It defines `reedMuller r n` and proves
-  the first-order distance lower bound.
-- Open Chapter 2 families are the numerical-normal-form integrality criterion, trace-monomial degree
-  formulas, affine-change and restriction laws, and spectral-support bounds.
-- Open Chapter 3 families include the general-order distance theorem, equality classification,
-  dimension formula, and duality.
+  pseudo-Boolean Fourier operations, the full raw Poisson formula, derivatives, autocorrelation,
+  finite-field trace and representation, distance scaling, affine invariance, restriction recovery,
+  and spectral-support bounds.
+- Chapter 3 contributes 7 nodes (6 formalized and 1 open), 21 declarations, and 19 incoming edges.
+  It defines `reedMuller r n` and proves the affine-weight theorem, general-order distance theorem,
+  dimension and cardinality formulas, and duality.
+- The only open Chapter 2 node is Carlet Proposition 3 on the algebraic degree of trace monomials.
+  It requires a finite-field coordinate bridge identifying coordinate ANF degree with maximum
+  binary exponent weight and a cyclotomic-orbit noncancellation theorem.
+- The only open Chapter 3 node is Carlet Proposition 12's minimum-weight equality classification.
+  It requires an arbitrary affine-flat normal form, the codimension--degree theorem for affine-flat
+  indicators, and equality-case slice infrastructure.
 
 These counts must agree with `blueprint-verso/scripts/validate_manifest.py`. Update the validator,
 inventory, Verso nodes, and this baseline together whenever verified coverage changes.
@@ -70,8 +84,8 @@ Stream-cipher, block-cipher, AES, and Boolean Cayley-graph results require their
   `Utils`, or `ToMathlib` dumping grounds.
 - The canonical scalar cryptographic Boolean function is `FABL.F₂Cube n → FABL.𝔽₂`.
 - Sign-valued, real-valued, and finite-field views cross explicit representation bridges.
-- PDF extraction, inventory maintenance, Blueprint rendering, CI, and audits remain at the
-  repository perimeter.
+- PDF extraction, inventory maintenance, Blueprint rendering, CI, and internal audits remain at the
+  repository perimeter. Agent-facing specifications, plans, and audit records live under `.agents/`.
 - Add a helper only when a production theorem uses it. Extract shared logic only after genuine
   cross-module reuse appears.
 
@@ -90,7 +104,7 @@ Stream-cipher, block-cipher, AES, and Boolean Cayley-graph results require their
 
 ## Formalization loop
 
-1. Add or refine the source-facing inventory in `inventory/`.
+1. Add or refine the source-facing inventory in `.agents/inventory/`.
 2. Search FABL and Mathlib for reusable declarations.
 3. Add the minimal Lean signature under the relevant chapter module.
 4. Record the complete reviewed statement and dependency edges in the matching Verso source.
@@ -119,6 +133,13 @@ Each reviewed item has one complete human-readable statement, genuine compiled d
 fidelity metadata, and reviewed `uses` dependencies. Dependency edges describe mathematical proof
 dependencies rather than Lean imports or presentation state.
 
+Every statement block begins with its source result name or an explicit project-bridge label and
+states the mathematical domains, hypotheses, quantifiers, and conclusion. Do not put repository
+links, implementation provenance, library reuse, proof narration, or completion status inside a
+statement block. Put such material in a separate `Formalization note` after the block and encode
+fidelity distinctions in tags. Run `blueprint-verso/scripts/check_statement_style.py` through the
+site build to enforce this separation.
+
 Include active chapters in the Blueprint aggregate throughout development so open nodes remain
 visible. A missing declaration association honestly represents unfinished work. Never attach a
 placeholder declaration or weaken a statement to manufacture completion.
@@ -143,15 +164,16 @@ repository root:
 
 ```bash
 lake build CryptBoolean
-./scripts/forbidden_tokens.sh
-./scripts/audit_axioms.sh
+./.github/scripts/forbidden_tokens.sh
+./.github/scripts/audit_axioms.sh
 ./blueprint-verso/scripts/site.sh build
 ```
 
 The root build verifies production reachability. The forbidden-token scan rejects incomplete or
 unsafe proof mechanisms. The axiom audit rejects `sorryAx` dependencies. The site build compiles the
 Verso sources, validates declaration presence and proof status, checks the dependency graph, and
-validates the manifest counts.
+validates the manifest counts. Pushes to `main` run these gates before the checked Blueprint
+artifact is deployed automatically to GitHub Pages.
 
 ## Version-control boundaries
 

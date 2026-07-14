@@ -16,6 +16,7 @@ fi
 
 build_site() {
   cd "$root"
+  python3 "$root/scripts/check_statement_style.py"
   "$lake_cmd" build CryptBooleanBlueprint
   rm -rf -- "$output/html-multi"
   "$lake_cmd" exe blueprint-gen --output "$output" --depth 2

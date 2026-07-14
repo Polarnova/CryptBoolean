@@ -10,20 +10,28 @@ explicit bridges between FABL's normalized coefficients and Carlet's raw Walsh t
 ## Status
 
 The verified production surface currently covers selected results from Carlet Chapters 2 and 3.
-Every entry in the table has a complete Blueprint statement, compiled Lean declarations, and
-reviewed mathematical dependencies.
+Every Blueprint node has a complete mathematical statement and reviewed dependencies. Formalized
+nodes are associated with compiled Lean declarations; open source theorems remain visible without
+placeholder associations.
 
-| Chapter | Subject | Verified statements | Lean declarations | Dependency edges |
-|---|---|---:|---:|---:|
-| 2 | Representations and Fourier/Walsh transforms | 21 | 106 | 23 |
-| 3 | Boolean functions and Reed--Muller coding | 2 | 8 | 3 |
-| **Total** |  | **23** | **114** | **26** |
+| Chapter | Subject | Statements | Formalized | Open | Lean declarations | Dependency edges |
+|---|---|---:|---:|---:|---:|---:|
+| 2 | Representations and Fourier/Walsh transforms | 36 | 35 | 1 | 159 | 45 |
+| 3 | Boolean functions and Reed--Muller coding | 7 | 6 | 1 | 21 | 19 |
+| **Total** |  | **43** | **41** | **2** | **180** | **64** |
 
 The Chapter 2 surface includes algebraic and numerical normal forms, Walsh and pseudo-Boolean
-Fourier transforms, inversion and Plancherel identities, subspace indicators, Poisson summation,
-derivatives, autocorrelation, finite-field trace and univariate representation, Hamming distance,
-and affine functions. Chapter 3 begins the Reed--Muller development with the first-order distance
-bound.
+Fourier transforms, inversion and Plancherel identities, the full raw Poisson formula, the
+numerical-normal-form integrality criterion, affine invariance, restriction recovery,
+spectral-support bounds, derivatives, autocorrelation, and finite-field representations. Chapter 3
+defines Reed--Muller codes and proves the general distance bound, dimension and cardinality
+formulas, and duality theorem.
+
+Exactly two source statements remain open. Carlet Proposition 3 requires a finite-field coordinate
+bridge identifying ANF degree with the maximum binary weight of a univariate exponent, together
+with noncancellation along the relevant cyclotomic orbit. Carlet Chapter 3 Proposition 12 requires
+an arbitrary affine-flat normal form, the codimension--degree theorem for affine-flat indicators,
+and equality-case slice infrastructure for the minimum-weight classification.
 
 The production library contains zero `sorry`, project-defined axioms, unsafe declarations, or
 native proof shortcuts.
@@ -50,7 +58,8 @@ under `CryptBoolean/Bridge`.
 ## Book and dependency graph
 
 The Verso Blueprint presents source-facing statements beside their Lean declarations and records
-the reviewed dependency graph. Build and serve it locally with:
+the reviewed dependency graph. Statement blocks contain only mathematics; implementation and
+normalization notes are rendered separately. Build and serve it locally with:
 
 ```bash
 cd blueprint-verso
@@ -59,13 +68,13 @@ lake exe cache get
 ```
 
 Then open [http://localhost:8000/](http://localhost:8000/). Generated files live under
-`blueprint-verso/_out/`.
+`blueprint-verso/_out/`. Pushes to `main` run the same checked build and automatically publish the
+book through GitHub Pages at
+[polarnova.github.io/CryptBoolean](https://polarnova.github.io/CryptBoolean/).
 
 ## Contributing
 
-Read [`AGENTS.md`](AGENTS.md) for the source-inventory, dependency, proof, Blueprint, and verification
-contracts. [`SPEC.md`](SPEC.md) defines the mathematical architecture and representation bridges.
-[`PLAN.md`](PLAN.md) records the Carlet-first coverage plan.
+Read [`AGENTS.md`](AGENTS.md) for the contributor contract and verification workflow.
 
 ## References and prior work
 

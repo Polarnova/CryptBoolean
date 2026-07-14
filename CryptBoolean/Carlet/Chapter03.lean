@@ -6,6 +6,7 @@ Authors: Asher Yan with Codex
 module
 
 public import CryptBoolean.Carlet.Chapter03.ReedMuller
+public import CryptBoolean.Carlet.Chapter03.ReedMullerDuality
 
 /-!
 # Carlet Chapter 3

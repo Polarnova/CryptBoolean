@@ -26,8 +26,8 @@ def support (f : BooleanFunction n) : Finset (FABL.F₂Cube n) :=
   Finset.univ.filter fun x ↦ f x = 1
 
 /-- The Hamming weight of a Boolean function. -/
-def hammingWeight (f : BooleanFunction n) : ℕ :=
-  (support f).card
+abbrev hammingWeight (f : BooleanFunction n) : ℕ :=
+  hammingNorm f
 
 /-- The integer sign `(-1)^b` used in Carlet's raw Walsh sums. -/
 def bitSignInt (b : FABL.𝔽₂) : ℤ :=
@@ -49,6 +49,18 @@ def IsBalanced (f : BooleanFunction n) : Prop :=
 @[simp] theorem mem_support (f : BooleanFunction n) (x : FABL.F₂Cube n) :
     x ∈ support f ↔ f x = 1 := by
   simp [support]
+
+/-- On binary-valued functions, Mathlib's Hamming norm is the cardinality of the one-set. -/
+theorem hammingWeight_eq_card_support (f : BooleanFunction n) :
+    hammingWeight f = (support f).card := by
+  classical
+  unfold hammingWeight hammingNorm support
+  congr 1
+  ext x
+  by_cases hx : f x = 0
+  · simp [hx]
+  · have hx_one : f x = 1 := Fin.eq_one_of_ne_zero (f x) hx
+    simp [hx_one]
 
 /-- The binary cube has cardinality `2^n`. -/
 theorem card_f₂Cube (n : ℕ) :
@@ -125,7 +137,7 @@ theorem walshTransform_zero_eq_card_sub_two_weight (f : BooleanFunction n) :
       simp
     _ = (Fintype.card (FABL.F₂Cube n) : ℤ) - 2 * hammingWeight f := by
       congr 2
-      rw [hammingWeight, support]
+      rw [hammingWeight_eq_card_support, support]
       rw [← Finset.sum_filter]
       simp
 

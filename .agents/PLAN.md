@@ -2,10 +2,17 @@
 
 ## Baseline and planning facts
 
-The current FABL `main` branch is clean, its root build passes, and `import FABL` exposes the binary
-cube, sign cube, dot product, representation equivalence, normalized Fourier coefficients, Fourier
-expansion, Plancherel, relative Hamming distance, balancedness, restrictions, and derivatives needed
-for the first CryptBooleanFunction layer.
+CryptBoolean pins FABL at revision `34334a1b0c8dd806c076444a0875caf29ba5e248`. Its public root
+exposes the binary cube, sign cube, dot product, representation equivalence, normalized Fourier
+coefficients, Fourier expansion, Plancherel, relative Hamming distance, balancedness, restrictions,
+and derivatives needed for the first CryptBooleanFunction layer.
+
+The current Blueprint baseline contains 43 source-facing statement nodes: 41 formalized nodes
+associated with 180 proved Lean declarations and 2 visibly open nodes, connected by 64 reviewed
+dependency edges. Chapter 2 contributes 36 nodes (35 formalized and 1 open), 159 declarations, and
+45 incoming edges. Chapter 3 contributes 7 nodes (6 formalized and 1 open), 21 declarations, and 19
+incoming edges. These counts are a synchronized verification contract shared by the inventories,
+Verso sources, `blueprint-verso/scripts/validate_manifest.py`, and `AGENTS.md`.
 
 Automated PDF text extraction finds 93 numbered definition/theorem/proposition/lemma/corollary
 headings in Carlet and 240 in Cusick--Stănică. These are lower-bound discovery counts, not coverage
@@ -49,12 +56,15 @@ Reed-Muller/nonlinearity   derivatives/autocorrelation
 
 ## Phase 0 - Repository bootstrap
 
+Status: complete.
+
 Deliverables:
 
 - initialize the Lean package on the same Lean/Mathlib toolchain as the pinned FABL revision;
 - add an exact Git dependency on FABL;
 - create the `CryptBoolean` root import and chapter aggregates;
-- add Verso Blueprint, strict manifest validation, forbidden-token checks, and CI;
+- add Verso Blueprint, strict manifest validation, forbidden-token checks, CI, and checked automatic
+  GitHub Pages deployment from `main`;
 - ignore both source PDFs and all generated artifacts;
 - add a minimal import probe proving that the required FABL public API is reachable.
 
@@ -63,9 +73,17 @@ tooling pipeline runs, and no local filesystem path appears in package metadata.
 
 ## Phase 1 - Complete Carlet inventory
 
+Status: in progress. Reviewed Chapter 2 and Chapter 3 items live under `.agents/inventory/`; later
+chapters are not yet inventoried.
+
 Read Chapters 2--10 in full and create one Blueprint node per in-scope item. Record full statements,
 source locations, representation decisions, and mathematical dependencies. Mark referenced results
 from the absent vectorial chapter as external dependencies instead of inventing them.
+
+Each statement block contains only the source result label and rigorous mathematics: domains,
+quantifiers, hypotheses, and conclusion. Repository links, FABL or Mathlib reuse, proof narration,
+fidelity classification, and completion status belong in metadata or a separate `Formalization
+note`, never in the theorem position.
 
 In parallel with manual review, produce a source crosswalk for repeated numbering and for claims
 that are stated in one section and proved later.
@@ -74,6 +92,15 @@ Exit gate: the complete Carlet inventory is visible, incomplete nodes are honest
 render, and no proof work has silently expanded or reduced scope.
 
 ## Phase 2 - Chapter 2 foundations
+
+Status: 35 of 36 source-facing nodes are formalized. This phase now includes Proposition 5's
+numerical-normal-form integrality criterion, full raw Poisson summation, affine invariance,
+restriction recovery, and both spectral-support bounds. The only open node is Carlet Proposition 3
+on the algebraic degree of trace monomials.
+
+The precise Proposition 3 frontier is a bridge from univariate finite-field exponents to coordinate
+ANF degree: coordinate algebraic degree must equal the maximum binary weight in the univariate
+support, and the coefficients along the relevant cyclotomic orbit must be shown not to cancel.
 
 ### 2A. Boolean representations
 
@@ -90,8 +117,8 @@ render, and no proof work has silently expanded or reduced scope.
 - algebraic support and algebraic degree;
 - affine invariance and restriction laws required downstream.
 
-This work starts now under Carlet-facing names. Before FABL Chapter 6 exposes a stable overlapping
-API, perform an ownership review and replace duplication with reuse or a narrow bridge.
+This work uses Carlet-facing names. Before FABL Chapter 6 exposes a stable overlapping API, perform
+an ownership review and replace duplication with reuse or a narrow bridge.
 
 ### 2C. Fourier and Walsh
 
@@ -111,6 +138,15 @@ Exit gate: every later chapter can state weight, Walsh, ANF, degree, derivative,
 and restriction claims without introducing a second representation.
 
 ## Phase 3 - Chapter 3 coding
+
+Status: 6 of 7 source-facing nodes are formalized. The production surface defines `reedMuller r n`
+and proves the affine-weight theorem, the derived first-order distance result, Carlet's general-order
+Theorem 1, the dimension and cardinality formulas, and Theorem 2 on duality. Only Proposition 12's
+minimum-weight equality classification remains open.
+
+The precise Proposition 12 frontier is an arbitrary affine-flat normal form, the theorem that an
+affine-flat indicator has algebraic degree equal to its codimension, and equality-case slice
+infrastructure strengthening the general lower-bound induction.
 
 - define Reed-Muller function families from bounded algebraic degree;
 - relate evaluation vectors, Hamming weight, and minimum distance;
@@ -211,6 +247,10 @@ This phase reuses the general criteria and does not redefine them for symmetric 
 Run a statement-to-declaration audit across Chapters 2--10. Resolve every source discrepancy,
 normalization bridge, referenced external lemma, and generalization. Then run the root build,
 forbidden-token scan, strict Blueprint build, dependency-graph validation, and visual HTML/PDF QA.
+
+The repository-level verification commands are `lake build CryptBoolean`,
+`./.github/scripts/forbidden_tokens.sh`, `./.github/scripts/audit_axioms.sh`, and
+`./blueprint-verso/scripts/site.sh build`.
 
 Publish a Carlet coverage release only after every node is compiled and the complete dependency
 closure is green.

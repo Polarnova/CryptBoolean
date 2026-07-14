@@ -1,0 +1,129 @@
+source: carlet-2010
+chapter: 3
+status: blueprint-synchronized
+summary:
+  statements: 7
+  formalized: 6
+  open: 1
+  declarations: 21
+  dependency_edges: 19
+items:
+  - id: carlet-3-affine-weight
+    kind: theorem
+    location: Carlet, Weight of a nonconstant affine function, p. 38
+    statement: >-
+      For a ∈ V_n, b ∈ 𝔽₂, and x ∈ V_n,
+      (A_{a,b})_χ(x) = (-1)^b(-1)^(a·x). If a ≠ 0, then A_{a,b} is
+      balanced and w_H(A_{a,b}) = 2^(n-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.realSignView_affineFunction
+      - CryptBoolean.isBalanced_affineFunction_of_ne_zero
+      - CryptBoolean.hammingWeight_affineFunction_of_ne_zero
+    dependencies:
+      - carlet-2-def-affine-functions
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-3-reed-muller-code
+    kind: definition
+    location: Carlet, Reed--Muller code, pp. 37--38
+    statement: >-
+      R(r,n) = {f : V_n → 𝔽₂ | deg_alg(f) ≤ r} is an 𝔽₂-linear
+      subspace. If r ≤ s then R(r,n) ⊆ R(s,n); every affine function lies in
+      R(1,n); and distinct f,g ∈ R(r,n) have d_H(f,g) > 0.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.reedMuller
+      - CryptBoolean.mem_reedMuller_iff
+      - CryptBoolean.reedMuller_mono
+      - CryptBoolean.affineFunction_mem_reedMuller_one
+      - CryptBoolean.reedMuller_distance_pos
+    dependencies:
+      - carlet-2-def-algebraic-degree
+      - carlet-2-support-degree-addition
+      - carlet-2-def-hamming-distance
+      - carlet-2-def-affine-functions
+
+  - id: carlet-3-theorem-1-order-one
+    kind: theorem
+    location: Derived order-one specialization of Carlet, Theorem 1
+    statement: >-
+      If f : V_n → 𝔽₂ is nonzero and deg_alg(f) ≤ 1, then
+      w_H(f) ≥ 2^(n-1). Equivalently, distinct f,g ∈ R(1,n) satisfy
+      d_H(f,g) ≥ 2^(n-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hammingWeight_affineFunction_one_zero
+      - CryptBoolean.two_pow_sub_one_le_hammingWeight_of_degree_le_one
+      - CryptBoolean.reedMuller_one_distance_lower_bound
+    dependencies:
+      - carlet-3-reed-muller-code
+      - carlet-2-def-affine-functions
+      - carlet-3-affine-weight
+      - carlet-2-support-degree-addition
+      - carlet-2-def-hamming-distance
+
+  - id: carlet-3-theorem-1
+    kind: theorem
+    location: Carlet, Theorem 1, p. 36
+    statement: >-
+      Let 0 ≤ r ≤ n. If distinct f,g : V_n → 𝔽₂ satisfy
+      deg_alg(f), deg_alg(g) ≤ r, then d_H(f,g) ≥ 2^(n-r). Equivalently,
+      every nonzero h of algebraic degree at most r has w_H(h) ≥ 2^(n-r).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_sub_le_hammingWeight_of_degree_le
+      - CryptBoolean.reedMuller_distance_lower_bound
+    dependencies:
+      - carlet-3-reed-muller-code
+      - carlet-2-def-hamming-distance
+      - carlet-2-anf-existence-uniqueness
+
+  - id: carlet-3-prop-12
+    kind: proposition
+    location: Carlet, Proposition 12, pp. 36--37
+    statement: >-
+      Let 0 ≤ r ≤ n. A Boolean function f has deg_alg(f) = r and
+      w_H(f) = 2^(n-r) iff f is the indicator of an (n-r)-dimensional affine
+      subspace of V_n.
+    formal_status: open
+    declarations: []
+    blocker: >-
+      Missing arbitrary affine-flat normal-form infrastructure, the theorem that
+      an affine-flat indicator has algebraic degree equal to its codimension,
+      and the equality-case slice infrastructure required to classify every
+      minimum-weight word. These are not supplied by pinned FABL or Mathlib.
+    dependencies:
+      - carlet-3-theorem-1
+
+  - id: carlet-3-reed-muller-dimension
+    kind: theorem
+    location: Carlet, Dimension of the Reed--Muller code, p. 38
+    statement: >-
+      For 0 ≤ r ≤ n, dim_𝔽₂ R(r,n) = ∑_{i=0}^r C(n,i), and therefore
+      |R(r,n)| = 2^(∑_{i=0}^r C(n,i)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.reedMuller_card
+      - CryptBoolean.reedMuller_finrank
+    dependencies:
+      - carlet-3-reed-muller-code
+      - carlet-2-anf-existence-uniqueness
+
+  - id: carlet-3-theorem-2
+    kind: theorem
+    location: Carlet, Theorem 2, pp. 38--39
+    statement: >-
+      For 0 ≤ r < n and ⟨f,g⟩ = ⊕_{x ∈ V_n} f(x)g(x), the orthogonal
+      code satisfies R(r,n)^⊥ = R(n-r-1,n).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanFunctionPairing
+      - CryptBoolean.booleanFunctionPairing_apply
+      - CryptBoolean.booleanFunctionPairing_nondegenerate
+      - CryptBoolean.reedMullerDual
+      - CryptBoolean.reedMuller_complement_le_dual
+      - CryptBoolean.reedMullerDual_eq
+    dependencies:
+      - carlet-3-reed-muller-dimension
+      - carlet-3-reed-muller-code

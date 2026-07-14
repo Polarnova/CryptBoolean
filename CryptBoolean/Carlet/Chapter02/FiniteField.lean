@@ -47,18 +47,14 @@ theorem algebraMap_absoluteTrace_eq_sum_frobenius {n : ℕ} (hn : n ≠ 0)
 /-- Nondegeneracy of the finite-field trace supplies an element of absolute trace one. -/
 theorem exists_absoluteTrace_eq_one (n : ℕ) :
     ∃ traceOne : BinaryGaloisField n, absoluteTrace n traceOne = 1 := by
-  have htr := (traceForm_nondegenerate FABL.𝔽₂ (BinaryGaloisField n)).1
-    (1 : BinaryGaloisField n)
-  simp_rw [Algebra.traceForm_apply, one_mul] at htr
-  have hexists : ∃ traceOne : BinaryGaloisField n, absoluteTrace n traceOne ≠ 0 := by
-    by_contra h
-    push Not at h
-    exact one_ne_zero (htr (by simpa [absoluteTrace] using h))
-  obtain ⟨traceOne, htraceOne⟩ := hexists
-  refine ⟨traceOne, ?_⟩
-  have hne : absoluteTrace n traceOne ≠ 0 := by
-    simpa [absoluteTrace] using htraceOne
-  exact Fin.eq_one_of_ne_zero (absoluteTrace n traceOne) hne
+  simpa [absoluteTrace] using
+    (Algebra.trace_surjective FABL.𝔽₂ (BinaryGaloisField n) (1 : FABL.𝔽₂))
+
+/-- The absolute trace onto the binary prime field is surjective. -/
+theorem absoluteTrace_surjective (n : ℕ) :
+    Function.Surjective (absoluteTrace n) := by
+  simpa [absoluteTrace] using
+    (Algebra.trace_surjective FABL.𝔽₂ (BinaryGaloisField n))
 
 /-- A field-valued lift selected by a trace-one element. -/
 noncomputable def traceLift {n : ℕ} (traceOne : BinaryGaloisField n)

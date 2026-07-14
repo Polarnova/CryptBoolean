@@ -22,11 +22,32 @@ The sources are ordered as follows:
 2. Production declarations under `CryptBoolean/**/*.lean` determine formal statements and proofs.
 3. Verso Blueprint sources associate source statements with compiled declarations and record the
    reviewed mathematical dependency DAG.
-4. Cusick--Stănică determines independent post-Carlet additions and may expose a discrepancy that
+4. Inventories under `.agents/inventory/` record reviewed coverage and open statement families;
+   `.agents/audit/` records the reviewed dependency and fidelity crosswalks.
+5. Cusick--Stănică determines independent post-Carlet additions and may expose a discrepancy that
    requires a documented source comparison.
 
 The local PDFs are normative references but are never committed. Generated text, images, HTML,
 PDFs, manifests, graphs, and caches are not sources of truth.
+
+## Current verified baseline
+
+The reviewed Blueprint contains 43 source-facing statements, of which 41 are associated with 180
+proved Lean declarations and 2 remain visibly open, connected by 64 mathematical dependency edges.
+Chapter 2 contributes 36 statements (35 formalized and 1 open), 159 declarations, and 45 incoming
+edges. Chapter 3 contributes 7 statements (6 formalized and 1 open), 21 declarations, and 19
+incoming edges.
+
+The completed Chapter 2 frontier includes Proposition 5's numerical-normal-form integrality
+criterion, the full raw Poisson formula, affine invariance, restriction recovery, and the
+spectral-support bounds. The completed Chapter 3 frontier includes the general Reed--Muller distance
+theorem, dimension and cardinality formulas, and duality.
+
+The only open Chapter 2 item is Carlet Proposition 3. Its smallest missing layer is a finite-field
+coordinate theorem identifying ANF degree with the maximum binary weight in the univariate support,
+together with noncancellation along the cyclotomic orbit of a trace monomial. The only open Chapter
+3 item is Carlet Proposition 12. It requires arbitrary affine-flat normal form, the
+codimension--degree theorem for affine-flat indicators, and equality-case slice infrastructure.
 
 A bare theorem number is not a stable identifier because numbering can restart or be reused.
 Inventory identifiers include source, chapter or section, item kind, and printed number, for
@@ -60,7 +81,8 @@ definitions, and proofs. It performs no file, terminal, network, rendering, or l
 The imperative perimeter has two disjoint responsibilities:
 
 - perception: extract PDF text, locate source items, and produce review inputs;
-- action: build Lean, validate the Blueprint, render artifacts, and run CI.
+- action: build Lean, validate the Blueprint, render artifacts, run CI, and publish a checked Pages
+  artifact from `main`.
 
 The perimeter may report failures. Production mathematical functions do not throw or return
 sentinel values. Partial mathematical notions use a proposition, subtype, `Option`, or an explicit
@@ -68,7 +90,7 @@ result type whose cases are exhaustive.
 
 ## Physical module structure
 
-The planned tree is chapter-aligned:
+The production tree is chapter-aligned:
 
 ```text
 CryptBoolean/
@@ -171,8 +193,8 @@ These are bridges between domains, not duplicate proof stacks.
 
 ## FABL dependency policy
 
-The Lean package will pin an exact FABL revision. Repository documentation and CI use the Git
-dependency, never a developer's local absolute path.
+The Lean package pins FABL at revision `34334a1b0c8dd806c076444a0875caf29ba5e248`. Repository
+documentation and CI use the Git dependency, never a developer's local absolute path.
 
 Before adding a declaration, contributors search the pinned FABL public surface and pinned Mathlib.
 A stronger existing theorem is specialized or bridged. A new local declaration is permitted only
@@ -215,6 +237,19 @@ Production and completion branches contain no `sorry`, `admit`, project-defined 
 or `native_decide`. A missing declaration association is the honest representation of an unfinished
 Blueprint node. No placeholder declaration may manufacture completion.
 
+### Blueprint statement contract
+
+Every reviewed item has one complete human-readable mathematical statement. The statement begins
+with its source result name or an explicit project-bridge label and gives the domains, hypotheses,
+quantifiers, and conclusion needed to read it independently of the implementation.
+
+A statement block never contains repository links, library provenance, implementation summaries,
+proof narration, or completion status. Direct FABL or Mathlib reuse, representation choices,
+specialization or generalization boundaries, and proof-engineering context belong in metadata or a
+separate `Formalization note`. Formalized nodes associate genuine compiled declarations; open nodes
+remain visible without a declaration association. The site build runs
+`blueprint-verso/scripts/check_statement_style.py` to enforce this boundary.
+
 ## Cusick--Stănică integration
 
 After Carlet is closed, build a source crosswalk:
@@ -239,7 +274,8 @@ The Carlet milestone is complete only when:
 - every item is linked to real compiled declarations;
 - all dependency edges are mathematically reviewed;
 - all representation and normalization differences are explicit;
-- the root build and forbidden-token gate pass;
+- the root build, `./.github/scripts/forbidden_tokens.sh`, and
+  `./.github/scripts/audit_axioms.sh` pass;
 - the Blueprint manifest and graph pass strict validation;
 - generated HTML and PDF artifacts pass visual review;
 - the PDFs and generated artifacts remain untracked.

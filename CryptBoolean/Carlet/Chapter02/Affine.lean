@@ -129,6 +129,93 @@ theorem exists_affineFunction_of_functionAlgebraicDegree_le_one
         omega
       simp [affineCoefficients, hS0, hScard, hzero]
 
+/-- Every coordinate of an affine map on the binary cube has algebraic degree at most one. -/
+theorem functionAlgebraicDegree_affineMap_coordinate_le_one
+    (L : FABL.F₂Cube n →ᵃ[FABL.𝔽₂] FABL.F₂Cube n) (i : Fin n) :
+    functionAlgebraicDegree (fun x ↦ L x i) ≤ 1 := by
+  have hlinear : FABL.IsF₂Linear (fun x ↦ L.linear x i) := by
+    intro x y
+    exact congrArg (fun z ↦ z i) (L.linear.map_add x y)
+  obtain ⟨a, ha⟩ := (FABL.isF₂Linear_iff_exists_dotProduct _).mp hlinear
+  have hcoordinate : (fun x ↦ L x i) = affineFunction (L 0 i) a := by
+    funext x
+    have hdecomp : L x = L.linear x + L 0 := by
+      simpa using congrFun (AffineMap.decomp L) x
+    calc
+      L x i = L.linear x i + L 0 i := by
+        simpa using congrArg (fun z ↦ z i) hdecomp
+      _ = FABL.f₂DotProduct a x + L 0 i := by rw [ha x]
+      _ = L 0 i + FABL.f₂DotProduct a x := add_comm _ _
+      _ = affineFunction (L 0 i) a x := rfl
+  rw [hcoordinate]
+  exact functionAlgebraicDegree_affineFunction_le_one (L 0 i) a
+
+/-- Substituting affine coordinates into a square-free monomial does not increase its degree. -/
+theorem functionAlgebraicDegree_anfMonomial_comp_affineMap_le_card
+    (L : FABL.F₂Cube n →ᵃ[FABL.𝔽₂] FABL.F₂Cube n)
+    (S : Finset (Fin n)) :
+    functionAlgebraicDegree (fun x ↦ anfMonomial S (L x)) ≤ S.card := by
+  calc
+    functionAlgebraicDegree (fun x ↦ anfMonomial S (L x)) ≤
+        ∑ i ∈ S, functionAlgebraicDegree (fun x ↦ L x i) := by
+      have hfunctions : (∏ i ∈ S, (fun x ↦ L x i)) =
+          (fun x ↦ anfMonomial S (L x)) := by
+        funext x
+        simp [anfMonomial, Finset.prod_apply]
+      rw [← hfunctions]
+      exact functionAlgebraicDegree_finset_prod_le S (fun i x ↦ L x i)
+    _ ≤ ∑ _i ∈ S, 1 := by
+      apply Finset.sum_le_sum
+      intro i _
+      exact functionAlgebraicDegree_affineMap_coordinate_le_one L i
+    _ = S.card := by simp
+
+/-- Composition with an affine map on the binary cube cannot increase algebraic degree. -/
+theorem functionAlgebraicDegree_comp_affineMap_le
+    (f : BooleanFunction n)
+    (L : FABL.F₂Cube n →ᵃ[FABL.𝔽₂] FABL.F₂Cube n) :
+    functionAlgebraicDegree (f ∘ L) ≤ functionAlgebraicDegree f := by
+  classical
+  let term : Finset (Fin n) → BooleanFunction n :=
+    fun S x ↦ anfCoeff f S * anfMonomial S (L x)
+  have hsum : f ∘ L = ∑ S, term S := by
+    funext x
+    simp only [Function.comp_apply, Fintype.sum_apply, term]
+    exact (congrFun (anfEval_anfCoeff f) (L x)).symm
+  rw [hsum]
+  exact functionAlgebraicDegree_finset_sum_le Finset.univ term
+      (functionAlgebraicDegree f) (by
+        intro S _
+        by_cases hS : anfCoeff f S = 0
+        · have hterm : term S = 0 := by
+            funext x
+            simp [term, hS]
+          rw [hterm]
+          rw [functionAlgebraicDegree_zero]
+          exact Nat.zero_le _
+        · have hSone : anfCoeff f S = 1 := Fin.eq_one_of_ne_zero _ hS
+          have hterm : term S = fun x ↦ anfMonomial S (L x) := by
+            funext x
+            simp [term, hSone]
+          rw [hterm]
+          apply (functionAlgebraicDegree_anfMonomial_comp_affineMap_le_card L S).trans
+          exact (algebraicDegree_le_iff (anfCoeff f) _).mp
+            (by rfl) S hS)
+
+/-- Carlet, p. 12: algebraic degree is invariant under affine equivalences of the binary cube. -/
+theorem functionAlgebraicDegree_comp_affineEquiv
+    (f : BooleanFunction n)
+    (L : FABL.F₂Cube n ≃ᵃ[FABL.𝔽₂] FABL.F₂Cube n) :
+    functionAlgebraicDegree (f ∘ L) = functionAlgebraicDegree f := by
+  apply Nat.le_antisymm
+  · exact functionAlgebraicDegree_comp_affineMap_le f L.toAffineMap
+  · have h := functionAlgebraicDegree_comp_affineMap_le (f ∘ L) L.symm.toAffineMap
+    have hcomp : (f ∘ L) ∘ L.symm.toAffineMap = f := by
+      funext x
+      simp
+    rw [hcomp] at h
+    exact h
+
 /-- The real sign view of an affine function is a constant sign times a Walsh character. -/
 theorem realSignView_affineFunction
     (b : FABL.𝔽₂) (a : FABL.F₂Cube n) (x : FABL.F₂Cube n) :

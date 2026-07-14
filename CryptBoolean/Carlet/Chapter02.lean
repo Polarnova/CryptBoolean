@@ -14,7 +14,9 @@ public import CryptBoolean.Carlet.Chapter02.ANF
 public import CryptBoolean.Carlet.Chapter02.ANFExistence
 public import CryptBoolean.Carlet.Chapter02.AlgebraicDegree
 public import CryptBoolean.Carlet.Chapter02.Affine
+public import CryptBoolean.Carlet.Chapter02.Restrictions
 public import CryptBoolean.Carlet.Chapter02.NumericalNormalForm
+public import CryptBoolean.Carlet.Chapter02.SpectralSupport
 public import CryptBoolean.Carlet.Chapter02.FiniteField
 
 /-!

@@ -66,13 +66,90 @@ theorem rawFourierTransform_setIndicator_submodule
   · rw [if_neg hu, FABL.vectorFourierCoeff_setIndicator_submodule_of_not_mem E u hu,
       mul_zero]
 
-/-- Carlet's Poisson summation formula in FABL's normalized expectation form. -/
-theorem poissonSummationFormula
-    (f : FABL.F₂Cube n → ℝ) (E : Submodule FABL.𝔽₂ (FABL.F₂Cube n))
-    (z : FABL.F₂Cube n) :
-    (𝔼 h : E, f (h.1 + z)) =
-      ∑ u : FABL.perpendicularSubspace E,
-        FABL.vectorWalshCharacter u.1 z * FABL.vectorFourierCoeff f u.1 :=
-  FABL.poissonSummationFormula f E z
+/-- Carlet Corollary 1, Relation (17): the full raw Poisson summation formula
+on affine cosets, with both modulation parameters explicit. -/
+theorem rawPoissonSummationFormula
+    (φ : FABL.F₂Cube n → ℝ) (E : Submodule FABL.𝔽₂ (FABL.F₂Cube n))
+    (a b : FABL.F₂Cube n) :
+    (∑ u : E,
+        FABL.vectorWalshCharacter b (a + u.1) *
+          rawFourierTransform φ (a + u.1)) =
+      (Nat.card E : ℝ) * FABL.vectorWalshCharacter b a *
+        ∑ x : FABL.perpendicularSubspace E,
+          FABL.vectorWalshCharacter a (b + x.1) * φ (b + x.1) := by
+  classical
+  have hcomm (x y : FABL.F₂Cube n) :
+      FABL.vectorWalshCharacter x y = FABL.vectorWalshCharacter y x := by
+    rw [FABL.vectorWalshCharacter_apply, FABL.vectorWalshCharacter_apply]
+    congr 1
+    exact dotProduct_comm x y
+  have hpoisson :
+      (𝔼 x : FABL.perpendicularSubspace E,
+          FABL.vectorWalshCharacter a (x.1 + b) * φ (x.1 + b)) =
+        ∑ u : E,
+          FABL.vectorWalshCharacter u.1 b *
+            FABL.vectorFourierCoeff φ (a + u.1) := by
+    have h := FABL.poissonSummationFormula
+      (fun x ↦ FABL.vectorWalshCharacter a x * φ x)
+      (FABL.perpendicularSubspace E) b
+    rw [FABL.perpendicularSubspace_perpendicularSubspace] at h
+    simpa only [vectorFourierCoeff_mul_vectorWalshCharacter] using h
+  have hcardPerp :
+      ((Fintype.card (FABL.perpendicularSubspace E) : ℕ) : ℝ) =
+        (2 : ℝ) ^ FABL.f₂Codimension E := by
+    rw [← Nat.card_eq_fintype_card]
+    exact_mod_cast FABL.card_perpendicularSubspace E
+  have hinverseCard :
+      (((Fintype.card (FABL.perpendicularSubspace E) : ℕ) : ℝ))⁻¹ =
+        FABL.inversePerpendicularCard E := by
+    rw [hcardPerp, FABL.inversePerpendicularCard]
+  have hscale :
+      (2 ^ n : ℝ) /
+          ((Fintype.card (FABL.perpendicularSubspace E) : ℕ) : ℝ) =
+        Nat.card E := by
+    rw [div_eq_mul_inv, hinverseCard]
+    exact two_pow_mul_inversePerpendicularCard_eq_card E
+  simp_rw [rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff]
+  calc
+    (∑ u : E,
+        FABL.vectorWalshCharacter b (a + u.1) *
+          ((2 ^ n : ℝ) * FABL.vectorFourierCoeff φ (a + u.1))) =
+        (2 ^ n : ℝ) * FABL.vectorWalshCharacter b a *
+          ∑ u : E,
+            FABL.vectorWalshCharacter u.1 b *
+              FABL.vectorFourierCoeff φ (a + u.1) := by
+      rw [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro u _
+      rw [AddChar.map_add_eq_mul, hcomm b u.1]
+      ring
+    _ = (2 ^ n : ℝ) * FABL.vectorWalshCharacter b a *
+          (𝔼 x : FABL.perpendicularSubspace E,
+            FABL.vectorWalshCharacter a (x.1 + b) * φ (x.1 + b)) := by
+      rw [hpoisson]
+    _ = (Nat.card E : ℝ) * FABL.vectorWalshCharacter b a *
+          ∑ x : FABL.perpendicularSubspace E,
+            FABL.vectorWalshCharacter a (b + x.1) * φ (b + x.1) := by
+      rw [Fintype.expect_eq_sum_div_card]
+      rw [show (∑ x : FABL.perpendicularSubspace E,
+          FABL.vectorWalshCharacter a (x.1 + b) * φ (x.1 + b)) =
+          ∑ x : FABL.perpendicularSubspace E,
+            FABL.vectorWalshCharacter a (b + x.1) * φ (b + x.1) by
+        apply Finset.sum_congr rfl
+        intro x _
+        rw [add_comm]]
+      rw [div_eq_mul_inv]
+      calc
+        (2 ^ n : ℝ) * FABL.vectorWalshCharacter b a *
+            ((∑ x : FABL.perpendicularSubspace E,
+                FABL.vectorWalshCharacter a (b + x.1) * φ (b + x.1)) *
+              (((Fintype.card (FABL.perpendicularSubspace E) : ℕ) : ℝ))⁻¹) =
+            ((2 ^ n : ℝ) /
+                ((Fintype.card (FABL.perpendicularSubspace E) : ℕ) : ℝ)) *
+              FABL.vectorWalshCharacter b a *
+                ∑ x : FABL.perpendicularSubspace E,
+                  FABL.vectorWalshCharacter a (b + x.1) * φ (b + x.1) := by
+          ring
+        _ = _ := by rw [hscale]
 
 end CryptBoolean

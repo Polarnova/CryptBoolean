@@ -94,30 +94,96 @@ theorem functionAlgebraicDegree_add_le_max (f g : BooleanFunction n) :
     functionAlgebraicDegree]
   exact algebraicDegree_add_le_max (anfCoeff f) (anfCoeff g)
 
+/-- Multiplication of square-free ANFs adds their algebraic-degree bounds. -/
+theorem algebraicDegree_anfMul_le_add (c d : ANFCoefficients n) :
+    algebraicDegree (anfMul c d) ≤ algebraicDegree c + algebraicDegree d := by
+  rw [algebraicDegree_le_iff]
+  intro U hU
+  rw [anfMul] at hU
+  obtain ⟨S, _, hS⟩ := Finset.exists_ne_zero_of_sum_ne_zero hU
+  obtain ⟨T, _, hT⟩ := Finset.exists_ne_zero_of_sum_ne_zero hS
+  have hUnion : U = S ∪ T := by
+    by_contra hne
+    simp [hne] at hT
+  have hmul : c S * d T ≠ 0 := by
+    simpa [hUnion] using hT
+  have hc : c S ≠ 0 := (mul_ne_zero_iff.mp hmul).1
+  have hd : d T ≠ 0 := (mul_ne_zero_iff.mp hmul).2
+  have hScard : S.card ≤ algebraicDegree c :=
+    (algebraicDegree_le_iff c _).mp le_rfl S hc
+  have hTcard : T.card ≤ algebraicDegree d :=
+    (algebraicDegree_le_iff d _).mp le_rfl T hd
+  rw [hUnion]
+  exact (Finset.card_union_le S T).trans (Nat.add_le_add hScard hTcard)
+
+/-- The canonical ANF of a pointwise product is the square-free ANF product. -/
+theorem anfCoeff_mul (f g : BooleanFunction n) :
+    anfCoeff (f * g) = anfMul (anfCoeff f) (anfCoeff g) := by
+  apply anfEval_injective
+  rw [anfEval_anfCoeff]
+  funext x
+  rw [anfEval_anfMul, anfEval_anfCoeff, anfEval_anfCoeff]
+  rfl
+
+/-- Algebraic degree is subadditive under pointwise multiplication. -/
+theorem functionAlgebraicDegree_mul_le_add (f g : BooleanFunction n) :
+    functionAlgebraicDegree (f * g) ≤
+      functionAlgebraicDegree f + functionAlgebraicDegree g := by
+  rw [functionAlgebraicDegree, anfCoeff_mul, functionAlgebraicDegree,
+    functionAlgebraicDegree]
+  exact algebraicDegree_anfMul_le_add (anfCoeff f) (anfCoeff g)
+
+/-- The constant-one Boolean function has algebraic degree zero. -/
+@[simp] theorem functionAlgebraicDegree_one :
+    functionAlgebraicDegree (1 : BooleanFunction n) = 0 := by
+  have hcoeff : anfCoeff (1 : BooleanFunction n) =
+      fun S ↦ if S = ∅ then 1 else 0 := by
+    apply anfEval_injective
+    rw [anfEval_anfCoeff]
+    funext x
+    simp [anfEval]
+  rw [functionAlgebraicDegree, hcoeff, algebraicDegree]
+  simp [anfSupport]
+
+/-- The degree of a finite pointwise product is bounded by the sum of factor degrees. -/
+theorem functionAlgebraicDegree_finset_prod_le {ι : Type*}
+    (s : Finset ι) (g : ι → BooleanFunction n) :
+    functionAlgebraicDegree (∏ i ∈ s, g i) ≤
+      ∑ i ∈ s, functionAlgebraicDegree (g i) := by
+  classical
+  induction s using Finset.induction_on with
+  | empty =>
+      rw [Finset.prod_empty, Finset.sum_empty, functionAlgebraicDegree_one]
+  | @insert a s ha ih =>
+      rw [Finset.prod_insert ha, Finset.sum_insert ha]
+      exact (functionAlgebraicDegree_mul_le_add (g a) (∏ i ∈ s, g i)).trans
+        (Nat.add_le_add_left ih _)
+
+/-- A finite sum of functions of degree at most `r` again has degree at most `r`. -/
+theorem functionAlgebraicDegree_finset_sum_le {ι : Type*}
+    (s : Finset ι) (g : ι → BooleanFunction n) (r : ℕ)
+    (hg : ∀ i ∈ s, functionAlgebraicDegree (g i) ≤ r) :
+    functionAlgebraicDegree (∑ i ∈ s, g i) ≤ r := by
+  classical
+  induction s using Finset.induction_on with
+  | empty => simp
+  | @insert a s ha ih =>
+      rw [Finset.sum_insert ha]
+      apply (functionAlgebraicDegree_add_le_max (g a) (∑ i ∈ s, g i)).trans
+      apply max_le
+      · exact hg a (Finset.mem_insert_self a s)
+      · exact ih (fun i hi ↦ hg i (Finset.mem_insert_of_mem hi))
+
 /-- The unnormalized Hamming distance between Boolean functions, reusing Mathlib. -/
-def hammingDistance (f g : BooleanFunction n) : ℕ :=
+abbrev hammingDistance (f g : BooleanFunction n) : ℕ :=
   hammingDist f g
 
 /-- On `GF(2)`, distance is the weight of the pointwise sum. -/
 theorem hammingDistance_eq_hammingWeight_add (f g : BooleanFunction n) :
     hammingDistance f g = hammingWeight (f + g) := by
-  classical
-  rw [hammingDistance, hammingDist, hammingWeight, support]
+  rw [hammingDistance, hammingDist_eq_hammingNorm]
   congr 1
-  ext x
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and, Pi.add_apply]
-  have hf : f x = 0 ∨ f x = 1 := by
-    by_cases h : f x = 0
-    · exact Or.inl h
-    · exact Or.inr (Fin.eq_one_of_ne_zero (f x) h)
-  have hg : g x = 0 ∨ g x = 1 := by
-    by_cases h : g x = 0
-    · exact Or.inl h
-    · exact Or.inr (Fin.eq_one_of_ne_zero (g x) h)
-  constructor
-  · intro hne
-    rcases hf with hf | hf <;> rcases hg with hg | hg <;> simp_all
-  · intro hone
-    rcases hf with hf | hf <;> rcases hg with hg | hg <;> simp_all
+  funext x
+  simp only [Pi.add_apply, Pi.neg_apply, ZMod.neg_eq_self_mod_two]
 
 end CryptBoolean

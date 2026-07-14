@@ -13,20 +13,60 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Restore caches and build CryptBoolean
+      - name: Set up Lean and restore Mathlib cache
         uses: leanprover/lean-action@v1
         with:
-          build: true
-          build-args: CryptBoolean
+          auto-config: false
+          build: false
           use-mathlib-cache: true
-          use-github-cache: true
+          use-github-cache: false
+      - name: Restore FABL build cache
+        uses: actions/cache@v4
+        with:
+          path: .lake/packages/FABL/.lake/build
+          key: fabl-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+      - name: Restore CryptBoolean build cache
+        uses: actions/cache@v4
+        with:
+          path: .lake/build
+          key: cryptboolean-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            cryptboolean-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Build CryptBoolean
+        run: lake build CryptBoolean
       - name: Forbidden token audit
-        run: ./scripts/forbidden_tokens.sh
+        run: ./.github/scripts/forbidden_tokens.sh
       - name: Axiom audit
-        run: ./scripts/audit_axioms.sh
+        run: ./.github/scripts/audit_axioms.sh
       - name: Fetch Mathlib cache for Blueprint
         working-directory: blueprint-verso
         run: lake exe cache get
+      - name: Restore Blueprint dependency build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            blueprint-verso/.lake/packages/FABL/.lake/build
+            blueprint-verso/.lake/packages/LeanSearchClient/.lake/build
+            blueprint-verso/.lake/packages/MD4Lean/.lake/build
+            blueprint-verso/.lake/packages/Qq/.lake/build
+            blueprint-verso/.lake/packages/VersoBlueprint/.lake/build
+            blueprint-verso/.lake/packages/aesop/.lake/build
+            blueprint-verso/.lake/packages/batteries/.lake/build
+            blueprint-verso/.lake/packages/illuminate/.lake/build
+            blueprint-verso/.lake/packages/importGraph/.lake/build
+            blueprint-verso/.lake/packages/plausible/.lake/build
+            blueprint-verso/.lake/packages/proofwidgets/.lake/build
+            blueprint-verso/.lake/packages/subverso/.lake/build
+            blueprint-verso/.lake/packages/verso/.lake/build
+            blueprint-verso/.lake/packages/verso-slides/.lake/build
+          key: blueprint-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('blueprint-verso/lean-toolchain', 'blueprint-verso/lake-manifest.json') }}
+      - name: Restore Blueprint project build cache
+        uses: actions/cache@v4
+        with:
+          path: blueprint-verso/.lake/build
+          key: blueprint-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('blueprint-verso/lean-toolchain', 'blueprint-verso/lake-manifest.json', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            blueprint-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('blueprint-verso/lean-toolchain', 'blueprint-verso/lake-manifest.json', 'lake-manifest.json') }}-
       - name: Build and validate Verso Blueprint
         working-directory: blueprint-verso
         run: ./scripts/site.sh build

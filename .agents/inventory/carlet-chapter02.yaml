@@ -1,0 +1,609 @@
+source: carlet-2010
+chapter: 2
+status: blueprint-synchronized
+summary:
+  statements: 36
+  formalized: 35
+  open: 1
+  declarations: 159
+  dependency_edges: 45
+items:
+  - id: carlet-2-def-boolean-function
+    kind: definition
+    location: Carlet, Boolean and sign functions, pp. 8 and 22
+    statement: >-
+      For n >= 0 and V_n = 𝔽₂^n, an n-variable Boolean function is a map
+      f : V_n → 𝔽₂, and its sign function is f_χ(x) = (-1)^(f(x)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.BooleanFunction
+      - CryptBoolean.realSignView
+    dependencies: []
+
+  - id: carlet-2-def-support-weight
+    kind: definition
+    location: Carlet, Support and Hamming weight, p. 8
+    statement: >-
+      For f : V_n → 𝔽₂, supp(f) = {x ∈ V_n | f(x) = 1} and
+      w_H(f) = |supp(f)|.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.support
+      - CryptBoolean.hammingWeight
+      - CryptBoolean.mem_support
+      - CryptBoolean.hammingWeight_eq_card_support
+    dependencies:
+      - carlet-2-def-boolean-function
+
+  - id: carlet-2-def-walsh-transform
+    kind: definition
+    location: Carlet, Walsh transform, pp. 22--23
+    statement: >-
+      For f : V_n → 𝔽₂ and a ∈ V_n, the unnormalized Walsh transform is
+      W_f(a) = ∑_{x ∈ V_n} (-1)^(f(x) + a·x) =
+      ∑_{x ∈ V_n} f_χ(x)(-1)^(a·x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.bitSignInt
+      - CryptBoolean.walshTerm
+      - CryptBoolean.walshTransform
+    dependencies:
+      - carlet-2-def-boolean-function
+
+  - id: carlet-2-bridge-walsh-normalization
+    kind: theorem
+    location: Project normalization bridge for Carlet's raw Walsh transform
+    statement: >-
+      If f̃_χ(a) = 2^(-n) ∑_{x ∈ V_n} f_χ(x)(-1)^(a·x), then the
+      real image of W_f(a) satisfies W_f(a) = 2^n f̃_χ(a).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.card_f₂Cube
+      - CryptBoolean.walshTerm_cast_eq_realSignView_mul_character
+      - CryptBoolean.walshTransform_cast_eq_sum_realSignView_mul_character
+      - CryptBoolean.walshTransform_eq_two_pow_mul_vectorFourierCoeff
+    dependencies:
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-2-balanced-zero-walsh
+    kind: theorem
+    location: Carlet, Relation (13), p. 23
+    statement: >-
+      Every f : V_n → 𝔽₂ satisfies W_f(0) = 2^n - 2w_H(f). Hence f is
+      balanced iff W_f(0) = 0; when n > 0 these are also equivalent to
+      w_H(f) = 2^(n-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsBalanced
+      - CryptBoolean.bitSignInt_eq_if_one
+      - CryptBoolean.walshTerm_zero
+      - CryptBoolean.walshTransform_zero_eq_card_sub_two_weight
+      - CryptBoolean.walshTransform_zero_eq_two_pow_sub_two_weight
+      - CryptBoolean.isBalanced_iff_walshTransform_zero_eq_zero
+    dependencies:
+      - carlet-2-def-support-weight
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-2-fourier-inversion
+    kind: theorem
+    location: Carlet, Corollary 2 and Relation (19), p. 25
+    statement: >-
+      For every f : V_n → 𝔽₂ and x ∈ V_n,
+      f_χ(x) = 2^(-n) ∑_{a ∈ V_n} W_f(a)(-1)^(a·x), equivalently
+      2^n f_χ(x) = ∑_{a ∈ V_n} W_f(a)(-1)^(a·x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_mul_realSignView_eq_sum_walshTransform_mul_character
+      - CryptBoolean.realSignView_eq_inv_two_pow_mul_sum_walshTransform_mul_character
+    dependencies:
+      - carlet-2-bridge-walsh-normalization
+
+  - id: carlet-2-parseval
+    kind: theorem
+    location: Carlet, Corollary 3 and Relation (23), p. 27
+    statement: >-
+      Every f : V_n → 𝔽₂ satisfies ∑_{a ∈ V_n} W_f(a)^2 = 2^(2n).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.realSignView_mul_self
+      - CryptBoolean.sum_vectorFourierCoeff_realSignView_sq
+      - CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq
+    dependencies:
+      - carlet-2-bridge-walsh-normalization
+
+  - id: carlet-2-pseudoboolean-fourier
+    kind: definition
+    location: Carlet, Relation (11), p. 21
+    statement: >-
+      For φ : V_n → ℝ and a ∈ V_n, define
+      φ̂(a) = ∑_{x ∈ V_n} φ(x)(-1)^(a·x). If
+      φ̃(a) = 2^(-n)φ̂(a), then φ̂(a) = 2^nφ̃(a).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform
+      - CryptBoolean.rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff
+    dependencies:
+      - carlet-2-def-boolean-function
+
+  - id: carlet-2-prop-6-fourier-shifts
+    kind: proposition
+    location: Carlet, Proposition 6, p. 24
+    statement: >-
+      If φ : V_n → ℝ, a,b,u ∈ V_n, and
+      ψ(x) = (-1)^(a·x)φ(x+b), then
+      ψ̂(u) = (-1)^(b·(a+u))φ̂(a+u).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.vectorFourierCoeff_mul_vectorWalshCharacter
+      - CryptBoolean.rawFourierTransform_modulate_translate
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+
+  - id: carlet-2-cor-2-fourier-involution
+    kind: theorem
+    location: Carlet, Corollary 2 and Relation (19), p. 25
+    statement: >-
+      For every φ : V_n → ℝ and x ∈ V_n, φ̂̂(x) = 2^nφ(x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform_involution
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+
+  - id: carlet-2-prop-7-subspace-indicator
+    kind: proposition
+    location: Carlet, Proposition 7 and Relation (16), pp. 24--25
+    statement: >-
+      If E ≤ V_n and 1_E is its real indicator, then
+      1̂_E(u) = |E| for u ∈ E^⊥ and 1̂_E(u) = 0 otherwise; equivalently
+      1̂_E = |E|1_{E^⊥}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_mul_inversePerpendicularCard_eq_card
+      - CryptBoolean.rawFourierTransform_setIndicator_submodule
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+
+  - id: carlet-2-poisson-normalized-specialization
+    kind: corollary
+    location: Normalized specialization of Carlet, Corollary 1, p. 25
+    statement: >-
+      For E ≤ V_n, φ : V_n → ℝ, and z ∈ V_n,
+      |E|^(-1) ∑_{h ∈ E} φ(h+z) =
+      ∑_{u ∈ E^⊥} (-1)^(u·z)φ̃(u), where φ̃(u) = 2^(-n)φ̂(u).
+    formal_status: formalized
+    declarations:
+      - FABL.poissonSummationFormula
+    dependencies:
+      - carlet-2-prop-7-subspace-indicator
+      - carlet-2-prop-6-fourier-shifts
+
+  - id: carlet-2-cor-1-poisson-summation
+    kind: corollary
+    location: Carlet, Corollary 1 and Relation (17), p. 25
+    statement: >-
+      For φ : V_n → ℝ, E ≤ V_n, and a,b ∈ V_n,
+      ∑_{u ∈ a+E} (-1)^(b·u)φ̂(u) =
+      |E|(-1)^(a·b) ∑_{x ∈ b+E^⊥} (-1)^(a·x)φ(x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawPoissonSummationFormula
+    dependencies:
+      - carlet-2-prop-6-fourier-shifts
+      - carlet-2-prop-7-subspace-indicator
+
+  - id: carlet-2-def-convolution
+    kind: definition
+    location: Carlet, Convolution, p. 26
+    statement: >-
+      For φ,ψ : V_n → ℝ, define
+      (φ ⊗ ψ)(x) = ∑_{y ∈ V_n} φ(y)ψ(x+y).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawConvolution
+      - CryptBoolean.rawConvolution_eq_two_pow_mul_convolution
+    dependencies: []
+
+  - id: carlet-2-prop-8-convolution
+    kind: proposition
+    location: Carlet, Proposition 8 and Relation (20), p. 26
+    statement: >-
+      For φ,ψ : V_n → ℝ and u ∈ V_n,
+      (φ ⊗ ψ)̂(u) = φ̂(u)ψ̂(u).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform_rawConvolution
+    dependencies:
+      - carlet-2-def-convolution
+      - carlet-2-pseudoboolean-fourier
+
+  - id: carlet-2-rel-22-plancherel
+    kind: theorem
+    location: Carlet, Relation (22) and Corollary 3, p. 27
+    statement: >-
+      For φ,ψ : V_n → ℝ,
+      ∑_{u ∈ V_n} φ̂(u)ψ̂(u) = 2^n ∑_{x ∈ V_n} φ(x)ψ(x).
+      In particular, ∑_u φ̂(u)^2 = 2^n ∑_x φ(x)^2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_rawFourierTransform_mul
+    dependencies:
+      - carlet-2-prop-8-convolution
+      - carlet-2-cor-2-fourier-involution
+
+  - id: carlet-2-spectral-support-bounds
+    kind: theorem
+    location: Carlet, Section 2.2.2, p. 32
+    statement: >-
+      If ψ is a coordinate restriction of φ : V_n → ℝ, then
+      N_ψ̂ ≤ N_φ̂. If f : V_n → 𝔽₂ is nonzero of algebraic degree d,
+      then the {0,1}-valued real embedding φ_f satisfies N_φ̂_f ≥ 2^d. If
+      nonzero φ has numerical degree D, then N_φ̂ ≤ ∑_{i=0}^D C(n,i).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierSupport
+      - CryptBoolean.mem_rawFourierSupport
+      - CryptBoolean.mem_rawFourierSupport_iff_vectorFourierCoeff_ne_zero
+      - CryptBoolean.indexedRawFourierTransform
+      - CryptBoolean.indexedRawFourierSupport
+      - CryptBoolean.mem_indexedRawFourierSupport
+      - CryptBoolean.indexedRawFourierTransform_eq_card_mul_indexedFourierCoeff
+      - CryptBoolean.mem_indexedRawFourierSupport_iff_indexedFourierCoeff_ne_zero
+      - CryptBoolean.card_indexedRawFourierSupport_signRestriction_le
+      - CryptBoolean.card_indexedRawFourierSupport_binaryFunctionOnSignCube
+      - CryptBoolean.card_rawFourierSupport_coordinateRestriction_le
+      - CryptBoolean.booleanRealEmbedding
+      - CryptBoolean.two_pow_functionAlgebraicDegree_le_card_rawFourierSupport_booleanRealEmbedding
+      - CryptBoolean.numericalSupport
+      - CryptBoolean.mem_numericalSupport
+      - CryptBoolean.numericalDegree
+      - CryptBoolean.numericalDegree_le_iff
+      - CryptBoolean.functionNumericalDegree
+      - CryptBoolean.numericalMonomial_eq_setIndicator_coordinateSubcube
+      - CryptBoolean.f₂Support_subset_of_vectorFourierCoeff_numericalMonomial_ne_zero
+      - CryptBoolean.vectorFourierCoeff_numericalEval
+      - CryptBoolean.f₂Support_card_le_functionNumericalDegree_of_mem_rawFourierSupport
+      - CryptBoolean.card_lowWeightInputs
+      - CryptBoolean.card_rawFourierSupport_le_sum_choose_functionNumericalDegree
+    dependencies:
+      - carlet-2-cor-1-poisson-summation
+      - carlet-2-restriction-recovery
+      - carlet-2-nnf-existence-uniqueness
+
+  - id: carlet-2-def-2-derivative
+    kind: definition
+    location: Carlet, Definition 2, p. 27
+    statement: >-
+      For f : V_n → 𝔽₂ and b ∈ V_n, D_bf(x) = f(x) + f(x+b), and
+      (D_bf)_χ(x) = f_χ(x)f_χ(x+b).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanDerivative
+      - CryptBoolean.realSignView_booleanDerivative
+    dependencies:
+      - carlet-2-def-boolean-function
+
+  - id: carlet-2-def-autocorrelation
+    kind: definition
+    location: Carlet, Relations (24)--(25), p. 27
+    statement: >-
+      For f : V_n → 𝔽₂, define
+      Δ_f(b) = ∑_{x ∈ V_n} (-1)^(D_bf(x)) =
+      ∑_{x ∈ V_n} f_χ(x)f_χ(x+b) = (f_χ ⊗ f_χ)(b).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.autocorrelation
+      - CryptBoolean.autocorrelation_eq_rawConvolution_realSignView
+    dependencies:
+      - carlet-2-def-2-derivative
+      - carlet-2-def-convolution
+
+  - id: carlet-2-rel-25-wiener-khinchin
+    kind: theorem
+    location: Carlet, Relation (25), p. 27
+    statement: >-
+      For f : V_n → 𝔽₂ and u ∈ V_n,
+      Δ̂_f(u) = ∑_{b ∈ V_n} Δ_f(b)(-1)^(u·b) = W_f(u)^2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform_autocorrelation
+    dependencies:
+      - carlet-2-def-autocorrelation
+      - carlet-2-prop-8-convolution
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-2-rel-26-total-autocorrelation
+    kind: corollary
+    location: Carlet, Relation (26), p. 28
+    statement: >-
+      Every f : V_n → 𝔽₂ satisfies ∑_{b ∈ V_n} Δ_f(b) = W_f(0)^2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_autocorrelation_eq_walshTransform_zero_sq
+    dependencies:
+      - carlet-2-rel-25-wiener-khinchin
+
+  - id: carlet-2-anf-skeleton
+    kind: definition
+    location: Carlet, Relation (1), pp. 9--12
+    statement: >-
+      For c = (c_S)_{S ⊆ [n]} in 𝔽₂, define
+      ANF_c(x) = ⊕_{S ⊆ [n]} c_S ∏_{i ∈ S} x_i,
+      supp_ANF(c) = {S | c_S ≠ 0}, and
+      deg(c) = max{|S| | c_S ≠ 0}, with deg(0) = 0. Then ANF_{c+d} =
+      ANF_c + ANF_d and deg(c) ≤ n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.ANFCoefficients
+      - CryptBoolean.anfMonomial
+      - CryptBoolean.anfEval
+      - CryptBoolean.anfSupport
+      - CryptBoolean.algebraicDegree
+      - CryptBoolean.mem_anfSupport
+      - CryptBoolean.anfMonomial_empty
+      - CryptBoolean.anfEval_zero
+      - CryptBoolean.anfEval_add
+      - CryptBoolean.algebraicDegree_le_dimension
+    dependencies:
+      - carlet-2-def-boolean-function
+
+  - id: carlet-2-anf-existence-uniqueness
+    kind: theorem
+    location: Carlet, Proposition 1, pp. 10--11
+    statement: >-
+      Every f : V_n → 𝔽₂ has a unique ANF coefficient family c, and for every
+      S ⊆ [n], c_S = ⊕_{supp(x) ⊆ S} f(x) = ⊕_{T ⊆ S} f(1_T).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.anfMonomial_f₂CubeOfFinset
+      - CryptBoolean.anfEval_f₂CubeOfFinset
+      - CryptBoolean.anfCoeff
+      - CryptBoolean.anfEval_anfCoeff_f₂CubeOfFinset
+      - CryptBoolean.anfEval_anfCoeff
+      - CryptBoolean.anfCoeff_unique_of_powerset_sum
+      - CryptBoolean.anfEval_injective
+      - CryptBoolean.existsUnique_anfEval
+    dependencies:
+      - carlet-2-anf-skeleton
+
+  - id: carlet-2-nnf-existence-uniqueness
+    kind: theorem
+    location: Carlet, Numerical normal form, pp. 18--19
+    statement: >-
+      Every φ : V_n → ℝ has a unique family (λ_S)_{S ⊆ [n]} such that
+      φ(x) = ∑_{S ⊆ [n]} λ_S ∏_{i ∈ S} x_i =
+      ∑_{S ⊆ supp(x)} λ_S; equivalently
+      λ_S = φ(1_S) - ∑_{T ⊂ S} λ_T.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.PseudoBooleanFunction
+      - CryptBoolean.NumericalCoefficients
+      - CryptBoolean.numericalMonomial
+      - CryptBoolean.numericalEval
+      - CryptBoolean.numericalEvalLinear
+      - CryptBoolean.numericalEval_injective
+      - CryptBoolean.existsUnique_numericalEval
+      - CryptBoolean.numericalCoeff
+      - CryptBoolean.numericalEval_numericalCoeff
+      - CryptBoolean.numericalCoeff_eq_value_sub_lower
+    dependencies:
+      - carlet-2-def-boolean-function
+
+  - id: carlet-2-prop-4-nnf-mobius
+    kind: proposition
+    location: Carlet, Proposition 4 and Relation (8), p. 19
+    statement: >-
+      If φ(x) = ∑_{S ⊆ [n]} λ_S x^S, then
+      λ_S = (-1)^|S| ∑_{supp(x) ⊆ S} (-1)^w_H(x)φ(x) =
+      ∑_{T ⊆ S} (-1)^(|S|-|T|)φ(1_T).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_Icc_neg_one_pow_card_sub
+      - CryptBoolean.numericalMobiusCoeff
+      - CryptBoolean.numericalEval_numericalMobiusCoeff_f₂CubeOfFinset
+      - CryptBoolean.numericalMobiusCoeff_eq_numericalCoeff
+      - CryptBoolean.numericalCoeff_eq_mobius_sum
+    dependencies:
+      - carlet-2-nnf-existence-uniqueness
+
+  - id: carlet-2-prop-5-nnf-integrality
+    kind: proposition
+    location: Carlet, Proposition 5, p. 21
+    statement: >-
+      A multilinear polynomial P(x) = ∑_{S ⊆ [n]} λ_Sx^S represents an
+      integer-valued function on V_n iff every λ_S is an integer. Under this
+      hypothesis, P is Boolean-valued iff ∑_{x ∈ V_n} P(x)^2 =
+      ∑_{x ∈ V_n} P(x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsIntegerValued
+      - CryptBoolean.IsBooleanValued
+      - CryptBoolean.numericalEval_integerValued_iff
+      - CryptBoolean.numericalEval_booleanValued_iff_sum_sq_eq_sum
+    dependencies:
+      - carlet-2-prop-4-nnf-mobius
+
+  - id: carlet-2-absolute-trace
+    kind: definition
+    location: Carlet, Absolute trace, p. 15
+    statement: >-
+      For n > 0 and K_n = GF(2^n), the absolute trace Tr_n : K_n → 𝔽₂ is
+      characterized by ι(Tr_n(x)) = ∑_{i=0}^{n-1} x^(2^i). Its pairing
+      (x,y) ↦ Tr_n(xy) is nondegenerate, so Tr_n is surjective. If
+      Tr_n(τ) = 1 and F_τ(x) is 0 or τ according as f(x) is 0 or 1, then
+      Tr_n(F_τ(x)) = f(x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.BinaryGaloisField
+      - CryptBoolean.FieldBooleanFunction
+      - CryptBoolean.absoluteTrace
+      - CryptBoolean.algebraMap_absoluteTrace_eq_sum_frobenius
+      - traceForm_nondegenerate
+      - Algebra.trace_surjective
+      - CryptBoolean.exists_absoluteTrace_eq_one
+      - CryptBoolean.absoluteTrace_surjective
+      - CryptBoolean.traceLift
+      - CryptBoolean.absoluteTrace_traceLift
+    dependencies: []
+
+  - id: carlet-2-univariate-representation
+    kind: theorem
+    location: Carlet, Relation (4), p. 15
+    statement: >-
+      For n > 0, K_n = GF(2^n), and every F : K_n → K_n, there is a unique
+      P_F ∈ K_n[X] with deg(P_F) < 2^n and P_F(x) = F(x) for all x ∈ K_n;
+      equivalently P_F(X) = ∑_{i=0}^{2^n-1} δ_iX^i with unique δ_i ∈ K_n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.univariateRepresentation
+      - CryptBoolean.eval_univariateRepresentation
+      - CryptBoolean.degree_univariateRepresentation_lt_card
+      - CryptBoolean.existsUnique_univariateRepresentation
+    dependencies: []
+
+  - id: carlet-2-trace-monomial-degree
+    kind: proposition
+    location: Carlet, Proposition 3, pp. 17--18
+    statement: >-
+      Let n > 0, a ∈ K_n, choose an 𝔽₂-linear isomorphism
+      θ : V_n ≃ K_n, and represent k modulo 2^n-1 by 0 ≤ k < 2^n-1. If
+      f_θ(x) = Tr_n(aθ(x)^k) is not identically zero, then
+      deg_alg(f_θ) = w_2(k), the binary Hamming weight of k.
+    formal_status: open
+    declarations: []
+    blocker: >-
+      Missing a finite-field coordinate-ANF-degree versus univariate-binary-weight
+      bridge and the cyclotomic-orbit noncancellation theorem needed to show that
+      a nonzero orbit coefficient contributes binary weight w_2(k). No matching
+      result is exposed by the pinned FABL or Mathlib surface.
+    dependencies:
+      - carlet-2-absolute-trace
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-2-def-algebraic-degree
+    kind: definition
+    location: Carlet, Algebraic degree, p. 12
+    statement: >-
+      If c_{f,S} are the unique ANF coefficients of f : V_n → 𝔽₂, define
+      deg_alg(f) = max{|S| | c_{f,S} ≠ 0}, with deg_alg(0) = 0. Then
+      deg_alg(f) ≤ n, and deg_alg(f) ≤ r iff c_{f,S} ≠ 0 implies |S| ≤ r
+      for every S ⊆ [n].
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.functionAlgebraicDegree
+      - CryptBoolean.functionAlgebraicDegree_le_dimension
+      - CryptBoolean.algebraicDegree_le_iff
+      - CryptBoolean.anfCoeff_zero
+      - CryptBoolean.algebraicDegree_zero
+      - CryptBoolean.functionAlgebraicDegree_zero
+    dependencies:
+      - carlet-2-anf-existence-uniqueness
+
+  - id: carlet-2-support-degree-addition
+    kind: lemma
+    location: Derived degree-under-addition lemma
+    statement: >-
+      For f,g : V_n → 𝔽₂ and every S ⊆ [n],
+      c_{f+g,S} = c_{f,S} + c_{g,S}; hence
+      deg_alg(f+g) ≤ max(deg_alg(f), deg_alg(g)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.anfCoeff_add
+      - CryptBoolean.algebraicDegree_add_le_max
+      - CryptBoolean.functionAlgebraicDegree_add_le_max
+    dependencies:
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-2-def-hamming-distance
+    kind: definition
+    location: Carlet, Hamming distance, p. 8
+    statement: >-
+      For f,g : V_n → 𝔽₂,
+      d_H(f,g) = |{x ∈ V_n | f(x) ≠ g(x)}| = w_H(f+g).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hammingDistance
+      - CryptBoolean.hammingDistance_eq_hammingWeight_add
+    dependencies:
+      - carlet-2-def-support-weight
+
+  - id: carlet-2-bridge-relative-hamming-distance
+    kind: theorem
+    location: Project relative-distance normalization bridge
+    statement: >-
+      If d_rel(f,g) = 2^(-n)|{x ∈ V_n | f(x) ≠ g(x)}|, then
+      d_H(f,g) = 2^n d_rel(f,g) for all f,g : V_n → 𝔽₂.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hammingDistance_eq_two_pow_mul_relativeHammingDist
+    dependencies:
+      - carlet-2-def-hamming-distance
+
+  - id: carlet-2-def-affine-functions
+    kind: definition
+    location: Carlet, Affine Boolean functions, p. 14
+    statement: >-
+      For a ∈ V_n and b ∈ 𝔽₂, A_{a,b}(x) = b + a·x has ANF coefficients
+      c_∅ = b, c_{i} = a_i, and c_S = 0 for |S| > 1. A Boolean function
+      f satisfies deg_alg(f) ≤ 1 iff f = A_{a,b} for some a,b.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.affineFunction
+      - CryptBoolean.affineCoefficients
+      - CryptBoolean.anfEval_affineCoefficients
+      - CryptBoolean.anfCoeff_affineFunction
+      - CryptBoolean.functionAlgebraicDegree_affineFunction_le_one
+      - CryptBoolean.exists_affineFunction_of_functionAlgebraicDegree_le_one
+    dependencies:
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-2-affine-invariance
+    kind: theorem
+    location: Carlet, Affine invariance of algebraic degree, p. 12
+    statement: >-
+      If L : V_n → V_n is an affine isomorphism of the form L(x) = Mx+t with
+      M ∈ GL_n(𝔽₂), then deg_alg(f ∘ L) = deg_alg(f) for every
+      f : V_n → 𝔽₂.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.anfMonomial_mul
+      - CryptBoolean.anfMul
+      - CryptBoolean.anfEval_anfMul
+      - CryptBoolean.algebraicDegree_anfMul_le_add
+      - CryptBoolean.anfCoeff_mul
+      - CryptBoolean.functionAlgebraicDegree_mul_le_add
+      - CryptBoolean.functionAlgebraicDegree_one
+      - CryptBoolean.functionAlgebraicDegree_finset_prod_le
+      - CryptBoolean.functionAlgebraicDegree_finset_sum_le
+      - CryptBoolean.functionAlgebraicDegree_affineMap_coordinate_le_one
+      - CryptBoolean.functionAlgebraicDegree_anfMonomial_comp_affineMap_le_card
+      - CryptBoolean.functionAlgebraicDegree_comp_affineMap_le
+      - CryptBoolean.functionAlgebraicDegree_comp_affineEquiv
+    dependencies:
+      - carlet-2-def-algebraic-degree
+      - carlet-2-def-affine-functions
+
+  - id: carlet-2-restriction-recovery
+    kind: theorem
+    location: Carlet, Recovery from low-weight restrictions, pp. 13--14
+    statement: >-
+      Let E_d = {y ∈ V_n | w_H(y) ≤ d}. If deg_alg(f) ≤ d < n, then
+      f(x) = ⊕_{y ≼ x, y ∈ E_d} f(y)
+      [∑_{i=0}^{d-w_H(y)} C(w_H(x)-w_H(y),i) mod 2]. Hence f is
+      determined by f|E_d, and by affine invariance the same holds on L(E_d)
+      for every affine automorphism L of V_n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.supportPrecedes
+      - CryptBoolean.supportPrecedesDecidable
+      - CryptBoolean.lowWeightInputs
+      - CryptBoolean.restrictionRecoveryCoefficient
+      - CryptBoolean.card_powerset_filter_card_le
+      - CryptBoolean.card_intermediate_subsets_le
+      - CryptBoolean.restrictionRecoveryFormula_f₂CubeOfFinset
+      - CryptBoolean.restrictionRecoveryFormula
+      - CryptBoolean.eq_of_eq_on_lowWeightInputs
+      - CryptBoolean.eq_of_eq_on_affineImage_lowWeightInputs
+    dependencies:
+      - carlet-2-anf-existence-uniqueness
+      - carlet-2-affine-invariance

@@ -26,13 +26,17 @@ Reed--Muller coding for scalar Boolean functions. It uses
 [FABL](https://github.com/Polarnova/FABL) for Boolean Fourier analysis and records explicit bridges
 between FABL's normalized Fourier coefficients and Carlet's raw Walsh transform.
 
-This volume contains 23 verified statements associated with 114 compiled Lean declarations and 26
-reviewed dependency edges. Chapter 2 develops representations and the Fourier--Walsh interface;
-Chapter 3 begins the coding-theoretic development with first-order Reed--Muller codes.
+This volume contains 43 source-facing mathematical statements: 41 are associated with 180 proved
+Lean declarations, while 2 remain visibly open. The dependency graph records 64 reviewed
+mathematical edges. Chapter 2 develops representations and the Fourier--Walsh interface; Chapter 3
+develops the distance, dimension, and duality theory of Reed--Muller codes.
 
-Each entry presents a source-facing mathematical statement beside its Lean declarations. The graph
-below records the reviewed mathematical dependencies among these results. The site is generated
-with [Verso Blueprint](https://github.com/leanprover/verso-blueprint).
+Each entry states the mathematics with explicit domains, hypotheses, quantifiers, and conclusions.
+Implementation and normalization notes sit outside statement blocks. A source theorem without an
+associated declaration is intentionally open rather than hidden or attached to a placeholder. The
+graph below records the reviewed mathematical dependencies among these results. The site is
+generated with [Verso Blueprint](https://github.com/leanprover/verso-blueprint), and the checked
+artifact from `main` is published automatically through GitHub Pages.
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02}
 
