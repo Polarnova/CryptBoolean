@@ -1,0 +1,60 @@
+source: carlet-2010
+chapter: 3
+status: initial-reviewed-section-3.1
+items:
+  - id: carlet-3-reed-muller-code
+    kind: definition
+    location: section 3.1
+    statement: R(r,n) is the binary linear code of n-variable Boolean functions of algebraic degree at most r.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.reedMuller
+      - CryptBoolean.mem_reedMuller_iff
+      - CryptBoolean.reedMuller_mono
+    dependencies:
+      - carlet-2-function-degree-distance
+  - id: carlet-3-theorem-1-order-one
+    kind: theorem
+    location: section 3.1, theorem 1, order-one specialization
+    statement: Every nonzero degree-at-most-one Boolean function has weight at least 2^(n-1), so distinct R(1,n) codewords have that minimum-distance lower bound.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_sub_one_le_hammingWeight_of_degree_le_one
+      - CryptBoolean.reedMuller_one_distance_lower_bound
+    dependencies:
+      - carlet-3-reed-muller-code
+      - carlet-2-affine-functions
+  - id: carlet-3-theorem-1
+    kind: theorem
+    location: section 3.1, theorem 1
+    statement: Distinct degree-at-most-r functions have mutual distance at least 2^(n-r).
+    formal_status: open-generalization
+    declarations: []
+    dependencies:
+      - carlet-3-theorem-1-order-one
+      - carlet-2-affine-change-restriction-laws
+  - id: carlet-3-prop-12
+    kind: proposition
+    location: section 3.1, proposition 12
+    statement: Degree-r functions of weight 2^(n-r) are exactly indicators of (n-r)-dimensional affine flats.
+    formal_status: open
+    declarations: []
+    dependencies:
+      - carlet-3-theorem-1
+  - id: carlet-3-reed-muller-dimension
+    kind: theorem
+    location: section 3.1, paragraph after proposition 12
+    statement: R(r,n) has dimension sum from i=0 to r of binomial(n,i).
+    formal_status: open
+    declarations: []
+    dependencies:
+      - carlet-3-reed-muller-code
+  - id: carlet-3-theorem-2
+    kind: theorem
+    location: section 3.1, theorem 2
+    statement: The dual of R(r,n) is R(n-r-1,n), under the source's valid parameter range.
+    formal_status: open
+    declarations: []
+    dependencies:
+      - carlet-3-reed-muller-dimension
+      - carlet-2-trace-monomial-degree

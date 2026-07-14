@@ -1,0 +1,13 @@
+.DS_Store
+.lake/
+.playwright-cli/
+build/
+.tmp/
+tmp/
+_out/
+Carlet - 2010 - Boolean Functions for Cryptography and Error-Corre.pdf
+cryptographic_boolean_functions_and_applications/
+*.pdf
+*.olean
+*.ilean
+*.trace

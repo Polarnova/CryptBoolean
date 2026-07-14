@@ -1,0 +1,76 @@
+import CryptBoolean
+
+#print axioms CryptBoolean.BooleanFunction
+#print axioms CryptBoolean.realSignView
+#print axioms CryptBoolean.support
+#print axioms CryptBoolean.hammingWeight
+#print axioms CryptBoolean.bitSignInt
+#print axioms CryptBoolean.walshTerm
+#print axioms CryptBoolean.walshTransform
+#print axioms CryptBoolean.mem_support
+#print axioms CryptBoolean.card_f₂Cube
+#print axioms CryptBoolean.walshTerm_cast_eq_realSignView_mul_character
+#print axioms CryptBoolean.walshTransform_cast_eq_sum_realSignView_mul_character
+#print axioms CryptBoolean.walshTransform_eq_two_pow_mul_vectorFourierCoeff
+
+#print axioms CryptBoolean.IsBalanced
+#print axioms CryptBoolean.bitSignInt_eq_if_one
+#print axioms CryptBoolean.walshTerm_zero
+#print axioms CryptBoolean.walshTransform_zero_eq_card_sub_two_weight
+#print axioms CryptBoolean.walshTransform_zero_eq_two_pow_sub_two_weight
+#print axioms CryptBoolean.isBalanced_iff_walshTransform_zero_eq_zero
+
+#print axioms CryptBoolean.realSignView_mul_self
+#print axioms CryptBoolean.sum_vectorFourierCoeff_realSignView_sq
+#print axioms CryptBoolean.two_pow_mul_realSignView_eq_sum_walshTransform_mul_character
+#print axioms CryptBoolean.realSignView_eq_inv_two_pow_mul_sum_walshTransform_mul_character
+#print axioms CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq
+
+#print axioms CryptBoolean.ANFCoefficients
+#print axioms CryptBoolean.anfMonomial
+#print axioms CryptBoolean.anfEval
+#print axioms CryptBoolean.anfSupport
+#print axioms CryptBoolean.algebraicDegree
+#print axioms CryptBoolean.mem_anfSupport
+#print axioms CryptBoolean.anfMonomial_empty
+#print axioms CryptBoolean.anfEval_zero
+#print axioms CryptBoolean.anfEval_add
+#print axioms CryptBoolean.algebraicDegree_le_dimension
+
+#print axioms CryptBoolean.anfMonomial_f₂CubeOfFinset
+#print axioms CryptBoolean.anfEval_f₂CubeOfFinset
+#print axioms CryptBoolean.anfCoeff
+#print axioms CryptBoolean.anfEval_anfCoeff_f₂CubeOfFinset
+#print axioms CryptBoolean.anfEval_anfCoeff
+#print axioms CryptBoolean.anfCoeff_unique_of_powerset_sum
+#print axioms CryptBoolean.anfEval_injective
+#print axioms CryptBoolean.existsUnique_anfEval
+
+#print axioms CryptBoolean.coefficients_eq_of_powerset_sum_eq
+#print axioms CryptBoolean.rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff
+#print axioms CryptBoolean.rawFourierTransform_modulate_translate
+#print axioms CryptBoolean.rawFourierTransform_involution
+#print axioms CryptBoolean.rawFourierTransform_rawConvolution
+#print axioms CryptBoolean.sum_rawFourierTransform_mul
+#print axioms CryptBoolean.rawFourierTransform_setIndicator_submodule
+#print axioms CryptBoolean.poissonSummationFormula
+#print axioms CryptBoolean.rawFourierTransform_autocorrelation
+#print axioms CryptBoolean.sum_autocorrelation_eq_walshTransform_zero_sq
+
+#print axioms CryptBoolean.existsUnique_numericalEval
+#print axioms CryptBoolean.numericalCoeff_eq_mobius_sum
+#print axioms CryptBoolean.algebraMap_absoluteTrace_eq_sum_frobenius
+#print axioms CryptBoolean.exists_absoluteTrace_eq_one
+#print axioms CryptBoolean.existsUnique_univariateRepresentation
+
+#print axioms CryptBoolean.functionAlgebraicDegree_add_le_max
+#print axioms CryptBoolean.hammingDistance_eq_hammingWeight_add
+#print axioms CryptBoolean.exists_affineFunction_of_functionAlgebraicDegree_le_one
+#print axioms CryptBoolean.isBalanced_affineFunction_of_ne_zero
+#print axioms CryptBoolean.hammingWeight_affineFunction_of_ne_zero
+#print axioms CryptBoolean.hammingDistance_eq_two_pow_mul_relativeHammingDist
+
+#print axioms CryptBoolean.reedMuller
+#print axioms CryptBoolean.reedMuller_mono
+#print axioms CryptBoolean.two_pow_sub_one_le_hammingWeight_of_degree_le_one
+#print axioms CryptBoolean.reedMuller_one_distance_lower_bound

@@ -1,0 +1,296 @@
+source: carlet-2010
+chapter: 2
+status: expanded-reviewed-subset
+items:
+  - id: carlet-2-def-boolean-function
+    kind: definition
+    location: chapter 2, opening definitions
+    statement: Boolean functions are maps from the binary vector space to the binary field.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.BooleanFunction
+    dependencies:
+      - FABL.F₂Cube
+      - FABL.𝔽₂
+  - id: carlet-2-def-support-weight
+    kind: definition
+    location: chapter 2, representation preliminaries
+    statement: The support of a Boolean function is the set of inputs on which it equals one, and its weight is the support cardinality.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.support
+      - CryptBoolean.hammingWeight
+      - CryptBoolean.mem_support
+    dependencies:
+      - carlet-2-def-boolean-function
+  - id: carlet-2-def-walsh-transform
+    kind: definition
+    location: section 2.2
+    statement: The Walsh transform of a Boolean function is the unnormalized integer sum of (-1) raised to f(x) plus a dot x.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.bitSignInt
+      - CryptBoolean.walshTerm
+      - CryptBoolean.walshTransform
+    dependencies:
+      - carlet-2-def-boolean-function
+      - FABL.f₂DotProduct
+  - id: carlet-2-bridge-walsh-normalization
+    kind: bridge
+    location: section 2.2 normalization bridge
+    statement: Carlet's raw Walsh transform equals 2^n times FABL's normalized vector Fourier coefficient of the real sign encoding.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTerm_cast_eq_realSignView_mul_character
+      - CryptBoolean.walshTransform_cast_eq_sum_realSignView_mul_character
+      - CryptBoolean.walshTransform_eq_two_pow_mul_vectorFourierCoeff
+    dependencies:
+      - carlet-2-def-walsh-transform
+      - FABL.vectorWalshCharacter
+      - FABL.vectorFourierCoeff
+      - FABL.vectorFourierCoeff_eq_expect
+
+  - id: carlet-2-balanced-zero-walsh
+    kind: bridge
+    location: section 2.2 zero-frequency Walsh consequence
+    statement: A Boolean function is balanced if and only if its zero-frequency Walsh transform vanishes.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsBalanced
+      - CryptBoolean.bitSignInt_eq_if_one
+      - CryptBoolean.walshTerm_zero
+      - CryptBoolean.walshTransform_zero_eq_card_sub_two_weight
+      - CryptBoolean.walshTransform_zero_eq_two_pow_sub_two_weight
+      - CryptBoolean.isBalanced_iff_walshTransform_zero_eq_zero
+    dependencies:
+      - carlet-2-def-support-weight
+      - carlet-2-def-walsh-transform
+  - id: carlet-2-anf-existence-uniqueness
+    kind: theorem
+    location: section 2.1 algebraic normal form
+    statement: Every Boolean function has a unique algebraic normal form over the binary field.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.anfMonomial_f₂CubeOfFinset
+      - CryptBoolean.anfEval_f₂CubeOfFinset
+      - CryptBoolean.anfCoeff
+      - CryptBoolean.anfEval_anfCoeff_f₂CubeOfFinset
+      - CryptBoolean.anfEval_anfCoeff
+      - CryptBoolean.anfCoeff_unique_of_powerset_sum
+      - CryptBoolean.anfEval_injective
+      - CryptBoolean.existsUnique_anfEval
+    dependencies:
+      - carlet-2-def-boolean-function
+      - carlet-2-anf-skeleton
+      - FABL.f₂CubeOfFinset
+      - FABL.f₂CubeEquivFinset
+  - id: carlet-2-anf-skeleton
+    kind: definition
+    location: section 2.1 algebraic normal form
+    statement: Algebraic normal forms are square-free coefficient families over coordinate subsets, evaluated as finite sums of monomials; their support and algebraic degree are derived from nonzero coefficients.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.ANFCoefficients
+      - CryptBoolean.anfMonomial
+      - CryptBoolean.anfEval
+      - CryptBoolean.anfSupport
+      - CryptBoolean.algebraicDegree
+      - CryptBoolean.mem_anfSupport
+      - CryptBoolean.anfMonomial_empty
+      - CryptBoolean.anfEval_zero
+      - CryptBoolean.anfEval_add
+      - CryptBoolean.algebraicDegree_le_dimension
+    dependencies:
+      - carlet-2-def-boolean-function
+  - id: carlet-2-fourier-inversion
+    kind: theorem
+    location: section 2.2 Fourier transform
+    statement: A pseudo-Boolean function is recovered from its normalized Fourier coefficients by summing coefficients times characters.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_mul_realSignView_eq_sum_walshTransform_mul_character
+      - CryptBoolean.realSignView_eq_inv_two_pow_mul_sum_walshTransform_mul_character
+    dependencies:
+      - carlet-2-bridge-walsh-normalization
+      - FABL.vector_fourier_expansion
+  - id: carlet-2-parseval
+    kind: theorem
+    location: section 2.2 Fourier transform, Parseval relation
+    statement: For a Boolean function the sum of squared Walsh coefficients equals 2^(2n), equivalently the normalized sign-view spectrum has unit total square weight.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.realSignView_mul_self
+      - CryptBoolean.sum_vectorFourierCoeff_realSignView_sq
+      - CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq
+    dependencies:
+      - carlet-2-bridge-walsh-normalization
+      - FABL.vector_plancherel
+  - id: carlet-2-pseudoboolean-fourier
+    kind: definition
+    location: section 2.2, equation 11
+    statement: The unnormalized Fourier transform of a real-valued function is the character sum over the binary cube and is 2^n times FABL's normalized coefficient.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform
+      - CryptBoolean.rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff
+    dependencies:
+      - FABL.vectorFourierCoeff
+  - id: carlet-2-prop-6-fourier-shifts
+    kind: proposition
+    location: section 2.2, proposition 6
+    statement: Modulation and translation shift the unnormalized Fourier spectrum and multiply it by the corresponding character.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform_modulate_translate
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+      - FABL.vectorFourierCoeff_translate_add
+  - id: carlet-2-cor-2-fourier-involution
+    kind: corollary
+    location: section 2.2, corollary 2
+    statement: Applying the unnormalized Fourier transform twice multiplies the function by 2^n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform_involution
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+      - FABL.vector_fourier_expansion
+  - id: carlet-2-prop-7-subspace-indicator
+    kind: proposition
+    location: section 2.2, proposition 7 and corollary 1
+    statement: The raw transform of a subspace indicator is its cardinality on the perpendicular subspace and zero elsewhere; Poisson summation follows.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform_setIndicator_submodule
+      - CryptBoolean.poissonSummationFormula
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+      - FABL.vectorFourierCoeff_setIndicator_submodule_of_mem
+      - FABL.poissonSummationFormula
+  - id: carlet-2-prop-8-convolution-plancherel
+    kind: proposition
+    location: section 2.2, proposition 8 and corollary 3
+    statement: Raw convolution transforms to pointwise multiplication and satisfies the unnormalized Plancherel identity.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawConvolution
+      - CryptBoolean.rawFourierTransform_rawConvolution
+      - CryptBoolean.sum_rawFourierTransform_mul
+    dependencies:
+      - FABL.convolution
+      - FABL.binaryFourierCoeff_convolution
+      - FABL.vector_plancherel
+  - id: carlet-2-derivative-autocorrelation
+    kind: definition-and-theorem
+    location: section 2.2, definition 2 and relation 24
+    statement: Binary derivatives define autocorrelation, whose Fourier transform is the squared Walsh spectrum.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanDerivative
+      - CryptBoolean.autocorrelation
+      - CryptBoolean.rawFourierTransform_autocorrelation
+      - CryptBoolean.sum_autocorrelation_eq_walshTransform_zero_sq
+    dependencies:
+      - carlet-2-prop-8-convolution-plancherel
+  - id: carlet-2-nnf-existence-uniqueness
+    kind: theorem
+    location: section 2.1, numerical normal form
+    statement: Every pseudo-Boolean function has a unique multilinear numerical normal form.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.existsUnique_numericalEval
+      - CryptBoolean.numericalCoeff
+    dependencies:
+      - CryptBoolean.coefficients_eq_of_powerset_sum_eq
+      - Mathlib.LinearEquiv.ofInjectiveEndo
+  - id: carlet-2-prop-4-nnf-mobius
+    kind: proposition
+    location: section 2.1, proposition 4
+    statement: Numerical normal-form coefficients are given by real Möbius inversion on the subset lattice.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.numericalCoeff_eq_mobius_sum
+    dependencies:
+      - carlet-2-nnf-existence-uniqueness
+  - id: carlet-2-absolute-trace
+    kind: definition-and-theorem
+    location: section 2.1, finite-field representation
+    statement: The absolute trace on GF(2^n) is the finite-field trace, equals the Frobenius sum for n positive, and is surjective.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.absoluteTrace
+      - CryptBoolean.algebraMap_absoluteTrace_eq_sum_frobenius
+      - CryptBoolean.exists_absoluteTrace_eq_one
+    dependencies:
+      - Mathlib.Field.trace
+      - Mathlib.traceForm_nondegenerate
+  - id: carlet-2-univariate-representation
+    kind: theorem
+    location: section 2.1, relation 9
+    statement: Every function on GF(2^n) has a unique polynomial representation of degree below 2^n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.univariateRepresentation
+      - CryptBoolean.existsUnique_univariateRepresentation
+    dependencies:
+      - Mathlib.Lagrange.interpolate
+  - id: carlet-2-function-degree-distance
+    kind: definition-and-theorem
+    location: sections 2.1 and 2.2
+    statement: Function algebraic degree is read from the unique ANF; raw Hamming distance is the weight of the Boolean sum and scales FABL relative distance by 2^n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.functionAlgebraicDegree
+      - CryptBoolean.functionAlgebraicDegree_add_le_max
+      - CryptBoolean.hammingDistance
+      - CryptBoolean.hammingDistance_eq_hammingWeight_add
+      - CryptBoolean.hammingDistance_eq_two_pow_mul_relativeHammingDist
+    dependencies:
+      - carlet-2-anf-existence-uniqueness
+      - Mathlib.hammingDist
+      - FABL.relativeHammingDist
+  - id: carlet-2-affine-functions
+    kind: theorem
+    location: section 2.1, degree-one functions
+    statement: Degree-at-most-one Boolean functions are exactly affine functions; nonconstant affine functions are balanced and have weight 2^(n-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_affineFunction_of_functionAlgebraicDegree_le_one
+      - CryptBoolean.isBalanced_affineFunction_of_ne_zero
+      - CryptBoolean.hammingWeight_affineFunction_of_ne_zero
+    dependencies:
+      - carlet-2-function-degree-distance
+      - carlet-2-balanced-zero-walsh
+  - id: carlet-2-prop-5-nnf-integrality
+    kind: proposition
+    location: section 2.1, proposition 5
+    statement: A multilinear real polynomial is integer-valued exactly when all numerical coefficients are integers, with the stated Boolean-valued sum-of-squares criterion.
+    formal_status: open
+    declarations: []
+    dependencies:
+      - carlet-2-prop-4-nnf-mobius
+  - id: carlet-2-trace-monomial-degree
+    kind: theorem-family
+    location: section 2.1, trace representation degree relations
+    statement: Algebraic degree of trace monomials is controlled by binary exponent weight, including the source's cancellation qualifications.
+    formal_status: open
+    declarations: []
+    dependencies:
+      - carlet-2-absolute-trace
+  - id: carlet-2-affine-change-restriction-laws
+    kind: theorem-family
+    location: sections 2.1 and 2.2
+    statement: Algebraic degree and the relevant spectra obey the source's affine-change and coordinate-restriction laws.
+    formal_status: open
+    declarations: []
+    dependencies:
+      - carlet-2-affine-functions
+      - carlet-2-pseudoboolean-fourier
+  - id: carlet-2-spectral-support-bounds
+    kind: theorem-family
+    location: end of section 2.2
+    statement: Fourier support size satisfies the degree-dependent lower and numerical-degree upper bounds stated by Carlet.
+    formal_status: open
+    declarations: []
+    dependencies:
+      - carlet-2-affine-change-restriction-laws
