@@ -17,8 +17,8 @@ EXPECTED_CHAPTERS = {
     "chapter-3": 7,
 }
 EXPECTED_GROUPS = {
-    "carlet-chapter-2": 36,
-    "carlet-chapter-3": 7,
+    "«carlet-chapter-2»": 36,
+    "«carlet-chapter-3»": 7,
 }
 EXPECTED_OPEN = {
     "carlet-2-trace-monomial-degree",
