@@ -14,7 +14,7 @@ open Informal
 
 #doc (Manual) "Algebraic normal form existence and uniqueness" =>
 
-:::theorem "carlet-2-anf-existence-uniqueness" (lean := "CryptBoolean.anfMonomial_f₂CubeOfFinset, CryptBoolean.anfEval_f₂CubeOfFinset, CryptBoolean.anfCoeff, CryptBoolean.anfEval_anfCoeff_f₂CubeOfFinset, CryptBoolean.anfEval_anfCoeff, CryptBoolean.anfCoeff_unique_of_powerset_sum, CryptBoolean.anfEval_injective, CryptBoolean.existsUnique_anfEval") (uses := "carlet-2-anf-skeleton") (tags := "carlet, chapter-2, proposition-1, pages-10-11, fidelity-exact")
+:::theorem "carlet-2-anf-existence-uniqueness" (parent := "carlet-chapter-2") (lean := "CryptBoolean.anfMonomial_f₂CubeOfFinset, CryptBoolean.anfEval_f₂CubeOfFinset, CryptBoolean.anfCoeff, CryptBoolean.anfEval_anfCoeff_f₂CubeOfFinset, CryptBoolean.anfEval_anfCoeff, CryptBoolean.anfCoeff_unique_of_powerset_sum, CryptBoolean.anfEval_injective, CryptBoolean.existsUnique_anfEval") (uses := "carlet-2-anf-skeleton") (tags := "carlet, chapter-2, proposition-1, pages-10-11, fidelity-exact")
 *Existence and uniqueness of the ANF, and Proposition 1 (Carlet, pp. 10--11).*
 For every $`f:V_n\to\mathbb F_2`, there exists a unique family
 $`(c_S)_{S\subseteq[n]}` such that

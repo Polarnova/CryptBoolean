@@ -16,6 +16,10 @@ EXPECTED_CHAPTERS = {
     "chapter-2": 36,
     "chapter-3": 7,
 }
+EXPECTED_GROUPS = {
+    "carlet-chapter-2": 36,
+    "carlet-chapter-3": 7,
+}
 EXPECTED_OPEN = {
     "carlet-2-trace-monomial-degree",
     "carlet-3-prop-12",
@@ -108,6 +112,27 @@ def main() -> None:
         fail("statement dependency counts disagree with the graph")
     if any(block.get("proofUses") for block in blocks):
         fail("proof-only dependency edges are not permitted in this Blueprint")
+    groups = graph.get("groups", [])
+    group_sizes = {
+        group.get("label"): len(group.get("children", []))
+        for group in groups
+        if group.get("declared")
+    }
+    if group_sizes != EXPECTED_GROUPS:
+        fail(f"unexpected dependency graph groups: {group_sizes}")
+    parent_sizes = Counter(node.get("parent") for node in graph.get("nodes", []))
+    if dict(parent_sizes) != EXPECTED_GROUPS:
+        fail(f"unexpected dependency graph parents: {dict(parent_sizes)}")
+    variants = graph.get("variants", [])
+    expected_variants = {
+        "full",
+        "group",
+        *(f"parent:{group}" for group in EXPECTED_GROUPS),
+    }
+    if {variant.get("key") for variant in variants} != expected_variants:
+        fail("dependency graph is missing a chapter view")
+    if any((variant.get("options") or {}).get("direction") != "LR" for variant in variants):
+        fail("dependency graph does not default to LR")
 
     decls = [decl for declarations in block_decls.values() for decl in declarations]
     if len(decls) != EXPECTED_DECLARATIONS:

@@ -170,10 +170,12 @@ lake build CryptBoolean
 ```
 
 The root build verifies production reachability. The forbidden-token scan rejects incomplete or
-unsafe proof mechanisms. The axiom audit rejects `sorryAx` dependencies. The site build compiles the
-Verso sources, validates declaration presence and proof status, checks the dependency graph, and
-validates the manifest counts. Pushes to `main` run these gates before the checked Blueprint
-artifact is deployed automatically to GitHub Pages.
+unsafe proof mechanisms. The axiom audit rejects `sorryAx` dependencies. `site.sh build release`
+is the default publication build: it removes fidelity tags from reader-facing HTML while retaining
+them in the validated manifest. `site.sh build dev` and `site.sh serve dev` retain those tags for
+formalization review. The site build compiles the Verso sources, validates declaration presence and
+proof status, checks the dependency graph, and validates the manifest counts. Pushes to `main` run
+these gates before the checked Blueprint artifact is deployed automatically to GitHub Pages.
 
 ## Version-control boundaries
 

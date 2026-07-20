@@ -14,7 +14,7 @@ open Informal
 
 #doc (Manual) "Walsh inversion and Parseval" =>
 
-:::theorem "carlet-2-fourier-inversion" (lean := "CryptBoolean.two_pow_mul_realSignView_eq_sum_walshTransform_mul_character, CryptBoolean.realSignView_eq_inv_two_pow_mul_sum_walshTransform_mul_character") (uses := "carlet-2-bridge-walsh-normalization") (tags := "carlet, chapter-2, corollary-2, page-25, fidelity-exact-sign-specialization")
+:::theorem "carlet-2-fourier-inversion" (parent := "carlet-chapter-2") (lean := "CryptBoolean.two_pow_mul_realSignView_eq_sum_walshTransform_mul_character, CryptBoolean.realSignView_eq_inv_two_pow_mul_sum_walshTransform_mul_character") (uses := "carlet-2-bridge-walsh-normalization") (tags := "carlet, chapter-2, corollary-2, page-25, fidelity-exact-sign-specialization")
 *Walsh inversion (Carlet, Corollary 2, Relation (19), p. 25).* For every
 $`f:V_n\to\mathbb F_2` and $`x\in V_n`,
 $$`
@@ -27,7 +27,7 @@ $$`
 `
 :::
 
-:::theorem "carlet-2-parseval" (lean := "CryptBoolean.realSignView_mul_self, CryptBoolean.sum_vectorFourierCoeff_realSignView_sq, CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq") (uses := "carlet-2-bridge-walsh-normalization") (tags := "carlet, chapter-2, corollary-3, relation-23, page-27, fidelity-exact")
+:::theorem "carlet-2-parseval" (parent := "carlet-chapter-2") (lean := "CryptBoolean.realSignView_mul_self, CryptBoolean.sum_vectorFourierCoeff_realSignView_sq, CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq") (uses := "carlet-2-bridge-walsh-normalization") (tags := "carlet, chapter-2, corollary-3, relation-23, page-27, fidelity-exact")
 *Parseval for Boolean sign functions (Carlet, Corollary 3, Relation (23), p. 27).*
 For every $`f:V_n\to\mathbb F_2`,
 $$`

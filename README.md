@@ -64,13 +64,15 @@ normalization notes are rendered separately. Build and serve it locally with:
 ```bash
 cd blueprint-verso
 lake exe cache get
-./scripts/site.sh serve
+./scripts/site.sh serve dev
 ```
 
 Then open [http://localhost:8000/](http://localhost:8000/). Generated files live under
 `blueprint-verso/_out/`. Pushes to `main` run the same checked build and automatically publish the
 book through GitHub Pages at
 [polarnova.github.io/CryptBoolean](https://polarnova.github.io/CryptBoolean/).
+The `dev` profile retains fidelity metadata for review; public CI uses the default `release`
+profile and omits those tags from the reading view.
 
 ## Contributing
 

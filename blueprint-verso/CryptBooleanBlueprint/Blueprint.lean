@@ -38,8 +38,16 @@ graph below records the reviewed mathematical dependencies among these results. 
 generated with [Verso Blueprint](https://github.com/leanprover/verso-blueprint), and the checked
 artifact from `main` is published automatically through GitHub Pages.
 
+:::group "carlet-chapter-2"
+Chapter 2: Generalities on Boolean functions
+:::
+
+:::group "carlet-chapter-3"
+Chapter 3: Boolean functions and coding
+:::
+
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02}
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter03}
 
-{blueprint_graph}
+{blueprint_graph (direction := LR)}

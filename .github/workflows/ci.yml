@@ -69,7 +69,7 @@ jobs:
             blueprint-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('blueprint-verso/lean-toolchain', 'blueprint-verso/lake-manifest.json', 'lake-manifest.json') }}-
       - name: Build and validate Verso Blueprint
         working-directory: blueprint-verso
-        run: ./scripts/site.sh build
+        run: ./scripts/site.sh build release
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
