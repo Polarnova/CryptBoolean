@@ -53,7 +53,7 @@ def main() -> None:
     }
     formalized_blocks = [label for label, decls in block_decls.items() if decls]
     open_blocks = [label for label, decls in block_decls.items() if not decls]
-    if data.get("vbpInternalSchemaVersion") != 2:
+    if data.get("vbpInternalSchemaVersion") != 3:
         fail("unexpected Blueprint schema version")
     if len(blocks) != EXPECTED_STATEMENTS:
         fail(f"expected {EXPECTED_STATEMENTS} statement blocks, found {len(blocks)}")

@@ -3,6 +3,8 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+packages_dir="$(jq -er '.packagesDir // ".lake/packages"' "$root/lake-manifest.json")"
+packages_root="$(cd "$root/$packages_dir" && pwd)"
 output="$root/_out/site"
 profile="${2:-release}"
 
@@ -29,16 +31,20 @@ fi
 build_site() {
   cd "$root"
   python3 "$root/scripts/check_statement_style.py"
-  "$lake_cmd" build CryptBooleanBlueprint
+  echo "Reusing the checked production-library artifacts..."
+  "$lake_cmd" --no-build build @CryptBoolean/CryptBoolean
+  echo "Building the Blueprint modules..."
+  "$lake_cmd" build @/CryptBooleanBlueprint
   rm -rf -- "$output/html-multi"
   export CRYPTBOOLEAN_SOURCE_REVISION="${GITHUB_SHA:-$(git -C "$root/.." rev-parse HEAD)}"
   export FABL_SOURCE_REVISION="$(
-    git -C "$root/.lake/packages/FABL" rev-parse HEAD
+    git -C "$packages_root/FABL" rev-parse HEAD
   )"
   export MATHLIB_SOURCE_REVISION="$(
-    git -C "$root/.lake/packages/mathlib" rev-parse HEAD
+    git -C "$packages_root/mathlib" rev-parse HEAD
   )"
-  "$lake_cmd" exe blueprint-gen --output "$output" --depth 2
+  "$lake_cmd" lean CryptBooleanBlueprintMain.lean -- --run \
+    CryptBooleanBlueprintMain.lean --output "$output" --depth 2
   test -f "$output/html-multi/index.html"
   test -f "$output/html-multi/-verso-data/blueprint-manifest.json"
   "$lake_cmd" exe vbp check --site "$output" >/dev/null

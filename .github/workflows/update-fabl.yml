@@ -1,0 +1,214 @@
+name: Update FABL
+
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - fabl-release
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-fabl
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Select the latest complete FABL release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          release_json="$(gh api repos/Polarnova/FABL/releases/latest)"
+          latest="$(jq -er '.tag_name' <<<"$release_json")"
+          current="$(sed -n \
+            's/.*FABL\.git" @ "\(v[0-9][^"]*\)"/\1/p' lakefile.lean)"
+          [[ "$latest" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          test "$(jq '[.assets[].name | select(test("^FABL-x86_64-unknown-linux-gnu\\.tar\\.gz$"))] | length' \
+            <<<"$release_json")" -eq 1
+          test "$(jq '[.assets[].name | select(test("^FABL-arm64-apple-darwin.*\\.tar\\.gz$"))] | length' \
+            <<<"$release_json")" -eq 1
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+          if [[ "$latest" = "$current" ]]; then
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          branch="comet-fabl-$latest"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            existing_pr="$(gh pr list \
+              --repo "$GITHUB_REPOSITORY" \
+              --head "$branch" \
+              --state open \
+              --json number \
+              --jq '.[0].number // empty')"
+            if [[ -z "$existing_pr" ]]; then
+              echo "::error::Remote update branch $branch exists without an open pull request"
+              exit 1
+            fi
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          encoded="$(gh api \
+            "repos/Polarnova/FABL/contents/lean-toolchain?ref=$latest" \
+            --jq '.content')"
+          toolchain="$(printf '%s' "$encoded" | base64 --decode)"
+          lean_tag="${toolchain#leanprover/lean4:}"
+          [[ "$lean_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          {
+            echo "branch=$branch"
+            echo "lean_tag=$lean_tag"
+            echo "needed=true"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Update exact pins
+        if: steps.release.outputs.needed == 'true'
+        run: |
+          python3 .github/scripts/bump_fabl.py \
+            "${{ steps.release.outputs.latest }}" \
+            "${{ steps.release.outputs.lean_tag }}"
+
+      - name: Set up Lean and restore Mathlib cache
+        if: steps.release.outputs.needed == 'true'
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          use-mathlib-cache: true
+          use-github-cache: false
+
+      - name: Resolve manifests and verify release archives
+        if: steps.release.outputs.needed == 'true'
+        id: prepare
+        run: |
+          set -euo pipefail
+          lake update
+          lake exe cache get
+          ./.github/scripts/require_latest_fabl_release.sh
+          (
+            cd blueprint-verso
+            lake update
+            lake exe cache get
+          )
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Open the upgrade pull request
+        if: steps.prepare.outputs.ready == 'true'
+        id: pull_request
+        env:
+          BRANCH: ${{ steps.release.outputs.branch }}
+          GH_TOKEN: ${{ github.token }}
+          LATEST: ${{ steps.release.outputs.latest }}
+        run: |
+          set -euo pipefail
+          gh label create dependencies \
+            --repo "$GITHUB_REPOSITORY" \
+            --color 0366d6 \
+            --description "Dependency updates" \
+            --force
+          gh label create needs-fix \
+            --repo "$GITHUB_REPOSITORY" \
+            --color d73a4a \
+            --description "Automated update needs repair" \
+            --force
+          git switch -c "$BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            lakefile.lean lake-manifest.json lean-toolchain \
+            blueprint-verso/lakefile.lean \
+            blueprint-verso/lake-manifest.json \
+            blueprint-verso/lean-toolchain \
+            AGENTS.md README.md .agents/SPEC.md .agents/PLAN.md
+          git commit --no-gpg-sign -m "chore: update FABL to $LATEST"
+          git push --set-upstream origin "$BRANCH"
+          pr_url="$(gh pr create \
+            --repo "$GITHUB_REPOSITORY" \
+            --base main \
+            --head "$BRANCH" \
+            --title "chore: update FABL to $LATEST" \
+            --label dependencies \
+            --body "Pins FABL to **$LATEST**, aligns Lean and Verso with that release, and resolves both Lake manifests. The complete CryptBoolean and Blueprint CI determines whether this update is merged.")"
+          {
+            echo "url=$pr_url"
+            echo "number=${pr_url##*/}"
+            echo "sha=$(git rev-parse HEAD)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run the complete validation workflow
+        if: steps.pull_request.outputs.url != ''
+        id: validation
+        env:
+          BRANCH: ${{ steps.release.outputs.branch }}
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ steps.pull_request.outputs.sha }}
+        run: |
+          set -uo pipefail
+          echo "passed=false" >> "$GITHUB_OUTPUT"
+          if ! gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref "$BRANCH"; then
+            exit 0
+          fi
+          run_id=""
+          for _ in $(seq 1 30); do
+            run_id="$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --workflow ci.yml \
+              --branch "$BRANCH" \
+              --event workflow_dispatch \
+              --limit 10 \
+              --json databaseId,headSha \
+              --jq ".[] | select(.headSha == \"$HEAD_SHA\") | .databaseId" \
+              | head -n 1)"
+            if [[ -n "$run_id" ]]; then
+              break
+            fi
+            sleep 2
+          done
+          if [[ -z "$run_id" ]]; then
+            exit 0
+          fi
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+          if gh run watch "$run_id" --repo "$GITHUB_REPOSITORY" --exit-status; then
+            echo "passed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Mark an update that needs repair
+        if: steps.validation.outputs.passed == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.pull_request.outputs.number }}
+          RUN_ID: ${{ steps.validation.outputs.run_id }}
+        run: |
+          gh pr edit "$PR" --repo "$GITHUB_REPOSITORY" --add-label needs-fix
+          gh pr comment "$PR" \
+            --repo "$GITHUB_REPOSITORY" \
+            --body "The full Lean and Blueprint validation failed: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$RUN_ID"
+          exit 1
+
+      - name: Confirm a validated update
+        if: steps.validation.outputs.passed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.pull_request.outputs.number }}
+        run: gh pr comment "$PR" \
+          --repo "$GITHUB_REPOSITORY" \
+          --body "The complete Lean and Blueprint validation passed; the guarded merge workflow may merge this dependency update."
+
+      - name: Preserve the repair signal after an automation error
+        if: failure() && steps.pull_request.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.pull_request.outputs.number }}
+        run: gh pr edit "$PR" --repo "$GITHUB_REPOSITORY" --add-label needs-fix

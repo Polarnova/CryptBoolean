@@ -2,7 +2,7 @@
 
 ## Baseline and planning facts
 
-CryptBoolean pins FABL at revision `34334a1b0c8dd806c076444a0875caf29ba5e248`. Its public root
+CryptBoolean pins FABL at release `v0.5.6`. Its public root
 exposes the binary cube, sign cube, dot product, representation equivalence, normalized Fourier
 coefficients, Fourier expansion, Plancherel, relative Hamming distance, balancedness, restrictions,
 and derivatives needed for the first CryptBooleanFunction layer.
