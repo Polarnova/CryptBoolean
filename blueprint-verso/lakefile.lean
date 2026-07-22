@@ -12,6 +12,3 @@ package CryptBooleanBlueprint where
 
 @[default_target]
 lean_lib CryptBooleanBlueprint where
-
-lean_exe «blueprint-gen» where
-  root := `CryptBooleanBlueprintMain

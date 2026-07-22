@@ -43,7 +43,8 @@ build_site() {
   export MATHLIB_SOURCE_REVISION="$(
     git -C "$packages_root/mathlib" rev-parse HEAD
   )"
-  "$lake_cmd" exe blueprint-gen --output "$output" --depth 2
+  "$lake_cmd" lean CryptBooleanBlueprintMain.lean -- --run \
+    CryptBooleanBlueprintMain.lean --output "$output" --depth 2
   test -f "$output/html-multi/index.html"
   test -f "$output/html-multi/-verso-data/blueprint-manifest.json"
   "$lake_cmd" exe vbp check --site "$output" >/dev/null
