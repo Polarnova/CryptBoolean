@@ -6,12 +6,13 @@ Authors: Asher Yan with Codex
 module
 
 public import CryptBoolean.Carlet.Chapter02.FourierOperations
+public import FABL.Chapter06.FoolingF₂Polynomials.DirectionalDerivatives
 
 /-!
 # Carlet Chapter 2 derivatives and autocorrelation
 
-Binary directional derivatives and the Wiener--Khintchine identity, composed
-with the raw Fourier layer.
+The shared binary directional derivative comes from FABL Chapter 6. This module retains Carlet's
+sign bridge, raw autocorrelation, and Wiener--Khintchine identities.
 -/
 
 open Finset
@@ -23,14 +24,10 @@ namespace CryptBoolean
 
 variable {n : ℕ}
 
-/-- Carlet Definition 2: the binary derivative in direction `b`. -/
-def booleanDerivative (f : BooleanFunction n) (b : FABL.F₂Cube n) : BooleanFunction n :=
-  fun x ↦ f x + f (x + b)
-
 /-- The derivative sign is the product of the two translated function signs. -/
 theorem realSignView_booleanDerivative
     (f : BooleanFunction n) (b x : FABL.F₂Cube n) :
-    realSignView (booleanDerivative f b) x =
+    realSignView (FABL.booleanDerivative f b) x =
       realSignView f x * realSignView f (x + b) := by
   change FABL.signValue (FABL.signEncode (f x + f (x + b))) =
     FABL.signValue (FABL.signEncode (f x)) *
@@ -42,7 +39,7 @@ theorem realSignView_booleanDerivative
 
 /-- Carlet's autocorrelation value `Δ_f(b) = ∑ₓ (-1)^(D_b f(x))`. -/
 def autocorrelation (f : BooleanFunction n) (b : FABL.F₂Cube n) : ℝ :=
-  ∑ x, realSignView (booleanDerivative f b) x
+  ∑ x, realSignView (FABL.booleanDerivative f b) x
 
 /-- Autocorrelation is the raw self-convolution of the sign view. -/
 theorem autocorrelation_eq_rawConvolution_realSignView

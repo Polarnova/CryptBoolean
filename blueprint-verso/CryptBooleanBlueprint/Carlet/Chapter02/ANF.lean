@@ -14,7 +14,7 @@ open Informal
 
 #doc (Manual) "Algebraic normal form" =>
 
-:::definition "carlet-2-anf-skeleton" (parent := "carlet-chapter-2") (lean := "CryptBoolean.ANFCoefficients, CryptBoolean.anfMonomial, CryptBoolean.anfEval, CryptBoolean.anfSupport, CryptBoolean.algebraicDegree, CryptBoolean.mem_anfSupport, CryptBoolean.anfMonomial_empty, CryptBoolean.anfEval_zero, CryptBoolean.anfEval_add, CryptBoolean.algebraicDegree_le_dimension") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, relation-1, pages-9-12, fidelity-exact-with-zero-convention")
+:::definition "carlet-2-anf-skeleton" (parent := "carlet-chapter-2") (lean := "FABL.ANFCoefficients, FABL.anfMonomial, FABL.anfEval, FABL.anfSupport, FABL.algebraicDegree, FABL.mem_anfSupport, FABL.anfMonomial_empty, FABL.anfEval_zero, FABL.anfEval_add, FABL.algebraicDegree_le_dimension") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, relation-1, pages-9-12, fidelity-exact-with-zero-convention")
 *Algebraic normal form (Carlet, Relation (1), p. 9).* Let $`[n]=\{1,\ldots,n\}`.
 For coefficients $`c=(c_S)_{S\subseteq[n]}` in $`\mathbb F_2`, set
 $$`

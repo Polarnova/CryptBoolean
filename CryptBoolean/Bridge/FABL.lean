@@ -5,7 +5,10 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import FABL
+public import FABL.Chapter01
+public import FABL.Chapter02
+public import FABL.Chapter03
+public import FABL.Chapter04
 
 /-!
 # FABL bridge

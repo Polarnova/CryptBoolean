@@ -14,7 +14,7 @@ open Informal
 
 #doc (Manual) "Derivatives and autocorrelation" =>
 
-:::definition "carlet-2-def-2-derivative" (parent := "carlet-chapter-2") (lean := "CryptBoolean.booleanDerivative, CryptBoolean.realSignView_booleanDerivative") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, definition-2, page-27, fidelity-exact")
+:::definition "carlet-2-def-2-derivative" (parent := "carlet-chapter-2") (lean := "FABL.booleanDerivative, CryptBoolean.realSignView_booleanDerivative") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, definition-2, page-27, fidelity-exact")
 *Definition 2 (Carlet, p. 27).* Let $`f:V_n\to\mathbb F_2` and $`b\in V_n`.
 The derivative of $`f` in direction $`b` is the Boolean function
 $$`

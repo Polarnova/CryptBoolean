@@ -14,7 +14,7 @@ open Informal
 
 #doc (Manual) "Algebraic degree, distance, and affine functions" =>
 
-:::definition "carlet-2-def-algebraic-degree" (parent := "carlet-chapter-2") (lean := "CryptBoolean.functionAlgebraicDegree, CryptBoolean.functionAlgebraicDegree_le_dimension, CryptBoolean.algebraicDegree_le_iff, CryptBoolean.anfCoeff_zero, CryptBoolean.algebraicDegree_zero, CryptBoolean.functionAlgebraicDegree_zero") (uses := "carlet-2-anf-existence-uniqueness") (tags := "carlet, chapter-2, algebraic-degree, page-12, fidelity-exact-with-zero-convention")
+:::definition "carlet-2-def-algebraic-degree" (parent := "carlet-chapter-2") (lean := "FABL.functionAlgebraicDegree, FABL.functionAlgebraicDegree_le_dimension, FABL.algebraicDegree_le_iff, FABL.anfCoeff_zero, FABL.algebraicDegree_zero, FABL.functionAlgebraicDegree_zero") (uses := "carlet-2-anf-existence-uniqueness") (tags := "carlet, chapter-2, algebraic-degree, page-12, fidelity-exact-with-zero-convention")
 *Algebraic degree (Carlet, p. 12).* Let
 $$`
 f(x)=\bigoplus_{S\subseteq[n]}c_{f,S}x^S
@@ -37,7 +37,7 @@ c_{f,S}\ne0\Longrightarrow |S|\le r
 `
 :::
 
-:::lemma_ "carlet-2-support-degree-addition" (parent := "carlet-chapter-2") (lean := "CryptBoolean.anfCoeff_add, CryptBoolean.algebraicDegree_add_le_max, CryptBoolean.functionAlgebraicDegree_add_le_max") (uses := "carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, support, reed-muller-prerequisite, fidelity-derived")
+:::lemma_ "carlet-2-support-degree-addition" (parent := "carlet-chapter-2") (lean := "FABL.anfCoeff_add, FABL.algebraicDegree_add_le_max, FABL.functionAlgebraicDegree_add_le_max") (uses := "carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, support, reed-muller-prerequisite, fidelity-derived")
 *Degree under addition.* For all Boolean functions $`f,g:V_n\to\mathbb F_2`,
 their ANF coefficients satisfy
 $$`
@@ -82,7 +82,7 @@ d_H(f,g)=2^n d_{\mathrm{rel}}(f,g).
 $`d_{\mathrm{rel}}` is [FABL](https://github.com/Polarnova/FABL)'s
 `relativeHammingDist`. Neither implementation choice is part of Carlet's definition.
 
-:::definition "carlet-2-def-affine-functions" (parent := "carlet-chapter-2") (lean := "CryptBoolean.affineFunction, CryptBoolean.affineCoefficients, CryptBoolean.anfEval_affineCoefficients, CryptBoolean.anfCoeff_affineFunction, CryptBoolean.functionAlgebraicDegree_affineFunction_le_one, CryptBoolean.exists_affineFunction_of_functionAlgebraicDegree_le_one") (uses := "carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, affine-functions, page-14, fidelity-exact")
+:::definition "carlet-2-def-affine-functions" (parent := "carlet-chapter-2") (lean := "FABL.affineFunction, FABL.affineCoefficients, FABL.anfEval_affineCoefficients, FABL.anfCoeff_affineFunction, FABL.functionAlgebraicDegree_affineFunction_le_one, FABL.exists_affineFunction_of_functionAlgebraicDegree_le_one") (uses := "carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, affine-functions, page-14, fidelity-exact")
 *Affine Boolean functions (Carlet, p. 14).* For $`a\in V_n` and
 $`b\in\mathbb F_2`, set
 $$`
@@ -105,7 +105,7 @@ $$`
 `
 :::
 
-:::theorem "carlet-2-affine-invariance" (parent := "carlet-chapter-2") (lean := "CryptBoolean.anfMonomial_mul, CryptBoolean.anfMul, CryptBoolean.anfEval_anfMul, CryptBoolean.algebraicDegree_anfMul_le_add, CryptBoolean.anfCoeff_mul, CryptBoolean.functionAlgebraicDegree_mul_le_add, CryptBoolean.functionAlgebraicDegree_one, CryptBoolean.functionAlgebraicDegree_finset_prod_le, CryptBoolean.functionAlgebraicDegree_finset_sum_le, CryptBoolean.functionAlgebraicDegree_affineMap_coordinate_le_one, CryptBoolean.functionAlgebraicDegree_anfMonomial_comp_affineMap_le_card, CryptBoolean.functionAlgebraicDegree_comp_affineMap_le, CryptBoolean.functionAlgebraicDegree_comp_affineEquiv") (uses := "carlet-2-def-algebraic-degree, carlet-2-def-affine-functions") (tags := "carlet, chapter-2, affine-invariance, page-12, fidelity-exact")
+:::theorem "carlet-2-affine-invariance" (parent := "carlet-chapter-2") (lean := "FABL.anfMonomial_mul, FABL.anfMul, FABL.anfEval_anfMul, FABL.algebraicDegree_anfMul_le_add, FABL.anfCoeff_mul, FABL.functionAlgebraicDegree_mul_le_add, FABL.functionAlgebraicDegree_one, FABL.functionAlgebraicDegree_finset_prod_le, FABL.functionAlgebraicDegree_finset_sum_le, FABL.functionAlgebraicDegree_affineMap_coordinate_le_one, FABL.functionAlgebraicDegree_anfMonomial_comp_affineMap_le_card, FABL.functionAlgebraicDegree_comp_affineMap_le, FABL.functionAlgebraicDegree_comp_affineEquiv") (uses := "carlet-2-def-algebraic-degree, carlet-2-def-affine-functions") (tags := "carlet, chapter-2, affine-invariance, page-12, fidelity-exact")
 *Affine invariance of algebraic degree (Carlet, p. 12).* Let
 $`L:V_n\to V_n` be an affine isomorphism, so that
 $`L(x)=Mx+t` for some $`M\in\operatorname{GL}_n(\mathbb F_2)` and $`t\in V_n`.

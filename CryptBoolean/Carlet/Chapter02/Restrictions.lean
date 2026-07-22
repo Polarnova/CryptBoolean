@@ -20,6 +20,8 @@ open scoped BigOperators BooleanCube
 
 namespace CryptBoolean
 
+open FABL
+
 variable {n : ℕ}
 
 /-- The coordinatewise support order on the binary cube. -/

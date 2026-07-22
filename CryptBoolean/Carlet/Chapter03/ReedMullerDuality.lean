@@ -21,6 +21,8 @@ open scoped BigOperators BooleanCube
 
 namespace CryptBoolean
 
+open FABL
+
 variable {n r : ℕ}
 
 /-- The standard binary pairing on scalar Boolean functions. -/
@@ -42,7 +44,7 @@ theorem booleanFunctionPairing_nondegenerate :
   intro g
   change dotProduct f g = dotProduct 0 g
   have hfg : dotProduct f g = 0 := by
-    simpa using hf g
+    simpa [dotProduct] using hf g
   simpa [dotProduct] using hfg
 
 /-- The orthogonal complement of `R(r,n)` under Carlet's binary pairing. -/

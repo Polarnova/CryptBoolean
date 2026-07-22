@@ -8,6 +8,8 @@ module
 public import CryptBoolean.Carlet.Chapter02.Restrictions
 public import CryptBoolean.Carlet.Chapter02.NumericalNormalForm
 public import CryptBoolean.Carlet.Chapter02.Subspaces
+public import FABL.Chapter06.F₂Polynomials.FourierToF₂Polynomial
+public import FABL.Chapter06.F₂Polynomials.SpectralDegree
 
 /-!
 # Carlet Chapter 2 Fourier-support bounds
@@ -22,6 +24,8 @@ open scoped BigOperators BooleanCube
 @[expose] public section
 
 namespace CryptBoolean
+
+open FABL
 
 variable {n : ℕ}
 
@@ -187,300 +191,19 @@ theorem card_rawFourierSupport_coordinateRestriction_le
     _ = #(rawFourierSupport φ) :=
       card_indexedRawFourierSupport_binaryFunctionOnSignCube φ
 
-/-- The `{0,1}`-valued real embedding of a bit-valued Boolean function. -/
-def booleanRealEmbedding (f : BooleanFunction n) : PseudoBooleanFunction n :=
-  fun x ↦ if f x = 1 then 1 else 0
-
-private def indexedF₂Support {ι : Type*} [Fintype ι]
-    (x : ι → FABL.𝔽₂) : Finset ι := by
-  classical
-  exact Finset.univ.filter fun i ↦ x i ≠ 0
-
-private noncomputable def indexedF₂CubeOfFinset {ι : Type*} [Fintype ι]
-    (S : Finset ι) : ι → FABL.𝔽₂ := by
-  classical
-  exact fun i ↦ if i ∈ S then 1 else 0
-
-private noncomputable def indexedF₂CubeEquivFinset (ι : Type*) [Fintype ι] :
-    (ι → FABL.𝔽₂) ≃ Finset ι := by
-  classical
-  exact
-    { toFun := indexedF₂Support
-      invFun := indexedF₂CubeOfFinset
-      left_inv := fun x ↦ by
-        funext i
-        by_cases hi : x i = 0
-        · simp [indexedF₂Support, indexedF₂CubeOfFinset, hi]
-        · have hi_one : x i = 1 := Fin.eq_one_of_ne_zero _ hi
-          simp [indexedF₂Support, indexedF₂CubeOfFinset, hi_one]
-      right_inv := fun S ↦ by
-        ext i
-        simp [indexedF₂Support, indexedF₂CubeOfFinset] }
-
-private noncomputable def indexedSignCubeEquivFinset (ι : Type*) [Fintype ι] :
-    FABL.IndexedSignCube ι ≃ Finset ι :=
-  (Equiv.piCongrRight fun _ ↦ FABL.binarySignEquiv).symm.trans
-    (indexedF₂CubeEquivFinset ι)
-
-private noncomputable def freeFrequencyPowersetEquiv (J : Finset (Fin n)) :
-    Finset J ≃ ↥J.powerset where
-  toFun S := ⟨FABL.liftFreeFrequency S, by
-    rw [Finset.mem_powerset]
-    intro i hi
-    obtain ⟨j, hj, hji⟩ := Finset.mem_map.mp hi
-    exact hji ▸ j.property⟩
-  invFun U := FABL.freeFrequencyPart J U.1
-  left_inv S := by
-    ext i
-    simp [FABL.freeFrequencyPart, FABL.liftFreeFrequency]
-  right_inv U := by
-    apply Subtype.ext
-    ext i
-    by_cases hi : i ∈ J
-    · let j : J := ⟨i, hi⟩
-      change i ∈ FABL.liftFreeFrequency (FABL.freeFrequencyPart J U.1) ↔ i ∈ U.1
-      constructor
-      · intro h
-        obtain ⟨k, hk, hki⟩ := Finset.mem_map.mp h
-        have hkj : k = j := Subtype.ext hki
-        subst k
-        exact (FABL.mem_freeFrequencyPart J U.1 j).mp hk
-      · intro h
-        apply Finset.mem_map.mpr
-        exact ⟨j, (FABL.mem_freeFrequencyPart J U.1 j).mpr h, rfl⟩
-    · have hiU : i ∉ U.1 := fun hiU ↦ hi (Finset.mem_powerset.mp U.2 hiU)
-      simp [FABL.liftFreeFrequency, hi, hiU]
-
-private def zeroFixedSign (J : Finset (Fin n)) : FABL.FixedSignCube J :=
-  fun _ ↦ 1
-
-private theorem binaryPointOfFreeSign_eq_f₂CubeOfFinset
-    (J : Finset (Fin n)) (y : FABL.FreeSignCube J) :
-    (FABL.binaryCubeSignEquiv n).symm
-        (FABL.combineSignCube J y (zeroFixedSign J)) =
-      FABL.f₂CubeOfFinset
-        (FABL.liftFreeFrequency (indexedSignCubeEquivFinset J y)) := by
-  funext i
-  by_cases hi : i ∈ J
-  · let j : J := ⟨i, hi⟩
-    have hcombine : FABL.combineSignCube J y (zeroFixedSign J) i = y j := by
-      simpa [j] using FABL.combineSignCube_apply_free J y (zeroFixedSign J) j
-    rw [show ((FABL.binaryCubeSignEquiv n).symm
-        (FABL.combineSignCube J y (zeroFixedSign J))) i =
-        FABL.binarySignEquiv.symm (FABL.combineSignCube J y (zeroFixedSign J) i) by rfl]
-    rw [hcombine, FABL.f₂CubeOfFinset_apply]
-    change FABL.binarySignEquiv.symm (y j) =
-      if i ∈ FABL.liftFreeFrequency (indexedSignCubeEquivFinset J y) then 1 else 0
-    have hmem :
-        i ∈ FABL.liftFreeFrequency (indexedSignCubeEquivFinset J y) ↔
-          FABL.binarySignEquiv.symm (y j) ≠ 0 := by
-      change i ∈ FABL.liftFreeFrequency
-          (indexedF₂Support ((Equiv.piCongrRight fun _ : J ↦ FABL.binarySignEquiv).symm y)) ↔ _
-      constructor
-      · intro h
-        obtain ⟨k, hk, hki⟩ := Finset.mem_map.mp h
-        have hkj : k = j := Subtype.ext hki
-        subst k
-        exact (Finset.mem_filter.mp hk).2
-      · intro h
-        apply Finset.mem_map.mpr
-        refine ⟨j, ?_, rfl⟩
-        exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, h⟩
-    by_cases hy : FABL.binarySignEquiv.symm (y j) = 0
-    · simp [hmem, hy]
-    · have hy_one : FABL.binarySignEquiv.symm (y j) = 1 :=
-        Fin.eq_one_of_ne_zero _ hy
-      simp [hmem, hy_one]
-  · let j : FABL.FixedIndex J := ⟨i, hi⟩
-    have hcombine : FABL.combineSignCube J y (zeroFixedSign J) i = 1 := by
-      simpa [j, zeroFixedSign] using
-        FABL.combineSignCube_apply_fixed J y (zeroFixedSign J) j
-    rw [show ((FABL.binaryCubeSignEquiv n).symm
-        (FABL.combineSignCube J y (zeroFixedSign J))) i =
-        FABL.binarySignEquiv.symm (FABL.combineSignCube J y (zeroFixedSign J) i) by rfl]
-    rw [hcombine, FABL.f₂CubeOfFinset_apply]
-    simp [FABL.binarySignEquiv, FABL.liftFreeFrequency, hi]
-
-private theorem sum_freeSignCube_boolean_eq_anfCoeff
-    (f : BooleanFunction n) (S : Finset (Fin n)) :
-    (∑ y : FABL.FreeSignCube S,
-        f ((FABL.binaryCubeSignEquiv n).symm
-          (FABL.combineSignCube S y (zeroFixedSign S)))) = anfCoeff f S := by
-  classical
-  calc
-    (∑ y : FABL.FreeSignCube S,
-        f ((FABL.binaryCubeSignEquiv n).symm
-          (FABL.combineSignCube S y (zeroFixedSign S)))) =
-        ∑ T : Finset S,
-          f (FABL.f₂CubeOfFinset (FABL.liftFreeFrequency T)) := by
-      apply Fintype.sum_equiv (indexedSignCubeEquivFinset S)
-      intro y
-      rw [binaryPointOfFreeSign_eq_f₂CubeOfFinset]
-    _ = ∑ U : ↥S.powerset, f (FABL.f₂CubeOfFinset U.1) := by
-      apply Fintype.sum_equiv (freeFrequencyPowersetEquiv S)
-      intro T
-      rfl
-    _ = ∑ U ∈ S.powerset, f (FABL.f₂CubeOfFinset U) := by
-      symm
-      exact Finset.sum_subtype S.powerset (fun U ↦ Iff.rfl)
-        (fun U ↦ f (FABL.f₂CubeOfFinset U))
-    _ = anfCoeff f S := rfl
-
-private def indexedMonomialInt {ι : Type*} (S : Finset ι)
-    (x : FABL.IndexedSignCube ι) : ℤ :=
-  ∏ i ∈ S, (x i : ℤ)
-
-private theorem indexedMonomialInt_cast
-    {ι : Type*} (S : Finset ι) (x : FABL.IndexedSignCube ι) :
-    (indexedMonomialInt S x : ℝ) = FABL.indexedMonomial S x := by
-  simp [indexedMonomialInt, FABL.indexedMonomial, FABL.signValue]
-
-private theorem indexedMonomialInt_cast_f₂_eq_one
-    {ι : Type*} (S : Finset ι) (x : FABL.IndexedSignCube ι) :
-    (indexedMonomialInt S x : FABL.𝔽₂) = 1 := by
-  rw [indexedMonomialInt, Int.cast_prod]
-  apply Finset.prod_eq_one
-  intro i hi
-  rcases Int.units_eq_one_or (x i) with h | h <;> simp [h]
-
-private theorem indexedRawFourierTransform_booleanRestriction_ne_zero
-    (f : BooleanFunction n) (S : Finset (Fin n))
-    (hcoeff : anfCoeff f S ≠ 0) (A : Finset S) :
-    indexedRawFourierTransform
-        (FABL.signRestriction
-          (FABL.binaryFunctionOnSignCube (booleanRealEmbedding f)) S (zeroFixedSign S)) A ≠ 0 := by
-  classical
-  let point : FABL.FreeSignCube S → FABL.F₂Cube n := fun y ↦
-    (FABL.binaryCubeSignEquiv n).symm
-      (FABL.combineSignCube S y (zeroFixedSign S))
-  let z : ℤ := ∑ y : FABL.FreeSignCube S,
-    if f (point y) = 1 then indexedMonomialInt A y else 0
-  have hrawCast :
-      indexedRawFourierTransform
-          (FABL.signRestriction
-            (FABL.binaryFunctionOnSignCube (booleanRealEmbedding f)) S (zeroFixedSign S)) A =
-        (z : ℝ) := by
-    rw [indexedRawFourierTransform]
-    change (∑ y, _ ) = ((∑ y : FABL.FreeSignCube S,
-      if f (point y) = 1 then indexedMonomialInt A y else 0 : ℤ) : ℝ)
-    rw [Int.cast_sum]
-    apply Finset.sum_congr rfl
-    intro y _
-    by_cases hy : f (point y) = 1
-    · rw [if_pos hy]
-      simp only [FABL.signRestriction, FABL.binaryFunctionOnSignCube,
-        booleanRealEmbedding, point, hy, if_pos, one_mul]
-      exact indexedMonomialInt_cast A y |>.symm
-    · rw [if_neg hy]
-      simp [FABL.signRestriction, FABL.binaryFunctionOnSignCube,
-        booleanRealEmbedding, point, hy]
-  intro hzero
-  have hzReal : (z : ℝ) = 0 := hrawCast ▸ hzero
-  have hz : z = 0 := by exact_mod_cast hzReal
-  have hzmod : (z : FABL.𝔽₂) = anfCoeff f S := by
-    change ((∑ y : FABL.FreeSignCube S,
-      if f (point y) = 1 then indexedMonomialInt A y else 0 : ℤ) : FABL.𝔽₂) = _
-    calc
-      ((∑ y : FABL.FreeSignCube S,
-          if f (point y) = 1 then indexedMonomialInt A y else 0 : ℤ) : FABL.𝔽₂) =
-          ∑ y : FABL.FreeSignCube S,
-          if f (point y) = 1 then 1 else 0 := by
-        rw [Int.cast_sum]
-        apply Finset.sum_congr rfl
-        intro y _
-        by_cases hy : f (point y) = 1
-        · simp [hy, indexedMonomialInt_cast_f₂_eq_one]
-        · simp [hy]
-      _ = ∑ y : FABL.FreeSignCube S, f (point y) := by
-        apply Finset.sum_congr rfl
-        intro y _
-        by_cases hy : f (point y) = 1
-        · simp [hy]
-        · have hy0 : f (point y) = 0 := by
-            by_contra h
-            exact hy (Fin.eq_one_of_ne_zero _ h)
-          simp [hy0]
-      _ = anfCoeff f S := sum_freeSignCube_boolean_eq_anfCoeff f S
-  have hzcast : (z : FABL.𝔽₂) = 0 := by rw [hz]; rfl
-  exact hcoeff (hzmod.symm.trans hzcast)
-
-private theorem card_indexedRawFourierSupport_booleanRestriction_eq_two_pow
-    (f : BooleanFunction n) (S : Finset (Fin n)) (hcoeff : anfCoeff f S ≠ 0) :
-    #(indexedRawFourierSupport
-        (FABL.signRestriction
-          (FABL.binaryFunctionOnSignCube (booleanRealEmbedding f)) S (zeroFixedSign S))) =
-      2 ^ S.card := by
-  classical
-  have hall (A : Finset S) :
-      indexedRawFourierTransform
-          (FABL.signRestriction
-            (FABL.binaryFunctionOnSignCube (booleanRealEmbedding f)) S (zeroFixedSign S)) A ≠ 0 :=
-    indexedRawFourierTransform_booleanRestriction_ne_zero f S hcoeff A
-  rw [indexedRawFourierSupport]
-  simp only [hall, ne_eq, not_false_eq_true, Finset.filter_true]
-  simp
-
-/-- Carlet's algebraic-degree lower bound: a nonzero Boolean function has at least
-`2^d` nonzero raw Fourier coefficients, where `d` is its algebraic degree. -/
+/-- Carlet's algebraic-degree lower bound, transported from FABL's canonical normalized
+spectral-sparsity theorem to the raw-transform support. -/
 theorem two_pow_functionAlgebraicDegree_le_card_rawFourierSupport_booleanRealEmbedding
     (f : BooleanFunction n) (hf : f ≠ 0) :
-    2 ^ functionAlgebraicDegree f ≤ #(rawFourierSupport (booleanRealEmbedding f)) := by
-  classical
-  have hexists : ∃ S : Finset (Fin n), anfCoeff f S ≠ 0 := by
-    by_contra h
-    push Not at h
-    apply hf
-    funext x
-    rw [← congrFun (anfEval_anfCoeff f) x]
-    simp [anfEval, h]
-  have hsupportNonempty : (anfSupport (anfCoeff f)).Nonempty := by
-    obtain ⟨S, hS⟩ := hexists
-    exact ⟨S, (mem_anfSupport (anfCoeff f) S).mpr hS⟩
-  obtain ⟨S, hSsupport, hdegree⟩ :=
-    Finset.exists_mem_eq_sup (anfSupport (anfCoeff f)) hsupportNonempty Finset.card
-  have hcoeff : anfCoeff f S ≠ 0 :=
-    (mem_anfSupport (anfCoeff f) S).mp hSsupport
-  have hfunctionDegree : functionAlgebraicDegree f = S.card := by
-    rw [functionAlgebraicDegree, algebraicDegree]
-    exact hdegree
+    2 ^ FABL.functionAlgebraicDegree f ≤
+      #(rawFourierSupport (FABL.booleanRealEmbedding f)) := by
   calc
-    2 ^ functionAlgebraicDegree f = 2 ^ S.card := by rw [hfunctionDegree]
-    _ = #(indexedRawFourierSupport
-        (FABL.signRestriction
-          (FABL.binaryFunctionOnSignCube (booleanRealEmbedding f)) S (zeroFixedSign S))) :=
-      (card_indexedRawFourierSupport_booleanRestriction_eq_two_pow f S hcoeff).symm
-    _ ≤ #(rawFourierSupport (booleanRealEmbedding f)) :=
-      card_rawFourierSupport_coordinateRestriction_le
-        (booleanRealEmbedding f) S (zeroFixedSign S)
-
-/-- The nonzero coefficient support of a numerical normal form. -/
-noncomputable def numericalSupport (c : NumericalCoefficients n) : Finset (Finset (Fin n)) :=
-  Finset.univ.filter fun S ↦ c S ≠ 0
-
-@[simp] theorem mem_numericalSupport (c : NumericalCoefficients n)
-    (S : Finset (Fin n)) :
-    S ∈ numericalSupport c ↔ c S ≠ 0 := by
-  classical
-  simp [numericalSupport]
-
-/-- The degree of a numerical normal form, with degree zero for the zero form. -/
-noncomputable def numericalDegree (c : NumericalCoefficients n) : ℕ :=
-  (numericalSupport c).sup Finset.card
-
-/-- Degree at most `D` is coefficientwise vanishing above `D`. -/
-theorem numericalDegree_le_iff (c : NumericalCoefficients n) (D : ℕ) :
-    numericalDegree c ≤ D ↔ ∀ S, c S ≠ 0 → S.card ≤ D := by
-  classical
-  rw [numericalDegree, Finset.sup_le_iff]
-  constructor
-  · intro h S hS
-    exact h S (by simpa using hS)
-  · intro h S hS
-    exact h S (by simpa using hS)
-
-/-- The numerical degree of a pseudo-Boolean function is the degree of its unique NNF. -/
-noncomputable def functionNumericalDegree (φ : PseudoBooleanFunction n) : ℕ :=
-  numericalDegree (numericalCoeff φ)
+    2 ^ FABL.functionAlgebraicDegree f ≤
+        FABL.spectralSparsity (FABL.booleanRealEmbedding f) :=
+      FABL.two_pow_functionAlgebraicDegree_le_spectralSparsity_booleanRealEmbedding f hf
+    _ = #(rawFourierSupport (FABL.booleanRealEmbedding f)) := by
+      rw [FABL.spectralSparsity_eq_card_vectorFourierSupport]
+      rfl
 
 /-- A numerical monomial is the indicator of the coordinate subcube on which its variables
 are all one. -/
