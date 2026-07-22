@@ -91,7 +91,10 @@ Stream-cipher, block-cipher, AES, and Boolean Cayley-graph results require their
 
 ## Dependency policy
 
-- FABL is imported from Git at revision `34334a1b0c8dd806c076444a0875caf29ba5e248`.
+- FABL is imported from the exact release tag `v0.5.6`; CI requires it to match FABL's latest stable
+  GitHub release and verifies the downloaded archive before compiling CryptBoolean.
+- The hourly FABL updater (and its release-dispatch entry point) changes the exact pin through a
+  pull request, resolves both manifests, and merges only after the complete cloud CI succeeds.
 - Search pinned FABL and Mathlib before adding a local type, definition, theorem, or proof helper.
 - Local declarations must express cryptographic concepts, representation bridges, or proof lemmas
   used by a production theorem.
@@ -154,6 +157,7 @@ Run dependency setup after the first clone or an intentional toolchain change:
 ```bash
 lake update
 lake exe cache get
+./.github/scripts/require_latest_fabl_release.sh
 cd blueprint-verso
 lake update
 lake exe cache get
@@ -176,6 +180,11 @@ them in the validated manifest. `site.sh build dev` and `site.sh serve dev` reta
 formalization review. The site build compiles the Verso sources, validates declaration presence and
 proof status, checks the dependency graph, and validates the manifest counts. Pushes to `main` run
 these gates before the checked Blueprint artifact is deployed automatically to GitHub Pages.
+
+The Blueprint package shares the root `.lake/packages` directory and checks the completed
+CryptBoolean build with `lake --no-build`; it never recompiles the production library. Full root,
+Blueprint, and publication builds run in GitHub Actions. Resource-constrained local work should use
+the FABL release archive and the narrowest relevant CryptBoolean module build.
 
 ## Version-control boundaries
 

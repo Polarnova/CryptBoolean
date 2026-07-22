@@ -2,10 +2,11 @@ import Lake
 
 open Lake DSL
 
-require VersoBlueprint from git "https://github.com/leanprover/verso-blueprint" @ "v4.30.0"
+require VersoBlueprint from git "https://github.com/leanprover/verso-blueprint" @ "v4.32.0"
 require CryptBoolean from ".."
 
 package CryptBooleanBlueprint where
+  packagesDir := "../.lake/packages"
   precompileModules := false
   leanOptions := #[⟨`experimental.module, true⟩]
 

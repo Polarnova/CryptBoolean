@@ -38,13 +38,21 @@ native proof shortcuts.
 
 ## Using CryptBoolean
 
-The repository pins Lean, Mathlib, and FABL. After cloning, obtain the precompiled Mathlib cache and
-build the verified library:
+The repository pins Lean and Mathlib `v4.32.0` and the latest stable FABL release, currently
+`v0.5.6`. After cloning, fetch and verify the precompiled dependencies, then build CryptBoolean:
 
 ```bash
 lake exe cache get
+./.github/scripts/require_latest_fabl_release.sh
 lake build CryptBoolean
 ```
+
+The release check downloads FABL and ProbabilityApproximation archives on Linux x86-64 and macOS
+arm64 and fails instead of compiling their source when a matching verified asset is unavailable.
+An hourly workflow, also callable by a FABL release dispatch, opens an exact-pin upgrade pull
+request whenever FABL publishes a newer stable release. It updates the Lean toolchain and both Lake
+manifests, runs the complete CryptBoolean and Blueprint build in GitHub Actions, and merges only a
+green dependency update.
 
 The root module imports every verified production module:
 
@@ -59,7 +67,8 @@ under `CryptBoolean/Bridge`.
 
 The Verso Blueprint presents source-facing statements beside their Lean declarations and records
 the reviewed dependency graph. Statement blocks contain only mathematics; implementation and
-normalization notes are rendered separately. Build and serve it locally with:
+normalization notes are rendered separately. GitHub Actions performs the full publication build.
+For a local preview after the root library is current:
 
 ```bash
 cd blueprint-verso

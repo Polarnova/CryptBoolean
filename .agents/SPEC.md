@@ -193,8 +193,8 @@ These are bridges between domains, not duplicate proof stacks.
 
 ## FABL dependency policy
 
-The Lean package pins FABL at revision `34334a1b0c8dd806c076444a0875caf29ba5e248`. Repository
-documentation and CI use the Git dependency, never a developer's local absolute path.
+The Lean package pins FABL at release `v0.5.6`. Repository documentation and CI use the Git
+dependency and its verified Lake release archive, never a developer's local absolute path.
 
 Before adding a declaration, contributors search the pinned FABL public surface and pinned Mathlib.
 A stronger existing theorem is specialized or bridged. A new local declaration is permitted only
