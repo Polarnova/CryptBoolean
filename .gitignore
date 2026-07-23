@@ -11,4 +11,3 @@ cryptographic_boolean_functions_and_applications/
 *.olean
 *.ilean
 *.trace
-CryptBoolean/Carlet/Chapter04/HigherOrderOrderTwoWeightSixteen/NormalizedCandidates.lean

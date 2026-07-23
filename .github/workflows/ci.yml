@@ -19,6 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Verify normalized weight-sixteen candidates
+        if: runner.os == 'Linux'
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout --signal=TERM --kill-after=10s 90s \
+            python3 scripts/generate_normalized_weight_sixteen_candidates.py \
+              --check CryptBoolean/Carlet/Chapter04/HigherOrderOrderTwoWeightSixteen/NormalizedCandidates.lean \
+              --timeout-seconds 60 \
+            2>&1 | tail -c 8192
       - name: Set up Lean and restore Mathlib cache
         uses: leanprover/lean-action@v1
         with:

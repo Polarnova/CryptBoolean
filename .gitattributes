@@ -1,0 +1,2 @@
+scripts/generate_normalized_weight_sixteen_candidates.py text eol=lf
+CryptBoolean/Carlet/Chapter04/HigherOrderOrderTwoWeightSixteen/NormalizedCandidates.lean text eol=lf

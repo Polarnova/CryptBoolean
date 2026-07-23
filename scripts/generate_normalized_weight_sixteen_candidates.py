@@ -38,6 +38,7 @@ Authors: Asher Yan with Codex
 module
 
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.RankSevenPatterns
+import Lean.Elab.Command
 
 /-!
 # Generated normalized weight-sixteen candidates
@@ -51,6 +52,8 @@ that each kernel-checked finite classification problem remains small.
 @[expose] public section
 
 namespace CryptBoolean
+
+open Lean Elab Command
 
 /-- One normalized-pattern certificate.  The affine code stores the source origin
 in its low seven bits, followed by the seven rows of the normalizing linear map. -/
@@ -84,6 +87,130 @@ inductive Member (candidate : NormalizedWeightSixteenCandidate) :
   | right {left right} : Member candidate right → Member candidate (.node left right)
 
 end NormalizedWeightSixteenCandidateTree
+
+declare_syntax_cat normalizedWeightSixteenCandidateRow
+local syntax (name := normalizedWeightSixteenCandidateRowSyntax)
+  ident num num num num : normalizedWeightSixteenCandidateRow
+
+declare_syntax_cat normalizedWeightSixteenCandidateBucket
+local syntax (name := normalizedWeightSixteenCandidateBucketSyntax)
+  "bucket" ident num normalizedWeightSixteenCandidateRow* :
+    normalizedWeightSixteenCandidateBucket
+
+local syntax (name := normalizedWeightSixteenCandidatesCommand)
+  "normalized_weight_sixteen_candidates" normalizedWeightSixteenCandidateBucket*
+    "end_normalized_weight_sixteen_candidates" : command
+
+private meta def normalizedWeightSixteenCandidateTerm
+    (row : TSyntax `normalizedWeightSixteenCandidateRow) :
+    CommandElabM (TSyntax `term) := do
+  match row with
+  | `(normalizedWeightSixteenCandidateRowSyntax|
+        $patternClass:ident $affineCode:num $maskLow:num $maskHigh:num
+        $systematicCode:num) =>
+      let patternClassName :=
+        `CryptBoolean.RankSevenWeightSixteenPatternClass ++ patternClass.getId
+      `(term|
+        { patternClass := $(mkIdent patternClassName):ident
+          affineCode := BitVec.ofNat 56 $affineCode
+          maskLow := BitVec.ofNat 64 $maskLow
+          maskHigh := BitVec.ofNat 64 $maskHigh
+          systematicCode := BitVec.ofNat 64 $systematicCode })
+  | _ => throwUnsupportedSyntax
+
+private meta def normalizedWeightSixteenCandidateTreeTerm
+    (rows : Array (TSyntax `term)) : CommandElabM (TSyntax `term) := do
+  let rec loop (fuel : Nat) (current : Array (TSyntax `term)) :
+      CommandElabM (TSyntax `term) := do
+    if current.isEmpty then
+      throwError "a normalized candidate bucket must be nonempty"
+    else if current.size = 1 then
+      `(term| NormalizedWeightSixteenCandidateTree.leaf $(current[0]!))
+    else
+      match fuel with
+      | 0 => throwError "candidate-tree elaboration exhausted its structural bound"
+      | fuel + 1 =>
+          let midpoint := current.size / 2
+          let left ← loop fuel (current.extract 0 midpoint)
+          let right ← loop fuel (current.extract midpoint current.size)
+          `(term| NormalizedWeightSixteenCandidateTree.node $left $right)
+  loop rows.size rows
+
+private structure NormalizedWeightSixteenBucketData where
+  codePrefix : TSyntax `num
+  codePrefixValue : Nat
+  declarationName : TSyntax `ident
+
+private meta def elaborateNormalizedWeightSixteenCandidateBucket
+    (bucketSyntax : TSyntax `normalizedWeightSixteenCandidateBucket) :
+    CommandElabM NormalizedWeightSixteenBucketData := do
+  match bucketSyntax with
+  | `(normalizedWeightSixteenCandidateBucketSyntax|
+        bucket $label:ident $codePrefixSyntax:num
+        $rows:normalizedWeightSixteenCandidateRow*) =>
+      let suffix := label.getId.toString.drop 1
+      let declarationName := mkIdent <|
+        Name.mkSimple s!"normalizedWeightSixteenCandidateBucket_{suffix}"
+      let candidates ← rows.mapM normalizedWeightSixteenCandidateTerm
+      let tree ← normalizedWeightSixteenCandidateTreeTerm candidates
+      elabCommand <| ← `(command|
+        def $declarationName : NormalizedWeightSixteenCandidateTree := $tree)
+      pure ⟨codePrefixSyntax, codePrefixSyntax.getNat, declarationName⟩
+  | _ => throwUnsupportedSyntax
+
+private meta def validateNormalizedWeightSixteenBucketOrder
+    (buckets : Array NormalizedWeightSixteenBucketData) : CommandElabM Unit := do
+  let rec loop (previous : Option Nat) :
+      List NormalizedWeightSixteenBucketData → CommandElabM Unit
+    | [] => pure ()
+    | bucketData :: rest => do
+        if let some previousPrefix := previous then
+          unless previousPrefix < bucketData.codePrefixValue do
+            throwErrorAt bucketData.codePrefix
+              "candidate bucket prefixes must be strictly increasing"
+        loop (some bucketData.codePrefixValue) rest
+  loop none buckets.toList
+
+private meta def normalizedWeightSixteenCandidateDispatcherTerm
+    (buckets : Array NormalizedWeightSixteenBucketData) :
+    CommandElabM (TSyntax `term) := do
+  let rec loop (fuel : Nat) (current : Array NormalizedWeightSixteenBucketData) :
+      CommandElabM (TSyntax `term) := do
+    if current.isEmpty then
+      `(term| none)
+    else
+      match fuel with
+      | 0 => throwError "candidate-dispatch elaboration exhausted its structural bound"
+      | fuel + 1 =>
+          let midpoint := current.size / 2
+          let some bucketData := current[midpoint]?
+            | throwError "candidate-dispatch midpoint is out of bounds"
+          let left ← loop fuel (current.extract 0 midpoint)
+          let right ← loop fuel (current.extract (midpoint + 1) current.size)
+          `(term|
+            if codePrefix.toNat < $(bucketData.codePrefix) then
+              $left
+            else if codePrefix.toNat = $(bucketData.codePrefix) then
+              some $(bucketData.declarationName)
+            else
+              $right)
+  loop buckets.size buckets
+
+local elab_rules : command
+  | `(command| normalized_weight_sixteen_candidates
+        $buckets:normalizedWeightSixteenCandidateBucket*
+        end_normalized_weight_sixteen_candidates) => do
+      let bucketData ←
+        buckets.mapM elaborateNormalizedWeightSixteenCandidateBucket
+      validateNormalizedWeightSixteenBucketOrder bucketData
+      let dispatcher ←
+        normalizedWeightSixteenCandidateDispatcherTerm bucketData
+      let dispatcherName := mkIdent <|
+        Name.mkSimple "normalizedWeightSixteenCandidateBucket"
+      elabCommand <| ← `(command|
+        def $dispatcherName (codePrefix : BitVec 16) :
+            Option NormalizedWeightSixteenCandidateTree :=
+          $dispatcher)
 
 """
 
@@ -288,64 +415,27 @@ def validate_candidates(candidates: Sequence[Candidate]) -> tuple[str, dict[int,
     return digest, buckets
 
 
-def render_candidate_tree(
-    candidates: Sequence[Candidate],
-    indent: int,
-    lines: list[str],
-    deadline: Deadline,
-) -> None:
-    deadline.check("Lean candidate tree rendering")
-    spaces = " " * indent
-    if len(candidates) == 1:
-        candidate = candidates[0]
-        lines.extend(
-            (
-                f"{spaces}(.leaf",
-                f"{spaces}  {{ patternClass := .{candidate.pattern_class}",
-                f"{spaces}    affineCode := BitVec.ofNat 56 {candidate.affine_code}",
-                f"{spaces}    maskLow := BitVec.ofNat 64 {candidate.mask_low}",
-                f"{spaces}    maskHigh := BitVec.ofNat 64 {candidate.mask_high}",
-                f"{spaces}    systematicCode := BitVec.ofNat 64 {candidate.systematic_code} }})",
-            )
-        )
-        return
-    midpoint = len(candidates) // 2
-    lines.append(f"{spaces}(.node")
-    render_candidate_tree(candidates[:midpoint], indent + 2, lines, deadline)
-    render_candidate_tree(candidates[midpoint:], indent + 2, lines, deadline)
-    lines.append(f"{spaces})")
-
-
 def render_lean(
     buckets: dict[int, list[Candidate]], deadline: Deadline
 ) -> bytes:
-    lines = [LEAN_PREAMBLE.rstrip("\n")]
+    lines = [LEAN_PREAMBLE.rstrip("\n"), "normalized_weight_sixteen_candidates"]
     for prefix in sorted(buckets):
         deadline.check("Lean bucket rendering")
-        suffix = f"{prefix:04x}"
-        lines.extend(
-            (
-                "",
-                f"/-- Generated candidate shard for systematic prefix 0x{suffix}. -/",
-                f"def normalizedWeightSixteenCandidateBucket_{suffix} :",
-                "    NormalizedWeightSixteenCandidateTree :=",
+        lines.append(f"bucket b{prefix:04x} {prefix}")
+        for candidate in buckets[prefix]:
+            lines.append(
+                "  "
+                f"{candidate.pattern_class} {candidate.affine_code} "
+                f"{candidate.mask_low} {candidate.mask_high} "
+                f"{candidate.systematic_code}"
             )
-        )
-        render_candidate_tree(buckets[prefix], 2, lines, deadline)
     lines.extend(
         (
+            "end_normalized_weight_sixteen_candidates",
             "",
-            "/-- Select the generated candidate shard determined by the first two sorted columns. -/",
-            "def normalizedWeightSixteenCandidateBucket (codePrefix : BitVec 16) :",
-            "    Option NormalizedWeightSixteenCandidateTree :=",
-            "  match codePrefix.toNat with",
+            "end CryptBoolean",
         )
     )
-    for prefix in sorted(buckets):
-        lines.append(
-            f"  | {prefix} => some normalizedWeightSixteenCandidateBucket_{prefix:04x}"
-        )
-    lines.extend(("  | _ => none", "", "end CryptBoolean"))
     return ("\n".join(lines) + "\n").encode("utf-8")
 
 
@@ -359,7 +449,8 @@ def atomic_write(path: Path, content: bytes, deadline: Deadline) -> None:
     )
     temporary_path = Path(temporary_name)
     try:
-        os.fchmod(descriptor, 0o644)
+        if hasattr(os, "fchmod"):
+            os.fchmod(descriptor, 0o644)
         with os.fdopen(descriptor, "wb") as output:
             output.write(content)
             output.flush()
@@ -401,7 +492,9 @@ def run(argv: Sequence[str]) -> int:
     if arguments.check is not None:
         deadline.check("Lean output check")
         actual = arguments.check.read_bytes()
-        if actual != lean:
+        actual_canonical = actual.replace(b"\r\n", b"\n")
+        deadline.check("Lean output check")
+        if actual_canonical != lean:
             actual_digest = hashlib.sha256(actual).hexdigest()
             expected_digest = hashlib.sha256(lean).hexdigest()
             raise GenerationError(
