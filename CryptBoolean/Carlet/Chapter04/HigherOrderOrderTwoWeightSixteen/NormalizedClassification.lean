@@ -5,8 +5,8 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenNormalizedClassifier
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenNormalizedCandidateDecode
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.NormalizedClassifier
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.CandidateDecode
 public meta import Std.Tactic.BVDecide.Reflect
 
 /-!

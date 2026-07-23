@@ -5,7 +5,7 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenRankSevenPatterns
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.RankSevenPatterns
 
 /-!
 # Disjointness of the rank-seven weight-sixteen pattern orbits

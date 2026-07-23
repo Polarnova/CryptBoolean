@@ -5,7 +5,7 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenNormalizedClassification
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.NormalizedClassification
 public import Mathlib.Data.Finset.Sort
 
 /-!

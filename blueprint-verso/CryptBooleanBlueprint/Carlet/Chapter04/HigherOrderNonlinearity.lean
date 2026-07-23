@@ -18,7 +18,7 @@ import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoLowWeightSpectrum
 import CryptBoolean.Carlet.Chapter04.HigherOrderTupleCountDifferences
 import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoMomentDifference
 import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoAsymptotics
-import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenOrbitAggregation
+import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.OrbitAggregation
 import CryptBoolean.Carlet.Chapter03.ReedMullerWeightSixteenSelfDual
 
 open Verso.Genre

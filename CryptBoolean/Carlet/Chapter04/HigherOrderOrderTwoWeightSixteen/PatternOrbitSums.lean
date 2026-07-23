@@ -5,8 +5,8 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenRankSevenPatterns
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenOrbitSums
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.RankSevenPatterns
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.OrbitSums
 
 /-!
 # Canonical rank-seven pattern orbit sums

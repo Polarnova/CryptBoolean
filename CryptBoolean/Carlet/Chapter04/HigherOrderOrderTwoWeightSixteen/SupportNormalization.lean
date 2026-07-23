@@ -7,7 +7,7 @@ module
 
 public import CryptBoolean.Carlet.Chapter03.ReedMullerWeightSixteenSelfDual
 public import CryptBoolean.Carlet.Chapter04.AlgebraicImmunityBounds
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenSystematicEncoding
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.SystematicEncoding
 
 /-!
 # Normalize full-span weight-sixteen supports

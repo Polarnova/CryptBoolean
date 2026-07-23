@@ -5,8 +5,8 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenOrbitAggregation
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenOrbitDisjointness
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.OrbitAggregation
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.OrbitDisjointness
 
 /-!
 # Pairwise disjointness of the rank-seven weight-sixteen word orbits

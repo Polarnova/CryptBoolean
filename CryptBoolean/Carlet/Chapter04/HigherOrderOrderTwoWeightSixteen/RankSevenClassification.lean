@@ -5,9 +5,9 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenCandidateSoundnessCertificates
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenCharacterBound
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenSupportNormalization
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.CandidateCertificates
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.CharacterBound
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.SupportNormalization
 public import CryptBoolean.Carlet.Chapter04.HigherOrderSharpAsymptotics
 
 /-!

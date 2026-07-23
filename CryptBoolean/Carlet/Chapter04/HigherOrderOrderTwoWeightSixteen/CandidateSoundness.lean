@@ -5,7 +5,7 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenSystematicEncoding
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.SystematicEncoding
 
 /-!
 # Semantic soundness of generated normalized candidates

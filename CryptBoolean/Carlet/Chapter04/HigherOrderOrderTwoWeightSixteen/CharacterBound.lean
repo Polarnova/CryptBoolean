@@ -5,7 +5,7 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenOrbitPairwiseDisjoint
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.OrbitPairwiseDisjoint
 
 /-!
 # Weight-sixteen character bound from a rank-seven classifier

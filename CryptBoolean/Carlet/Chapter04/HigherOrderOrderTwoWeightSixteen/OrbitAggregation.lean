@@ -5,8 +5,8 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenPatternOrbitSums
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenOrbitSoundness
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.PatternOrbitSums
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.OrbitSoundness
 public import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 
 /-!

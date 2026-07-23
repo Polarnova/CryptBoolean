@@ -5,7 +5,7 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenAffineMaps
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.AffineMaps
 public import CryptBoolean.Carlet.Chapter02.FourierOperations
 
 /-!

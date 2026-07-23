@@ -9,7 +9,7 @@ public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoAsymptotics
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoLowWeightSpectrum
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightEight
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightFourteen
-public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.Basic
 public import CryptBoolean.Carlet.Chapter04.HigherOrderTupleCountDifferences
 
 /-!
