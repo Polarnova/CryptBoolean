@@ -15,7 +15,7 @@ if ! output="$($lake_cmd env lean .github/scripts/audit_axioms.lean 2>&1)"; then
   exit 1
 fi
 printf '%s\n' "$output"
-if printf '%s\n' "$output" | rg -q 'sorryAx'; then
+if [[ "$output" == *sorryAx* ]]; then
   echo "sorryAx found in public declarations" >&2
   exit 1
 fi

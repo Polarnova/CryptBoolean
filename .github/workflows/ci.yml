@@ -46,9 +46,10 @@ jobs:
         uses: actions/cache@v6
         with:
           path: .lake/build
-          key: cryptboolean-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          key: cryptboolean-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.lean', 'CryptBoolean.lean', 'CryptBoolean/**/*.lean') }}
           restore-keys: |
-            cryptboolean-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            cryptboolean-${{ runner.os }}-${{ runner.arch }}-
+          save-always: true
       - name: Build CryptBoolean
         run: lake build CryptBoolean
       - name: Forbidden token audit
@@ -80,9 +81,10 @@ jobs:
         uses: actions/cache@v6
         with:
           path: blueprint-verso/.lake/build
-          key: blueprint-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('blueprint-verso/lean-toolchain', 'blueprint-verso/lake-manifest.json', 'lake-manifest.json') }}-${{ github.sha }}
+          key: blueprint-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('blueprint-verso/lean-toolchain', 'blueprint-verso/lake-manifest.json', 'blueprint-verso/lakefile.lean', 'lake-manifest.json', 'blueprint-verso/CryptBooleanBlueprint/**/*.lean', 'blueprint-verso/CryptBooleanBlueprintMain.lean') }}
           restore-keys: |
-            blueprint-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('blueprint-verso/lean-toolchain', 'blueprint-verso/lake-manifest.json', 'lake-manifest.json') }}-
+            blueprint-build-${{ runner.os }}-${{ runner.arch }}-
+          save-always: true
       - name: Build and validate Verso Blueprint
         working-directory: blueprint-verso
         run: ./scripts/site.sh build release

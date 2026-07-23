@@ -96,7 +96,7 @@ coordinate slices and then evaluates the two finite geometric sums exactly.
 Thus the cited sharp constant reduces to the order-two covering-radius
 theorem.
 
-# Proof architecture of the sharp upper bound
+*Proof architecture of the sharp upper bound.*
 
 The argument below is organized as a chain of mathematical interfaces rather
 than as one monolithic calculation. First, the correlation-moment ratio turns
