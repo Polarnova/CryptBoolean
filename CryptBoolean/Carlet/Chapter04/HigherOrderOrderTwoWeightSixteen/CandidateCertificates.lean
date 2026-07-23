@@ -39,24 +39,51 @@ local macro_rules
       let proofName := Lean.mkIdent <| tree.getId.appendAfter "_compact"
       let declaration ←
         `(command| compact_mask_soundness $proofName for $tree)
-      let branch ← `(tactic|
-        (
-          have hprefix :
-              code.extractLsb' 0 16 =
-                BitVec.ofNat 16 $bucketPrefix := by
-            simpa only [beq_iff_eq] using hprefixes
-          unfold normalizedWeightSixteenCandidateBucket at hbucket
-          rw [hprefix] at hbucket
-          cases hbucket
-          exact ⟨candidate, hcode,
-            NormalizedWeightSixteenCandidateTree.All.of_member
-              $proofName hmember⟩
-        ))
-      pure (declaration, branch)
+      pure (declaration, proofName)
     let declarations := generated.map Prod.fst
-    let branches := generated.map Prod.snd
-    let focusedBranches ← branches.mapM fun branch =>
-      `(tactic| focus $branch:tactic)
+    let proofNames := generated.map Prod.snd
+    let rec dispatcherProof
+        (fuel : Nat) (current : Array (Lean.TSyntax `ident)) :
+        Lean.MacroM (Lean.TSyntax `tactic) := do
+      if current.isEmpty then
+        `(tactic| cases hbucket)
+      else
+        match fuel with
+        | 0 =>
+            Lean.Macro.throwError
+              "certificate dispatch exhausted its structural bound"
+        | fuel + 1 =>
+            let midpoint := current.size / 2
+            let some proofName := current[midpoint]?
+              | Lean.Macro.throwError
+                  "certificate dispatch midpoint is out of bounds"
+            let left ← dispatcherProof fuel (current.extract 0 midpoint)
+            let right ←
+              dispatcherProof fuel
+                (current.extract (midpoint + 1) current.size)
+            `(tactic| (
+              split at hbucket
+              · $left:tactic
+              · split at hbucket
+                · cases hbucket
+                  exact $proofName
+                · $right:tactic))
+    let dispatch ← dispatcherProof proofNames.size proofNames
+    let bucketSoundnessName :=
+      Lean.mkIdent <| soundnessName.getId.appendAfter "_of_bucket"
+    let bucketSoundness ← `(command|
+      set_option Elab.async true in
+      /-- A generated bucket carries the compact-mask certificate associated
+      with every one of its candidate leaves. -/
+      private theorem $bucketSoundnessName
+          {codePrefix : BitVec 16}
+          {tree : NormalizedWeightSixteenCandidateTree}
+          (hbucket :
+            normalizedWeightSixteenCandidateBucket codePrefix = some tree) :
+          tree.All
+            NormalizedWeightSixteenCandidate.IsCompactMaskSound := by
+        unfold normalizedWeightSixteenCandidateBucket at hbucket
+        $dispatch:tactic)
     let soundness ← `(command|
       set_option Elab.async true in
       set_option linter.style.maxHeartbeats false in
@@ -69,15 +96,12 @@ local macro_rules
         obtain ⟨tree, candidate, hbucket, hmember, hcode⟩ :=
           exists_normalizedWeightSixteenCandidate_of_constraints
             code hconstraints
-        have hprefixes :=
-          systematicWeightSixteen_prefix_allowed code hconstraints
-        unfold IsSystematicWeightSixteenPrefixAllowed at hprefixes
-        simp only [Bool.or_eq_true] at hprefixes
-        repeat' (apply Or.elim hprefixes <;> intro hprefixes)
-        $focusedBranches:tactic*)
+        exact ⟨candidate, hcode,
+          NormalizedWeightSixteenCandidateTree.All.of_member
+            ($bucketSoundnessName hbucket) hmember⟩)
     return Lean.mkNullNode <|
       declarations.map (·.raw) ++
-        #[soundness.raw]
+        #[bucketSoundness.raw, soundness.raw]
 
 normalized_weight_sixteen_certificates
   normalizedWeightSixteenCompactCandidateSoundness where

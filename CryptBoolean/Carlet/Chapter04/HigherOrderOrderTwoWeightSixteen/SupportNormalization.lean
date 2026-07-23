@@ -152,8 +152,17 @@ def bitVecEightAndParity (x y : BitVec 8) : Bool :=
 theorem bitVecEight_cpop_and_lsb_zero
     (x y : BitVec 8) :
     (x &&& y).cpop.getLsbD 0 = bitVecEightAndParity x y := by
+  have bodd_toNat (b : Bool) : Nat.bodd b.toNat = b := by
+    cases b <;> rfl
+  unfold BitVec.cpop
+  rw [BitVec.getLsbD_ofNat]
+  change Nat.bodd ((x &&& y).cpopNatRec 8 0) = bitVecEightAndParity x y
   unfold bitVecEightAndParity
-  bv_decide
+  simp only [BitVec.cpopNatRec, Nat.zero_add, Nat.bodd_add, bodd_toNat,
+    BitVec.getLsbD_and]
+  letI : Std.Associative Bool.xor := ⟨Bool.xor_assoc⟩
+  letI : Std.Commutative Bool.xor := ⟨Bool.xor_comm⟩
+  ac_rfl
 
 theorem bitVecEight_cpop_and_odd_iff_dotProduct_one
     (x y : BitVec 8) :

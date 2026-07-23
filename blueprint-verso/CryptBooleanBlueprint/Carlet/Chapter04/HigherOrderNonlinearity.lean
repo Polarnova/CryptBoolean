@@ -322,9 +322,15 @@ dimension seven; the three affine orbits are pairwise disjoint.
 
 Formalization note. Choosing a support point and a basis of genuine support
 differences gives an affine embedding of a normalized sixteen-point set in
-$`V_7`. The quadratic dual-code constraints become systematic parity
-conditions on that set. Their three solutions, transported back by affine
-composition, agree with the complete classification in
+$`V_7`. In these coordinates the quadratic dual-code constraints become
+systematic parity conditions on the residual columns, each an odd, non-unit
+vector of $`\mathbb F_2^8`. A finite completion lemma exhausts every strictly
+increasing, pairwise-orthogonal column system meeting these conditions; each
+such completion decodes to an explicit affine certificate that exhibits its
+support as an injective affine image of exactly one of the three canonical
+patterns $`2E_8`, $`D_{16}^{+}`, and $`F_{16}`, and pairwise orbit
+disjointness makes that pattern unique. The resulting three-orbit
+classification agrees with the enumeration of
 {Citations.citet mesnagerOblaukhov2022}[] and with the self-dual code types in
 {Citations.citet pless1972, rainsSloane1998}[].
 
