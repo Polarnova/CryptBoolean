@@ -423,9 +423,9 @@ def HasNormalizedWeightSixteenCompactCandidateSoundness : Prop :=
       ∃ candidate : NormalizedWeightSixteenCandidate,
         candidate.systematicCode = code ∧ candidate.IsCompactMaskSound
 
+set_option linter.style.maxHeartbeats false in
 /-- Declare a kernel-reduced compact-mask certificate for one generated
 candidate tree while keeping each certificate as an independent declaration. -/
-set_option linter.style.maxHeartbeats false in
 macro "compact_mask_soundness " theoremName:ident " for " tree:term : command =>
   `(command|
     set_option Elab.async true in
