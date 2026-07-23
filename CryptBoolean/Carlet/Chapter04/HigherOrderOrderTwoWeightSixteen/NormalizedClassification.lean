@@ -188,48 +188,84 @@ local macro_rules
           `(Parser.Tactic.simpLemma| $proofName:term)
         let declaration ← `(command|
           set_option Elab.async true in
-          set_option linter.style.maxHeartbeats false in
           set_option maxRecDepth 1000000 in
           set_option maxHeartbeats 20000000 in
+          -- Each finite first-column shard requires exhaustive kernel reduction.
           private theorem $proofName :
               systematicWeightSixteenFirstShardCoverage $valueTerm = true := by
             rfl)
         pure (valueTerm, proofLemma, declaration)
-      let valueTerms := generated.map fun item => item.1
-      let proofLemmas := generated.map fun item => item.2.1
       let declarations := generated.map fun item => item.2.2
+      let groups ← generated.toList.toChunks 8 |>.toArray.mapIdxM
+          fun index group => do
+        let groupArray := group.toArray
+        let valueTerms := groupArray.map fun item => item.1
+        let proofLemmas := groupArray.map fun item => item.2.1
+        let proofName := Lean.mkIdent <|
+          Name.mkSimple s!"systematicWeightSixteenFirstShardGroup_{index}"
+        let groupTerm ← `(term| [$[$valueTerms],*])
+        let declaration ← `(command|
+          private theorem $proofName :
+              ($groupTerm).all
+                systematicWeightSixteenFirstShardCoverage = true := by
+            simp only [List.all_cons, $proofLemmas,*, List.all_nil,
+              Bool.true_and])
+        pure (groupTerm, proofName, declaration)
+      let groupTerms := groups.map fun item => item.1
+      let groupDeclarations := groups.map fun item => item.2.2
+      let groupRewriteTactics ← groups.mapM fun item =>
+        let proofName := item.2.1
+        `(tactic| rw [List.all_cons, $proofName:term, Bool.true_and])
+      let groupRewriteSequence ←
+        `(tacticSeq| $[$groupRewriteTactics]*)
       let columnsDeclaration ← `(command|
-        private theorem systematicWeightSixteenColumns_eq_literal :
-            systematicWeightSixteenColumns = [$[$valueTerms],*] := by
+        private theorem systematicWeightSixteenColumns_eq_groups :
+            systematicWeightSixteenColumns =
+              ([$[$groupTerms],*] : List (List (BitVec 8))).flatten := by
           rfl)
       let aggregate ← `(command|
         private theorem systematicWeightSixteenGeneratedCoverage_true :
             systematicWeightSixteenGeneratedCoverage = true := by
           rw [systematicWeightSixteenGeneratedCoverage_eq_shards,
-            systematicWeightSixteenColumns_eq_literal]
-          simp only [List.all_cons, $proofLemmas,*, List.all_nil])
+            systematicWeightSixteenColumns_eq_groups, List.all_flatten]
+          ($groupRewriteSequence)
+          rfl)
+      let classifierName := Lean.mkIdent <|
+        Name.mkSimple "systematicWeightSixteen_generated_of_constraints"
+      let classifier ← `(command|
+        /-- Every systematic orthonormal-column code occurs in the generated
+        finite family of normalized rank-seven weight-sixteen supports. -/
+        theorem $classifierName
+            (code : BitVec 64)
+            (hconstraints : SystematicWeightSixteenConstraints code = true) :
+            isGeneratedSystematicWeightSixteenCode code = true := by
+          have hextension :=
+            systematicWeightSixteenExtension_of_constraints code hconstraints
+          have hmember :=
+            append_mem_systematicWeightSixteenCompletions_of_extension
+              (chosen := []) hextension
+          simp only [systematicWeightSixteenColumnsOfCode, List.nil_append,
+            List.length_cons, List.length_nil] at hmember
+          have hgenerated :=
+            (List.all_eq_true.mp
+              systematicWeightSixteenGeneratedCoverage_true) _ hmember
+          change isGeneratedSystematicWeightSixteenCode
+            (packSystematicWeightSixteenColumnList
+              (systematicWeightSixteenColumnsOfCode code)) = true at hgenerated
+          simpa only [pack_systematicWeightSixteenColumnsOfCode] using
+            hgenerated)
       return Lean.mkNullNode <|
-        declarations.map (·.raw) ++ #[columnsDeclaration.raw, aggregate.raw]
+        declarations.map (·.raw) ++ groupDeclarations.map (·.raw) ++
+          #[columnsDeclaration.raw, aggregate.raw, classifier.raw]
 
+section
+
+set_option maxRecDepth 1000000
+
+-- The generated command tree contains all 120 independent finite shards.
 systematic_weight_sixteen_completion_certificates
 
-/-- Every systematic orthonormal-column code occurs in the generated finite
-family of normalized rank-seven weight-sixteen supports. -/
-theorem systematicWeightSixteen_generated_of_constraints
-    (code : BitVec 64)
-    (hconstraints : SystematicWeightSixteenConstraints code = true) :
-    isGeneratedSystematicWeightSixteenCode code = true := by
-  have hextension :=
-    systematicWeightSixteenExtension_of_constraints code hconstraints
-  have hmember :=
-    append_mem_systematicWeightSixteenCompletions_of_extension
-      (chosen := []) hextension
-  simp only [systematicWeightSixteenColumnsOfCode, List.nil_append,
-    List.length_cons, List.length_nil] at hmember
-  have hgenerated :=
-    (List.all_eq_true.mp systematicWeightSixteenGeneratedCoverage_true)
-      _ hmember
-  rwa [pack_systematicWeightSixteenColumnsOfCode] at hgenerated
+end
 
 /-- Every systematic orthonormal-column code carries an explicit generated
 canonical-class and affine-map certificate. -/

@@ -58,7 +58,19 @@ native proof shortcuts.
 ## Using CryptBoolean
 
 The repository pins Lean and Mathlib `v4.32.0` and the latest stable FABL release, currently
-`v0.5.6`. After cloning, fetch and verify the precompiled dependencies, then build CryptBoolean:
+`v0.5.6`. Release `v0.3.0` provides verified Lake archives for Linux x86-64 and macOS arm64.
+To use it as a dependency, add the following entry to `lakefile.toml`:
+
+```toml
+[[require]]
+name = "CryptBooleanFunction"
+git = "https://github.com/Polarnova/CryptBoolean.git"
+rev = "v0.3.0"
+```
+
+Then `import CryptBoolean` in Lean. Lake selects the matching release archive when one is
+available. After cloning the repository for development, fetch and verify the precompiled
+dependencies, then build CryptBoolean:
 
 ```bash
 lake exe cache get
