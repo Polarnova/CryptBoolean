@@ -27,6 +27,7 @@ local syntax (name := normalizedWeightSixteenCertificatesCommand)
   "normalized_weight_sixteen_certificates" ident "where"
     normalizedWeightSixteenCertificateRow* : command
 
+set_option linter.style.maxHeartbeats false in
 local macro_rules
   | `(command| normalized_weight_sixteen_certificates
       $soundnessName:ident where
