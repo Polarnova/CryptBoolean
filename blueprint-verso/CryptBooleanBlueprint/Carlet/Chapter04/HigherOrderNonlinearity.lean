@@ -18,7 +18,7 @@ import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoLowWeightSpectrum
 import CryptBoolean.Carlet.Chapter04.HigherOrderTupleCountDifferences
 import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoMomentDifference
 import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoAsymptotics
-import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.OrbitAggregation
+import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.RankSevenClassification
 import CryptBoolean.Carlet.Chapter03.ReedMullerWeightSixteenSelfDual
 
 open Verso.Genre
@@ -96,7 +96,7 @@ coordinate slices and then evaluates the two finite geometric sums exactly.
 Thus the cited sharp constant reduces to the order-two covering-radius
 theorem.
 
-## Proof architecture of the sharp upper bound
+# Proof architecture of the sharp upper bound
 
 The argument below is organized as a chain of mathematical interfaces rather
 than as one monolithic calculation. First, the correlation-moment ratio turns
@@ -271,7 +271,7 @@ normalized affine-flat representation sum. The unrestricted sum is a sum of
 squares indexed by affine lines; the excluded nontransverse configurations
 inject into five ambient vectors. The low-weight classification follows the
 Kasami--Tokura analysis
-{Citations.citep kasamiTokura1970, kasamiTokuraAzumi1976}[].
+{Citations.citep kasamiTokura1970 kasamiTokuraAzumi1976}[].
 
 :::lemma_ "carlet-4-higher-order-order-two-weight-fourteen-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hasWeightFourteenFlatPairClassification, CryptBoolean.weightFourteenRepresentationCharacterSum_ge, CryptBoolean.orderTwoWeightFourteenCharacterSum_eq_representation, CryptBoolean.orderTwoWeightFourteenCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-theorem-2") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-fourteen, affine-flats, reference-91, fidelity-exact-finite-core")
 *Project bridge: weight-fourteen dual character bound.* Every
@@ -289,7 +289,7 @@ Formalization note. The complete ordered-pair sum at each base point is a
 square. Nontransverse pairs inject into five ambient vectors, and the exact
 two-element representation fiber transfers the resulting bound to distinct
 dual words. The classification is the relevant Kasami--Tokura low-weight
-case {Citations.citep kasamiTokura1970, kasamiTokuraAzumi1976}[].
+case {Citations.citep kasamiTokura1970 kasamiTokuraAzumi1976}[].
 
 :::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-rank-reduction" (parent := "carlet-chapter-4") (lean := "CryptBoolean.finrank_supportDifferenceSpan_le_seven_of_weight_sixteen, CryptBoolean.exists_supportDifferenceBasis_of_finrank_eq, CryptBoolean.augmentedSupportDifferenceCode_le_perpendicular, CryptBoolean.four_le_binaryVectorWeight_of_mem_augmentedSupportDifferenceCode, CryptBoolean.finrank_augmentedSupportDifferenceCode_eq_eight, CryptBoolean.augmentedSupportDifferenceCode_eq_perpendicular") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-theorem-2") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, self-dual-code, affine-span, reference-91, fidelity-exact-finite-core")
 *Project bridge: rank reduction and the augmented self-dual code.* Let
@@ -332,7 +332,7 @@ patterns $`2E_8`, $`D_{16}^{+}`, and $`F_{16}`, and pairwise orbit
 disjointness makes that pattern unique. The resulting three-orbit
 classification agrees with the enumeration of
 {Citations.citet mesnagerOblaukhov2022}[] and with the self-dual code types in
-{Citations.citet pless1972, rainsSloane1998}[].
+{Citations.citet pless1972 rainsSloane1998}[].
 
 :::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-orbit-sos" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rankSevenWeightSixteenPatternAffineProduct, CryptBoolean.rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum, CryptBoolean.rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum_nonneg, CryptBoolean.rankSevenWeightSixteenInjectiveAffineMapData, CryptBoolean.rankSevenWeightSixteenInjectiveAffineMapCharacterSum_ge, CryptBoolean.rankSevenWeightSixteenPatternOrbitWords, CryptBoolean.rankSevenWeightSixteenPatternOrbitCharacterSum, CryptBoolean.rankSevenWeightSixteenPatternOrbitCharacterSum_ge") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, orbit-sum, sum-of-squares, fidelity-exact-finite-core")
 *Project bridge: nonnegative affine-map sums for rank-seven patterns.* Let
