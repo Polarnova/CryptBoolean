@@ -764,6 +764,7 @@ def IsSystematicWeightSixteenPrefixAllowed (code : BitVec 64) : Bool :=
                     code.extractLsb' 0 16 == BitVec.ofNat 16 47487 ||
                     code.extractLsb' 0 16 == BitVec.ofNat 16 49023)))))))))
 
+set_option linter.style.maxHeartbeats false in
 set_option maxHeartbeats 20000000 in
 /-- Every systematic orthonormal-column code has one of the generated
 two-column prefixes. -/

@@ -93,6 +93,7 @@ local macro_rules
       declarations.map (·.raw) ++ #[dispatcherDeclaration.raw]
 
 set_option maxRecDepth 100000 in
+set_option linter.style.maxHeartbeats false in
 set_option maxHeartbeats 20000000 in
 normalized_weight_sixteen_classification
   systematicWeightSixteen_generated_of_constraints where

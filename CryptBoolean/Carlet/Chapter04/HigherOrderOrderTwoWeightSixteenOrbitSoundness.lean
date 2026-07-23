@@ -28,6 +28,7 @@ namespace CryptBoolean
 variable {n : ℕ}
 
 set_option maxRecDepth 100000 in
+set_option linter.style.maxHeartbeats false in
 set_option maxHeartbeats 3000000 in
 /-- Each canonical rank-seven pattern indicator has algebraic degree at most
 four. -/
