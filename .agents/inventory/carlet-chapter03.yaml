@@ -3,9 +3,9 @@ chapter: 3
 status: blueprint-synchronized
 summary:
   statements: 7
-  formalized: 6
-  open: 1
-  declarations: 21
+  formalized: 7
+  open: 0
+  declarations: 32
   dependency_edges: 19
 items:
   - id: carlet-3-affine-weight
@@ -86,13 +86,19 @@ items:
       Let 0 ≤ r ≤ n. A Boolean function f has deg_alg(f) = r and
       w_H(f) = 2^(n-r) iff f is the indicator of an (n-r)-dimensional affine
       subspace of V_n.
-    formal_status: open
-    declarations: []
-    blocker: >-
-      Missing arbitrary affine-flat normal-form infrastructure, the theorem that
-      an affine-flat indicator has algebraic degree equal to its codimension,
-      and the equality-case slice infrastructure required to classify every
-      minimum-weight word. These are not supplied by pinned FABL or Mathlib.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.affineFlatIndicator
+      - CryptBoolean.affineFlatIndicator_apply_eq_one_iff
+      - CryptBoolean.mem_support_affineFlatIndicator
+      - CryptBoolean.IsBinaryAffineSet
+      - CryptBoolean.hammingWeight_affineFlatIndicator
+      - CryptBoolean.functionAlgebraicDegree_affineFlatIndicator
+      - CryptBoolean.degree_eq_and_hammingWeight_eq_affineFlatIndicator
+      - CryptBoolean.eq_affineFlatIndicator_iff_support_eq
+      - CryptBoolean.exists_affineFlatIndicator_of_degree_eq_and_hammingWeight_eq
+      - CryptBoolean.degree_eq_and_hammingWeight_eq_iff_exists_affineFlatIndicator
+      - CryptBoolean.degree_eq_and_hammingWeight_eq_iff_support_is_affineFlat
     dependencies:
       - carlet-3-theorem-1
 

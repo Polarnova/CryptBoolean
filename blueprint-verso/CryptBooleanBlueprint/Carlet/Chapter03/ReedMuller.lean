@@ -7,6 +7,7 @@ import Verso
 import VersoManual
 import VersoBlueprint
 import CryptBoolean.Carlet.Chapter03.ReedMullerDuality
+import CryptBoolean.Carlet.Chapter03.ReedMullerMinimumWeight
 
 open Verso.Genre
 open Verso.Genre.Manual
@@ -74,7 +75,7 @@ Equivalently, every nonzero Boolean function $`h` of algebraic degree at most
 $`r` satisfies $`w_H(h)\ge2^{n-r}`.
 :::
 
-:::proposition "carlet-3-prop-12" (parent := "carlet-chapter-3") (uses := "carlet-3-theorem-1") (tags := "carlet, chapter-3, proposition-12, pages-36-37, source-open")
+:::proposition "carlet-3-prop-12" (parent := "carlet-chapter-3") (lean := "CryptBoolean.affineFlatIndicator, CryptBoolean.affineFlatIndicator_apply_eq_one_iff, CryptBoolean.mem_support_affineFlatIndicator, CryptBoolean.IsBinaryAffineSet, CryptBoolean.hammingWeight_affineFlatIndicator, CryptBoolean.functionAlgebraicDegree_affineFlatIndicator, CryptBoolean.degree_eq_and_hammingWeight_eq_affineFlatIndicator, CryptBoolean.eq_affineFlatIndicator_iff_support_eq, CryptBoolean.exists_affineFlatIndicator_of_degree_eq_and_hammingWeight_eq, CryptBoolean.degree_eq_and_hammingWeight_eq_iff_exists_affineFlatIndicator, CryptBoolean.degree_eq_and_hammingWeight_eq_iff_support_is_affineFlat") (uses := "carlet-3-theorem-1") (tags := "carlet, chapter-3, proposition-12, pages-36-37, fidelity-exact")
 *Proposition 12 (Carlet, pp. 36--37).* Let $`0\le r\le n`. A Boolean
 function $`f:V_n\to\mathbb F_2` satisfies
 $$`
@@ -85,6 +86,13 @@ w_H(f)=2^{n-r}
 if and only if $`f` is the indicator of an $`(n-r)`-dimensional affine
 subspace of $`V_n`.
 :::
+
+Formalization note. The forward proof makes Carlet's equality case explicit through
+first-coordinate slices: equality forces the nonzero slices, and when necessary their
+difference, to attain the lower bound recursively; their supports then assemble into a
+ternary-closed affine set. The reverse proof represents a flat by a basis of its perpendicular
+space, bounds the degree of the product of the corresponding affine equations, and uses Theorem 1
+to show that the bound is exact.
 
 :::theorem "carlet-3-reed-muller-dimension" (parent := "carlet-chapter-3") (lean := "CryptBoolean.reedMuller_card, CryptBoolean.reedMuller_finrank") (uses := "carlet-3-reed-muller-code, carlet-2-anf-existence-uniqueness") (tags := "carlet, chapter-3, reed-muller-dimension, page-38, fidelity-exact")
 *Dimension of the Reed--Muller code (Carlet, p. 38).* For $`0\le r\le n`,

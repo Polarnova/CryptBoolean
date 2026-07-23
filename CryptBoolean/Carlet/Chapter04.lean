@@ -1,0 +1,63 @@
+/-
+Copyright (c) 2026 Asher Yan. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Asher Yan with Codex
+-/
+module
+
+public import CryptBoolean.Carlet.Chapter04.DegreeCount
+public import CryptBoolean.Carlet.Chapter04.Nonlinearity
+public import CryptBoolean.Carlet.Chapter04.RandomNonlinearityAsymptotics
+public import CryptBoolean.Carlet.Chapter04.RodierLowerTail
+public import CryptBoolean.Carlet.Chapter04.RodierSharpAsymptotics
+public import CryptBoolean.Carlet.Chapter04.OddDimensionBestNonlinearity
+public import CryptBoolean.Carlet.Chapter04.DegreeRepairNonlinearity
+public import CryptBoolean.Carlet.Chapter04.SevenVariableMaximumNonlinearity
+public import CryptBoolean.Carlet.Chapter04.FiveVariableMaximumNonlinearity
+public import CryptBoolean.Carlet.Chapter04.HigherOrderNonlinearity
+public import CryptBoolean.Carlet.Chapter04.HigherOrderJuntaDistance
+public import CryptBoolean.Carlet.Chapter04.HigherOrderGeneralBounds
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwo
+public import CryptBoolean.Carlet.Chapter04.HigherOrderTupleCounts
+public import CryptBoolean.Carlet.Chapter04.HigherOrderTupleCountDifferences
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightEight
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightTwelveClassification
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightFourteenClassification
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteenRankSevenClassification
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoLowWeightSpectrum
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoAsymptotics
+public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoMomentDifference
+public import CryptBoolean.Carlet.Chapter04.HigherOrderSharpAsymptotics
+public import CryptBoolean.Carlet.Chapter04.ReedMullerCosetDistance
+public import CryptBoolean.Carlet.Chapter04.OddWeightingNonlinearity
+public import CryptBoolean.Carlet.Chapter04.Resiliency
+public import CryptBoolean.Carlet.Chapter04.SupportDualDistance
+public import CryptBoolean.Carlet.Chapter04.CodeGeneratorResiliency
+public import CryptBoolean.Carlet.Chapter04.PropagationCriteria
+public import CryptBoolean.Carlet.Chapter04.PropagationNonlinearity
+public import CryptBoolean.Carlet.Chapter04.AffineReindexResiliency
+public import CryptBoolean.Carlet.Chapter04.LinearStructures
+public import CryptBoolean.Carlet.Chapter04.LinearStructureNormalForm
+public import CryptBoolean.Carlet.Chapter04.LinearKernelNonlinearity
+public import CryptBoolean.Carlet.Chapter04.LinearStructureSpectrum
+public import CryptBoolean.Carlet.Chapter04.DerivativeNonlinearity
+public import CryptBoolean.Carlet.Chapter04.DistanceToLinearStructures
+public import CryptBoolean.Carlet.Chapter04.AutocorrelationIndicators
+public import CryptBoolean.Carlet.Chapter04.AutocorrelationBounds
+public import CryptBoolean.Carlet.Chapter04.AutocorrelationIdentities
+public import CryptBoolean.Carlet.Chapter04.IndicatorSpectralBounds
+public import CryptBoolean.Carlet.Chapter04.GeneralizedLinearStructureDistance
+public import CryptBoolean.Carlet.Chapter04.MaximumCorrelation
+public import CryptBoolean.Carlet.Chapter04.AlgebraicImmunity
+public import CryptBoolean.Carlet.Chapter04.AnnihilatorLinearSystem
+public import CryptBoolean.Carlet.Chapter04.FastAlgebraic
+public import CryptBoolean.Carlet.Chapter04.AlgebraicImmunityBounds
+public import CryptBoolean.Carlet.Chapter04.OtherComplexity
+public import CryptBoolean.Carlet.Chapter04.KthNonhomomorphicity
+
+/-!
+# Carlet Chapter 4
+
+Boolean functions and cryptography.
+-/

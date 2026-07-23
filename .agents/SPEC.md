@@ -32,22 +32,39 @@ PDFs, manifests, graphs, and caches are not sources of truth.
 
 ## Current verified baseline
 
-The reviewed Blueprint contains 43 source-facing statements, of which 41 are associated with 180
-proved Lean declarations and 2 remain visibly open, connected by 64 mathematical dependency edges.
-Chapter 2 contributes 36 statements (35 formalized and 1 open), 159 declarations, and 45 incoming
-edges. Chapter 3 contributes 7 statements (6 formalized and 1 open), 21 declarations, and 19
-incoming edges.
+The reviewed Blueprint contains 116 source-facing statements, of which 115 are associated with 759
+proved Lean declarations and 1 remains visibly open, connected by 223 mathematical dependency
+edges. Chapter 2 contributes 36 statements (35 formalized and 1 open), 159 declarations, and 45
+incoming edges. Chapter 3 contributes 7 formalized statements, 32 declarations, and 19 incoming
+edges. Chapter 4 contributes 73 formalized statements, 568 declarations, and 159 incoming edges.
 
 The completed Chapter 2 frontier includes Proposition 5's numerical-normal-form integrality
 criterion, the full raw Poisson formula, affine invariance, restriction recovery, and the
 spectral-support bounds. The completed Chapter 3 frontier includes the general Reed--Muller distance
-theorem, dimension and cardinality formulas, and duality.
+theorem, Proposition 12's minimum-weight affine-flat classification, dimension and cardinality
+formulas, and duality.
+
+The Chapter 4 inventory is source-reviewed and Blueprint-synchronized. Its 73 formalized nodes
+cover the reviewed finite theory of nonlinearity, higher-order nonlinearity, resiliency and
+propagation, linear structures, algebraic immunity, autocorrelation, maximum correlation, and the
+remaining complexity criteria. Rodier's sharp random-nonlinearity interval, the exact
+dimension-seven maximum, and the sharp fixed-order higher-order asymptotic upper bound are now
+closed as independent source-facing nodes. The higher-order proof exposes its moment-ratio,
+dual-code, low-weight, weight-`16` rank-seven classification, character-sum, and finite Plotkin
+components separately rather than hiding them inside the final asymptotic statement.
 
 The only open Chapter 2 item is Carlet Proposition 3. Its smallest missing layer is a finite-field
 coordinate theorem identifying ANF degree with the maximum binary weight in the univariate support,
-together with noncancellation along the cyclotomic orbit of a trace monomial. The only open Chapter
-3 item is Carlet Proposition 12. It requires arbitrary affine-flat normal form, the
-codimension--degree theorem for affine-flat indicators, and equality-case slice infrastructure.
+together with noncancellation along the cyclotomic orbit of a trace monomial. Chapter 3 has no open
+node: the affine-flat normal form, codimension--degree theorem, and equality-case slice
+infrastructure now compose into the exact Proposition 12 classification.
+
+Source-facing splits remain explicit in Chapter 4. Rodier's one-sided lower endpoint and sharp
+interval have distinct nodes, as do the finite Hamming-ball and Plotkin bridges and the resulting
+higher-order asymptotic estimate. The Reed--Muller coset-distance theorem
+adds the mathematically necessary distinct-coset hypothesis omitted from the printed sentence. The
+`k`th nonhomomorphicity declarations follow Carlet's name for the even-output tuple count while
+recording that reference [357] uses that name for the complementary odd-output count.
 
 A bare theorem number is not a stable identifier because numbering can restart or be reused.
 Inventory identifiers include source, chapter or section, item kind, and printed number, for
@@ -152,9 +169,10 @@ normalized coefficient as a Walsh value.
 
 ### Algebraic normal form
 
-Algebraic normal form is represented by coefficients indexed by finite coordinate subsets, with
-coefficients in `𝔽₂`. Evaluation is the finite sum of square-free monomials. The first public API
-must include existence, uniqueness, evaluation, support, and algebraic degree.
+Algebraic normal form reuses FABL's coefficients indexed by finite coordinate subsets, with
+coefficients in `𝔽₂`, together with its evaluation, support, uniqueness, and algebraic-degree APIs.
+CryptBoolean adds only the Carlet-facing statements and representation bridges that consume this
+canonical surface.
 
 Algebraic degree and FABL's real Fourier degree remain distinct types of information with distinct
 names. Any inequality between them is a theorem, not a definitional equality.
@@ -187,7 +205,8 @@ The first dependency layer must prove and then reuse:
 5. weight to the Walsh value at zero;
 6. balancedness to vanishing zero-frequency Walsh value;
 7. affine characters to FABL's vector Walsh characters;
-8. binary derivatives to FABL sign-cube restrictions or derivatives where their statements agree.
+8. direct reuse of FABL's binary derivatives, with sign-cube or restriction bridges only where a
+   Carlet statement changes representation.
 
 These are bridges between domains, not duplicate proof stacks.
 
@@ -200,12 +219,11 @@ Before adding a declaration, contributors search the pinned FABL public surface 
 A stronger existing theorem is specialized or bridged. A new local declaration is permitted only
 for a genuine cryptographic concept or a demonstrated gap.
 
-Future FABL chapters create targeted convergence gates:
+Pinned FABL APIs and later FABL chapters create only targeted convergence gates:
 
 | FABL area | CryptBooleanFunction policy |
 |---|---|
-| Chapters 1--3 | Required initial dependency; already sufficient to start |
-| Chapter 6 `𝔽₂` polynomials | Reconcile ANF ownership before stable overlapping APIs are released |
+| Pinned `v0.5.6` Boolean-function APIs | Canonical owner of ANF, degree, affine, and derivative operations; import directly and add only representation bridges |
 | Chapter 8 generalized domains | Reuse when generalized Abelian or product-domain results are needed |
 | Chapters 9--10 hypercontractivity | Wait only for nodes whose proofs genuinely require these bounds |
 | Chapter 11 Gaussian/invariance theory | No first-release dependency identified |
