@@ -39,11 +39,12 @@ local macro_rules
       let proofName := Lean.mkIdent <| tree.getId.appendAfter "_compact"
       let declaration ←
         `(command| compact_mask_soundness $proofName for $tree)
-      pure (declaration, proofName)
-    let declarations := generated.map Prod.fst
-    let proofNames := generated.map Prod.snd
+      pure (declaration, bucketPrefix, proofName)
+    let declarations := generated.map fun item => item.1
+    let dispatchCases := generated.map fun item => (item.2.1, item.2.2)
     let rec dispatcherProof
-        (fuel : Nat) (current : Array (Lean.TSyntax `ident)) :
+        (fuel : Nat)
+        (current : Array (Lean.TSyntax `term × Lean.TSyntax `ident)) :
         Lean.MacroM (Lean.TSyntax `tactic) := do
       if current.isEmpty then
         `(tactic| cases hbucket)
@@ -54,7 +55,7 @@ local macro_rules
               "certificate dispatch exhausted its structural bound"
         | fuel + 1 =>
             let midpoint := current.size / 2
-            let some proofName := current[midpoint]?
+            let some (bucketPrefix, proofName) := current[midpoint]?
               | Lean.Macro.throwError
                   "certificate dispatch midpoint is out of bounds"
             let left ← dispatcherProof fuel (current.extract 0 midpoint)
@@ -62,13 +63,17 @@ local macro_rules
               dispatcherProof fuel
                 (current.extract (midpoint + 1) current.size)
             `(tactic| (
-              split at hbucket
-              · $left:tactic
-              · split at hbucket
-                · cases hbucket
+              by_cases hlt : codePrefix.toNat < $bucketPrefix
+              · rw [if_pos hlt] at hbucket
+                $left:tactic
+              · rw [if_neg hlt] at hbucket
+                by_cases heq : codePrefix.toNat = $bucketPrefix
+                · rw [if_pos heq] at hbucket
+                  cases hbucket
                   exact $proofName
-                · $right:tactic))
-    let dispatch ← dispatcherProof proofNames.size proofNames
+                · rw [if_neg heq] at hbucket
+                  $right:tactic))
+    let dispatch ← dispatcherProof dispatchCases.size dispatchCases
     let bucketSoundnessName :=
       Lean.mkIdent <| soundnessName.getId.appendAfter "_of_bucket"
     let bucketSoundness ← `(command|
