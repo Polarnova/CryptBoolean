@@ -11,6 +11,7 @@ import CryptBoolean.Carlet.Chapter04.DegreeCount
 import CryptBoolean.Carlet.Chapter04.Nonlinearity
 import CryptBoolean.Carlet.Chapter04.RandomNonlinearityAsymptotics
 import CryptBoolean.Carlet.Chapter04.RodierLowerTail
+import CryptBoolean.Carlet.Chapter04.RodierSharpAsymptotics
 import CryptBoolean.Carlet.Chapter04.OddDimensionBestNonlinearity
 import CryptBoolean.Carlet.Chapter04.SevenVariableMaximumNonlinearity
 import CryptBoolean.Carlet.Chapter04.FiveVariableMaximumNonlinearity
