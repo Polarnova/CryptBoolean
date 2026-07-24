@@ -61,12 +61,15 @@ private theorem anfCoeff_anfEval (c : ANFCoefficients n) :
   apply anfEval_injective
   rw [anfEval_anfCoeff]
 
-private noncomputable def extendLowDegreeCoefficients
+/-- Extend a low-degree coefficient vector by zero to all square-free monomials. -/
+noncomputable def extendLowDegreeCoefficients
     (r n : ℕ) (c : ↥(FABL.lowDegreeFourierFamily n r) → FABL.𝔽₂) :
     ANFCoefficients n :=
   fun S ↦ if hS : S ∈ FABL.lowDegreeFourierFamily n r then c ⟨S, hS⟩ else 0
 
-private noncomputable def reedMullerAnfEquiv (r n : ℕ) :
+/-- The canonical linear equivalence between a Reed--Muller word and its low-degree ANF
+coefficient vector. -/
+noncomputable def reedMullerAnfEquiv (r n : ℕ) :
     reedMuller r n ≃ₗ[FABL.𝔽₂] (↥(FABL.lowDegreeFourierFamily n r) → FABL.𝔽₂) where
   toFun f S := anfCoeff f.1 S.1
   invFun c :=

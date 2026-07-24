@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_ROOT = ROOT / "CryptBooleanBlueprint" / "Carlet"
 START = re.compile(
-    r'^:::(definition|theorem|proposition|corollary|lemma_)\s+"([^"]+)"(.*)$'
+    r'^:::(definition|theorem|proposition|corollary|lemma_?)\s+"([^"]+)"(.*)$'
 )
 LABEL = re.compile(r"^\*[^*]+\.\*(?:\s|$)")
 MARKDOWN_LINK = re.compile(r"\[[^]]+\]\([^)]+\)")
@@ -94,9 +94,9 @@ def main() -> None:
             errors.append(f"{location}: {block.identifier} must have {expected}, but not both")
     formalized = sum("(lean :=" in block.header for block in blocks)
     open_count = sum("source-open" in block.header for block in blocks)
-    if (len(blocks), formalized, open_count) != (43, 41, 2):
+    if (len(blocks), formalized, open_count) != (116, 115, 1):
         errors.append(
-            "expected 43 statements split into 41 formalized and 2 open; "
+            "expected 116 statements split into 115 formalized and 1 open; "
             f"found {len(blocks)}, {formalized}, and {open_count}"
         )
     if errors:

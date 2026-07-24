@@ -10,5 +10,25 @@ package CryptBooleanBlueprint where
   precompileModules := false
   leanOptions := #[⟨`experimental.module, true⟩]
 
+input_file referencesBib where
+  path := "CryptBooleanBlueprint/references.bib"
+  text := true
+
+target referencesBibStamp pkg : System.FilePath := do
+  let bibliography ← referencesBib.fetch
+  let stamp := pkg.buildDir / "references.bib.stamp"
+  IO.FS.createDirAll pkg.buildDir
+  buildFileAfterDep (text := true) stamp bibliography fun bibliographyPath => do
+    let sourcesOlean :=
+      pkg.buildDir / "lib" / "lean" /
+        "CryptBooleanBlueprint" / "Sources.olean"
+    let sourcesIlean :=
+      pkg.buildDir / "lib" / "lean" /
+        "CryptBooleanBlueprint" / "Sources.ilean"
+    removeFileIfExists sourcesOlean
+    removeFileIfExists sourcesIlean
+    IO.FS.writeFile stamp (← IO.FS.readFile bibliographyPath)
+
 @[default_target]
 lean_lib CryptBooleanBlueprint where
+  extraDepTargets := #[`referencesBibStamp]

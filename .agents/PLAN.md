@@ -2,16 +2,18 @@
 
 ## Baseline and planning facts
 
-CryptBoolean pins FABL at release `v0.5.6`. Its public root
-exposes the binary cube, sign cube, dot product, representation equivalence, normalized Fourier
-coefficients, Fourier expansion, Plancherel, relative Hamming distance, balancedness, restrictions,
-and derivatives needed for the first CryptBooleanFunction layer.
+CryptBoolean pins FABL at release `v0.5.6`. Its public root exposes the binary cube, sign cube, dot
+product, representation equivalence, normalized Fourier coefficients, Fourier expansion,
+Plancherel, relative Hamming distance, balancedness, restrictions, ANF, algebraic degree, affine
+functions, and derivatives needed by CryptBoolean. FABL is the canonical owner of those shared APIs;
+this project imports them directly and adds only source-facing or representation bridges.
 
-The current Blueprint baseline contains 43 source-facing statement nodes: 41 formalized nodes
-associated with 180 proved Lean declarations and 2 visibly open nodes, connected by 64 reviewed
+The current Blueprint baseline contains 116 source-facing statement nodes: 115 formalized nodes
+associated with 759 proved Lean declarations and 1 visibly open node, connected by 223 reviewed
 dependency edges. Chapter 2 contributes 36 nodes (35 formalized and 1 open), 159 declarations, and
-45 incoming edges. Chapter 3 contributes 7 nodes (6 formalized and 1 open), 21 declarations, and 19
-incoming edges. These counts are a synchronized verification contract shared by the inventories,
+45 incoming edges. Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming
+edges. Chapter 4 contributes 73 formalized nodes, 568 declarations, and 159 incoming edges. These
+counts are a synchronized verification contract shared by the inventories,
 Verso sources, `blueprint-verso/scripts/validate_manifest.py`, and `AGENTS.md`.
 
 Automated PDF text extraction finds 93 numbered definition/theorem/proposition/lemma/corollary
@@ -73,8 +75,9 @@ tooling pipeline runs, and no local filesystem path appears in package metadata.
 
 ## Phase 1 - Complete Carlet inventory
 
-Status: in progress. Reviewed Chapter 2 and Chapter 3 items live under `.agents/inventory/`; later
-chapters are not yet inventoried.
+Status: in progress. Reviewed Chapter 2 and Chapter 3 items live under `.agents/inventory/`.
+Chapter 4's 73-item inventory is source-reviewed and Blueprint-synchronized; Chapters 5--10 are not
+yet inventoried.
 
 Read Chapters 2--10 in full and create one Blueprint node per in-scope item. Record full statements,
 source locations, representation decisions, and mathematical dependencies. Mark referenced results
@@ -117,8 +120,8 @@ support, and the coefficients along the relevant cyclotomic orbit must be shown 
 - algebraic support and algebraic degree;
 - affine invariance and restriction laws required downstream.
 
-This work uses Carlet-facing names. Before FABL Chapter 6 exposes a stable overlapping API, perform
-an ownership review and replace duplication with reuse or a narrow bridge.
+Pinned FABL `v0.5.6` canonically owns the ANF and algebraic-degree APIs. CryptBoolean imports that
+surface directly and keeps only the Carlet-facing statements and narrow representation bridges.
 
 ### 2C. Fourier and Walsh
 
@@ -139,14 +142,14 @@ and restriction claims without introducing a second representation.
 
 ## Phase 3 - Chapter 3 coding
 
-Status: 6 of 7 source-facing nodes are formalized. The production surface defines `reedMuller r n`
-and proves the affine-weight theorem, the derived first-order distance result, Carlet's general-order
-Theorem 1, the dimension and cardinality formulas, and Theorem 2 on duality. Only Proposition 12's
-minimum-weight equality classification remains open.
+Status: complete. All 7 source-facing nodes are formalized by 32 proved declarations. The
+production surface defines `reedMuller r n` and proves the affine-weight theorem, the derived first-
+order distance result, Carlet's general-order Theorem 1, Proposition 12's minimum-weight equality
+classification, the dimension and cardinality formulas, and Theorem 2 on duality.
 
-The precise Proposition 12 frontier is an arbitrary affine-flat normal form, the theorem that an
-affine-flat indicator has algebraic degree equal to its codimension, and equality-case slice
-infrastructure strengthening the general lower-bound induction.
+Proposition 12 is closed by composing an arbitrary affine-flat indicator normal form, the theorem
+that its algebraic degree equals its codimension, and equality-case slice rigidity for the converse
+classification.
 
 - define Reed-Muller function families from bounded algebraic degree;
 - relate evaluation vectors, Hamming weight, and minimum distance;
@@ -156,22 +159,26 @@ infrastructure strengthening the general lower-bound induction.
 Do not build a general coding framework in advance. Revisit the abstraction only when Kerdock codes
 or a second production use requires it.
 
-Exit gate: Chapter 3 is source-complete and Chapter 4 can define nonlinearity by distance to the
-first-order Reed-Muller family.
+Exit gate: achieved. Chapter 3 is source-complete and its distance, classification, dimension, and
+duality surface supports Chapter 4's nonlinearity definitions.
 
 ## Phase 4 - Chapter 4 cryptographic criteria
 
-Close the criteria in dependency order:
+Status: complete. All 73 source-facing nodes are formalized by 568 proved declarations with 159
+reviewed dependency edges. The compiled surface establishes the vocabulary used by all class and
+construction chapters: degree, nonlinearity, higher-order distance, resiliency, propagation,
+linear structures, algebraic immunity, autocorrelation, maximum correlation, and the remaining
+explicit complexity criteria.
 
-1. algebraic degree;
-2. nonlinearity and its maximum-Walsh formula;
-3. balancedness, correlation immunity, and resiliency;
-4. strict avalanche and propagation criteria;
-5. linear structures and derivative characterizations;
-6. algebraic immunity and annihilators;
-7. remaining explicitly mathematical criteria.
+The last three closures are Rodier's sharp random-nonlinearity interval, the exact best
+nonlinearity in dimension seven, and the sharp fixed-order higher-order asymptotic upper bound. The
+last proof is factored through separate formal nodes for the moment ratio, dual-code weight
+decomposition, low-weight terms, the weight-`16` rank-seven classification and character bound,
+and finite Plotkin induction.
 
-This phase establishes the vocabulary used by all class and construction chapters.
+Maintain the corrected fidelity boundary while closing them: the Reed--Muller coset formula uses
+distinct cosets, and the `k`th nonhomomorphicity node records Carlet's even-output naming separately
+from reference [357]'s complementary convention.
 
 ## Phase 5 - Chapter 5 tractable classes
 
@@ -207,9 +214,8 @@ API. Spectral characterizations do not wait for either.
 - primary and secondary constructions;
 - counting results.
 
-The Siegenthaler-type degree tradeoff is a planned FABL Chapter 6 overlap. Keep the Carlet-facing
-theorem canonical in this project until the cross-project ownership review determines the shared
-implementation.
+FABL `v0.5.6` already supplies the Siegenthaler-type degree tradeoff. Reuse the upstream theorem
+through the required Carlet representation bridge rather than create a parallel implementation.
 
 ## Phase 8 - Chapter 8 propagation criteria
 
@@ -283,7 +289,6 @@ be encoded as informal asymptotic prose or trusted runtime annotations.
 
 | Work item | Gate | Reason |
 |---|---|---|
-| Stable shared ANF API | FABL Chapter 6 ownership review | Avoid two public `𝔽₂`-polynomial foundations |
 | Generalized Abelian/product Fourier refactor | FABL Chapter 8 or an immediate Carlet theorem | Current scalar `𝔽₂ⁿ` API is already sufficient |
 | Hypercontractive asymptotic bounds | FABL Chapters 9--10 when a proof needs them | Do not block finite algebraic foundations |
 | Kerdock-code layer | Minimal Reed-Muller/code API | Coding structure, not full FABL, is the prerequisite |

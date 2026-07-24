@@ -34,6 +34,40 @@ def booleanFunctionPairing (n : ℕ) :
     booleanFunctionPairing n f g = ∑ x, f x * g x :=
   rfl
 
+/-- The binary cast of a support-intersection cardinality is the standard
+Boolean-function pairing. -/
+theorem card_support_inter_cast (f g : BooleanFunction n) :
+    (((support f ∩ support g).card : ℕ) : FABL.𝔽₂) =
+      ∑ x, f x * g x := by
+  classical
+  have hinter :
+      support f ∩ support g =
+        Finset.univ.filter fun x : FABL.F₂Cube n ↦ f x = 1 ∧ g x = 1 := by
+    ext x
+    simp [mem_support]
+  rw [hinter, Finset.card_filter]
+  push_cast
+  apply Finset.sum_congr rfl
+  intro x _hx
+  by_cases hf : f x = 0
+  · simp [hf]
+  · have hf_one : f x = 1 := Fin.eq_one_of_ne_zero _ hf
+    by_cases hg : g x = 0
+    · simp [hf_one, hg]
+    · have hg_one : g x = 1 := Fin.eq_one_of_ne_zero _ hg
+      simp [hf_one, hg_one]
+
+/-- Orthogonality of two Boolean functions is equivalent to even overlap of
+their supports in the direction needed below. -/
+theorem even_card_support_inter_of_pairing_eq_zero
+    (f g : BooleanFunction n)
+    (hpair : booleanFunctionPairing n f g = 0) :
+    Even (support f ∩ support g).card := by
+  rw [booleanFunctionPairing_apply] at hpair
+  apply ZMod.natCast_eq_zero_iff_even.mp
+  rw [card_support_inter_cast]
+  exact hpair
+
 /-- The standard binary pairing on Boolean functions is nondegenerate. -/
 theorem booleanFunctionPairing_nondegenerate :
     (booleanFunctionPairing n).Nondegenerate := by

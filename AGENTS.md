@@ -28,8 +28,8 @@ node and production declaration.
 
 ## Current verified surface
 
-The Blueprint baseline is 43 source-facing statement nodes: 41 formalized nodes associated with 180
-proved Lean declarations and 2 visibly open nodes, connected by 64 reviewed dependency edges.
+The Blueprint baseline is 116 source-facing statement nodes: 115 formalized nodes associated with
+759 proved Lean declarations and 1 visibly open node, connected by 223 reviewed dependency edges.
 
 - Chapter 2 contributes 36 nodes (35 formalized and 1 open), 159 declarations, and 45 incoming
   edges. It covers the scalar
@@ -38,15 +38,26 @@ proved Lean declarations and 2 visibly open nodes, connected by 64 reviewed depe
   pseudo-Boolean Fourier operations, the full raw Poisson formula, derivatives, autocorrelation,
   finite-field trace and representation, distance scaling, affine invariance, restriction recovery,
   and spectral-support bounds.
-- Chapter 3 contributes 7 nodes (6 formalized and 1 open), 21 declarations, and 19 incoming edges.
-  It defines `reedMuller r n` and proves the affine-weight theorem, general-order distance theorem,
-  dimension and cardinality formulas, and duality.
-- The only open Chapter 2 node is Carlet Proposition 3 on the algebraic degree of trace monomials.
+- Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming edges. It defines
+  `reedMuller r n` and proves the affine-weight theorem, general-order distance theorem,
+  Proposition 12's minimum-weight affine-flat classification, dimension and cardinality formulas,
+  and duality.
+- Chapter 4 contributes 73 formalized nodes, 568 declarations, and 159 incoming edges. Its compiled
+  surface covers the reviewed finite theory of nonlinearity, higher-order nonlinearity, resiliency
+  and propagation, linear structures, algebraic immunity, autocorrelation, maximum correlation,
+  and related complexity criteria, including the sharp random-nonlinearity interval, the exact
+  dimension-seven maximum, and the sharp fixed-order higher-order asymptotic upper bound.
+- The sole open Chapter 2 node is Carlet Proposition 3 on the algebraic degree of trace monomials.
   It requires a finite-field coordinate bridge identifying coordinate ANF degree with maximum
   binary exponent weight and a cyclotomic-orbit noncancellation theorem.
-- The only open Chapter 3 node is Carlet Proposition 12's minimum-weight equality classification.
-  It requires an arbitrary affine-flat normal form, the codimension--degree theorem for affine-flat
-  indicators, and equality-case slice infrastructure.
+- Chapter 4 has no open source node. Its higher-order closure composes the moment-ratio reduction,
+  dual-code weight decomposition, exact weight-`16` rank-seven classification, character-sum
+  estimate, and finite Plotkin induction; these remain separate formalized nodes so that the proof
+  structure is visible in the Blueprint.
+- Carlet's Reed--Muller coset-distance equality is formalized with the necessary pairwise-distinct-
+  coset hypothesis; the two-coset corollary assumes a non-affine representative. The formalized
+  `k`th nonhomomorphicity count follows Carlet's even-output naming while recording reference
+  [357]'s opposite convention.
 
 These counts must agree with `blueprint-verso/scripts/validate_manifest.py`. Update the validator,
 inventory, Verso nodes, and this baseline together whenever verified coverage changes.
@@ -96,6 +107,9 @@ Stream-cipher, block-cipher, AES, and Boolean Cayley-graph results require their
 - The hourly FABL updater (and its release-dispatch entry point) changes the exact pin through a
   pull request, resolves both manifests, and merges only after the complete cloud CI succeeds.
 - Search pinned FABL and Mathlib before adding a local type, definition, theorem, or proof helper.
+- Pinned FABL `v0.5.6` canonically owns the ANF, algebraic-degree, affine-function, and derivative
+  APIs used by CryptBoolean. Import them directly and add only source-facing or representation
+  bridges required by Carlet statements.
 - Local declarations must express cryptographic concepts, representation bridges, or proof lemmas
   used by a production theorem.
 - Carlet's Walsh transform is an unnormalized integer sum. FABL's `vectorFourierCoeff` is a

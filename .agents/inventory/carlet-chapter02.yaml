@@ -252,13 +252,13 @@ items:
       - CryptBoolean.card_indexedRawFourierSupport_signRestriction_le
       - CryptBoolean.card_indexedRawFourierSupport_binaryFunctionOnSignCube
       - CryptBoolean.card_rawFourierSupport_coordinateRestriction_le
-      - CryptBoolean.booleanRealEmbedding
+      - FABL.booleanRealEmbedding
       - CryptBoolean.two_pow_functionAlgebraicDegree_le_card_rawFourierSupport_booleanRealEmbedding
-      - CryptBoolean.numericalSupport
-      - CryptBoolean.mem_numericalSupport
-      - CryptBoolean.numericalDegree
-      - CryptBoolean.numericalDegree_le_iff
-      - CryptBoolean.functionNumericalDegree
+      - FABL.numericalSupport
+      - FABL.mem_numericalSupport
+      - FABL.numericalDegree
+      - FABL.numericalDegree_le_iff
+      - FABL.functionNumericalDegree
       - CryptBoolean.numericalMonomial_eq_setIndicator_coordinateSubcube
       - CryptBoolean.f₂Support_subset_of_vectorFourierCoeff_numericalMonomial_ne_zero
       - CryptBoolean.vectorFourierCoeff_numericalEval
@@ -278,7 +278,7 @@ items:
       (D_bf)_χ(x) = f_χ(x)f_χ(x+b).
     formal_status: formalized
     declarations:
-      - CryptBoolean.booleanDerivative
+      - FABL.booleanDerivative
       - CryptBoolean.realSignView_booleanDerivative
     dependencies:
       - carlet-2-def-boolean-function
@@ -334,16 +334,16 @@ items:
       ANF_c + ANF_d and deg(c) ≤ n.
     formal_status: formalized
     declarations:
-      - CryptBoolean.ANFCoefficients
-      - CryptBoolean.anfMonomial
-      - CryptBoolean.anfEval
-      - CryptBoolean.anfSupport
-      - CryptBoolean.algebraicDegree
-      - CryptBoolean.mem_anfSupport
-      - CryptBoolean.anfMonomial_empty
-      - CryptBoolean.anfEval_zero
-      - CryptBoolean.anfEval_add
-      - CryptBoolean.algebraicDegree_le_dimension
+      - FABL.ANFCoefficients
+      - FABL.anfMonomial
+      - FABL.anfEval
+      - FABL.anfSupport
+      - FABL.algebraicDegree
+      - FABL.mem_anfSupport
+      - FABL.anfMonomial_empty
+      - FABL.anfEval_zero
+      - FABL.anfEval_add
+      - FABL.algebraicDegree_le_dimension
     dependencies:
       - carlet-2-def-boolean-function
 
@@ -355,14 +355,14 @@ items:
       S ⊆ [n], c_S = ⊕_{supp(x) ⊆ S} f(x) = ⊕_{T ⊆ S} f(1_T).
     formal_status: formalized
     declarations:
-      - CryptBoolean.anfMonomial_f₂CubeOfFinset
-      - CryptBoolean.anfEval_f₂CubeOfFinset
-      - CryptBoolean.anfCoeff
-      - CryptBoolean.anfEval_anfCoeff_f₂CubeOfFinset
-      - CryptBoolean.anfEval_anfCoeff
-      - CryptBoolean.anfCoeff_unique_of_powerset_sum
-      - CryptBoolean.anfEval_injective
-      - CryptBoolean.existsUnique_anfEval
+      - FABL.anfMonomial_f₂CubeOfFinset
+      - FABL.anfEval_f₂CubeOfFinset
+      - FABL.anfCoeff
+      - FABL.anfEval_anfCoeff_f₂CubeOfFinset
+      - FABL.anfEval_anfCoeff
+      - FABL.anfCoeff_unique_of_powerset_sum
+      - FABL.anfEval_injective
+      - FABL.existsUnique_anfEval
     dependencies:
       - carlet-2-anf-skeleton
 
@@ -376,16 +376,16 @@ items:
       λ_S = φ(1_S) - ∑_{T ⊂ S} λ_T.
     formal_status: formalized
     declarations:
-      - CryptBoolean.PseudoBooleanFunction
-      - CryptBoolean.NumericalCoefficients
-      - CryptBoolean.numericalMonomial
-      - CryptBoolean.numericalEval
-      - CryptBoolean.numericalEvalLinear
-      - CryptBoolean.numericalEval_injective
-      - CryptBoolean.existsUnique_numericalEval
-      - CryptBoolean.numericalCoeff
-      - CryptBoolean.numericalEval_numericalCoeff
-      - CryptBoolean.numericalCoeff_eq_value_sub_lower
+      - FABL.PseudoBooleanFunction
+      - FABL.NumericalCoefficients
+      - FABL.numericalMonomial
+      - FABL.numericalEval
+      - FABL.numericalEvalLinear
+      - FABL.numericalEval_injective
+      - FABL.existsUnique_numericalEval
+      - FABL.numericalCoeff
+      - FABL.numericalEval_numericalCoeff
+      - FABL.numericalCoeff_eq_value_sub_lower
     dependencies:
       - carlet-2-def-boolean-function
 
@@ -398,11 +398,11 @@ items:
       ∑_{T ⊆ S} (-1)^(|S|-|T|)φ(1_T).
     formal_status: formalized
     declarations:
-      - CryptBoolean.sum_Icc_neg_one_pow_card_sub
-      - CryptBoolean.numericalMobiusCoeff
-      - CryptBoolean.numericalEval_numericalMobiusCoeff_f₂CubeOfFinset
-      - CryptBoolean.numericalMobiusCoeff_eq_numericalCoeff
-      - CryptBoolean.numericalCoeff_eq_mobius_sum
+      - FABL.sum_Icc_neg_one_pow_card_sub
+      - FABL.numericalMobiusCoeff
+      - FABL.numericalEval_numericalMobiusCoeff_f₂CubeOfFinset
+      - FABL.numericalMobiusCoeff_eq_numericalCoeff
+      - FABL.numericalCoeff_eq_mobius_sum
     dependencies:
       - carlet-2-nnf-existence-uniqueness
 
@@ -490,12 +490,12 @@ items:
       for every S ⊆ [n].
     formal_status: formalized
     declarations:
-      - CryptBoolean.functionAlgebraicDegree
-      - CryptBoolean.functionAlgebraicDegree_le_dimension
-      - CryptBoolean.algebraicDegree_le_iff
-      - CryptBoolean.anfCoeff_zero
-      - CryptBoolean.algebraicDegree_zero
-      - CryptBoolean.functionAlgebraicDegree_zero
+      - FABL.functionAlgebraicDegree
+      - FABL.functionAlgebraicDegree_le_dimension
+      - FABL.algebraicDegree_le_iff
+      - FABL.anfCoeff_zero
+      - FABL.algebraicDegree_zero
+      - FABL.functionAlgebraicDegree_zero
     dependencies:
       - carlet-2-anf-existence-uniqueness
 
@@ -508,9 +508,9 @@ items:
       deg_alg(f+g) ≤ max(deg_alg(f), deg_alg(g)).
     formal_status: formalized
     declarations:
-      - CryptBoolean.anfCoeff_add
-      - CryptBoolean.algebraicDegree_add_le_max
-      - CryptBoolean.functionAlgebraicDegree_add_le_max
+      - FABL.anfCoeff_add
+      - FABL.algebraicDegree_add_le_max
+      - FABL.functionAlgebraicDegree_add_le_max
     dependencies:
       - carlet-2-def-algebraic-degree
 
@@ -548,12 +548,12 @@ items:
       f satisfies deg_alg(f) ≤ 1 iff f = A_{a,b} for some a,b.
     formal_status: formalized
     declarations:
-      - CryptBoolean.affineFunction
-      - CryptBoolean.affineCoefficients
-      - CryptBoolean.anfEval_affineCoefficients
-      - CryptBoolean.anfCoeff_affineFunction
-      - CryptBoolean.functionAlgebraicDegree_affineFunction_le_one
-      - CryptBoolean.exists_affineFunction_of_functionAlgebraicDegree_le_one
+      - FABL.affineFunction
+      - FABL.affineCoefficients
+      - FABL.anfEval_affineCoefficients
+      - FABL.anfCoeff_affineFunction
+      - FABL.functionAlgebraicDegree_affineFunction_le_one
+      - FABL.exists_affineFunction_of_functionAlgebraicDegree_le_one
     dependencies:
       - carlet-2-def-algebraic-degree
 
@@ -566,19 +566,19 @@ items:
       f : V_n → 𝔽₂.
     formal_status: formalized
     declarations:
-      - CryptBoolean.anfMonomial_mul
-      - CryptBoolean.anfMul
-      - CryptBoolean.anfEval_anfMul
-      - CryptBoolean.algebraicDegree_anfMul_le_add
-      - CryptBoolean.anfCoeff_mul
-      - CryptBoolean.functionAlgebraicDegree_mul_le_add
-      - CryptBoolean.functionAlgebraicDegree_one
-      - CryptBoolean.functionAlgebraicDegree_finset_prod_le
-      - CryptBoolean.functionAlgebraicDegree_finset_sum_le
-      - CryptBoolean.functionAlgebraicDegree_affineMap_coordinate_le_one
-      - CryptBoolean.functionAlgebraicDegree_anfMonomial_comp_affineMap_le_card
-      - CryptBoolean.functionAlgebraicDegree_comp_affineMap_le
-      - CryptBoolean.functionAlgebraicDegree_comp_affineEquiv
+      - FABL.anfMonomial_mul
+      - FABL.anfMul
+      - FABL.anfEval_anfMul
+      - FABL.algebraicDegree_anfMul_le_add
+      - FABL.anfCoeff_mul
+      - FABL.functionAlgebraicDegree_mul_le_add
+      - FABL.functionAlgebraicDegree_one
+      - FABL.functionAlgebraicDegree_finset_prod_le
+      - FABL.functionAlgebraicDegree_finset_sum_le
+      - FABL.functionAlgebraicDegree_affineMap_coordinate_le_one
+      - FABL.functionAlgebraicDegree_anfMonomial_comp_affineMap_le_card
+      - FABL.functionAlgebraicDegree_comp_affineMap_le
+      - FABL.functionAlgebraicDegree_comp_affineEquiv
     dependencies:
       - carlet-2-def-algebraic-degree
       - carlet-2-def-affine-functions

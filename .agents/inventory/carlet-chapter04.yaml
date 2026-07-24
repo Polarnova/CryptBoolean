@@ -1,0 +1,1613 @@
+source: carlet-2010
+chapter: 4
+status: blueprint-synchronized
+summary:
+  statements: 73
+  formalized: 73
+  open: 0
+  declarations: 568
+  dependency_edges: 159
+items:
+  - id: carlet-4-degree-count
+    kind: theorem
+    location: Carlet, Section 4.1.1, p. 49
+    statement: >-
+      For n >= 2, the number of n-variable Boolean functions of algebraic
+      degree at most n-2 is 2^(sum_{i=0}^{n-2} C(n,i)) =
+      2^(2^n-n-1). Hence a uniformly random n-variable Boolean function has
+      degree at least n-1 with probability tending to one.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_choose_le_n_sub_two
+      - CryptBoolean.card_booleanFunctions_degree_le_n_sub_two
+      - CryptBoolean.card_booleanFunctions_degree_le_n_sub_two_eq
+      - CryptBoolean.natCard_booleanFunction
+      - CryptBoolean.highAlgebraicDegreeProbability
+      - CryptBoolean.highAlgebraicDegreeProbability_eq_card_ratio
+      - CryptBoolean.tendsto_highAlgebraicDegreeProbability
+    dependencies:
+      - carlet-2-anf-existence-uniqueness
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-4-def-nonlinearity
+    kind: definition
+    location: Carlet, Section 4.1.2, pp. 49--51
+    statement: >-
+      The nonlinearity nl(f) of f : V_n -> F_2 is the minimum Hamming
+      distance from f to the affine functions x |-> a dot x + b.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.nonlinearity
+    dependencies:
+      - carlet-2-def-hamming-distance
+      - carlet-2-def-affine-functions
+
+  - id: carlet-4-nonlinearity-affine-invariance
+    kind: theorem
+    location: Carlet, p. 50
+    statement: >-
+      For every affine automorphism L of V_n, nl(f composed with L) = nl(f).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hammingDistance_comp_affineEquiv
+      - CryptBoolean.exists_affineFunction_comp_affineEquiv
+      - CryptBoolean.nonlinearity_comp_affineEquiv_le
+      - CryptBoolean.nonlinearity_comp_affineEquiv
+    dependencies:
+      - carlet-4-def-nonlinearity
+      - carlet-2-affine-invariance
+
+  - id: carlet-4-rel-35-nonlinearity-walsh
+    kind: theorem
+    location: Carlet, Relation (35), p. 51
+    statement: >-
+      For every a, d_H(f, a dot x) = 2^(n-1)-W_f(a)/2 and
+      d_H(f, a dot x+1) = 2^(n-1)+W_f(a)/2. Therefore
+      nl(f)=2^(n-1)-(1/2) max_a |W_f(a)|.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maxWalshMagnitude
+      - CryptBoolean.hammingDistance_cast_affineFunction
+      - CryptBoolean.bitSignInt_cast
+      - CryptBoolean.hammingDistance_cast_affineFunction_eq
+      - CryptBoolean.hammingDistance_cast_linearFunction_eq
+      - CryptBoolean.hammingDistance_cast_complementLinearFunction_eq
+      - CryptBoolean.nonlinearity_cast_eq_distanceToAffineSigns
+      - CryptBoolean.maxWalshMagnitude_cast_eq_spectralInfinityNorm
+      - CryptBoolean.two_mul_nonlinearity_add_maxWalshMagnitude
+      - CryptBoolean.nonlinearity_cast_eq_relation_35
+    dependencies:
+      - carlet-4-def-nonlinearity
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-4-rel-36-covering-radius-bent
+    kind: theorem
+    location: Carlet, Relation (36), p. 51
+    statement: >-
+      Every f satisfies nl(f) <= 2^(n-1)-2^(n/2-1). Equality holds exactly
+      when |W_f(a)|=2^(n/2) for every a; these functions are bent. A bent
+      Boolean function can exist only in even dimension and is not balanced.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_inv_sqrt_card_le_vectorFourierCoeff_abs
+      - CryptBoolean.spectralInfinityNorm_ge_inv_sqrt_card
+      - CryptBoolean.distanceToAffineSigns_le_coveringRadius
+      - CryptBoolean.two_pow_mul_inv_sqrt
+      - CryptBoolean.sqrt_two_pow_eq_rpow
+      - CryptBoolean.coveringRadius_eq_relation_36
+      - CryptBoolean.nonlinearity_cast_le_coveringRadius
+      - CryptBoolean.nonlinearity_cast_le_relation_36
+      - CryptBoolean.vectorFourierCoeff_abs_eq_inv_sqrt_of_spectralInfinityNorm_eq
+      - CryptBoolean.spectralInfinityNorm_eq_inv_sqrt_of_forall_abs
+      - CryptBoolean.distanceToAffineSigns_eq_coveringRadius_iff
+      - CryptBoolean.HasFlatWalshSpectrum
+      - CryptBoolean.hasFlatWalshSpectrum_iff_vectorFourierCoeff
+      - CryptBoolean.nonlinearity_eq_coveringRadius_iff_flatWalshSpectrum
+      - CryptBoolean.nonlinearity_cast_eq_relation_36_iff_flatWalshSpectrum
+      - CryptBoolean.even_of_hasFlatWalshSpectrum
+      - CryptBoolean.IsBent
+      - CryptBoolean.sqrt_two_pow_eq_pow_half
+      - CryptBoolean.even_of_isBent
+      - CryptBoolean.hasFlatWalshSpectrum_iff_isBent
+      - CryptBoolean.even_of_exists_isBent
+      - CryptBoolean.not_isBalanced_of_isBent
+      - CryptBoolean.isBent_iff_nonlinearity_cast_eq_relation_36_of_even
+      - CryptBoolean.nonlinearity_cast_eq_relation_36_iff_isBent
+    dependencies:
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-2-parseval
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-4-random-nonlinearity-lower-bound
+    kind: theorem
+    location: Carlet, p. 51
+    statement: >-
+      As n tends to infinity, the uniform probability that a Boolean function
+      has nonlinearity greater than
+      2^(n-1)-sqrt(n)*2^((n-1)/2) tends to one.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.carletRandomFourierThreshold
+      - CryptBoolean.carletRandomNonlinearityThreshold
+      - CryptBoolean.carletRandomNonlinearityThreshold_eq_displayed
+      - CryptBoolean.carletRandomFourierThreshold_nonneg
+      - CryptBoolean.card_mul_carletRandomFourierThreshold_sq_div_two
+      - CryptBoolean.measure_fourierInfinityNorm_ge_carletThreshold_le
+      - CryptBoolean.carletRandomNonlinearityFailureBound
+      - CryptBoolean.fourier_union_bound_eq_failureBound
+      - CryptBoolean.tendsto_carletRandomNonlinearityFailureBound
+      - CryptBoolean.spectralInfinityNorm_encoding_eq_fourierInfinityNorm
+      - CryptBoolean.nonlinearity_encoding_eq_fourierInfinityNorm
+      - CryptBoolean.carletRandomNonlinearityThreshold_lt_of_fourierInfinityNorm_lt
+      - CryptBoolean.carletRandomNonlinearityProbability
+      - CryptBoolean.one_sub_failureBound_le_carletRandomNonlinearityProbability
+      - CryptBoolean.tendsto_carletRandomNonlinearityProbability
+    references: [65, 286]
+    dependencies:
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-4-rodier-sharp-random-nonlinearity-interval
+    kind: theorem
+    location: Carlet, p. 51
+    statement: >-
+      As n tends to infinity, the uniform probability tends to one that the
+      nonlinearity lies between
+      2^(n-1)-2^(n/2-1)*sqrt(n)*(sqrt(2*ln(2))+4*ln(n)/n) and
+      2^(n-1)-2^(n/2-1)*sqrt(n)*(sqrt(2*ln(2))-5*ln(n)/n).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_rodierAsymptoticOffDiagonalPairError_bound
+      - CryptBoolean.tendsto_rodierRandomFourierLowerProbability
+      - CryptBoolean.rodierSharpRandomNonlinearityIntervalProbability
+      - CryptBoolean.tendsto_rodierSharpRandomNonlinearityIntervalProbability
+    references: [306]
+    dependencies:
+      - carlet-4-rodier-lower-endpoint
+      - carlet-4-rodier-upper-endpoint-reduction
+      - carlet-4-rodier-pair-characteristic-moments
+
+  - id: carlet-4-rodier-lower-endpoint
+    kind: theorem
+    location: Rodier Theorem 3.1, one-sided consequence; Carlet, p. 51
+    statement: >-
+      As n tends to infinity, the uniform probability tends to one that the
+      nonlinearity is strictly greater than
+      2^(n-1)-2^(n/2-1)*sqrt(n)*(sqrt(2*ln(2))+4*ln(n)/n).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rodierRandomFourierUpperThreshold
+      - CryptBoolean.rodierRandomNonlinearityLowerThreshold
+      - CryptBoolean.rodierRandomNonlinearityLowerThreshold_eq_displayed
+      - CryptBoolean.rodierRandomFourierUpperThreshold_nonneg
+      - CryptBoolean.card_mul_rodierRandomFourierUpperThreshold_sq_div_two_ge
+      - CryptBoolean.measure_fourierInfinityNorm_ge_rodierUpperThreshold_le
+      - CryptBoolean.rodierRandomNonlinearityLowerFailureBound
+      - CryptBoolean.tendsto_rodierRandomNonlinearityLowerFailureBound
+      - CryptBoolean.rodierRandomNonlinearityLowerThreshold_lt_of_fourierInfinityNorm_lt
+      - CryptBoolean.rodierRandomNonlinearityLowerProbability
+      - CryptBoolean.one_sub_rodierLowerFailureBound_le_probability
+      - CryptBoolean.tendsto_rodierRandomNonlinearityLowerProbability
+    references: [306]
+    dependencies:
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-4-rodier-upper-endpoint-reduction
+    kind: lemma
+    location: Project bridge for Rodier Theorem 3.1; Carlet, p. 51
+    statement: >-
+      Let tau_n=sqrt(n)*(sqrt(2*ln(2))-5*ln(n)/n)*2^(-n/2). If the uniform
+      probability of tau_n being smaller than the normalized Fourier infinity
+      norm tends to one, then the probability that nonlinearity is below
+      Carlet's displayed upper endpoint tends to one.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rodierRandomFourierLowerThreshold
+      - CryptBoolean.rodierRandomNonlinearityUpperThreshold
+      - CryptBoolean.rodierRandomNonlinearityUpperThreshold_eq_displayed
+      - CryptBoolean.nonlinearity_lt_rodierRandomNonlinearityUpperThreshold
+      - CryptBoolean.rodierRandomFourierLowerProbability
+      - CryptBoolean.rodierRandomNonlinearityUpperProbability
+      - CryptBoolean.rodierRandomFourierLowerProbability_le_nonlinearityUpperProbability
+      - CryptBoolean.tendsto_rodierRandomNonlinearityUpperProbability_of_fourierLower
+    references: [306]
+    dependencies:
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-4-rodier-pair-characteristic-moments
+    kind: lemma
+    location: Project bridge for Rodier Lemma 6.4
+    statement: >-
+      For distinct Walsh characters chi_S and chi_T and real t,r, the joint
+      characteristic function of the corresponding raw Walsh coefficients is
+      the product over x of cos(t*chi_S(x)+r*chi_T(x)). The sums of the squares
+      and fourth powers of these phases are respectively
+      2^n*(t^2+r^2) and 2^n*(t^4+6*t^2*r^2+r^4).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rodierPairPhase
+      - CryptBoolean.rodierPairCharacteristic
+      - CryptBoolean.rodierPairCharacteristic_eq_prod_cos
+      - CryptBoolean.sum_monomial_mul_eq_zero_of_ne
+      - CryptBoolean.sum_rodierPairPhase_sq
+      - CryptBoolean.sum_rodierPairPhase_fourth
+    references: [306]
+    dependencies: []
+
+  - id: carlet-4-odd-dimension-exact-five
+    kind: theorem
+    location: Carlet, pp. 51--52
+    statement: >-
+      The maximum nonlinearity of a five-variable Boolean function is
+      2^4-2^2=12.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maximumNonlinearity_five
+    references: [175, 281]
+    dependencies:
+      - carlet-4-odd-dimension-quadratic-covering-bounds
+      - carlet-3-affine-weight
+      - carlet-3-reed-muller-dimension
+      - carlet-4-def-higher-order-nonlinearity
+
+  - id: carlet-4-odd-dimension-best-nonlinearity
+    kind: theorem
+    location: Carlet, pp. 51--52
+    statement: >-
+      For n=7, the maximum nonlinearity equals
+      2^(n-1)-2^((n-1)/2)=56.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.firstCoordinateSliceSeven
+      - CryptBoolean.exists_linearEquiv_firstCoordinateSlices_degree_le_four
+      - CryptBoolean.nonlinearity_le_56_of_degree_le_five_seven
+      - CryptBoolean.exists_minimum_affine_error_one_at_of_degree_le_five_nonlinearity_eq_56_seven
+      - CryptBoolean.nonlinearity_le_fifty_six_of_degree_five_covering
+      - CryptBoolean.maximumNonlinearity_seven
+    references: [175, 281]
+    dependencies:
+      - carlet-4-odd-dimension-quadratic-covering-bounds
+      - carlet-4-six-variable-covering-coset-coordinate
+      - carlet-4-six-variable-degree-four-coset-coordinate
+
+  - id: carlet-4-six-variable-covering-coset-coordinate
+    kind: lemma
+    location: Project bridge for Hou 1996, Theorem 2.3, Case 2a
+    statement: >-
+      If a six-variable Boolean function f has nonlinearity 28, then for
+      every x in V_6 there is an affine function ell at Hamming distance 28
+      from f such that (f+ell)(x)=1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_minimum_affine_error_one_at_of_nonlinearity_eq_28
+    references: [175]
+    dependencies:
+      - carlet-4-rel-36-covering-radius-bent
+
+  - id: carlet-4-six-variable-degree-four-coset-coordinate
+    kind: lemma
+    location: Project bridge for Hou 1996, Theorem 2.3, Case 2b, and Hou 1997, Theorem 2.2
+    statement: >-
+      If a six-variable Boolean function f has algebraic degree at most four
+      and nonlinearity 26, then for every x in V_6 there is an affine function
+      ell at Hamming distance 26 from f such that (f+ell)(x)=1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_minimum_affine_error_one_at_of_degree_le_four_nonlinearity_eq_26
+    references: [175]
+    dependencies:
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-2-parseval
+      - carlet-3-theorem-2
+
+  - id: carlet-4-odd-dimension-quadratic-covering-bounds
+    kind: theorem
+    location: Carlet, pp. 51--52
+    statement: >-
+      For every odd n, the maximum nonlinearity of an n-variable Boolean
+      function is at least 2^(n-1)-2^((n-1)/2) and at most the
+      covering-radius bound 2^(n-1)-2^(n/2-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maximumNonlinearity
+      - CryptBoolean.nonlinearity_le_maximumNonlinearity
+      - CryptBoolean.exists_nonlinearity_eq_maximumNonlinearity
+      - CryptBoolean.oddQuadraticFunction
+      - CryptBoolean.walshTransform_oddQuadraticFunction
+      - CryptBoolean.maxWalshMagnitude_oddQuadraticFunction
+      - CryptBoolean.nonlinearity_oddQuadraticFunction
+      - CryptBoolean.quadraticBound_le_maximumNonlinearity_of_odd
+      - CryptBoolean.maximumNonlinearity_cast_le_relation_36
+      - CryptBoolean.maximumNonlinearity_odd_bounds
+    dependencies:
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-4-rel-36-covering-radius-bent
+
+  - id: carlet-4-odd-dimension-exact-one-three
+    kind: theorem
+    location: Carlet, p. 52
+    statement: >-
+      The maximum nonlinearities of one-variable and three-variable Boolean
+      functions are respectively M(1)=0 and M(3)=2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maximumNonlinearity_one
+      - CryptBoolean.maximumNonlinearity_three
+    references: [175, 281]
+    dependencies:
+      - carlet-4-odd-dimension-quadratic-covering-bounds
+
+  - id: carlet-4-odd-dimension-strict-above-quadratic
+    kind: theorem
+    location: Carlet, pp. 51--52 and footnote 22
+    statement: >-
+      For every odd n>7, there exists an n-variable Boolean function whose
+      nonlinearity is strictly greater than
+      2^(n-1)-2^((n-1)/2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.f₂CubeNatIndex
+      - CryptBoolean.f₂CubeOfNat
+      - CryptBoolean.kavutYucelTruthTable
+      - CryptBoolean.kavutYucelFunction9
+      - CryptBoolean.kavutYucelFunction9_walsh_bound
+      - CryptBoolean.kavutYucelFunction9_walsh_witness
+      - CryptBoolean.maxWalshMagnitude_kavutYucelFunction9
+      - CryptBoolean.nonlinearity_kavutYucelFunction9
+      - CryptBoolean.kavutYucelBentExtension
+      - CryptBoolean.realSignView_kavutYucelBentExtension
+      - CryptBoolean.walshTransform_kavutYucelBentExtension_append
+      - CryptBoolean.natAbs_walshTransform_innerProductModTwoBit
+      - CryptBoolean.natAbs_walshTransform_kavutYucelBentExtension_append
+      - CryptBoolean.maxWalshMagnitude_kavutYucelBentExtension
+      - CryptBoolean.nonlinearity_kavutYucelBentExtension
+      - CryptBoolean.quadraticBound_lt_nonlinearity_kavutYucelBentExtension
+      - CryptBoolean.exists_nonlinearity_gt_quadraticBound_of_odd
+      - CryptBoolean.quadraticBound_lt_maximumNonlinearity_of_odd
+    references: [208, 259]
+    dependencies:
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-4-odd-dimension-balanced-above-quadratic
+    kind: theorem
+    location: Carlet, p. 52, footnote 22
+    statement: >-
+      For every odd n>=15, there exists a balanced n-variable Boolean
+      function whose nonlinearity is strictly greater than
+      2^(n-1)-2^((n-1)/2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.flipOn
+      - CryptBoolean.MaitraKavutYucel.seedTruthTable
+      - CryptBoolean.MaitraKavutYucel.seedFunction9
+      - CryptBoolean.MaitraKavutYucel.shiftFrequency9
+      - CryptBoolean.MaitraKavutYucel.shiftedSeedFunction9
+      - CryptBoolean.MaitraKavutYucel.bentTruthTable
+      - CryptBoolean.MaitraKavutYucel.bentFunction4
+      - CryptBoolean.MaitraKavutYucel.initialFunction13
+      - CryptBoolean.MaitraKavutYucel.flipPointList13
+      - CryptBoolean.MaitraKavutYucel.flipPoints13
+      - CryptBoolean.maitraKavutYucelFunction13
+      - CryptBoolean.maitraKavutYucelFunction13_walsh_bound
+      - CryptBoolean.isBalanced_maitraKavutYucelFunction13
+      - CryptBoolean.maitraKavutYucelFunction13_walsh_witness
+      - CryptBoolean.maxWalshMagnitude_maitraKavutYucelFunction13
+      - CryptBoolean.nonlinearity_maitraKavutYucelFunction13
+      - CryptBoolean.maitraKavutYucelBentExtension
+      - CryptBoolean.isBalanced_maitraKavutYucelBentExtension
+      - CryptBoolean.maxWalshMagnitude_maitraKavutYucelBentExtension
+      - CryptBoolean.nonlinearity_maitraKavutYucelBentExtension
+      - CryptBoolean.quadraticBound_lt_nonlinearity_maitraKavutYucelBentExtension
+      - CryptBoolean.exists_isBalanced_nonlinearity_gt_quadraticBound_of_odd
+    references: [139, 259]
+    fidelity_note: >-
+      The compiled family starts from the balanced thirteen-variable
+      Maitra--Kavut--Yucel function of nonlinearity 4036 and extends it by
+      complete bent direct sums. It therefore proves the stronger range of
+      every odd n>=13 while retaining the source claim for n>=15.
+    dependencies:
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-4-odd-dimension-pc-one-above-quadratic
+    kind: theorem
+    location: Carlet, p. 52, footnote 22
+    statement: >-
+      For every odd n>=15, there exists an n-variable Boolean function
+      satisfying PC(1) whose nonlinearity is strictly greater than
+      2^(n-1)-2^((n-1)/2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maitraKavutYucelZeroAutocorrelationBasis
+      - CryptBoolean.maitraKavutYucelZeroAutocorrelationBasis_independent
+      - CryptBoolean.maitraKavutYucelPCOneReindex
+      - CryptBoolean.maitraKavutYucelPCOneFunction13
+      - CryptBoolean.satisfiesPropagationCriterion_one_maitraKavutYucelPCOneFunction13
+      - CryptBoolean.nonlinearity_maitraKavutYucelPCOneFunction13
+      - CryptBoolean.maitraKavutYucelPCOneBentExtension
+      - CryptBoolean.satisfiesPropagationCriterion_one_maitraKavutYucelPCOneBentExtension
+      - CryptBoolean.maxWalshMagnitude_maitraKavutYucelPCOneBentExtension
+      - CryptBoolean.nonlinearity_maitraKavutYucelPCOneBentExtension
+      - CryptBoolean.quadraticBound_lt_nonlinearity_maitraKavutYucelPCOneBentExtension
+      - CryptBoolean.exists_pc_one_nonlinearity_gt_quadraticBound_of_odd
+    references: [264]
+    fidelity_note: >-
+      The compiled construction linearly reindexes the thirteen-variable
+      Maitra--Kavut--Yucel function along a certified basis of zero-
+      autocorrelation directions and then applies complete bent extensions.
+      It proves the stronger range of every odd n>=13 while retaining the
+      source claim for n>=15.
+    dependencies:
+      - carlet-4-odd-dimension-balanced-above-quadratic
+      - carlet-4-def-propagation-criteria
+
+  - id: carlet-4-odd-dimension-degree-pred-above-quadratic
+    kind: theorem
+    location: Carlet, p. 52, footnote 22
+    statement: >-
+      For every odd n>=15, there exists an n-variable Boolean function of
+      algebraic degree n-1 whose nonlinearity is strictly greater than
+      2^(n-1)-2^((n-1)/2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.nonlinearity_le_hammingDistance_add_nonlinearity
+      - CryptBoolean.exists_isBalanced_degree_pred_nonlinearity_ge_sub_two
+      - CryptBoolean.exists_isBalanced_degree_pred_nonlinearity_gt_quadraticBound_of_odd
+    references: [214, 264]
+    fidelity_note: >-
+      The compiled construction is stronger because its degree-(n-1)
+      witnesses are also balanced. A two-point affine-line repair loses at
+      most two units of nonlinearity, and the balanced family has enough
+      strict margin in every odd dimension at least fifteen.
+    dependencies:
+      - carlet-4-odd-dimension-balanced-above-quadratic
+      - carlet-3-prop-12
+      - carlet-4-def-nonlinearity
+
+  - id: carlet-4-reed-muller-coset-distance
+    kind: theorem
+    location: Carlet, p. 52
+    statement: >-
+      The nonlinearity of f equals the minimum distance of
+      R(1,n) union (f+R(1,n)). More generally, for a family F, the minimum
+      distance of union_{f in F}(f+R(1,n)) is the minimum of nl(f+g) over
+      distinct f,g in F.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.minimumHammingDistance
+      - CryptBoolean.firstOrderCosetUnion
+      - CryptBoolean.firstOrderReedMullerCoset
+      - CryptBoolean.HasDistinctFirstOrderCosets
+      - CryptBoolean.minimumPairNonlinearity
+      - CryptBoolean.mem_firstOrderCosetUnion_iff
+      - CryptBoolean.mem_firstOrderReedMullerCoset_iff
+      - CryptBoolean.firstOrderCosetUnion_pair
+      - CryptBoolean.minimumHammingDistance_le
+      - CryptBoolean.le_minimumHammingDistance
+      - CryptBoolean.minimumPairNonlinearity_le
+      - CryptBoolean.le_minimumPairNonlinearity
+      - CryptBoolean.hammingDistance_add_right
+      - CryptBoolean.hammingDistance_eq_cosetDifference
+      - CryptBoolean.nonlinearity_le_hammingDistance_of_mem_cosets
+      - CryptBoolean.nonlinearity_le_two_pow_sub_one
+      - CryptBoolean.exists_pair_nonlinearity_eq_minimumPairNonlinearity
+      - CryptBoolean.firstOrderCosetUnion_offDiag_nonempty
+      - CryptBoolean.dimension_pos_of_hasDistinctFirstOrderCosets
+      - CryptBoolean.two_pow_sub_one_le_hammingDistance_of_mem_same_coset
+      - CryptBoolean.minimumPairNonlinearity_le_two_pow_sub_one
+      - CryptBoolean.minimumHammingDistance_firstOrderCosetUnion
+      - CryptBoolean.hasDistinctFirstOrderCosets_pair_zero
+      - CryptBoolean.minimumPairNonlinearity_pair_zero
+      - CryptBoolean.minimumHammingDistance_two_firstOrderReedMullerCosets
+    fidelity_note: >-
+      Carlet's printed equality is false when two listed representatives define
+      the same coset. The formal theorem states the necessary pairwise-distinct
+      coset hypothesis explicitly; the two-coset corollary assumes that f is
+      non-affine. Under those corrected hypotheses the source formulas are
+      proved exactly.
+    dependencies:
+      - carlet-4-def-nonlinearity
+      - carlet-3-reed-muller-code
+
+  - id: carlet-4-derivative-nonlinearity-bounds
+    kind: theorem
+    location: Carlet, pp. 52--53, Relation (37)
+    statement: >-
+      The nonlinearity satisfies the stated autocorrelation upper bound and
+      nl(f) >= 2^(n-2)-(1/4) min_{e!=0}|Delta_f(e)|.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.minimumAutocorrelationMagnitude
+      - CryptBoolean.autocorrelation_add_of_isLinearStructure
+      - CryptBoolean.abs_autocorrelation_add_of_isLinearStructure
+      - CryptBoolean.exists_abs_autocorrelation_eq_absoluteIndicator
+      - CryptBoolean.nonlinearity_cast_le_autocorrelation_upper_bound
+      - CryptBoolean.relation_37_nonlinearity_lower_bound
+    references: [355, 358]
+    dependencies:
+      - carlet-4-def-nonlinearity
+      - carlet-4-hyperplane-walsh-autocorrelation
+      - carlet-2-def-2-derivative
+      - carlet-2-def-autocorrelation
+
+  - id: carlet-4-odd-weighting-nonlinearity
+    kind: corollary
+    location: Carlet, p. 53
+    statement: >-
+      If f admits a maximal odd-weighting subspace E of dimension d>=2,
+      then nl(f)>=2^(n-d).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.subspaceCosetWeight
+      - CryptBoolean.IsMaximalOddWeightingSubspace
+      - CryptBoolean.hammingWeight_lower_bound_of_isMaximalOddWeightingSubspace
+      - CryptBoolean.isMaximalOddWeightingSubspace_add_affineFunction
+      - CryptBoolean.hammingWeight_lower_bound_of_maximalOddWeightingSubspace
+      - CryptBoolean.nonlinearity_lower_bound_of_maximalOddWeightingSubspace
+    blocker: >-
+      Carlet Chapter 3 Remark 2 after Theorem 1 is not yet represented by a
+      reviewed production declaration.
+    dependencies:
+      - carlet-4-def-nonlinearity
+
+  - id: carlet-4-def-higher-order-nonlinearity
+    kind: definition
+    location: Carlet, pp. 53--54
+    statement: >-
+      For 0<=r<n, nl_r(f)=min_{g in R(r,n)} d_H(f,g); the sequence of these
+      distances is the nonlinearity profile.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.higherOrderNonlinearity
+      - CryptBoolean.nonlinearity_eq_higherOrderNonlinearity_one
+      - CryptBoolean.higherOrderNonlinearity_le_hammingDistance
+      - CryptBoolean.exists_reedMuller_hammingDistance_eq_higherOrderNonlinearity
+      - CryptBoolean.higherOrderNonlinearity_antitone
+    dependencies:
+      - carlet-3-reed-muller-code
+      - carlet-2-def-hamming-distance
+
+  - id: carlet-4-higher-order-junta-distance
+    kind: theorem
+    location: Carlet, p. 53
+    statement: >-
+      If I has cardinality r, then nl_r(f) is at most the distance from f to
+      the functions depending only on the coordinates in I.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.anfCoeff_eq_zero_of_coordinate_invariant
+      - CryptBoolean.anfCoeff_eq_zero_of_dependsOn_of_not_subset
+      - CryptBoolean.functionAlgebraicDegree_le_card_of_dependsOn
+      - CryptBoolean.higherOrderNonlinearity_le_hammingDistance_of_dependsOn
+    dependencies:
+      - carlet-4-def-higher-order-nonlinearity
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-4-higher-order-counting-criterion
+    kind: lemma
+    location: Project bridge for Carlet, p. 54
+    statement: >-
+      Let V(N,t)=sum_{j=0}^t C(N,j). If
+      |R(r,n)| V(2^n,t) < 2^(2^n), then some n-variable Boolean function
+      has higher-order nonlinearity strictly greater than t. Equivalently,
+      it suffices that V(2^n,t) < 2^(2^n-D), where
+      D=sum_{j=0}^r C(n,j).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hammingBallVolume
+      - CryptBoolean.exists_higherOrderNonlinearity_gt_of_counting
+      - CryptBoolean.exists_higherOrderNonlinearity_gt_of_hammingBallVolume_lt
+    dependencies:
+      - carlet-4-def-higher-order-nonlinearity
+      - carlet-3-reed-muller-dimension
+
+  - id: carlet-4-higher-order-asymptotic-lower-bound
+    kind: theorem
+    location: Carlet, pp. 53--54
+    statement: >-
+      For each fixed r and all sufficiently large n, there exists an
+      n-variable Boolean function f such that
+      nl_r(f) > 2^(n-1)-sqrt(2^(n-1) sum_{i=0}^r binom(n,i)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_higherOrderNonlinearity_gt_lower_bound_of_dimension
+      - CryptBoolean.eventually_twice_sum_choose_le_two_pow
+      - CryptBoolean.eventually_exists_higherOrderNonlinearity_gt_carlet_lower_bound
+    dependencies:
+      - carlet-4-higher-order-counting-criterion
+
+  - id: carlet-4-higher-order-general-bounds
+    kind: theorem
+    location: Carlet, p. 53
+    statement: >-
+      Let rho(r,n)=max_f nl_r(f). For each fixed r>=2, the cited upper bound is
+      rho(r,n) <= 2^(n-1) - (sqrt(15)/2)(1+sqrt(2))^(r-2)2^(n/2)
+      + O(n^(r-2)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_maximumHigherOrderNonlinearity_cast_le_sharp
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-general-r-propagation
+      - carlet-4-higher-order-order-two-weight-sixteen-character-bound
+
+  - id: carlet-4-higher-order-plotkin-induction
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      Let rho(r,n)=max_f nl_r(f). For 1<=r<=n,
+      rho(r,n)<=sum_{j=r}^{n-1} rho(r-1,j). If on that range
+      rho(r-1,j)<=2^(j-1)-A*(sqrt(2))^j+e(j), then rho(r,n) is at most
+      (2^n-2^r)/2-A*(1+sqrt(2))*((sqrt(2))^n-(sqrt(2))^r)
+      +sum_{j=r}^{n-1}e(j).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maximumHigherOrderNonlinearity
+      - CryptBoolean.higherOrderNonlinearity_le_maximum
+      - CryptBoolean.exists_higherOrderNonlinearity_eq_maximum
+      - CryptBoolean.maximumHigherOrderNonlinearity_succ_le
+      - CryptBoolean.maximumHigherOrderNonlinearity_self
+      - CryptBoolean.maximumHigherOrderNonlinearity_le_sum_Ico
+      - CryptBoolean.maximumHigherOrderNonlinearity_cast_le_sum_Ico_of_le
+      - CryptBoolean.maximumHigherOrderNonlinearity_cast_le_carlet_step
+    references: [91]
+    dependencies:
+      - carlet-4-def-higher-order-nonlinearity
+
+  - id: carlet-4-higher-order-order-two-moment-ratio
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91], Relations (9.7)--(9.10)
+    statement: >-
+      For f : V_n -> F_2 and g in R(2,n), let
+      C_f(g)=2^n-2*d_H(f,g) and
+      S_k(f)=sum_{g in R(2,n)} C_f(g)^(2k). Then S_k(f)>0 and
+      sqrt(S_{k+1}(f)/S_k(f)) <= 2^n-2*nl_2(f). Hence rho(2,n) is at most
+      2^(n-1) minus one half of the minimum of this ratio over f.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.orderTwoCorrelation
+      - CryptBoolean.orderTwoCorrelation_eq_two_pow_sub_two_hammingDistance
+      - CryptBoolean.maximumOrderTwoCorrelation
+      - CryptBoolean.maximumOrderTwoCorrelation_eq
+      - CryptBoolean.orderTwoCorrelation_le_maximum
+      - CryptBoolean.exists_orderTwoCorrelation_eq_maximum
+      - CryptBoolean.maximumOrderTwoCorrelation_nonneg
+      - CryptBoolean.abs_orderTwoCorrelation_le_maximum
+      - CryptBoolean.orderTwoCorrelationPowerSum
+      - CryptBoolean.orderTwoCorrelationPowerSum_nonneg
+      - CryptBoolean.orderTwoCorrelationPowerSum_pos
+      - CryptBoolean.orderTwoCorrelationPowerSum_succ_le
+      - CryptBoolean.sqrt_orderTwoCorrelationPowerSum_ratio_le
+      - CryptBoolean.minimumOrderTwoMomentRatio
+      - CryptBoolean.maximumHigherOrderNonlinearity_two_cast_le_momentRatio
+    references: [91]
+    dependencies:
+      - carlet-4-def-higher-order-nonlinearity
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-2-parseval
+
+  - id: carlet-4-higher-order-order-two-dual-moment-decomposition
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91], Lemma 9.2.2
+    statement: >-
+      For an ordered 2k-tuple x of points of V_n, let p_x record the parity of
+      the multiplicity of each point, and let U_{k,n} be the tuples for which
+      p_x belongs to R(n-3,n). If n>=3, then S_k(f) equals |R(2,n)| times
+      the sum over x in U_{k,n} of (-1) raised to the pairing of f and p_x.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.tuplePointParity
+      - CryptBoolean.booleanFunctionPairing_tuplePointParity
+      - CryptBoolean.orderTwoAdmissibleTuples
+      - CryptBoolean.reedMullerTwoPairingCharacterSum
+      - CryptBoolean.reedMullerTwoPairingCharacterSum_eq_card_of_mem_dual
+      - CryptBoolean.reedMullerTwoPairingCharacterSum_eq_zero_of_not_mem_dual
+      - CryptBoolean.orderTwoCorrelationPowerSum_eq_admissibleTupleCharacterSum
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-moment-ratio
+      - carlet-3-theorem-2
+
+  - id: carlet-4-higher-order-order-two-weight-grouping
+    kind: lemma
+    location: Project bridge for reference [91], Proposition 9.2.5 and Lemma 9.2.7
+    statement: >-
+      The ordered 2k-tuple multiplicity of a point-parity word depends only
+      on its Hamming weight w and equals the inverse finite Fourier sum
+      2^(-2^n) sum_j K_j^(2^n)(w)(2^n-2j)^(2k). Hence the order-two
+      correlation moment is an exact character sum grouped by dual-word
+      Hamming weight.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.orderTwoDualWords
+      - CryptBoolean.tuplePointParityFiber
+      - CryptBoolean.tuplePointParityMultiplicity
+      - CryptBoolean.tuplePointParityMultiplicity_comp_perm
+      - CryptBoolean.tuplePointParityMultiplicity_eq_of_hammingWeight_eq
+      - CryptBoolean.tuplePointParityMultiplicityByWeight
+      - CryptBoolean.tuplePointParityMultiplicity_eq_byWeight
+      - CryptBoolean.tuplePointParityMultiplicityByWeight_eq_fourierSum
+      - CryptBoolean.tuplePointParityKrawtchoukMultiplicity
+      - CryptBoolean.tuplePointParityMultiplicityByWeight_eq_krawtchoukSum
+      - CryptBoolean.orderTwoCorrelationPowerSum_eq_dualWeightGroupedCharacterSum
+      - CryptBoolean.orderTwoCorrelationPowerSum_eq_dualFourierMultiplicityCharacterSum
+      - CryptBoolean.orderTwoCorrelationPowerSum_eq_dualKrawtchoukMultiplicityCharacterSum
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-dual-moment-decomposition
+
+  - id: carlet-4-higher-order-order-two-low-weight-support
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      For n>=7, the coefficient of a dual word in
+      S_8(f)-15*2^n*S_7(f) vanishes above weight sixteen, and the only even
+      dual weights at most sixteen are 0, 8, 12, 14, and 16.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hasOrderTwoLowWeightSpectrum
+      - CryptBoolean.tuplePointParityMultiplicityByWeight_eq_zero_of_lt
+      - CryptBoolean.tuplePointParityMomentDifference_eq_zero_of_sixteen_lt
+      - CryptBoolean.orderTwoMomentDifferenceCharacterSum_eq_lowWeights
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-weight-grouping
+      - carlet-3-theorem-1
+
+  - id: carlet-4-higher-order-order-two-weight-eight-bound
+    kind: lemma
+    location: Project bridge for reference [91], Proposition 9.2.10(1)
+    statement: >-
+      Weight-eight words in R(n-3,n) are affine three-flat indicators, and
+      their character sum is at least
+      -2^n(2^n-1)(2^n-2)/336.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.orderTwoWeightEightDualWords_eq_affineFlatIndicators
+      - CryptBoolean.orderTwoWeightEightCharacterSum_eq_affineFlatCharacterSum
+      - CryptBoolean.card_binaryAffineFlats_two
+      - CryptBoolean.binaryAffineFlatCharacterSum_three_ge_neg_card
+      - CryptBoolean.binaryAffineFlatCharacterSum_three_ge
+      - CryptBoolean.orderTwoWeightEightCharacterSum_ge
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-low-weight-support
+      - carlet-3-prop-12
+
+  - id: carlet-4-higher-order-order-two-weight-twelve-bound
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      For n>=5, every weight-twelve word of R(n-3,n) has exactly twenty
+      ordered affine-three-flat representations meeting in an affine line,
+      and its character sum is at least -(2^n)^5/20.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hasWeightTwelveFlatPairClassification
+      - CryptBoolean.weightTwelveRepresentationCharacterSum_ge
+      - CryptBoolean.orderTwoWeightTwelveCharacterSum_eq_representation
+      - CryptBoolean.orderTwoWeightTwelveCharacterSum_ge
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-low-weight-support
+      - carlet-3-theorem-2
+
+  - id: carlet-4-higher-order-order-two-weight-fourteen-bound
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      Every weight-fourteen word of R(n-3,n) is the sum of two affine
+      three-flat indicators meeting at one point, with exactly two ordered
+      representations, and its character sum is at least -(2^n)^6/2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hasWeightFourteenFlatPairClassification
+      - CryptBoolean.weightFourteenRepresentationCharacterSum_ge
+      - CryptBoolean.orderTwoWeightFourteenCharacterSum_eq_representation
+      - CryptBoolean.orderTwoWeightFourteenCharacterSum_ge
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-low-weight-support
+      - carlet-3-theorem-2
+
+  - id: carlet-4-higher-order-order-two-weight-sixteen-rank-reduction
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      A weight-sixteen word of R(n-3,n) has support-affine-span dimension at
+      most seven. In the rank-seven case its augmented affine-evaluation code
+      is a binary self-dual [16,8,>=4] code.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.finrank_supportDifferenceSpan_le_seven_of_weight_sixteen
+      - CryptBoolean.exists_supportDifferenceBasis_of_finrank_eq
+      - CryptBoolean.augmentedSupportDifferenceCode_le_perpendicular
+      - CryptBoolean.four_le_binaryVectorWeight_of_mem_augmentedSupportDifferenceCode
+      - CryptBoolean.finrank_augmentedSupportDifferenceCode_eq_eight
+      - CryptBoolean.augmentedSupportDifferenceCode_eq_perpendicular
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-low-weight-support
+      - carlet-3-theorem-2
+
+  - id: carlet-4-higher-order-order-two-weight-sixteen-rank-seven-classification
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      The rank-seven weight-sixteen dual words are exactly the pairwise
+      disjoint affine orbits of the canonical 2E8, D16+, and F16 patterns.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rankSevenWeightSixteenPatternCertificate
+      - CryptBoolean.hasRankSevenWeightSixteenOrbitClassification
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-weight-sixteen-rank-reduction
+
+  - id: carlet-4-higher-order-order-two-weight-sixteen-orbit-sos
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      Each of the 2E8, D16+, and F16 complete affine-map character sums is
+      nonnegative, and each distinct injective-image orbit character sum is
+      at least -127*(2^n)^7.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rankSevenWeightSixteenPatternAffineProduct
+      - CryptBoolean.rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum
+      - CryptBoolean.rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum_nonneg
+      - CryptBoolean.rankSevenWeightSixteenInjectiveAffineMapData
+      - CryptBoolean.rankSevenWeightSixteenInjectiveAffineMapCharacterSum_ge
+      - CryptBoolean.rankSevenWeightSixteenPatternOrbitWords
+      - CryptBoolean.rankSevenWeightSixteenPatternOrbitCharacterSum
+      - CryptBoolean.rankSevenWeightSixteenPatternOrbitCharacterSum_ge
+    references: [91]
+
+  - id: carlet-4-higher-order-order-two-weight-sixteen-residual-cover
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      Rank-at-most-six weight-sixteen dual words are covered by arbitrary
+      masks on V_7 under rank-deficient affine maps, giving cardinality and
+      character-sum bounds 127*2^128*(2^n)^7.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sevenVariableAffineMaskWord
+      - CryptBoolean.rankDeficientSevenVariableAffineMaskImageWords
+      - CryptBoolean.card_rankDeficientSevenVariableAffineMaskImageWords_le
+      - CryptBoolean.HasRankAtMostSixWeightSixteenDeficientAffineMaskCover
+      - CryptBoolean.hasRankAtMostSixWeightSixteenDeficientAffineMaskCover
+      - CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualWords_subset_affineMaskImage_of_cover
+      - CryptBoolean.card_orderTwoWeightSixteenRankAtMostSixResidualWords_le
+      - CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualCharacterSum
+      - CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualCharacterSum_ge
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-weight-sixteen-rank-reduction
+
+  - id: carlet-4-higher-order-order-two-weight-sixteen-character-bound
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      For n >= 3, the full weight-sixteen character sum is at least
+      -(3*127+127*2^128)*(2^n)^7.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.orderTwoWeightSixteenCharacterSum_ge_rankSevenClassification
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-weight-sixteen-rank-seven-classification
+      - carlet-4-higher-order-order-two-weight-sixteen-orbit-sos
+      - carlet-4-higher-order-order-two-weight-sixteen-residual-cover
+
+  - id: carlet-4-higher-order-order-two-moment-difference
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      If the weight-sixteen character sum is at least -B*(2^n)^7, then
+      S_8(f)-15*2^n*S_7(f) is bounded below by
+      -(133000020000000+21000000000000*B)*|R(2,n)|*(2^n)^7.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.tuplePointParityMomentDifference_zero_ge
+      - CryptBoolean.tuplePointParityMomentDifference_eight_bounds
+      - CryptBoolean.tuplePointParityMomentDifference_twelve_bounds
+      - CryptBoolean.tuplePointParityMomentDifference_fourteen_bounds
+      - CryptBoolean.tuplePointParityMomentDifference_sixteen_bounds
+      - CryptBoolean.orderTwoCorrelationPowerSum_difference_eq_lowWeights
+      - CryptBoolean.orderTwoCorrelationPowerSum_difference_ge_of_weightSixteenCharacterSum
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-weight-eight-bound
+      - carlet-4-higher-order-order-two-weight-twelve-bound
+      - carlet-4-higher-order-order-two-weight-fourteen-bound
+      - carlet-4-higher-order-order-two-weight-sixteen-character-bound
+
+  - id: carlet-4-higher-order-order-two-asymptotic-upper
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      A uniform code-cardinality-scaled seventh/eighth moment remainder K
+      implies rho(2,n)<=2^(n-1)-(sqrt(15)/2)*2^(n/2)+sqrt(K)/2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.reedMuller_card_mul_two_pow_seven_le_orderTwoCorrelationPowerSum_seven
+      - CryptBoolean.orderTwoCorrelationPowerSum_eight_div_seven_ge_of_card_scaled
+      - CryptBoolean.sqrt_fifteen_mul_sqrtTwo_pow_sub_sqrt_le_momentRatio
+      - CryptBoolean.maximumHigherOrderNonlinearity_two_cast_le_of_card_scaled_moment_difference
+      - CryptBoolean.eventually_maximumHigherOrderNonlinearity_two_cast_le_of_card_scaled_moment_difference
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-order-two-moment-ratio
+      - carlet-4-higher-order-order-two-moment-difference
+
+  - id: carlet-4-higher-order-general-r-propagation
+    kind: lemma
+    location: Project bridge for Carlet, p. 53 and reference [91]
+    statement: >-
+      An eventual uniform order-two moment remainder propagates, for each
+      fixed r>=2, to the sqrt(15)/2*(1+sqrt(2))^(r-2) leading coefficient
+      with an O(n^(r-2)) remainder.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_maximumHigherOrderNonlinearity_cast_le_of_card_scaled_moment_difference
+    references: [91]
+    dependencies:
+      - carlet-4-higher-order-plotkin-induction
+      - carlet-4-higher-order-order-two-asymptotic-upper
+
+  - id: carlet-4-prop-13
+    kind: proposition
+    location: Carlet, Proposition 13, pp. 54--55
+    statement: >-
+      Let 1<=r<n. Then nl_r(f) is at least one half of
+      max_a nl_{r-1}(D_a f), and at least
+      2^(n-1)-(1/2)sqrt(2^(2n)-2 sum_a nl_{r-1}(D_a f)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hammingWeight_translate
+      - CryptBoolean.hammingWeight_booleanDerivative_le_two_mul
+      - CryptBoolean.booleanDerivative_add
+      - CryptBoolean.derivative_higherOrderNonlinearity_le_two_mul
+      - CryptBoolean.maxDerivativeHigherOrderNonlinearity
+      - CryptBoolean.maxDerivativeHigherOrderNonlinearity_le_two_mul
+      - CryptBoolean.proposition_13_first_bound
+      - CryptBoolean.two_mul_higherOrderNonlinearity_le_two_pow
+      - CryptBoolean.autocorrelation_eq_walshTransform_booleanDerivative_zero
+      - CryptBoolean.autocorrelation_eq_two_pow_sub_two_derivative_weight
+      - CryptBoolean.autocorrelation_le_two_pow_sub_two_higherOrderNonlinearity
+      - CryptBoolean.derivativeHigherOrderNonlinearitySum
+      - CryptBoolean.higherOrderNonlinearity_gap_sq_le
+      - CryptBoolean.proposition_13_second_bound
+      - CryptBoolean.proposition_13_second_bound_source_form
+    references: [72]
+    dependencies:
+      - carlet-4-def-higher-order-nonlinearity
+      - carlet-2-def-2-derivative
+
+  - id: carlet-4-def-resiliency-correlation-immunity
+    kind: definition
+    location: Carlet, Definition 3 and footnotes 24--25, pp. 55--56
+    statement: >-
+      For n>0 and 0<=m<n, f is m-resilient when every restriction obtained
+      by fixing at most m coordinates is balanced; it is mth-order
+      correlation immune when fixing those inputs leaves the output
+      distribution unchanged.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.signCubeView
+      - CryptBoolean.signCubeView_toReal
+      - CryptBoolean.IsCorrelationImmune
+      - CryptBoolean.IsResilient
+      - CryptBoolean.isCorrelationImmune_iff_fabl
+      - CryptBoolean.isBalanced_iff_fabl
+      - CryptBoolean.isResilient_iff_fabl
+      - CryptBoolean.isResilient_iff_forall_coordinateRestriction_balanced
+      - CryptBoolean.isCorrelationImmune_iff_fixing_exactly
+      - CryptBoolean.isResilient_iff_fixing_exactly
+    references: [331]
+    dependencies:
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-4-theorem-3
+    kind: theorem
+    location: Carlet, Theorem 3, p. 57
+    statement: >-
+      The function f is m-resilient iff W_f(u)=0 for every u with
+      w_H(u)<=m. Correlation immunity alone is equivalent to vanishing at
+      every nonzero u of weight at most m.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_eq_zero_iff_vectorFourierCoeff_eq_zero
+      - CryptBoolean.theorem_3_correlationImmune_iff_walshTransform_eq_zero
+      - CryptBoolean.theorem_3_resilient_iff_walshTransform_eq_zero
+    references: [172]
+    dependencies:
+      - carlet-4-def-resiliency-correlation-immunity
+      - carlet-2-cor-1-poisson-summation
+      - carlet-2-def-walsh-transform
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-4-resiliency-support-dual-distance
+    kind: corollary
+    location: Carlet, p. 57
+    statement: >-
+      The function f is m-resilient iff it is balanced and supp(f) has dual
+      distance at least m+1; correlation immunity omits the balancedness
+      condition.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.codeCharacterSum
+      - CryptBoolean.HasDualDistanceAtLeast
+      - CryptBoolean.sum_vectorWalshCharacter_eq_zero
+      - CryptBoolean.walshTransform_cast_eq_neg_two_mul_codeCharacterSum_support
+      - CryptBoolean.isCorrelationImmune_iff_support_hasDualDistanceAtLeast
+      - CryptBoolean.isBalanced_iff_support_card_eq_two_pow_pred
+      - CryptBoolean.isResilient_iff_support_card_and_hasDualDistanceAtLeast
+    references: [127, 128]
+    dependencies:
+      - carlet-4-theorem-3
+      - carlet-2-def-support-weight
+
+  - id: carlet-4-code-generator-resilient
+    kind: theorem
+    location: Carlet, pp. 57--58
+    statement: >-
+      If G generates a binary [n,k,d] linear code and g:F_2^k -> F_2 is
+      balanced, then f(x)=g(x G^t) is (d-1)-resilient.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.binaryGeneratorCodeword
+      - CryptBoolean.IsBinaryCodeGenerator
+      - CryptBoolean.binaryGeneratorPullback
+      - CryptBoolean.isBalanced_binaryGeneratorPullback
+      - CryptBoolean.binaryGeneratorPullback_isResilient
+    references: [126]
+    dependencies:
+      - carlet-4-def-resiliency-correlation-immunity
+
+  - id: carlet-4-resiliency-translation-invariance
+    kind: theorem
+    location: Carlet, p. 58
+    statement: >-
+      If f is m-resilient, then x |-> f(x+b) is m-resilient for every b.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_domainTranslate_cast
+      - CryptBoolean.isResilient_domainTranslate
+    dependencies:
+      - carlet-4-theorem-3
+      - carlet-2-prop-6-fourier-shifts
+
+  - id: carlet-4-def-propagation-criteria
+    kind: definition
+    location: Carlet, pp. 58--59
+    statement: >-
+      Propagation criteria, SAC, their order-k restriction forms, and EPC
+      are defined through balanced directional derivatives and resiliency of
+      the relevant derivatives, with the stated monotonicity implications.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.lowWeightNonzeroDirections
+      - CryptBoolean.SatisfiesPropagationCriterionOn
+      - CryptBoolean.SatisfiesPropagationCriterion
+      - CryptBoolean.satisfiesPropagationCriterion_iff_on_lowWeightNonzeroDirections
+      - CryptBoolean.isBalanced_booleanDerivative_iff_autocorrelation_eq_zero
+      - CryptBoolean.satisfiesPropagationCriterion_iff_autocorrelation_eq_zero
+      - CryptBoolean.SatisfiesStrictAvalancheCriterion
+      - CryptBoolean.satisfiesStrictAvalancheCriterion_iff_pc_one
+      - CryptBoolean.SatisfiesPropagationCriterion.mono
+      - CryptBoolean.coordinateRestriction
+      - CryptBoolean.SatisfiesPropagationCriterionOfOrder
+      - CryptBoolean.SatisfiesPropagationCriterionOfOrder.mono_order
+      - CryptBoolean.SatisfiesPropagationCriterionOfOrder.mono_level
+      - CryptBoolean.SatisfiesStrictAvalancheCriterionOfOrder
+      - CryptBoolean.satisfiesStrictAvalancheCriterionOfOrder_iff_pc_one
+      - CryptBoolean.SatisfiesExtendedPropagationCriterion
+      - CryptBoolean.SatisfiesExtendedPropagationCriterion.toPropagationCriterionOfOrder
+    references: [60, 153, 297, 298, 299, 347]
+    dependencies:
+      - carlet-2-def-2-derivative
+      - carlet-2-def-autocorrelation
+      - carlet-2-balanced-zero-walsh
+      - carlet-4-def-resiliency-correlation-immunity
+
+  - id: carlet-4-def-linear-kernel
+    kind: definition
+    location: Carlet, p. 59
+    statement: >-
+      ker_lin(f)={e | D_e f is constant} is an F_2-subspace of V_n; its
+      elements are the linear structures of f.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsLinearStructure
+      - CryptBoolean.isLinearStructure_zero
+      - CryptBoolean.booleanDerivative_add_direction
+      - CryptBoolean.IsLinearStructure.add
+      - CryptBoolean.IsLinearStructure.smul
+      - CryptBoolean.linearKernel
+      - CryptBoolean.mem_linearKernel
+    dependencies:
+      - carlet-2-def-2-derivative
+
+  - id: carlet-4-prop-14
+    kind: proposition
+    location: Carlet, Proposition 14, p. 59
+    statement: >-
+      The function f has a nonzero linear structure iff it is linearly
+      equivalent to g(x_1,...,x_{n-1})+epsilon*x_n. The dimension-k form
+      separates k such affine coordinates.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.HasSeparatedLinearStructureNormalForm
+      - CryptBoolean.finrank_linearKernel_ge_iff_hasSeparatedLinearStructureNormalForm
+      - CryptBoolean.exists_nonzero_linearStructure_iff_exists_single_coordinate_normalForm
+    dependencies:
+      - carlet-4-def-linear-kernel
+      - carlet-2-def-affine-functions
+
+  - id: carlet-4-linear-kernel-nonlinearity-bound
+    kind: corollary
+    location: Carlet, p. 59
+    statement: >-
+      If dim ker_lin(f)=k, then
+      nl(f)<=2^(n-1)-2^((n+k-2)/2), with the displayed nonzero-structure
+      specialization.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.nonlinearity_cast_le_of_finrank_linearKernel_eq
+      - CryptBoolean.nonlinearity_cast_le_of_exists_nonzero_linearStructure
+    references: [40]
+    dependencies:
+      - carlet-4-prop-14
+      - carlet-4-rel-36-covering-radius-bent
+
+  - id: carlet-4-hyperplane-walsh-autocorrelation
+    kind: theorem
+    location: Carlet, pp. 59--60
+    statement: >-
+      For e!=0, E={0,e}^perp and every a, the sum of W_f(u)^2 over a+E is
+      2^(n-1)(2^n+(-1)^(a dot e) Delta_f(e)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshHyperplane
+      - CryptBoolean.mem_walshHyperplane_iff
+      - CryptBoolean.natCard_walshHyperplane
+      - CryptBoolean.sum_walshTransform_sq_hyperplane_coset
+    dependencies:
+      - carlet-2-cor-1-poisson-summation
+      - carlet-2-rel-25-wiener-khinchin
+
+  - id: carlet-4-prop-15
+    kind: proposition
+    location: Carlet, Proposition 15, p. 60
+    statement: >-
+      D_e f=0 iff supp(W_f) lies in {0,e}^perp, and D_e f=1 iff it lies in
+      the complementary coset. The stated balancedness and full-rank
+      consequences follow.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshSupport
+      - CryptBoolean.mem_walshSupport
+      - CryptBoolean.booleanDerivative_eq_zero_iff_walshSupport_subset_hyperplane
+      - CryptBoolean.booleanDerivative_eq_one_iff_walshSupport_subset_hyperplane_compl
+      - CryptBoolean.isBalanced_of_booleanDerivative_eq_one
+      - CryptBoolean.isLinearStructure_iff_booleanDerivative_eq_zero_of_not_balanced
+      - CryptBoolean.walshSupportSpan
+      - CryptBoolean.walshSupportRank
+      - CryptBoolean.no_nonzero_null_derivative_iff_walshSupportSpan_eq_top
+      - CryptBoolean.walshSupportRank_eq_n_iff
+      - CryptBoolean.no_nonzero_linearStructure_iff_walshSupportRank_eq_n_of_not_balanced
+    references: [42, 144, 226]
+    dependencies:
+      - carlet-4-hyperplane-walsh-autocorrelation
+      - carlet-4-def-linear-kernel
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-4-distance-to-linear-structures
+    kind: theorem
+    location: Carlet, p. 60
+    statement: >-
+      For n>=2, the minimum distance from f to a function with a nonzero
+      linear structure is 2^(n-2)-(1/4)max_{e!=0}|Delta_f(e)|, with the
+      stated nonlinearity, universal, and bent consequences.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.HasNonzeroLinearStructure
+      - CryptBoolean.distanceToLinearStructures
+      - CryptBoolean.distanceToLinearStructures_le_hammingDistance
+      - CryptBoolean.exists_hammingDistance_eq_distanceToLinearStructures
+      - CryptBoolean.abs_autocorrelation_le_absoluteIndicator
+      - CryptBoolean.distanceToLinearStructures_cast_eq
+      - CryptBoolean.distanceToLinearStructures_le_nonlinearity
+      - CryptBoolean.distanceToLinearStructures_le_two_pow
+      - CryptBoolean.absoluteIndicator_eq_zero_iff_isBent
+      - CryptBoolean.distanceToLinearStructures_eq_two_pow_iff_isBent
+    references: [273]
+    dependencies:
+      - carlet-4-def-linear-kernel
+      - carlet-2-def-hamming-distance
+      - carlet-2-def-autocorrelation
+      - carlet-4-rel-36-covering-radius-bent
+
+  - id: carlet-4-def-annihilator-algebraic-immunity
+    kind: definition
+    location: Carlet, pp. 61--62
+    statement: >-
+      An annihilator of f is a nonzero g with fg=0. Algebraic immunity is
+      the least degree of a nonzero annihilator of f or f+1; the annihilator
+      ideal and affine-invariance statements are as displayed.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.support_mul
+      - CryptBoolean.booleanFunction_mul_self
+      - CryptBoolean.booleanFunction_mul_complement
+      - CryptBoolean.IsAnnihilator
+      - CryptBoolean.annihilatorIdeal
+      - CryptBoolean.mem_annihilatorIdeal_iff
+      - CryptBoolean.isAnnihilator_iff_mem_annihilatorIdeal
+      - CryptBoolean.IsAlgebraicImmunityWitness
+      - CryptBoolean.algebraicImmunityCandidates
+      - CryptBoolean.mem_algebraicImmunityCandidates
+      - CryptBoolean.algebraicImmunityCandidates_nonempty
+      - CryptBoolean.algebraicImmunity
+      - CryptBoolean.algebraicImmunity_le_functionAlgebraicDegree
+      - CryptBoolean.exists_witness_functionAlgebraicDegree_eq_algebraicImmunity
+      - CryptBoolean.IsAnnihilator.comp_affineEquiv
+      - CryptBoolean.IsAlgebraicImmunityWitness.comp_affineEquiv
+      - CryptBoolean.algebraicImmunity_comp_affineEquiv_le
+      - CryptBoolean.algebraicImmunity_comp_affineEquiv
+    references: [115]
+    dependencies:
+      - carlet-2-anf-existence-uniqueness
+      - carlet-2-def-algebraic-degree
+      - carlet-2-def-support-weight
+
+  - id: carlet-4-low-degree-relation-equivalence
+    kind: theorem
+    location: Carlet, p. 62
+    statement: >-
+      There exist g!=0 and h with degrees at most d and fg=h iff there is a
+      nonzero q of degree at most d annihilating f or f+1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_lowDegreeRelation_iff_exists_algebraicImmunityWitness
+    dependencies:
+      - carlet-4-def-annihilator-algebraic-immunity
+
+  - id: carlet-4-annihilator-linear-system
+    kind: theorem
+    location: Carlet, p. 62
+    statement: >-
+      A degree-at-most-d function g annihilates f iff its low-degree ANF
+      coefficient vector is in the kernel of evaluation on supp(f); this
+      system has sum_{i=0}^d C(n,i) unknowns and w_H(f) equations.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.extendLowDegreeCoefficients
+      - CryptBoolean.reedMullerAnfEquiv
+      - CryptBoolean.annihilatorEvaluationLinearMap
+      - CryptBoolean.mem_ker_annihilatorEvaluationLinearMap_iff
+      - CryptBoolean.annihilatorEvaluationLinearMap_domain_finrank
+      - CryptBoolean.annihilatorEvaluationLinearMap_codomain_finrank
+    dependencies:
+      - carlet-4-def-annihilator-algebraic-immunity
+      - carlet-2-anf-existence-uniqueness
+      - carlet-2-def-support-weight
+
+  - id: carlet-4-ai-upper-bound
+    kind: theorem
+    location: Carlet, p. 62 and footnote 29
+    statement: >-
+      Every n-variable Boolean function has AI(f)<=ceil(n/2), with the
+      displayed improvements for functions depending on k variables and for
+      a linear kernel of dimension n-k.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.functionAlgebraicDegree_affineMap_coordinate_le_one_general
+      - CryptBoolean.functionAlgebraicDegree_anfMonomial_comp_affineMap_le_card_general
+      - CryptBoolean.functionAlgebraicDegree_comp_affineMap_le_general
+      - CryptBoolean.algebraicImmunity_comp_surjectiveAffineMap_le
+      - CryptBoolean.algebraicImmunity_le_ceiling_half
+      - CryptBoolean.HasSurjectiveAffineFactorization
+      - CryptBoolean.algebraicImmunity_le_ceiling_half_of_hasSurjectiveAffineFactorization
+      - CryptBoolean.hasSurjectiveAffineFactorization_of_hasSeparatedLinearStructureNormalForm
+      - CryptBoolean.algebraicImmunity_le_ceiling_half_add_one_of_hasSeparatedLinearStructureNormalForm
+      - CryptBoolean.algebraicImmunity_le_ceiling_half_add_one_of_linearKernel_finrank_ge
+    references: [115]
+    dependencies:
+      - carlet-4-low-degree-relation-equivalence
+      - carlet-4-annihilator-linear-system
+      - carlet-4-prop-14
+
+  - id: carlet-4-fast-algebraic-optimality
+    kind: definition
+    location: Carlet, p. 63
+    statement: >-
+      The dimension condition e+d>=n yields g!=0 and h with fg=h,
+      deg(g)<=e, and deg(h)<=d. Optimality against fast algebraic attacks is
+      the absence of such relations with deg(g)+deg(h)<n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_lt_sum_choose_add_sum_choose_of_add_ge
+      - CryptBoolean.sum_choose_add_sum_choose_gt_iff
+      - CryptBoolean.fastAlgebraicRelationLinearMap
+      - CryptBoolean.exists_fastAlgebraicRelation_of_add_ge
+      - CryptBoolean.IsFastAlgebraicallyOptimal
+      - CryptBoolean.isFastAlgebraicallyOptimal_iff_no_lowDegreeRelation
+      - CryptBoolean.algebraicImmunity_le_degree_of_mul_eq_of_ne_zero
+    references: [4, 115, 174]
+    dependencies:
+      - carlet-4-def-annihilator-algebraic-immunity
+      - carlet-4-annihilator-linear-system
+
+  - id: carlet-4-def-autocorrelation-indicators
+    kind: definition
+    location: Carlet, Relation (38), p. 64
+    statement: >-
+      V(f)=sum_e Delta_f(e)^2 is the sum-of-squares indicator and
+      A(f)=max_{e!=0}|Delta_f(e)| is the absolute indicator; both are affine
+      invariants.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sumOfSquaresIndicator
+      - CryptBoolean.absoluteIndicator
+      - CryptBoolean.booleanDerivative_comp_affineEquiv
+      - CryptBoolean.autocorrelation_comp_affineEquiv
+      - CryptBoolean.sumOfSquaresIndicator_comp_affineEquiv
+      - CryptBoolean.absoluteIndicator_comp_affineEquiv
+      - CryptBoolean.absoluteIndicator_zero_dimension
+    references: [354]
+    dependencies:
+      - carlet-2-def-autocorrelation
+
+  - id: carlet-4-autocorrelation-indicator-bounds
+    kind: theorem
+    location: Carlet, pp. 64--65
+    statement: >-
+      The indicators satisfy V(f)>=2^(2n), the displayed lower bound for
+      A(f) when n>0, the balanced-derivative equality criterion, and
+      V(f)>=2^(2n+k) when dim ker_lin(f)=k.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.autocorrelation_zero
+      - CryptBoolean.sumOfSquaresIndicator_lower_bound
+      - CryptBoolean.sumOfSquaresIndicator_eq_two_pow_iff
+      - CryptBoolean.absoluteIndicator_sq_lower_bound
+      - CryptBoolean.absoluteIndicator_lower_bound
+      - CryptBoolean.autocorrelation_sq_of_mem_linearKernel
+      - CryptBoolean.sumOfSquaresIndicator_lower_bound_linearKernel
+      - CryptBoolean.sumOfSquaresIndicator_lower_bound_of_finrank_eq
+    dependencies:
+      - carlet-4-def-autocorrelation-indicators
+      - carlet-4-def-linear-kernel
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-4-second-derivative-sum
+    kind: theorem
+    location: Carlet, p. 65
+    statement: >-
+      V(f)=sum_{a,e} F(D_a D_e f), where the second derivative is the
+      four-term binary difference displayed by Carlet.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.secondBooleanDerivative
+      - CryptBoolean.secondBooleanDerivative_apply
+      - CryptBoolean.sumOfSquaresIndicator_eq_sum_secondBooleanDerivative
+    dependencies:
+      - carlet-4-def-autocorrelation-indicators
+      - carlet-2-rel-26-total-autocorrelation
+
+  - id: carlet-4-rel-39-fourth-walsh-moment
+    kind: theorem
+    location: Carlet, Relation (39), pp. 65--66
+    statement: >-
+      For every a, sum_e W_f(e)^2 W_f(a+e)^2 equals
+      2^n sum_e Delta_f(e)^2(-1)^(e dot a); in particular the fourth Walsh
+      moment is 2^n V(f).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_walshTransform_sq_mul_add_sq_eq
+      - CryptBoolean.sum_walshTransform_fourth_eq_two_pow_mul_sumOfSquaresIndicator
+    references: [41]
+    dependencies:
+      - carlet-4-def-autocorrelation-indicators
+      - carlet-2-rel-25-wiener-khinchin
+      - carlet-2-rel-22-plancherel
+
+  - id: carlet-4-indicator-nonlinearity-spectral-support
+    kind: theorem
+    location: Carlet, pp. 65--66
+    statement: >-
+      The stated fourth-moment bounds imply two nonlinearity bounds and
+      V(f) times the Walsh-support size is at least 2^(3n), with the plateaued
+      and bent equality characterizations.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.HasPlateauedWalshSpectrum
+      - CryptBoolean.abs_walshTransform_le_maxWalshMagnitude
+      - CryptBoolean.sum_walshTransform_fourth_le_sum_sq_mul_maxWalshMagnitude_sq
+      - CryptBoolean.sum_walshTransform_fourth_le_two_pow_mul_maxWalshMagnitude_fourth
+      - CryptBoolean.sumOfSquaresIndicator_div_two_pow_le_maxWalshMagnitude_sq
+      - CryptBoolean.sumOfSquaresIndicator_le_maxWalshMagnitude_fourth
+      - CryptBoolean.inv_sqrt_two_pow_mul_sqrt_sumOfSquaresIndicator_le_maxWalshMagnitude
+      - CryptBoolean.rpow_one_fourth_sumOfSquaresIndicator_le_maxWalshMagnitude
+      - CryptBoolean.nonlinearity_cast_le_sqrt_sumOfSquaresIndicator_bound
+      - CryptBoolean.nonlinearity_cast_le_fourthRoot_sumOfSquaresIndicator_bound
+      - CryptBoolean.sum_walshTransform_fourth_eq_sum_sq_mul_maxWalshMagnitude_sq_iff_plateaued
+      - CryptBoolean.sum_walshTransform_fourth_eq_two_pow_mul_maxWalshMagnitude_fourth_iff_flat
+      - CryptBoolean.nonlinearity_cast_eq_sqrt_sumOfSquaresIndicator_bound_iff_plateaued
+      - CryptBoolean.nonlinearity_cast_eq_fourthRoot_sumOfSquaresIndicator_bound_iff_bent
+      - CryptBoolean.two_pow_three_mul_n_le_sumOfSquaresIndicator_mul_card_walshSupport
+      - CryptBoolean.sumOfSquaresIndicator_mul_card_walshSupport_eq_two_pow_three_mul_n_iff_plateaued
+    references: [355, 358]
+    dependencies:
+      - carlet-4-def-nonlinearity
+      - carlet-4-rel-39-fourth-walsh-moment
+      - carlet-2-parseval
+      - carlet-2-spectral-support-bounds
+      - carlet-4-rel-36-covering-radius-bent
+
+  - id: carlet-4-def-maximum-correlation
+    kind: definition
+    location: Carlet, pp. 66--67
+    statement: >-
+      C_f(I) is the maximum normalized correlation with a function depending
+      only on I. It has the displayed distance and restriction formulas, and
+      vanishes exactly when all corresponding restrictions are balanced.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.CoordinateSignChoice
+      - CryptBoolean.coordinateBooleanFunction
+      - CryptBoolean.coordinateBooleanFunction_dependsOn
+      - CryptBoolean.exists_coordinateSignChoice_iff_dependsOn
+      - CryptBoolean.normalizedCorrelation
+      - CryptBoolean.normalizedCorrelation_eq_one_sub_two_mul_hammingDistance
+      - CryptBoolean.distanceToCoordinateFunctions
+      - CryptBoolean.maximumCorrelation
+      - CryptBoolean.distanceToCoordinateFunctions_cast_eq
+      - CryptBoolean.higherOrderNonlinearity_le_distanceToCoordinateFunctions
+      - CryptBoolean.restrictionMaximumCorrelation
+      - CryptBoolean.maximumCorrelation_eq_restrictionMaximumCorrelation
+      - CryptBoolean.restrictionRawImbalance
+      - CryptBoolean.maximumCorrelation_eq_sum_abs_restrictionRawImbalance_div_two_pow
+      - CryptBoolean.maximumCorrelation_eq_zero_iff_restrictions_balanced
+    references: [353]
+    dependencies:
+      - carlet-4-def-higher-order-nonlinearity
+      - carlet-4-def-resiliency-correlation-immunity
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-4-rel-40-maximum-correlation-bound
+    kind: theorem
+    location: Carlet, Relation (40), p. 66
+    statement: >-
+      C_f(I) and the distance to functions depending on I satisfy the two
+      displayed Walsh-square and maximum-Walsh bounds.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.restrictedWalshSquareSum
+      - CryptBoolean.restrictedWalshSquareSum_eq_sum_filter
+      - CryptBoolean.two_pow_sq_mul_expect_restrictionMean_sq_eq_restrictedWalshSquareSum
+      - CryptBoolean.maximumCorrelation_le_sqrt_restrictedWalshSquareSum_div
+      - CryptBoolean.restrictedWalshSquareSum_le_card_mul_maxWalshMagnitude_sq
+      - CryptBoolean.sqrt_restrictedWalshSquareSum_le
+      - CryptBoolean.relation_40_maximumCorrelation_bound
+      - CryptBoolean.distanceToCoordinateFunctions_cast_ge_walshSquare
+      - CryptBoolean.distanceToCoordinateFunctions_cast_ge_maxWalshMagnitude
+    references: [37]
+    dependencies:
+      - carlet-4-def-maximum-correlation
+      - carlet-4-def-nonlinearity
+      - carlet-2-def-walsh-transform
+      - carlet-2-cor-1-poisson-summation
+
+  - id: carlet-4-generalized-linear-structure-distance
+    kind: definition
+    location: Carlet, p. 67
+    statement: >-
+      For 0<=k<=n, define the affine-invariant distance from f to the Boolean
+      functions g for which {e | D_e g=0} has dimension at least k.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsZeroDerivativeDirection
+      - CryptBoolean.zeroDerivativeKernel
+      - CryptBoolean.mem_zeroDerivativeKernel
+      - CryptBoolean.zeroDerivativeKernel_le_linearKernel
+      - CryptBoolean.zeroDerivativeKernelAffineEquiv
+      - CryptBoolean.finrank_zeroDerivativeKernel_comp_affineEquiv
+      - CryptBoolean.zeroDerivativeKernel_zero
+      - CryptBoolean.finrank_zeroDerivativeKernel_zero
+      - CryptBoolean.largeZeroDerivativeFunctions
+      - CryptBoolean.largeZeroDerivativeFunctions_nonempty
+      - CryptBoolean.generalizedLinearStructureDistance
+      - CryptBoolean.mem_largeZeroDerivativeFunctions_comp_affineEquiv_iff
+      - CryptBoolean.generalizedLinearStructureDistance_comp_affineEquiv_le
+      - CryptBoolean.generalizedLinearStructureDistance_comp_affineEquiv
+    references: [37]
+    dependencies:
+      - carlet-4-def-linear-kernel
+      - carlet-2-def-hamming-distance
+
+  - id: carlet-4-other-complexity-definitions
+    kind: definition
+    location: Carlet, p. 67
+    statement: >-
+      Algebraic thickness, normality, weak normality, and spectral complexity
+      are the affine-orbit, flat-restriction, and Walsh-support quantities
+      stated by Carlet.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.algebraicThickness
+      - CryptBoolean.exists_affineEquiv_anfSupport_card_eq_algebraicThickness
+      - CryptBoolean.IsConstantOnAffineFlat
+      - CryptBoolean.IsAffineOnAffineFlat
+      - CryptBoolean.IsConstantOnAffineFlat.isAffineOnAffineFlat
+      - CryptBoolean.normality
+      - CryptBoolean.weakNormality
+      - CryptBoolean.normality_le_weakNormality
+      - CryptBoolean.spectralComplexity
+    references: [65, 273, 299, 311]
+    dependencies:
+      - carlet-2-def-algebraic-degree
+      - carlet-2-affine-invariance
+      - carlet-2-spectral-support-bounds
+
+  - id: carlet-4-kth-nonhomomorphicity
+    kind: theorem
+    location: Carlet, p. 67
+    statement: >-
+      For even k with 4<=k<=2^n, NH_k(f) equals
+      2^((k-1)n-1)+2^(-n-1) sum_u W_f(u)^k, with the stated affine maximum
+      and bent minimum characterizations.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanTupleSum
+      - CryptBoolean.booleanTupleOutputSum
+      - CryptBoolean.kthNonhomomorphicity
+      - CryptBoolean.two_mul_two_pow_mul_kthNonhomomorphicity
+      - CryptBoolean.kthNonhomomorphicity_cast_eq_walshMoment
+      - CryptBoolean.kthNonhomomorphicity_cast_eq_carlet_formula
+      - CryptBoolean.IsAffineBooleanFunction
+      - CryptBoolean.isAffineBooleanFunction_iff_nonlinearity_eq_zero
+      - CryptBoolean.abs_walshTransform_le_two_pow
+      - CryptBoolean.sum_walshTransform_evenMoment_le
+      - CryptBoolean.kthNonhomomorphicity_affineFunction
+      - CryptBoolean.kthNonhomomorphicity_cast_le_max
+      - CryptBoolean.kthNonhomomorphicity_cast_eq_max_iff_isAffine
+      - CryptBoolean.carlet_kthNonhomomorphicity_cast_eq_max_iff_isAffine
+      - CryptBoolean.two_pow_pow_succ_le_sum_walshTransform_evenMoment
+      - CryptBoolean.sum_walshTransform_evenMoment_eq_min_iff_isBent
+      - CryptBoolean.kthNonhomomorphicity_cast_min_le
+      - CryptBoolean.kthNonhomomorphicity_cast_eq_min_iff_isBent
+      - CryptBoolean.carlet_kthNonhomomorphicity_cast_eq_min_iff_isBent
+    fidelity_note: >-
+      The implementation follows Carlet's name for the zero-sum/even-output
+      tuple count. Reference [357] calls that same count homomorphicity and
+      reserves nonhomomorphicity for the complementary odd-output count.
+    references: [357]
+    dependencies:
+      - carlet-2-def-walsh-transform
+      - carlet-2-parseval
+      - carlet-4-rel-36-covering-radius-bent
+
+  - id: carlet-4-affine-reindex-first-resilient
+    kind: theorem
+    location: Carlet, concluding paragraph, p. 68
+    statement: >-
+      If f is balanced and its zero-Walsh set contains n linearly independent
+      vectors, then some linear automorphism L makes f composed with L
+      1-resilient.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshCoordinateLinearMap
+      - CryptBoolean.walshCoordinateLinearMap_injective
+      - CryptBoolean.walshReindexLinearEquiv
+      - CryptBoolean.bentDualFrequency_walshReindexLinearEquiv_single
+      - CryptBoolean.walshTransform_linearReindex_cast
+      - CryptBoolean.bentDualFrequency_zero
+      - CryptBoolean.isBalanced_linearReindex
+      - CryptBoolean.exists_linearEquiv_isResilient_one
+    dependencies:
+      - carlet-4-theorem-3
+      - carlet-4-resiliency-translation-invariance
+      - carlet-2-def-affine-functions
