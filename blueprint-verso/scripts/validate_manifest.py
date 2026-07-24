@@ -47,7 +47,16 @@ def main() -> None:
         for preview in previews
         if preview.get("targetKind") == "block" and preview.get("facet") == "statement"
     ]
-    lean_decls = [p for p in previews if p.get("targetKind") == "leanDecl"]
+    lean_decls = [
+        preview
+        for preview in previews
+        if preview.get("targetKind") == "leanDecl" and preview.get("facet") == "statement"
+    ]
+    citations = [
+        preview
+        for preview in previews
+        if preview.get("targetKind") == "citation" and preview.get("facet") == "statement"
+    ]
     block_decls = {
         block["authoredLabel"]: ((block.get("codeData") or {}).get("external") or {}).get("decls", [])
         for block in blocks
@@ -62,8 +71,35 @@ def main() -> None:
         fail(f"expected {EXPECTED_FORMALIZED} formalized blocks, found {len(formalized_blocks)}")
     if set(open_blocks) != EXPECTED_OPEN:
         fail("unexpected open statement set: " + ", ".join(sorted(open_blocks)))
-    if len(previews) != len(blocks) + len(lean_decls):
-        fail("manifest contains previews other than statements and associated Lean declarations")
+    supported_preview_kinds = {
+        ("block", "statement"),
+        ("leanDecl", "statement"),
+        ("citation", "statement"),
+    }
+    unexpected_kinds = Counter(
+        (preview.get("targetKind"), preview.get("facet"))
+        for preview in previews
+        if (preview.get("targetKind"), preview.get("facet")) not in supported_preview_kinds
+    )
+    if unexpected_kinds:
+        fail(f"manifest contains unsupported previews: {dict(unexpected_kinds)}")
+    if not citations:
+        fail("manifest contains no citation previews")
+    malformed_citations = [
+        citation.get("key")
+        for citation in citations
+        if not str(citation.get("key", "")).startswith("bp-cite-")
+        or not citation.get("label")
+        or not citation.get("authoredLabel")
+        or citation.get("title") != f"Bibliography: {citation.get('authoredLabel')}"
+        or not isinstance(citation.get("href"), str)
+        or not citation["href"]
+    ]
+    if malformed_citations:
+        fail("malformed citation previews: " + ", ".join(str(key) for key in malformed_citations))
+    citation_keys = [citation["key"] for citation in citations]
+    if len(citation_keys) != len(set(citation_keys)):
+        fail("duplicate citation preview keys")
 
     labels = [block["authoredLabel"] for block in blocks]
     duplicate_labels = sorted(label for label, count in Counter(labels).items() if count != 1)
@@ -190,7 +226,8 @@ def main() -> None:
     print(
         f"manifest ok: {len(blocks)} statements "
         f"({len(formalized_blocks)} formalized, {len(open_blocks)} open), "
-        f"{len(decls)} declarations, {len(graph.get('edges', []))} edges"
+        f"{len(decls)} declarations, {len(graph.get('edges', []))} edges, "
+        f"{len(citations)} citation previews"
     )
 
 
