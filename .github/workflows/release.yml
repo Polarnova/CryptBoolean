@@ -73,6 +73,15 @@ jobs:
           use-mathlib-cache: true
           use-github-cache: false
 
+      - name: Restore CryptBoolean build cache
+        id: cryptboolean-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .lake/build
+          key: cryptboolean-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.lean', 'CryptBoolean.lean', 'CryptBoolean/**/*.lean') }}
+          restore-keys: |
+            cryptboolean-${{ runner.os }}-${{ runner.arch }}-
+
       - name: Build release library as a dependency
         env:
           GH_TOKEN: ${{ github.token }}
@@ -97,7 +106,15 @@ jobs:
       - name: Audit release proofs
         run: |
           ./.github/scripts/forbidden_tokens.sh
-          ./.github/scripts/audit_axioms.sh
+          ./.github/scripts/audit_axioms.sh \
+            "$RUNNER_TEMP/cryptboolean-release-builder"
+
+      - name: Save CryptBoolean build cache
+        if: steps.cryptboolean-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: .lake/build
+          key: ${{ steps.cryptboolean-cache.outputs.cache-primary-key }}
 
       - name: Pack Lake release archive
         run: |
