@@ -264,6 +264,7 @@ local macro_rules
           set_option Elab.async true in
           set_option maxRecDepth 1000000 in
           set_option maxHeartbeats 20000000 in
+          -- Each group kernel-reduces a cost-balanced exhaustive finite search.
           private theorem $proofName :
               ($groupTerm).all
                 systematicWeightSixteenFirstShardCoverage = true := by
