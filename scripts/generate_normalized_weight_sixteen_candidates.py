@@ -462,13 +462,26 @@ def render_lean(
         deadline.check("Lean bucket rendering")
         lines.append(f"bucket b{prefix:04x} {prefix}")
         for candidate in buckets[prefix]:
-            lines.append(
-                "  "
-                f"{candidate.pattern_class} {candidate.affine_code} "
-                f"{candidate.linear_inverse_code} "
-                f"{candidate.mask_low} {candidate.mask_high} "
-                f"{candidate.systematic_code}"
+            fields = tuple(
+                str(value)
+                for value in (
+                    candidate.pattern_class,
+                    candidate.affine_code,
+                    candidate.linear_inverse_code,
+                    candidate.mask_low,
+                    candidate.mask_high,
+                    candidate.systematic_code,
+                )
             )
+            line = f"  {fields[0]}"
+            for field in fields[1:]:
+                extended = f"{line} {field}"
+                if len(extended) <= 100:
+                    line = extended
+                else:
+                    lines.append(line)
+                    line = f"    {field}"
+            lines.append(line)
     lines.extend(
         (
             "end_normalized_weight_sixteen_candidates",
