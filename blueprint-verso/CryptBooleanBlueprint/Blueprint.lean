@@ -27,19 +27,18 @@ Claude Carlet's *Boolean Functions for Cryptography and Error-Correcting Codes*
 {Citations.citep carlet2010}[].
 
 The library develops algebraic representations, Walsh analysis, finite-field representations,
-Reed--Muller coding, and cryptographic criteria for scalar Boolean functions. It uses
-[FABL](https://github.com/Polarnova/FABL) for Boolean Fourier analysis and records explicit bridges
-between FABL's normalized Fourier coefficients and Carlet's raw Walsh transform.
+Reed--Muller coding, and cryptographic criteria for scalar Boolean functions. Carlet's raw Walsh
+transform and the normalized Fourier transform are related throughout by the identity
+$`W_f(a)=2^n\widetilde{f_\chi}(a)`.
 
-This volume contains 116 source-facing mathematical statements: 115 are associated with 759 proved
-Lean declarations, while one remains visibly open. The dependency graph records 223 reviewed
+This volume contains 116 mathematical statements: 115 are linked to 759 proved Lean declarations,
+while one remains open. The dependency graph records 223 reviewed
 mathematical edges. Chapter 2 develops representations and the Fourier--Walsh interface; Chapter 3
 develops Reed--Muller coding; Chapter 4 develops the scalar criteria used in cryptography.
 
 Each entry states the mathematics with explicit domains, hypotheses, quantifiers, and conclusions.
-Implementation and normalization notes sit outside statement blocks. A source theorem without an
-associated declaration is intentionally open rather than hidden or attached to a placeholder. The
-graph below records the reviewed mathematical dependencies among these results. The site is
+The sole open theorem is displayed with its full statement and without a declaration association.
+The graph below records the reviewed mathematical dependencies among these results. The site is
 generated with [Verso Blueprint](https://github.com/leanprover/verso-blueprint), and the checked
 artifact from `main` is published automatically through GitHub Pages.
 

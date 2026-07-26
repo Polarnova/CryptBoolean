@@ -50,9 +50,9 @@ items:
     dependencies:
       - carlet-2-def-boolean-function
 
-  - id: carlet-2-bridge-walsh-normalization
+  - id: carlet-2-walsh-normalization
     kind: theorem
-    location: Project normalization bridge for Carlet's raw Walsh transform
+    location: Walsh normalization identity
     statement: >-
       If f̃_χ(a) = 2^(-n) ∑_{x ∈ V_n} f_χ(x)(-1)^(a·x), then the
       real image of W_f(a) satisfies W_f(a) = 2^n f̃_χ(a).
@@ -96,7 +96,7 @@ items:
       - CryptBoolean.two_pow_mul_realSignView_eq_sum_walshTransform_mul_character
       - CryptBoolean.realSignView_eq_inv_two_pow_mul_sum_walshTransform_mul_character
     dependencies:
-      - carlet-2-bridge-walsh-normalization
+      - carlet-2-walsh-normalization
 
   - id: carlet-2-parseval
     kind: theorem
@@ -109,7 +109,7 @@ items:
       - CryptBoolean.sum_vectorFourierCoeff_realSignView_sq
       - CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq
     dependencies:
-      - carlet-2-bridge-walsh-normalization
+      - carlet-2-walsh-normalization
 
   - id: carlet-2-pseudoboolean-fourier
     kind: definition
@@ -473,7 +473,7 @@ items:
     declarations: []
     blocker: >-
       Missing a finite-field coordinate-ANF-degree versus univariate-binary-weight
-      bridge and the cyclotomic-orbit noncancellation theorem needed to show that
+      theorem and the cyclotomic-orbit noncancellation result needed to show that
       a nonzero orbit coefficient contributes binary weight w_2(k). No matching
       result is exposed by the pinned FABL or Mathlib surface.
     dependencies:
@@ -527,9 +527,9 @@ items:
     dependencies:
       - carlet-2-def-support-weight
 
-  - id: carlet-2-bridge-relative-hamming-distance
+  - id: carlet-2-relative-hamming-normalization
     kind: theorem
-    location: Project relative-distance normalization bridge
+    location: Relative Hamming-distance normalization
     statement: >-
       If d_rel(f,g) = 2^(-n)|{x ∈ V_n | f(x) ≠ g(x)}|, then
       d_H(f,g) = 2^n d_rel(f,g) for all f,g : V_n → 𝔽₂.

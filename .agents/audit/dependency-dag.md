@@ -5,7 +5,7 @@
 The `uses :=` relation in the Verso Blueprint records mathematical statement dependencies. It does
 not record Lean imports, file inclusion, library provenance, presentation order, or the tactics used
 by a proof. A declaration may reuse Mathlib or FABL internally without creating a Blueprint edge
-unless a separate source-facing bridge statement is mathematically required.
+unless a separate source-facing conversion theorem is mathematically required.
 
 The generated manifest is the machine-checked graph. This audit is its reviewed, human-readable
 spine. The current baseline is:
@@ -43,20 +43,20 @@ carlet-2-balanced-zero-walsh
   <- carlet-2-def-support-weight, carlet-2-def-walsh-transform
 carlet-2-def-hamming-distance
   <- carlet-2-def-support-weight
-carlet-2-bridge-relative-hamming-distance
+carlet-2-relative-hamming-normalization
   <- carlet-2-def-hamming-distance
 
-carlet-2-bridge-walsh-normalization
+carlet-2-walsh-normalization
   <- carlet-2-def-walsh-transform
 carlet-2-fourier-inversion
-  <- carlet-2-bridge-walsh-normalization
+  <- carlet-2-walsh-normalization
 carlet-2-parseval
-  <- carlet-2-bridge-walsh-normalization
+  <- carlet-2-walsh-normalization
 ```
 
 This branch keeps raw Hamming distance and raw Walsh sums canonical on the Carlet side. FABL's
-relative distance and normalized Fourier coefficients enter only through the two explicit bridge
-nodes.
+relative distance and normalized Fourier coefficients enter only through the two explicit
+normalization identities.
 
 ### Algebraic and numerical representations
 
@@ -114,7 +114,7 @@ The normalized Poisson theorem and Carlet's full Corollary 1 are separate consum
 prerequisites. The normalized identity is associated directly with FABL's theorem; the full raw
 identity retains both modulation parameters and is proved locally. Relation (22) is the bilinear
 Plancherel identity and depends on convolution plus Fourier involution. The spectral node composes
-the raw/normalized support bridge, restriction monotonicity, the ANF lower bound, and the NNF upper
+the raw/normalized support identity, restriction monotonicity, the ANF lower bound, and the NNF upper
 bound; its zero-function conventions are explicit in the source-facing statement.
 
 ### Derivatives and autocorrelation
@@ -407,8 +407,8 @@ carlet-4-fast-algebraic-optimality
 ```
 
 This branch has 12 incoming edges. The upper bound composes the low-degree relation equivalence,
-the ANF evaluation system, and Proposition 14's coordinate separation rather than treating its
-dimension count as an isolated root.
+the ANF evaluation system, and Proposition 14's coordinate separation; its dimension count is not
+an isolated root.
 
 ### Autocorrelation indicators and fourth Walsh moments
 
@@ -473,10 +473,9 @@ eight Chapter 4 families, the reviewed counts are
 ## Remaining proof frontier
 
 One source node remains open: the Chapter 2 trace-monomial proposition. Its Blueprint prerequisites
-are formalized, but it requires a genuine missing mathematical layer rather than another already
-inventoried node:
+are formalized, but it requires the following missing mathematical layer:
 
-- `carlet-2-trace-monomial-degree` (Carlet Proposition 3) lacks the bridge identifying coordinate
+- `carlet-2-trace-monomial-degree` (Carlet Proposition 3) lacks a theorem identifying coordinate
   ANF degree on `V_n` with the maximum binary exponent weight in the univariate finite-field
   representation. It also lacks cyclotomic-orbit noncancellation showing that nonzeroness forces an
   orbit coefficient of binary weight `w_2(k)` to survive. The pinned FABL and Mathlib surfaces do

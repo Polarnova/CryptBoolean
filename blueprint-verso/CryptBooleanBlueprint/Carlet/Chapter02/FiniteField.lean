@@ -43,10 +43,6 @@ $$`
 `
 :::
 
-*Formalization note.* The field, finite-field trace, trace nondegeneracy, and Frobenius-sum theorem
-are provided by [Mathlib](https://github.com/leanprover-community/mathlib4). The Blueprint statement
-records the resulting mathematics rather than those implementation choices.
-
 :::theorem "carlet-2-univariate-representation" (parent := "carlet-chapter-2") (lean := "CryptBoolean.univariateRepresentation, CryptBoolean.eval_univariateRepresentation, CryptBoolean.degree_univariateRepresentation_lt_card, CryptBoolean.existsUnique_univariateRepresentation") (tags := "carlet, chapter-2, relation-4, page-15, fidelity-exact")
 *Univariate representation (Carlet, Relation (4), p. 15).* Let $`n>0` and
 $`K_n=\operatorname{GF}(2^n)`. For every function $`F:K_n\to K_n`, there
@@ -63,8 +59,7 @@ P_F(X)=\sum_{i=0}^{2^n-1}\delta_iX^i
 for uniquely determined coefficients $`\delta_i\in K_n`.
 :::
 
-*Formalization note.* The canonical witness is finite Lagrange interpolation. This theorem has no
-mathematical dependency on the absolute trace, so no such edge is recorded in the Blueprint graph.
+The polynomial $`P_F` is obtained by finite Lagrange interpolation.
 
 :::proposition "carlet-2-trace-monomial-degree" (parent := "carlet-chapter-2") (uses := "carlet-2-absolute-trace, carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, proposition-3, pages-17-18, source-open")
 *Proposition 3 (Carlet, pp. 17--18).* Let $`n>0`, let $`a\in K_n`, choose an
@@ -81,7 +76,6 @@ where $`w_2(k)` is the number of nonzero digits in the binary expansion of
 $`k`.
 :::
 
-*Formalization note.* Carlet identifies $`K_n` with $`V_n` after fixing a basis. Making the
-coordinate isomorphism explicit is necessary to apply the cube-based definition of algebraic
-degree; changing the basis composes $`f_\theta` with a linear automorphism, so affine invariance
-makes the displayed degree basis-independent.
+Carlet identifies $`K_n` with $`V_n` after fixing a basis. Changing that basis composes
+$`f_\theta` with a linear automorphism, so affine invariance makes the displayed degree
+basis-independent.

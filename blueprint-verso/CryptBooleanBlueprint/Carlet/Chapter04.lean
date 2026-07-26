@@ -21,15 +21,13 @@ open Informal
 
 #doc (Manual) "Boolean functions and cryptography" =>
 
-Chapter 4 contains 73 source-facing nodes. All 73 nodes are associated with 568 proved
-declarations. They cover nonlinearity and its Walsh formula, Rodier's sharp random-nonlinearity
+Chapter 4 develops nonlinearity and its Walsh formula, Rodier's sharp random-nonlinearity
 interval, general odd-dimensional bounds and exact values in dimensions one, three, five, and
 seven, balanced, `PC(1)`, and degree-`n-1` constructions above the quadratic bound, higher-order
 lower bounds, the rank-seven weight-sixteen classification, and the sharp fixed-order
 higher-order upper bound,
 Reed--Muller coset distances, resiliency, propagation criteria, linear structures, algebraic
-immunity, autocorrelation indicators, maximum correlation, and scalar complexity criteria. The
-chapter has no remaining open statement nodes.
+immunity, autocorrelation indicators, maximum correlation, and scalar complexity criteria.
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}
 

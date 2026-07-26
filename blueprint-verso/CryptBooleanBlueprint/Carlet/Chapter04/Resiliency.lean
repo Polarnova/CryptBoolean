@@ -44,9 +44,8 @@ correlation immune of order $`m` if and only if the dual-distance condition
 alone holds.
 :::
 
-Formalization note. `HasDualDistanceAtLeast` uses Carlet's character-sum
-definition for an arbitrary finite binary code, so the result is not encoded as
-a restatement of Walsh-transform vanishing.
+Here dual distance is understood through Carlet's character-sum definition for
+an arbitrary finite binary code.
 
 :::theorem "carlet-4-code-generator-resilient" (parent := "carlet-chapter-4") (lean := "CryptBoolean.binaryGeneratorCodeword, CryptBoolean.IsBinaryCodeGenerator, CryptBoolean.binaryGeneratorPullback, CryptBoolean.isBalanced_binaryGeneratorPullback, CryptBoolean.binaryGeneratorPullback_isResilient") (uses := "carlet-4-def-resiliency-correlation-immunity") (tags := "carlet, chapter-4, resilient-construction, pages-57-58, fidelity-exact-generator-matrix")
 *Code-generator construction (Carlet, pp. 57--58).* Let $`G` generate a

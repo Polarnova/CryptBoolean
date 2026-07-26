@@ -32,6 +32,5 @@ c_S
 `
 :::
 
-*Formalization note.* The Lean proof establishes existence by the characteristic-two subset-lattice
-transform and uniqueness by injectivity of its zeta sums. The interval-cardinality calculation is a
-proof mechanism, not part of the theorem statement.
+Existence follows from the characteristic-two subset-lattice transform, while injectivity of its
+zeta sums gives uniqueness.

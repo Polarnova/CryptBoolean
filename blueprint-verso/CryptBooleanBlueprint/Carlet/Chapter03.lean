@@ -14,10 +14,8 @@ open Informal
 
 #doc (Manual) "Boolean functions and coding" =>
 
-Chapter 3 develops the coding-theoretic structure of Boolean functions. Its seven source-facing
-nodes are all formalized and associated with 32 proved Lean declarations. The verified surface
-defines Reed--Muller codes and proves the order-one specialization and full general-order form of
-Carlet's Theorem 1, Proposition 12's complete minimum-weight equality classification, the dimension
-and cardinality formulas, and Theorem 2 on duality.
+Chapter 3 defines Reed--Muller codes and proves the order-one specialization and full general-order
+form of Carlet's Theorem 1, Proposition 12's complete minimum-weight equality classification, the
+dimension and cardinality formulas, and Theorem 2 on duality.
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter03.ReedMuller}

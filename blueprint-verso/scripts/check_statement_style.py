@@ -21,6 +21,10 @@ IMPLEMENTATION_TERMS = re.compile(
     r"formalized|compiled|delegated|reuses?|upstream|source-open)\b",
     re.IGNORECASE,
 )
+ENGINEERING_LABEL = re.compile(
+    r"\b(?:Formalization|Implementation)\s+note\b|\bProject\s+bridge\b",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -65,12 +69,19 @@ def statement_blocks(path: Path) -> list[StatementBlock]:
 
 def main() -> None:
     """Validate every source-facing statement and report the formalized/open split."""
+    source_paths = sorted(SOURCE_ROOT.rglob("*.lean"))
     blocks = [
         block
-        for path in sorted(SOURCE_ROOT.rglob("*.lean"))
+        for path in source_paths
         for block in statement_blocks(path)
     ]
     errors: list[str] = []
+    for path in source_paths:
+        match = ENGINEERING_LABEL.search(path.read_text())
+        if match is not None:
+            errors.append(
+                f"{path.relative_to(ROOT)} contains generic engineering label {match.group(0)!r}"
+            )
     for block in blocks:
         location = f"{block.path.relative_to(ROOT)}:{block.line}"
         first_line = next((line.strip() for line in block.body.splitlines() if line.strip()), "")
@@ -87,8 +98,6 @@ def main() -> None:
             errors.append(
                 f"{location}: {block.identifier} contains implementation term {term.group(0)!r}"
             )
-        if "Formalization note" in block.body:
-            errors.append(f"{location}: {block.identifier} contains a formalization note")
         if has_lean == is_open:
             expected = "a Lean association" if is_open else "the source-open tag"
             errors.append(f"{location}: {block.identifier} must have {expected}, but not both")

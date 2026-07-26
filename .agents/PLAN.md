@@ -6,7 +6,8 @@ CryptBoolean pins FABL at release `v0.5.6`. Its public root exposes the binary c
 product, representation equivalence, normalized Fourier coefficients, Fourier expansion,
 Plancherel, relative Hamming distance, balancedness, restrictions, ANF, algebraic degree, affine
 functions, and derivatives needed by CryptBoolean. FABL is the canonical owner of those shared APIs;
-this project imports them directly and adds only source-facing or representation bridges.
+this project imports them directly and adds only source-facing statements or cross-representation
+laws.
 
 The current Blueprint baseline contains 116 source-facing statement nodes: 115 formalized nodes
 associated with 759 proved Lean declarations and 1 visibly open node, connected by 223 reviewed
@@ -21,8 +22,8 @@ headings in Carlet and 240 in Cusick--Stănică. These are lower-bound discovery
 counts: unnumbered claims, equations, constructions, and extraction errors still require manual
 inventory.
 
-The governing sequencing rule is dependency readiness, not printed order. Carlet remains the
-statement spine even when a later chapter supplies an earlier theorem's proof.
+The governing sequencing rule is dependency readiness; printed order is secondary. Carlet remains
+the statement spine even when a later chapter supplies an earlier theorem's proof.
 
 ## Dependency spine
 
@@ -30,7 +31,7 @@ statement spine even when a later chapter supplies an earlier theorem's proof.
 FABL Chapters 1--3
         |
         v
-binary/sign/Walsh bridges ---- ANF and algebraic degree
+binary/sign/Walsh identities ---- ANF and algebraic degree
         |                           |
         +------------+--------------+
                      v
@@ -81,7 +82,7 @@ yet inventoried.
 
 Read Chapters 2--10 in full and create one Blueprint node per in-scope item. Record full statements,
 source locations, representation decisions, and mathematical dependencies. Mark referenced results
-from the absent vectorial chapter as external dependencies instead of inventing them.
+from the absent vectorial chapter as explicit external dependencies.
 
 Each statement block contains only the source result label and rigorous mathematics: domains,
 quantifiers, hypotheses, and conclusion. Repository links, FABL or Mathlib reuse, proof narration,
@@ -101,8 +102,8 @@ numerical-normal-form integrality criterion, full raw Poisson summation, affine 
 restriction recovery, and both spectral-support bounds. The only open node is Carlet Proposition 3
 on the algebraic degree of trace monomials.
 
-The precise Proposition 3 frontier is a bridge from univariate finite-field exponents to coordinate
-ANF degree: coordinate algebraic degree must equal the maximum binary weight in the univariate
+The precise Proposition 3 frontier is a theorem relating univariate finite-field exponents to
+coordinate ANF degree: coordinate algebraic degree must equal the maximum binary weight in the univariate
 support, and the coefficients along the relevant cyclotomic orbit must be shown not to cancel.
 
 ### 2A. Boolean representations
@@ -121,12 +122,12 @@ support, and the coefficients along the relevant cyclotomic orbit must be shown 
 - affine invariance and restriction laws required downstream.
 
 Pinned FABL `v0.5.6` canonically owns the ANF and algebraic-degree APIs. CryptBoolean imports that
-surface directly and keeps only the Carlet-facing statements and narrow representation bridges.
+surface directly and keeps only the Carlet-facing statements and required conversion laws.
 
 ### 2C. Fourier and Walsh
 
 - raw integer Walsh transform;
-- normalized FABL coefficient bridge;
+- normalized FABL coefficient identity;
 - inversion, Parseval/Plancherel specializations, convolution, and subspace formulas;
 - support and spectral magnitude results;
 - normal numerical form only when its first theorem is ready.
@@ -191,7 +192,7 @@ compiled and available to the bent/resilient construction phases.
 
 ## Phase 6 - Chapter 6 bent functions
 
-Order the work by prerequisites rather than subsection number:
+Order the work by prerequisites; subsection number is secondary:
 
 - spectral and derivative characterizations of bentness;
 - dual bent function and normalization laws;
@@ -215,7 +216,7 @@ API. Spectral characterizations do not wait for either.
 - counting results.
 
 FABL `v0.5.6` already supplies the Siegenthaler-type degree tradeoff. Reuse the upstream theorem
-through the required Carlet representation bridge rather than create a parallel implementation.
+through the required Carlet conversion law, preserving a single implementation.
 
 ## Phase 8 - Chapter 8 propagation criteria
 
@@ -224,7 +225,7 @@ through the required Carlet representation bridge rather than create a parallel 
 - construction theorems;
 - order-`k` propagation and extended propagation criteria.
 
-This phase should reuse the Phase 4 predicates and derivative bridge rather than introduce parallel
+This phase should reuse the Phase 4 predicates and derivative correspondence, preserving the shared
 definitions.
 
 ## Phase 9 - Chapter 9 algebraic immunity
@@ -251,7 +252,7 @@ This phase reuses the general criteria and does not redefine them for symmetric 
 ## Phase 11 - Carlet closure
 
 Run a statement-to-declaration audit across Chapters 2--10. Resolve every source discrepancy,
-normalization bridge, referenced external lemma, and generalization. Then run the root build,
+normalization identity, referenced external lemma, and generalization. Then run the root build,
 forbidden-token scan, strict Blueprint build, dependency-graph validation, and visual HTML/PDF QA.
 
 The repository-level verification commands are `lake build CryptBoolean`,
@@ -278,7 +279,7 @@ be encoded as informal asymptotic prose or trusted runtime annotations.
 
 - the complete Carlet inventory and Blueprint;
 - the Lean repository and pinned FABL integration;
-- bit/sign/real representation bridges;
+- bit/sign/real conversion laws;
 - raw Walsh normalization and Fourier reuse;
 - weight, distance, affine functions, balancedness, and nonlinearity;
 - ANF, algebraic degree, Reed-Muller families, and algebraic immunity;

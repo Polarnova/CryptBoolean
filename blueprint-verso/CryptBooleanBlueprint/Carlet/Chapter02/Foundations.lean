@@ -34,9 +34,6 @@ w_H(f)=|\operatorname{supp}(f)|.
 `
 :::
 
-*Formalization note.* The source-facing weight name is a reducible alias of Mathlib's
-`hammingNorm`; the associated bridge proves that it is exactly the cardinality displayed above.
-
 :::definition "carlet-2-def-walsh-transform" (parent := "carlet-chapter-2") (lean := "CryptBoolean.bitSignInt, CryptBoolean.walshTerm, CryptBoolean.walshTransform") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, pages-22-23, fidelity-exact")
 *Walsh transform (Carlet, pp. 22--23).* Let
 $`f:V_n\to\mathbb F_2`. The Walsh transform of $`f` is the unnormalized
@@ -48,8 +45,8 @@ W_f(a)=\sum_{x\in V_n}(-1)^{f(x)+a\mathbin\cdot x}
 `
 :::
 
-:::theorem "carlet-2-bridge-walsh-normalization" (parent := "carlet-chapter-2") (lean := "CryptBoolean.card_f₂Cube, CryptBoolean.walshTerm_cast_eq_realSignView_mul_character, CryptBoolean.walshTransform_cast_eq_sum_realSignView_mul_character, CryptBoolean.walshTransform_eq_two_pow_mul_vectorFourierCoeff") (uses := "carlet-2-def-walsh-transform") (tags := "carlet, chapter-2, normalization-bridge, fidelity-explicit-bridge")
-*Walsh normalization bridge.* For $`f:V_n\to\mathbb F_2` and $`a\in V_n`,
+:::theorem "carlet-2-walsh-normalization" (parent := "carlet-chapter-2") (lean := "CryptBoolean.card_f₂Cube, CryptBoolean.walshTerm_cast_eq_realSignView_mul_character, CryptBoolean.walshTransform_cast_eq_sum_realSignView_mul_character, CryptBoolean.walshTransform_eq_two_pow_mul_vectorFourierCoeff") (uses := "carlet-2-def-walsh-transform") (tags := "carlet, chapter-2, normalization, fidelity-exact")
+*Walsh normalization identity.* For $`f:V_n\to\mathbb F_2` and $`a\in V_n`,
 let
 $$`
 \widetilde{f_\chi}(a)
@@ -60,10 +57,6 @@ $$`
 W_f(a)=2^n\widetilde{f_\chi}(a).
 `
 :::
-
-*Formalization note.* The normalized coefficient $`\widetilde{f_\chi}(a)` is
-[FABL](https://github.com/Polarnova/FABL)'s `vectorFourierCoeff`. The explicit equation above is
-the only identification made between Carlet's raw transform and FABL's normalized transform.
 
 :::theorem "carlet-2-balanced-zero-walsh" (parent := "carlet-chapter-2") (lean := "CryptBoolean.IsBalanced, CryptBoolean.bitSignInt_eq_if_one, CryptBoolean.walshTerm_zero, CryptBoolean.walshTransform_zero_eq_card_sub_two_weight, CryptBoolean.walshTransform_zero_eq_two_pow_sub_two_weight, CryptBoolean.isBalanced_iff_walshTransform_zero_eq_zero") (uses := "carlet-2-def-support-weight, carlet-2-def-walsh-transform") (tags := "carlet, chapter-2, relation-13, page-23, fidelity-exact")
 *Zero-frequency identity (Carlet, Relation (13), p. 23).* For every

@@ -38,9 +38,8 @@ g(x_1,\ldots,x_{n-k})
 `
 :::
 
-Formalization note. The general theorem writes the ambient dimension as
-$`m+k`; this is exactly the feasible range of Carlet's $`n-k` and avoids
-truncated natural-number subtraction.
+Writing the ambient dimension as $`m+k` expresses exactly the feasible range
+of Carlet's $`n-k`.
 
 :::corollary "carlet-4-linear-kernel-nonlinearity-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.nonlinearity_cast_le_of_finrank_linearKernel_eq, CryptBoolean.nonlinearity_cast_le_of_exists_nonzero_linearStructure") (uses := "carlet-4-prop-14, carlet-4-rel-36-covering-radius-bent") (tags := "carlet, chapter-4, linear-kernel, nonlinearity, page-59, fidelity-exact-real-rpow")
 *Nonlinearity bound from the linear kernel (Carlet, p. 59).* If

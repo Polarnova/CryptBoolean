@@ -6,7 +6,7 @@ Before planning, formalizing, or reviewing the library, read `.agents/SPEC.md` a
 `.agents/PLAN.md`. Review `.agents/inventory/` for source coverage and open statement families.
 Consult `.agents/audit/dependency-dag.md` for the reviewed proof structure and
 `.agents/audit/fidelity.md` for statement-to-declaration fidelity. These files are internal working
-contracts rather than public project documentation.
+contracts and are excluded from the public project documentation.
 
 ## Mission and sources of truth
 
@@ -23,7 +23,7 @@ is a pinned upstream dependency for Boolean Fourier analysis.
    families.
 
 Never silently weaken a source statement, add an assumption, change its domain, or conflate two
-normalizations. Record deliberate generalizations and representation bridges in the matching Verso
+normalizations. Record deliberate generalizations and cross-representation laws in the matching Verso
 node and production declaration.
 
 ## Current verified surface
@@ -34,7 +34,7 @@ The Blueprint baseline is 116 source-facing statement nodes: 115 formalized node
 - Chapter 2 contributes 36 nodes (35 formalized and 1 open), 159 declarations, and 45 incoming
   edges. It covers the scalar
   Boolean-function domain, support and weight, balancedness, raw Walsh transforms, the scaling
-  bridge to FABL, Walsh inversion, Parseval, algebraic and numerical normal forms, raw
+  scaling identity for normalized Fourier coefficients, Walsh inversion, Parseval, algebraic and numerical normal forms, raw
   pseudo-Boolean Fourier operations, the full raw Poisson formula, derivatives, autocorrelation,
   finite-field trace and representation, distance scaling, affine invariance, restriction recovery,
   and spectral-support bounds.
@@ -48,7 +48,7 @@ The Blueprint baseline is 116 source-facing statement nodes: 115 formalized node
   and related complexity criteria, including the sharp random-nonlinearity interval, the exact
   dimension-seven maximum, and the sharp fixed-order higher-order asymptotic upper bound.
 - The sole open Chapter 2 node is Carlet Proposition 3 on the algebraic degree of trace monomials.
-  It requires a finite-field coordinate bridge identifying coordinate ANF degree with maximum
+  It requires a finite-field coordinate theorem identifying coordinate ANF degree with maximum
   binary exponent weight and a cyclotomic-orbit noncancellation theorem.
 - Chapter 4 has no open source node. Its higher-order closure composes the moment-ratio reduction,
   dual-code weight decomposition, exact weight-`16` rank-seven classification, character-sum
@@ -78,8 +78,8 @@ The first release targets source-faithful coverage of Carlet Chapters 2--10:
 | 9 | Algebraic immunity |
 | 10 | Symmetric and rotation-symmetric functions |
 
-Carlet's introductory cryptosystem discussion is motivation rather than a requirement to formalize
-every cited cipher. Vectorial Boolean functions remain outside the first release unless a scalar
+Carlet's introductory cryptosystem discussion supplies motivation; the first release does not
+formalize every cited cipher. Vectorial Boolean functions remain outside the first release unless a scalar
 theorem needs a precise vectorial lemma.
 
 Cusick--Stănică coverage is added by delta after the Carlet closure audit. Shared Fourier,
@@ -94,7 +94,7 @@ Stream-cipher, block-cipher, AES, and Boolean Cayley-graph results require their
 - Modules follow Carlet's chapters and mathematical boundaries. Avoid generic `Core`, `Common`,
   `Utils`, or `ToMathlib` dumping grounds.
 - The canonical scalar cryptographic Boolean function is `FABL.F₂Cube n → FABL.𝔽₂`.
-- Sign-valued, real-valued, and finite-field views cross explicit representation bridges.
+- Sign-valued, real-valued, and finite-field views are related by explicit conversion laws.
 - PDF extraction, inventory maintenance, Blueprint rendering, CI, and internal audits remain at the
   repository perimeter. Agent-facing specifications, plans, and audit records live under `.agents/`.
 - Add a helper only when a production theorem uses it. Extract shared logic only after genuine
@@ -108,9 +108,9 @@ Stream-cipher, block-cipher, AES, and Boolean Cayley-graph results require their
   pull request, resolves both manifests, and merges only after the complete cloud CI succeeds.
 - Search pinned FABL and Mathlib before adding a local type, definition, theorem, or proof helper.
 - Pinned FABL `v0.5.6` canonically owns the ANF, algebraic-degree, affine-function, and derivative
-  APIs used by CryptBoolean. Import them directly and add only source-facing or representation
-  bridges required by Carlet statements.
-- Local declarations must express cryptographic concepts, representation bridges, or proof lemmas
+  APIs used by CryptBoolean. Import them directly and add only source-facing statements or
+  cross-representation laws required by Carlet statements.
+- Local declarations must express cryptographic concepts, cross-representation laws, or proof lemmas
   used by a production theorem.
 - Carlet's Walsh transform is an unnormalized integer sum. FABL's `vectorFourierCoeff` is a
   normalized expectation. Every reuse of FABL Fourier results must pass through the scaling theorem.
@@ -141,21 +141,22 @@ missing lemma. Do not leave speculative APIs or unrelated refactors.
 - Avoid global simplifier attributes and global heartbeat changes for local proof repair.
 - Use Mathlib naming, documentation, formatting, imports, and canonical normal forms.
 - Keep foundational proofs readable and use automation only for stable, bounded steps.
-- Every production declaration belongs to an inventoried source item, an explicit representation
-  bridge, or a proof dependency used by such an item.
+- Every production declaration belongs to an inventoried source item, an explicit cross-representation
+  law, or a proof dependency used by such an item.
 
 ## Blueprint contract
 
 Each reviewed item has one complete human-readable statement, genuine compiled declarations,
 fidelity metadata, and reviewed `uses` dependencies. Dependency edges describe mathematical proof
-dependencies rather than Lean imports or presentation state.
+dependencies; Lean imports and presentation state are excluded.
 
-Every statement block begins with its source result name or an explicit project-bridge label and
+Every statement block begins with its source result name or a descriptive mathematical title and
 states the mathematical domains, hypotheses, quantifiers, and conclusion. Do not put repository
 links, implementation provenance, library reuse, proof narration, or completion status inside a
-statement block. Put such material in a separate `Formalization note` after the block and encode
-fidelity distinctions in tags. Run `blueprint-verso/scripts/check_statement_style.py` through the
-site build to enforce this separation.
+statement block. Omit API and repository provenance from the reader text. Put a proof outline or
+fidelity distinction after the block only when it adds mathematical information, using direct prose
+or a descriptive mathematical heading. Encode machine-readable fidelity distinctions in tags. Run
+`blueprint-verso/scripts/check_statement_style.py` through the site build to enforce this separation.
 
 Include active chapters in the Blueprint aggregate throughout development so open nodes remain
 visible. A missing declaration association honestly represents unfinished work. Never attach a

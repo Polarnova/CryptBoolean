@@ -16,7 +16,7 @@ open Informal
 
 #doc (Manual) "Fourier operations and subspaces" =>
 
-:::definition "carlet-2-pseudoboolean-fourier" (parent := "carlet-chapter-2") (lean := "CryptBoolean.rawFourierTransform, CryptBoolean.rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, relation-11, page-21, fidelity-exact-with-normalization-bridge")
+:::definition "carlet-2-pseudoboolean-fourier" (parent := "carlet-chapter-2") (lean := "CryptBoolean.rawFourierTransform, CryptBoolean.rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, relation-11, page-21, fidelity-exact-with-normalization")
 *Discrete Fourier transform (Carlet, Relation (11), p. 21).* For a pseudo-Boolean
 function $`\varphi:V_n\to\mathbb R`, define
 $$`
@@ -31,10 +31,6 @@ $$`
 \widehat\varphi(a)=2^n\widetilde\varphi(a).
 `
 :::
-
-*Formalization note.* The normalized coefficient in the second display is
-[FABL](https://github.com/Polarnova/FABL)'s `vectorFourierCoeff`; the displayed scaling equation
-keeps that implementation fact separate from Carlet's definition.
 
 :::proposition "carlet-2-prop-6-fourier-shifts" (parent := "carlet-chapter-2") (lean := "CryptBoolean.vectorFourierCoeff_mul_vectorWalshCharacter, CryptBoolean.rawFourierTransform_modulate_translate") (uses := "carlet-2-pseudoboolean-fourier") (tags := "carlet, chapter-2, proposition-6, page-24, fidelity-exact")
 *Proposition 6 (Carlet, p. 24).* Let $`\varphi:V_n\to\mathbb R` and
@@ -82,9 +78,8 @@ $$`
 Here $`\widetilde\varphi(u)=2^{-n}\widehat\varphi(u)`.
 :::
 
-*Formalization note.* This is the normalized coset-average specialization compiled through
-[FABL](https://github.com/Polarnova/FABL). Carlet's full Corollary 1 retains both modulation
-parameters and is recorded separately below.
+This normalized coset-average identity is the specialization $`a=0` of the full Poisson formula
+below.
 
 :::corollary "carlet-2-cor-1-poisson-summation" (parent := "carlet-chapter-2") (lean := "CryptBoolean.rawPoissonSummationFormula") (uses := "carlet-2-prop-6-fourier-shifts, carlet-2-prop-7-subspace-indicator") (tags := "carlet, chapter-2, corollary-1, relation-17, page-25, fidelity-exact")
 *Corollary 1 (Poisson summation; Carlet, Relation (17), p. 25).* For every
@@ -105,8 +100,6 @@ $$`
 \qquad(x\in V_n).
 `
 :::
-
-*Formalization note.* This raw convolution is $`2^n` times FABL's normalized convolution.
 
 :::proposition "carlet-2-prop-8-convolution" (parent := "carlet-chapter-2") (lean := "CryptBoolean.rawFourierTransform_rawConvolution") (uses := "carlet-2-def-convolution, carlet-2-pseudoboolean-fourier") (tags := "carlet, chapter-2, proposition-8, relation-20, page-26, fidelity-exact")
 *Proposition 8 (Carlet, Relation (20), p. 26).* For all
@@ -160,11 +153,8 @@ N_{\widehat\varphi}\le\sum_{i=0}^{D}\binom ni.
 `
 :::
 
-*Formalization note.* Carlet's proof chooses a degree-$`d` monomial occurring in the ANF, so the
-lower bound implicitly concerns a nonzero Boolean function. The explicit hypothesis is necessary
-because this project assigns degree zero to the zero ANF, whose Fourier support is empty. The
-nonzero hypothesis in the numerical-degree bound likewise makes the displayed maximum nonempty.
-The Lean upper bound is proved for every $`\varphi`, including the zero function, using the
-project's explicit zero-degree convention. Its proof reuses FABL's normalized Fourier support,
-restriction formula, and exact spectrum of coordinate affine-subspace indicators through the raw
-to normalized scaling bridge.
+Carlet's proof chooses a degree-$`d` monomial occurring in the ANF, so the lower bound implicitly
+assumes $`f\ne0`. With the convention $`\deg_{\mathrm{alg}}(0)=0`, this hypothesis is essential:
+the zero function has empty Fourier support. The numerical-degree hypothesis $`\varphi\ne0`
+similarly makes the displayed maximum nonempty; the resulting upper inequality also holds for
+$`\varphi=0` under the zero-degree convention.

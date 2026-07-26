@@ -66,9 +66,9 @@ $`\dim\ker_{\mathrm{lin}}(f)=n-k`, then
 $`\operatorname{AI}(f)\le\lceil k/2+1\rceil`.
 :::
 
-Formalization note. Depending on at most $`k` affine coordinates is
-represented by factorization through a surjective affine map to $`V_k`. The
-linear-kernel theorem is slightly stronger in its hypothesis form: a contained
+Depending on at most $`k` affine coordinates is equivalent to factorization
+through a surjective affine map to $`V_k`. The linear-kernel theorem has the
+slightly stronger hypothesis that a contained
 tail subspace of the stated dimension suffices, so equality of kernel dimension
 is an immediate specialization.
 

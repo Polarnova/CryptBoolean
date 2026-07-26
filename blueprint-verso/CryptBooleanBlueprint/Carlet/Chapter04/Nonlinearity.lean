@@ -89,10 +89,10 @@ $$`
 `
 :::
 
-Formalization note. The finite proof bounds the failure probability by
+The failure probability is at most
 $`2(2/e)^n`, using the exact Walsh threshold, a single-frequency Hoeffding bound,
 and a union bound over all $`2^n` frequencies. Relation (35) transports the
-result to Carlet's raw nonlinearity normalization.
+estimate to Carlet's raw nonlinearity normalization.
 
 :::theorem "carlet-4-rodier-lower-endpoint" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rodierRandomFourierUpperThreshold, CryptBoolean.rodierRandomNonlinearityLowerThreshold, CryptBoolean.rodierRandomNonlinearityLowerThreshold_eq_displayed, CryptBoolean.rodierRandomFourierUpperThreshold_nonneg, CryptBoolean.card_mul_rodierRandomFourierUpperThreshold_sq_div_two_ge, CryptBoolean.measure_fourierInfinityNorm_ge_rodierUpperThreshold_le, CryptBoolean.rodierRandomNonlinearityLowerFailureBound, CryptBoolean.tendsto_rodierRandomNonlinearityLowerFailureBound, CryptBoolean.rodierRandomNonlinearityLowerThreshold_lt_of_fourierInfinityNorm_lt, CryptBoolean.rodierRandomNonlinearityLowerProbability, CryptBoolean.one_sub_rodierLowerFailureBound_le_probability, CryptBoolean.tendsto_rodierRandomNonlinearityLowerProbability") (uses := "carlet-4-rel-35-nonlinearity-walsh") (tags := "carlet, chapter-4, asymptotic-nonlinearity, rodier, page-51, fidelity-derived-one-sided")
 *Rodier lower endpoint (one-sided consequence of the sharp interval; Carlet, p. 51).* As $`n\to\infty`, the uniform probability tends to $`1` that
@@ -104,12 +104,12 @@ $$`
 `
 :::
 
-Formalization note. A one-frequency Hoeffding estimate followed by a union
+A one-frequency Hoeffding estimate followed by a union
 bound over all Walsh frequencies gives failure probability at most $`2/n`.
 Relation (35) converts the spectral event to the displayed nonlinearity event.
 
-:::lemma_ "carlet-4-rodier-upper-endpoint-reduction" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rodierRandomFourierLowerThreshold, CryptBoolean.rodierRandomNonlinearityUpperThreshold, CryptBoolean.rodierRandomNonlinearityUpperThreshold_eq_displayed, CryptBoolean.nonlinearity_lt_rodierRandomNonlinearityUpperThreshold, CryptBoolean.rodierRandomFourierLowerProbability, CryptBoolean.rodierRandomNonlinearityUpperProbability, CryptBoolean.rodierRandomFourierLowerProbability_le_nonlinearityUpperProbability, CryptBoolean.tendsto_rodierRandomNonlinearityUpperProbability_of_fourierLower") (uses := "carlet-4-rel-35-nonlinearity-walsh") (tags := "project-bridge, carlet, chapter-4, asymptotic-nonlinearity, rodier, lower-spectral-tail, fidelity-exact-reduction")
-*Project bridge: reduction of Rodier's upper endpoint to a spectral lower tail.*
+:::lemma_ "carlet-4-rodier-upper-endpoint-reduction" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rodierRandomFourierLowerThreshold, CryptBoolean.rodierRandomNonlinearityUpperThreshold, CryptBoolean.rodierRandomNonlinearityUpperThreshold_eq_displayed, CryptBoolean.nonlinearity_lt_rodierRandomNonlinearityUpperThreshold, CryptBoolean.rodierRandomFourierLowerProbability, CryptBoolean.rodierRandomNonlinearityUpperProbability, CryptBoolean.rodierRandomFourierLowerProbability_le_nonlinearityUpperProbability, CryptBoolean.tendsto_rodierRandomNonlinearityUpperProbability_of_fourierLower") (uses := "carlet-4-rel-35-nonlinearity-walsh") (tags := "carlet, chapter-4, asymptotic-nonlinearity, rodier, lower-spectral-tail, fidelity-exact-reduction")
+*Reduction of Rodier's upper endpoint to a spectral lower tail.*
 Put
 $$`
 \tau_n=\sqrt n\left(\sqrt{2\ln2}-\frac{5\ln n}{n}\right)2^{-n/2}.
@@ -124,12 +124,12 @@ $$`
 `
 :::
 
-Formalization note. Relation (35) proves the deterministic event inclusion;
+Relation (35) proves the deterministic event inclusion;
 monotonicity of the uniform measure transports the assumed spectral limit.
 Thus only the lower tail of the maximum Walsh coefficient remains analytic.
 
-:::lemma_ "carlet-4-rodier-pair-characteristic-moments" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rodierPairPhase, CryptBoolean.rodierPairCharacteristic, CryptBoolean.rodierPairCharacteristic_eq_prod_cos, CryptBoolean.sum_monomial_mul_eq_zero_of_ne, CryptBoolean.sum_rodierPairPhase_sq, CryptBoolean.sum_rodierPairPhase_fourth") (tags := "project-bridge, carlet, chapter-4, asymptotic-nonlinearity, rodier, characteristic-function, fidelity-exact-finite-core")
-*Project bridge: Rodier's two-character characteristic-function moments.*
+:::lemma_ "carlet-4-rodier-pair-characteristic-moments" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rodierPairPhase, CryptBoolean.rodierPairCharacteristic, CryptBoolean.rodierPairCharacteristic_eq_prod_cos, CryptBoolean.sum_monomial_mul_eq_zero_of_ne, CryptBoolean.sum_rodierPairPhase_sq, CryptBoolean.sum_rodierPairPhase_fourth") (tags := "carlet, chapter-4, asymptotic-nonlinearity, rodier, characteristic-function, fidelity-exact-finite-core")
+*Rodier's two-character characteristic-function moments.*
 For distinct Walsh characters $`\chi_S,\chi_T` and real $`t,r`, put
 $`u_x=t\chi_S(x)+r\chi_T(x)`. Then the joint characteristic function of
 the corresponding raw Walsh coefficients is
@@ -144,7 +144,7 @@ $$`
 `
 :::
 
-Formalization note. Independence gives the cosine product and Walsh-character
+Independence gives the cosine product and Walsh-character
 orthogonality cancels the mixed odd terms. These are the exact finite
 identities used before Rodier's smoothed Fourier estimates.
 
@@ -163,11 +163,11 @@ $$`
 `
 :::
 
-Formalization note. Following {Citations.citet rodier2006}[], the proof uses
+Following {Citations.citet rodier2006}[], the proof uses
 correlated Walsh pairs, smoothed cutoff estimates, and a second-moment
 argument. A uniform off-diagonal covariance error tends to zero at the
 required scale; the resulting spectral lower tail is intersected with the
-compiled one-sided upper tail. Relation (35) then gives the simultaneous
+one-sided upper tail above. Relation (35) then gives the simultaneous
 nonlinearity interval, including the exact $`+4\ln(n)/n` and
 $`-5\ln(n)/n` corrections.
 
@@ -179,14 +179,14 @@ M_5=2^4-2^2=12.
 `
 :::
 
-Formalization note. The quadratic construction gives the lower bound. For the
+The quadratic construction gives the lower bound. For the
 upper bound, a hypothetical weight-thirteen first-order Reed--Muller coset
 leader yields a self-complementary binary $`[13,6,\ge5]` code. Residuation at
 a minimum-weight word produces a binary $`[7,5,\ge3]` or $`[8,5,\ge3]` code,
 and the radius-one Hamming bound rules out both cases.
 
-:::lemma_ "carlet-4-six-variable-covering-coset-coordinate" (parent := "carlet-chapter-4") (lean := "CryptBoolean.exists_minimum_affine_error_one_at_of_nonlinearity_eq_28") (uses := "carlet-4-rel-36-covering-radius-bent") (tags := "project-bridge, carlet, chapter-4, odd-dimension, reed-muller-coset, hou-1996, fidelity-strengthened")
-*Project bridge: coordinate-covering leaders of six-variable deep cosets.*
+:::lemma_ "carlet-4-six-variable-covering-coset-coordinate" (parent := "carlet-chapter-4") (lean := "CryptBoolean.exists_minimum_affine_error_one_at_of_nonlinearity_eq_28") (uses := "carlet-4-rel-36-covering-radius-bent") (tags := "carlet, chapter-4, odd-dimension, reed-muller-coset, hou-1996, fidelity-strengthened")
+*Coordinate-covering leaders of six-variable deep cosets.*
 Let $`f:V_6\to\mathbb F_2` have $`\operatorname{nl}(f)=28`. For every
 $`x\in V_6`, there is an affine function $`\ell` such that
 $$`
@@ -196,14 +196,13 @@ d_H(f,\ell)=28
 `
 :::
 
-Formalization note. This is the covering-radius orphan fact used in Hou's
-dimension-seven argument. The proof derives the flat Walsh spectrum from
-Relation (36) and uses Walsh inversion to force a minimum representative
-through every prescribed coordinate; it needs no finite truth-table
-certificate or degree hypothesis.
+This lemma is used in Hou's dimension-seven argument. Relation (36) gives the
+flat Walsh spectrum, and Walsh inversion forces a minimum representative
+through every prescribed coordinate. The conclusion holds without a degree
+hypothesis.
 
-:::lemma_ "carlet-4-six-variable-degree-four-coset-coordinate" (parent := "carlet-chapter-4") (lean := "CryptBoolean.exists_minimum_affine_error_one_at_of_degree_le_four_nonlinearity_eq_26") (uses := "carlet-4-rel-35-nonlinearity-walsh, carlet-2-parseval, carlet-3-theorem-2") (tags := "project-bridge, carlet, chapter-4, odd-dimension, reed-muller-coset, hou-1997, fidelity-exact")
-*Project bridge: coordinate-covering leaders of degree-four six-variable cosets.*
+:::lemma_ "carlet-4-six-variable-degree-four-coset-coordinate" (parent := "carlet-chapter-4") (lean := "CryptBoolean.exists_minimum_affine_error_one_at_of_degree_le_four_nonlinearity_eq_26") (uses := "carlet-4-rel-35-nonlinearity-walsh, carlet-2-parseval, carlet-3-theorem-2") (tags := "carlet, chapter-4, odd-dimension, reed-muller-coset, hou-1997, fidelity-exact")
+*Coordinate-covering leaders of degree-four six-variable cosets.*
 Let $`f:V_6\to\mathbb F_2` have algebraic degree at most $`4` and
 $`\operatorname{nl}(f)=26`. For every $`x\in V_6`, there is an affine
 function $`\ell` such that
@@ -214,11 +213,10 @@ d_H(f,\ell)=26
 `
 :::
 
-Formalization note. Reed--Muller duality forces all affine-coset weights to
+Reed--Muller duality forces all affine-coset weights to
 be congruent modulo four. Relation (35) and Parseval then give exactly 24
 Walsh coefficients of magnitude 12 and 40 of magnitude 4; Walsh inversion
-forces a minimum representative through every prescribed coordinate. This
-is Hou's remaining six-variable orphan fact, without a finite certificate.
+forces a minimum representative through every prescribed coordinate.
 
 :::theorem "carlet-4-odd-dimension-best-nonlinearity" (parent := "carlet-chapter-4") (lean := "CryptBoolean.firstCoordinateSliceSeven, CryptBoolean.exists_linearEquiv_firstCoordinateSlices_degree_le_four, CryptBoolean.nonlinearity_le_56_of_degree_le_five_seven, CryptBoolean.exists_minimum_affine_error_one_at_of_degree_le_five_nonlinearity_eq_56_seven, CryptBoolean.nonlinearity_le_fifty_six_of_degree_five_covering, CryptBoolean.maximumNonlinearity_seven") (uses := "carlet-4-odd-dimension-quadratic-covering-bounds, carlet-4-six-variable-covering-coset-coordinate, carlet-4-six-variable-degree-four-coset-coordinate") (tags := "carlet, chapter-4, odd-dimension, exact-seven-variables, pages-51-52, fidelity-exact")
 *Exact best nonlinearity in dimension seven (Carlet, pp. 51--52).* If $`M_n`
@@ -228,7 +226,7 @@ M_7=2^6-2^3=56.
 `
 :::
 
-Formalization note. The proof follows Hou's alternative to Mykkeltveit's
+The proof follows Hou's alternative to Mykkeltveit's
 self-complementary-code argument. A point-indicator quotient reduces an
 arbitrary seven-variable word to degree at most five. An alternating-form
 radical supplies a linear coordinate in which both six-variable slices have
@@ -247,9 +245,9 @@ $$`
 `
 :::
 
-Formalization note. The lower bound is attained by FABL's complete
-inner-product bent function on $`n-1` variables extended by one dummy
-coordinate. Relation (35) gives its exact nonlinearity. The upper bound is
+The lower bound is attained by the complete inner-product bent function on
+$`n-1` variables, extended by one dummy coordinate. Relation (35) gives its
+exact nonlinearity. The upper bound is
 Relation (36), applied to a function attaining the finite maximum.
 
 :::theorem "carlet-4-odd-dimension-exact-one-three" (parent := "carlet-chapter-4") (lean := "CryptBoolean.maximumNonlinearity_one, CryptBoolean.maximumNonlinearity_three") (uses := "carlet-4-odd-dimension-quadratic-covering-bounds") (tags := "carlet, chapter-4, odd-dimension, exact-small-dimensions, page-52, fidelity-exact")
@@ -261,7 +259,7 @@ M_1=0\qquad\text{and}\qquad M_3=2.
 `
 :::
 
-Formalization note. The quadratic construction supplies the matching lower
+The quadratic construction supplies the matching lower
 bounds, while Relation (36) makes the covering-radius upper bounds strict
 enough that integrality determines both maxima.
 
@@ -273,10 +271,10 @@ $$`
 `
 :::
 
-Formalization note. The base case is the first nine-variable truth table in
-Kavut--Yücel, with a kernel-checked fast Walsh certificate proving
-$`\max_a|W_f(a)|=28` and hence $`\operatorname{nl}(f)=242`. Direct product
-with FABL's complete $`2m`-variable bent block scales all raw Walsh magnitudes
+The base case is the first nine-variable truth table in Kavut--Yücel; its Walsh
+spectrum satisfies $`\max_a|W_f(a)|=28` and hence
+$`\operatorname{nl}(f)=242`. Direct product
+with a complete $`2m`-variable bent block scales all raw Walsh magnitudes
 by $`2^m`, yielding every odd dimension above seven.
 
 :::theorem "carlet-4-odd-dimension-balanced-above-quadratic" (parent := "carlet-chapter-4") (lean := "CryptBoolean.flipOn, CryptBoolean.MaitraKavutYucel.seedTruthTable, CryptBoolean.MaitraKavutYucel.seedFunction9, CryptBoolean.MaitraKavutYucel.shiftFrequency9, CryptBoolean.MaitraKavutYucel.shiftedSeedFunction9, CryptBoolean.MaitraKavutYucel.bentTruthTable, CryptBoolean.MaitraKavutYucel.bentFunction4, CryptBoolean.MaitraKavutYucel.initialFunction13, CryptBoolean.MaitraKavutYucel.flipPointList13, CryptBoolean.MaitraKavutYucel.flipPoints13, CryptBoolean.maitraKavutYucelFunction13, CryptBoolean.maitraKavutYucelFunction13_walsh_bound, CryptBoolean.isBalanced_maitraKavutYucelFunction13, CryptBoolean.maitraKavutYucelFunction13_walsh_witness, CryptBoolean.maxWalshMagnitude_maitraKavutYucelFunction13, CryptBoolean.nonlinearity_maitraKavutYucelFunction13, CryptBoolean.maitraKavutYucelBentExtension, CryptBoolean.isBalanced_maitraKavutYucelBentExtension, CryptBoolean.maxWalshMagnitude_maitraKavutYucelBentExtension, CryptBoolean.nonlinearity_maitraKavutYucelBentExtension, CryptBoolean.quadraticBound_lt_nonlinearity_maitraKavutYucelBentExtension, CryptBoolean.exists_isBalanced_nonlinearity_gt_quadraticBound_of_odd") (uses := "carlet-4-rel-35-nonlinearity-walsh, carlet-2-balanced-zero-walsh") (tags := "carlet, chapter-4, odd-dimension, balanced, maitra-kavut-yucel, page-52, fidelity-strengthened-dimension-range")
@@ -288,10 +286,10 @@ $$`
 `
 :::
 
-Formalization note. Maitra--Kavut--Yücel's published thirteen-variable
-function is reconstructed from its nine-variable seed, linear shift,
+Maitra--Kavut--Yücel's published thirteen-variable function is reconstructed
+from its nine-variable seed, linear shift,
 four-variable bent direct-sum component, and eight toggled positions. A
-kernel-checked $`512`-point seed certificate plus the exact flip formula proves
+direct evaluation of the $`512`-point seed and the exact flip formula give
 balance, $`\max_a|W_f(a)|=120`, and $`\operatorname{nl}(f)=4036`. Complete
 bent direct sums preserve balance and scale the spectrum, proving the stronger
 range of every odd $`n\ge13`.
@@ -305,9 +303,9 @@ $$`
 `
 :::
 
-Formalization note. Carlet cites Maitra--Sarkar, reference 264. The compiled
-construction linearly reindexes the thirteen-variable Maitra--Kavut--Yücel
-function along a certified basis of zero-autocorrelation directions and then
+Carlet cites Maitra--Sarkar, reference 264. The construction linearly reindexes
+the thirteen-variable Maitra--Kavut--Yücel function along a certified basis of
+zero-autocorrelation directions and then
 uses complete bent extensions. This proves the stronger range of every odd
 $`n\ge13`.
 
@@ -320,13 +318,13 @@ $$`
 `
 :::
 
-Formalization note. A balanced function already of degree $`n-1` is left
-unchanged. Otherwise, swapping one zero and one one is addition by the
+A balanced function already of degree $`n-1` is left unchanged. Otherwise,
+swapping one zero and one one is addition by the
 indicator of their affine line. Proposition 12 gives that indicator degree
 $`n-1` and weight two; the algebraic-degree sum bound forces exact degree,
 while Hamming-triangle Lipschitzness loses at most two units of nonlinearity.
 Applied to the balanced family above, the remaining spectral margin is strict
-for every odd $`n\ge15`. The compiled witnesses are therefore also balanced.
+for every odd $`n\ge15`. The resulting witnesses are also balanced.
 
 :::theorem "carlet-4-reed-muller-coset-distance" (parent := "carlet-chapter-4") (lean := "CryptBoolean.minimumHammingDistance, CryptBoolean.firstOrderCosetUnion, CryptBoolean.firstOrderReedMullerCoset, CryptBoolean.HasDistinctFirstOrderCosets, CryptBoolean.minimumPairNonlinearity, CryptBoolean.mem_firstOrderCosetUnion_iff, CryptBoolean.mem_firstOrderReedMullerCoset_iff, CryptBoolean.firstOrderCosetUnion_pair, CryptBoolean.minimumHammingDistance_le, CryptBoolean.le_minimumHammingDistance, CryptBoolean.minimumPairNonlinearity_le, CryptBoolean.le_minimumPairNonlinearity, CryptBoolean.hammingDistance_add_right, CryptBoolean.hammingDistance_eq_cosetDifference, CryptBoolean.nonlinearity_le_hammingDistance_of_mem_cosets, CryptBoolean.nonlinearity_le_two_pow_sub_one, CryptBoolean.exists_pair_nonlinearity_eq_minimumPairNonlinearity, CryptBoolean.firstOrderCosetUnion_offDiag_nonempty, CryptBoolean.dimension_pos_of_hasDistinctFirstOrderCosets, CryptBoolean.two_pow_sub_one_le_hammingDistance_of_mem_same_coset, CryptBoolean.minimumPairNonlinearity_le_two_pow_sub_one, CryptBoolean.minimumHammingDistance_firstOrderCosetUnion, CryptBoolean.hasDistinctFirstOrderCosets_pair_zero, CryptBoolean.minimumPairNonlinearity_pair_zero, CryptBoolean.minimumHammingDistance_two_firstOrderReedMullerCosets") (uses := "carlet-4-def-nonlinearity, carlet-3-reed-muller-code") (tags := "carlet, chapter-4, reed-muller, cosets, page-52, fidelity-corrected-distinct-cosets")
 *Corrected distances of unions of first-order Reed--Muller cosets (Carlet, p. 52).* Let
@@ -343,9 +341,9 @@ d_{\min}\bigl(R(1,n)\cup(f+R(1,n))\bigr)=\operatorname{nl}(f).
 `
 :::
 
-Formalization note. The source omits the distinct-coset hypothesis. Without
-it the displayed equality is false: for affine $`f`, the two listed cosets
-coincide. The formal declaration records the necessary correction explicitly.
+The source omits the distinct-coset hypothesis. Without it the displayed
+equality is false: for affine $`f`, the two listed cosets
+coincide. The theorem above includes the necessary hypothesis explicitly.
 
 :::theorem "carlet-4-derivative-nonlinearity-bounds" (parent := "carlet-chapter-4") (lean := "CryptBoolean.minimumAutocorrelationMagnitude, CryptBoolean.autocorrelation_add_of_isLinearStructure, CryptBoolean.abs_autocorrelation_add_of_isLinearStructure, CryptBoolean.exists_abs_autocorrelation_eq_absoluteIndicator, CryptBoolean.nonlinearity_cast_le_autocorrelation_upper_bound, CryptBoolean.relation_37_nonlinearity_lower_bound") (uses := "carlet-4-def-nonlinearity, carlet-4-hyperplane-walsh-autocorrelation, carlet-2-def-2-derivative, carlet-2-def-autocorrelation") (tags := "carlet, chapter-4, relation-37, derivatives, pages-52-53, fidelity-exact-with-real-rpow-source-form")
 *Derivative bounds for nonlinearity (Carlet, Relation (37), pp. 52--53).*

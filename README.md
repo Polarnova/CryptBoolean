@@ -75,7 +75,7 @@ lake exe cache get
 lake build CryptBoolean
 ```
 
-Production modules follow Carlet's chapters under `CryptBoolean/Carlet`; representation bridges
+Production modules follow Carlet's chapters under `CryptBoolean/Carlet`; cross-representation laws
 are under `CryptBoolean/Bridge`.
 
 ## Blueprint

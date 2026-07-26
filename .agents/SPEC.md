@@ -11,7 +11,7 @@ cross-checking shared material.
 module and namespace `CryptBoolean`.
 
 The project optimizes for a small, compositional theorem API. A declaration is introduced only for
-a source item, a representation bridge required by a source item, or a proof lemma used by a
+a source item, a cross-representation law required by a source item, or a proof lemma used by a
 production theorem.
 
 ## Sources of truth
@@ -51,7 +51,7 @@ remaining complexity criteria. Rodier's sharp random-nonlinearity interval, the 
 dimension-seven maximum, and the sharp fixed-order higher-order asymptotic upper bound are now
 closed as independent source-facing nodes. The higher-order proof exposes its moment-ratio,
 dual-code, low-weight, weight-`16` rank-seven classification, character-sum, and finite Plotkin
-components separately rather than hiding them inside the final asymptotic statement.
+components as separate mathematical statements in the final asymptotic argument.
 
 The only open Chapter 2 item is Carlet Proposition 3. Its smallest missing layer is a finite-field
 coordinate theorem identifying ANF degree with the maximum binary weight in the univariate support,
@@ -60,7 +60,7 @@ node: the affine-flat normal form, codimension--degree theorem, and equality-cas
 infrastructure now compose into the exact Proposition 12 classification.
 
 Source-facing splits remain explicit in Chapter 4. Rodier's one-sided lower endpoint and sharp
-interval have distinct nodes, as do the finite Hamming-ball and Plotkin bridges and the resulting
+interval have distinct nodes, as do the finite Hamming-ball and Plotkin lemmas and the resulting
 higher-order asymptotic estimate. The Reed--Muller coset-distance theorem
 adds the mathematically necessary distinct-coset hypothesis omitted from the printed sentence. The
 `k`th nonhomomorphicity declarations follow Carlet's name for the even-output tuple count while
@@ -157,7 +157,7 @@ The following are views, not alternative global definitions:
 ### Walsh normalization
 
 Carlet's Walsh transform is an integer-valued unnormalized sum. Its primary API therefore retains
-integrality. FABL's vector Fourier coefficient is normalized over the same cube. The bridge must
+integrality. FABL's vector Fourier coefficient is normalized over the same cube. Their relation must
 prove, with the project's chosen sign convention,
 
 ```text
@@ -171,7 +171,7 @@ normalized coefficient as a Walsh value.
 
 Algebraic normal form reuses FABL's coefficients indexed by finite coordinate subsets, with
 coefficients in `𝔽₂`, together with its evaluation, support, uniqueness, and algebraic-degree APIs.
-CryptBoolean adds only the Carlet-facing statements and representation bridges that consume this
+CryptBoolean adds only the Carlet-facing statements and cross-representation laws that consume this
 canonical surface.
 
 Algebraic degree and FABL's real Fourier degree remain distinct types of information with distinct
@@ -179,7 +179,7 @@ names. Any inequality between them is a theorem, not a definitional equality.
 
 Univariate representation over `𝔽₂ⁿ`, trace representations, and normal numerical form are separate
 adapters added only when a Carlet statement needs them. They must reuse Mathlib finite-field and
-polynomial infrastructure rather than encode finite fields as tables.
+polynomial infrastructure; finite fields are not encoded as tables.
 
 ### Distances and criteria
 
@@ -194,7 +194,7 @@ structures, bentness, plateauedness, normality, and algebraic immunity are total
 their parameters. Maximum orders or minima over finite families use finite extrema with explicit
 empty-family behavior where the source permits an empty case.
 
-## Required foundational bridges
+## Required foundational identities and correspondences
 
 The first dependency layer must prove and then reuse:
 
@@ -205,10 +205,10 @@ The first dependency layer must prove and then reuse:
 5. weight to the Walsh value at zero;
 6. balancedness to vanishing zero-frequency Walsh value;
 7. affine characters to FABL's vector Walsh characters;
-8. direct reuse of FABL's binary derivatives, with sign-cube or restriction bridges only where a
+8. direct reuse of FABL's binary derivatives, with sign-cube or restriction identities only where a
    Carlet statement changes representation.
 
-These are bridges between domains, not duplicate proof stacks.
+Together these laws relate the domains through a single proof stack.
 
 ## FABL dependency policy
 
@@ -216,14 +216,14 @@ The Lean package pins FABL at release `v0.5.6`. Repository documentation and CI 
 dependency and its verified Lake release archive, never a developer's local absolute path.
 
 Before adding a declaration, contributors search the pinned FABL public surface and pinned Mathlib.
-A stronger existing theorem is specialized or bridged. A new local declaration is permitted only
-for a genuine cryptographic concept or a demonstrated gap.
+A stronger existing theorem is specialized through an explicit conversion theorem. A new local
+declaration is permitted only for a genuine cryptographic concept or a demonstrated gap.
 
 Pinned FABL APIs and later FABL chapters create only targeted convergence gates:
 
 | FABL area | CryptBooleanFunction policy |
 |---|---|
-| Pinned `v0.5.6` Boolean-function APIs | Canonical owner of ANF, degree, affine, and derivative operations; import directly and add only representation bridges |
+| Pinned `v0.5.6` Boolean-function APIs | Canonical owner of ANF, degree, affine, and derivative operations; import directly and add only required conversion laws |
 | Chapter 8 generalized domains | Reuse when generalized Abelian or product-domain results are needed |
 | Chapters 9--10 hypercontractivity | Wait only for nodes whose proofs genuinely require these bounds |
 | Chapter 11 Gaussian/invariance theory | No first-release dependency identified |
@@ -245,7 +245,7 @@ not a reason to pre-build an unused hierarchy.
 1. Inventory the complete Carlet Chapters 2--10 statement set before claiming chapter coverage.
 2. Record full source-facing statements and reviewed dependency edges in Verso.
 3. Classify each item as direct FABL reuse, direct Mathlib reuse, specialization, representation
-   bridge, or genuine local theorem.
+   cross-representation law, or genuine local theorem.
 4. Formalize signatures without changing domains, hypotheses, normalization, or quantifiers.
 5. Close dependency-ready leaves and run the narrowest module build.
 6. Close a chapter only after statement-fidelity, root-build, forbidden-token, Blueprint, and
@@ -258,13 +258,14 @@ Blueprint node. No placeholder declaration may manufacture completion.
 ### Blueprint statement contract
 
 Every reviewed item has one complete human-readable mathematical statement. The statement begins
-with its source result name or an explicit project-bridge label and gives the domains, hypotheses,
+with its source result name or a descriptive mathematical title and gives the domains, hypotheses,
 quantifiers, and conclusion needed to read it independently of the implementation.
 
 A statement block never contains repository links, library provenance, implementation summaries,
 proof narration, or completion status. Direct FABL or Mathlib reuse, representation choices,
-specialization or generalization boundaries, and proof-engineering context belong in metadata or a
-separate `Formalization note`. Formalized nodes associate genuine compiled declarations; open nodes
+specialization or generalization boundaries belong in metadata or concise mathematical prose after
+the block. API provenance and proof-engineering narration are omitted from reader text. Formalized
+nodes associate genuine compiled declarations; open nodes
 remain visible without a declaration association. The site build runs
 `blueprint-verso/scripts/check_statement_style.py` to enforce this boundary.
 
@@ -274,7 +275,7 @@ After Carlet is closed, build a source crosswalk:
 
 | Cusick--Stănică area | Canonical destination |
 |---|---|
-| Chapter 2 Fourier analysis | Carlet Chapters 2--4 bridge and Fourier API |
+| Chapter 2 Fourier analysis | Carlet Chapters 2--4 normalization and Fourier API |
 | Chapter 3 avalanche and propagation | Carlet Chapters 4 and 8 |
 | Chapter 4 correlation immunity and resiliency | Carlet Chapters 4 and 7 |
 | Chapter 5 bent functions | Carlet Chapter 6 |
