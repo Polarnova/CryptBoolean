@@ -57,6 +57,12 @@ theorem image_rankSevenWeightSixteenPatternPoint
       rankSevenWeightSixteenPattern c := by
   cases c <;> decide
 
+/-- The explicit sixteen-point enumeration has no repetitions. -/
+theorem rankSevenWeightSixteenPatternPoint_injective
+    (c : RankSevenWeightSixteenPatternClass) :
+    Function.Injective (rankSevenWeightSixteenPatternPoint c) := by
+  cases c <;> decide
+
 /-- The normalized origin and seven coordinate points as an eight-point family. -/
 def systematicWeightSixteenFixedPoint : Fin 8 → FABL.F₂Cube 7 :=
   Fin.cases 0 fun i ↦ Pi.single i (1 : FABL.𝔽₂)
@@ -243,6 +249,90 @@ def NormalizedWeightSixteenCandidate.IsCompactMaskSound
         (systematicWeightSixteenColumnPoint
           (systematicWeightSixteenColumn candidate.systematicCode i)) = true)
 
+/-- The inverse-matrix witness and the three finite support checks form an
+executable certificate for mask soundness. -/
+def NormalizedWeightSixteenCandidate.HasInverseMaskCertificate
+    (candidate : NormalizedWeightSixteenCandidate)
+    (linearInverseCode : BitVec 49) : Prop :=
+  candidate.HasMaskWeightSixteen ∧
+    normalizedCandidateLinearInverseMatrix linearInverseCode *
+        normalizedCandidateLinearMatrix candidate = 1 ∧
+    (∀ i : Fin 16,
+      candidate.maskContains
+        (normalizedCandidateLinearPoint candidate
+          (rankSevenWeightSixteenPatternPoint candidate.patternClass i +
+            normalizedCandidateSourceOrigin candidate)) = true) ∧
+    (∀ i : Fin 8,
+      candidate.maskContains (systematicWeightSixteenFixedPoint i) = true) ∧
+    (∀ i : Fin 8,
+      candidate.maskContains
+        (systematicWeightSixteenColumnPoint
+          (systematicWeightSixteenColumn candidate.systematicCode i)) = true)
+
+instance NormalizedWeightSixteenCandidate.instDecidableHasInverseMaskCertificate
+    (candidate : NormalizedWeightSixteenCandidate)
+    (linearInverseCode : BitVec 49) :
+    Decidable (candidate.HasInverseMaskCertificate linearInverseCode) := by
+  unfold NormalizedWeightSixteenCandidate.HasInverseMaskCertificate
+    NormalizedWeightSixteenCandidate.HasMaskWeightSixteen
+  infer_instance
+
+/-- Boolean form of the inverse-mask certificate. -/
+def NormalizedWeightSixteenCandidate.inverseMaskCertificateCheck
+    (candidate : NormalizedWeightSixteenCandidate)
+    (linearInverseCode : BitVec 49) : Bool :=
+  decide (candidate.HasInverseMaskCertificate linearInverseCode)
+
+/-- A successful Boolean check recovers the corresponding inverse-mask
+certificate proposition. -/
+theorem NormalizedWeightSixteenCandidate.hasInverseMaskCertificate_of_check_eq_true
+    {candidate : NormalizedWeightSixteenCandidate}
+    {linearInverseCode : BitVec 49}
+    (hcheck : candidate.inverseMaskCertificateCheck linearInverseCode = true) :
+    candidate.HasInverseMaskCertificate linearInverseCode := by
+  exact of_decide_eq_true hcheck
+
+/-- A verified left inverse makes the decoded linear normalization injective. -/
+theorem NormalizedWeightSixteenCandidate.linearPoint_injective_of_inverse
+    {candidate : NormalizedWeightSixteenCandidate}
+    {linearInverseCode : BitVec 49}
+    (hinverse : normalizedCandidateLinearInverseMatrix linearInverseCode *
+      normalizedCandidateLinearMatrix candidate = 1) :
+    Function.Injective (normalizedCandidateLinearPoint candidate) := by
+  intro x y hxy
+  rw [normalizedCandidateLinearPoint_eq_mulVec,
+    normalizedCandidateLinearPoint_eq_mulVec] at hxy
+  have hleft : Function.LeftInverse
+      (Matrix.mulVec (normalizedCandidateLinearInverseMatrix linearInverseCode))
+      (Matrix.mulVec (normalizedCandidateLinearMatrix candidate)) := by
+    intro z
+    rw [Matrix.mulVec_mulVec, hinverse, Matrix.one_mulVec]
+  exact hleft.injective hxy
+
+/-- The inverse witness promotes the executable certificate to the public compact
+mask-soundness predicate. -/
+theorem NormalizedWeightSixteenCandidate.HasInverseMaskCertificate.isCompactMaskSound
+    {candidate : NormalizedWeightSixteenCandidate}
+    {linearInverseCode : BitVec 49}
+    (hsound : candidate.HasInverseMaskCertificate linearInverseCode) :
+    candidate.IsCompactMaskSound := by
+  have hlinear : Function.Injective
+      (normalizedCandidateLinearPoint candidate) :=
+    candidate.linearPoint_injective_of_inverse hsound.2.1
+  have haffine : Function.Injective
+      (sevenVariableAffinePoint (normalizedCandidateAffineMapData candidate)) := by
+    intro x y hxy
+    rw [sevenVariableAffinePoint_normalizedCandidateAffineMapData,
+      sevenVariableAffinePoint_normalizedCandidateAffineMapData] at hxy
+    exact add_right_cancel (hlinear hxy)
+  refine ⟨hsound.1,
+    haffine.comp
+      (rankSevenWeightSixteenPatternPoint_injective candidate.patternClass),
+    ?_, hsound.2.2.2.1, hsound.2.2.2.2⟩
+  intro i
+  rw [sevenVariableAffinePoint_normalizedCandidateAffineMapData]
+  exact hsound.2.2.1 i
+
 instance NormalizedWeightSixteenCandidate.instDecidableIsCompactMaskSound
     (candidate : NormalizedWeightSixteenCandidate) :
     Decidable candidate.IsCompactMaskSound := by
@@ -391,6 +481,45 @@ theorem All.imp
   | .node left right, hall =>
       ⟨All.imp hPQ left hall.1, All.imp hPQ right hall.2⟩
 
+/-- Check candidates against a shape-aligned tree of inverse witnesses. -/
+def checkAllWithInverses
+    (check : NormalizedWeightSixteenCandidate → BitVec 49 → Bool) :
+    NormalizedWeightSixteenCandidateTree →
+      NormalizedWeightSixteenInverseCertificateTree → Bool
+  | .leaf candidate, .leaf linearInverseCode =>
+      check candidate linearInverseCode
+  | .node left right, .node inverseLeft inverseRight =>
+      checkAllWithInverses check left inverseLeft &&
+        checkAllWithInverses check right inverseRight
+  | _, _ => false
+
+/-- A successful aligned fold supplies the promoted proposition at every
+candidate leaf. -/
+theorem all_of_checkAllWithInverses_eq_true
+    {P : NormalizedWeightSixteenCandidate → Prop}
+    (check : NormalizedWeightSixteenCandidate → BitVec 49 → Bool)
+    (hpromote : ∀ candidate linearInverseCode,
+      check candidate linearInverseCode = true → P candidate) :
+    ∀ tree inverseTree,
+      checkAllWithInverses check tree inverseTree = true → tree.All P := by
+  intro tree
+  induction tree with
+  | leaf candidate =>
+      intro inverseTree hcheck
+      cases inverseTree with
+      | leaf linearInverseCode =>
+          exact hpromote candidate linearInverseCode hcheck
+      | node inverseLeft inverseRight =>
+          simp [checkAllWithInverses] at hcheck
+  | node left right ihLeft ihRight =>
+      intro inverseTree hcheck
+      cases inverseTree with
+      | leaf linearInverseCode =>
+          simp [checkAllWithInverses] at hcheck
+      | node inverseLeft inverseRight =>
+          rw [checkAllWithInverses, Bool.and_eq_true] at hcheck
+          exact ⟨ihLeft inverseLeft hcheck.1, ihRight inverseRight hcheck.2⟩
+
 instance instDecidableAll
     (P : NormalizedWeightSixteenCandidate → Prop) [DecidablePred P] :
     (tree : NormalizedWeightSixteenCandidateTree) → Decidable (tree.All P)
@@ -426,9 +555,10 @@ def HasNormalizedWeightSixteenCompactCandidateSoundness : Prop :=
 set_option linter.style.maxHeartbeats false in
 /-- Declare a kernel-reduced compact-mask certificate for one generated
 candidate tree while keeping each certificate as an independent declaration. -/
-macro "compact_mask_soundness " theoremName:ident " for " tree:term : command =>
+macro "compact_mask_soundness " theoremName:ident " for " tree:term
+    " with " inverseTree:term : command =>
   `(command|
-    set_option Elab.async true in
+    set_option Elab.async false in
     set_option linter.style.maxHeartbeats false in
     set_option maxRecDepth 100000 in
     set_option maxHeartbeats 20000000 in
@@ -436,6 +566,19 @@ macro "compact_mask_soundness " theoremName:ident " for " tree:term : command =>
     theorem $theoremName :
         NormalizedWeightSixteenCandidateTree.All
           NormalizedWeightSixteenCandidate.IsCompactMaskSound $tree := by
-      exact of_decide_eq_true rfl)
+      exact NormalizedWeightSixteenCandidateTree.all_of_checkAllWithInverses_eq_true
+        NormalizedWeightSixteenCandidate.inverseMaskCertificateCheck
+        (fun candidate _ hcheck ↦
+          (candidate.hasInverseMaskCertificate_of_check_eq_true
+            hcheck).isCompactMaskSound)
+        $tree $inverseTree (by decide +kernel))
+
+/-- Infer the generated inverse sidecar from a candidate-bucket declaration. -/
+macro "compact_mask_soundness " theoremName:ident " for " tree:term : command => do
+  let `(term| $treeName:ident) := tree
+    | Lean.Macro.throwError
+        "compact mask soundness requires a generated candidate bucket"
+  let inverseTree := Lean.mkIdent <| treeName.getId.appendAfter "_inverse"
+  `(command| compact_mask_soundness $theoremName for $tree with $inverseTree)
 
 end CryptBoolean

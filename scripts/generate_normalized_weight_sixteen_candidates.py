@@ -43,8 +43,9 @@ import Lean.Elab.Command
 /-!
 # Generated normalized weight-sixteen candidates
 
-Each leaf records a canonical class, an invertible affine normalization,
-the resulting 128-bit support mask, and its systematic 64-bit column code.
+Each candidate leaf records a canonical class, an invertible affine
+normalization, the resulting 128-bit support mask, and its systematic 64-bit
+column code.  A shape-aligned sidecar tree stores the inverse-matrix witnesses.
 Candidate trees are sharded by the low sixteen bits of the systematic code so
 that each kernel-checked finite classification problem remains small.
 -/
@@ -70,6 +71,11 @@ inductive NormalizedWeightSixteenCandidateTree where
   | leaf (candidate : NormalizedWeightSixteenCandidate)
   | node (left right : NormalizedWeightSixteenCandidateTree)
 
+/-- A shape-aligned tree of inverse-matrix witnesses for one candidate bucket. -/
+inductive NormalizedWeightSixteenInverseCertificateTree where
+  | leaf (linearInverseCode : BitVec 49)
+  | node (left right : NormalizedWeightSixteenInverseCertificateTree)
+
 namespace NormalizedWeightSixteenCandidateTree
 
 /-- Whether the tree contains a certificate with the given systematic code. -/
@@ -90,7 +96,7 @@ end NormalizedWeightSixteenCandidateTree
 
 declare_syntax_cat normalizedWeightSixteenCandidateRow
 local syntax (name := normalizedWeightSixteenCandidateRowSyntax)
-  ident num num num num : normalizedWeightSixteenCandidateRow
+  ident num num num num num : normalizedWeightSixteenCandidateRow
 
 declare_syntax_cat normalizedWeightSixteenCandidateBucket
 local syntax (name := normalizedWeightSixteenCandidateBucketSyntax)
@@ -101,31 +107,40 @@ local syntax (name := normalizedWeightSixteenCandidatesCommand)
   "normalized_weight_sixteen_candidates" normalizedWeightSixteenCandidateBucket*
     "end_normalized_weight_sixteen_candidates" : command
 
-private meta def normalizedWeightSixteenCandidateTerm
+private meta def normalizedWeightSixteenCandidateTerms
     (row : TSyntax `normalizedWeightSixteenCandidateRow) :
-    CommandElabM (TSyntax `term) := do
+    CommandElabM (TSyntax `term × TSyntax `term) := do
   match row with
   | `(normalizedWeightSixteenCandidateRowSyntax|
-        $patternClass:ident $affineCode:num $maskLow:num $maskHigh:num
-        $systematicCode:num) =>
+        $patternClass:ident $affineCode:num $linearInverseCode:num
+        $maskLow:num $maskHigh:num $systematicCode:num) =>
       let patternClassName :=
         `CryptBoolean.RankSevenWeightSixteenPatternClass ++ patternClass.getId
-      `(term|
+      let candidate ← `(term|
         { patternClass := $(mkIdent patternClassName):ident
           affineCode := BitVec.ofNat 56 $affineCode
           maskLow := BitVec.ofNat 64 $maskLow
           maskHigh := BitVec.ofNat 64 $maskHigh
           systematicCode := BitVec.ofNat 64 $systematicCode })
+      let inverse ← `(term| BitVec.ofNat 49 $linearInverseCode)
+      pure (candidate, inverse)
   | _ => throwUnsupportedSyntax
 
-private meta def normalizedWeightSixteenCandidateTreeTerm
-    (rows : Array (TSyntax `term)) : CommandElabM (TSyntax `term) := do
-  let rec loop (fuel : Nat) (current : Array (TSyntax `term)) :
-      CommandElabM (TSyntax `term) := do
+private meta def normalizedWeightSixteenCandidateTreesTerm
+    (rows : Array (TSyntax `term × TSyntax `term)) :
+    CommandElabM (TSyntax `term × TSyntax `term) := do
+  let rec loop
+      (fuel : Nat) (current : Array (TSyntax `term × TSyntax `term)) :
+      CommandElabM (TSyntax `term × TSyntax `term) := do
     if current.isEmpty then
       throwError "a normalized candidate bucket must be nonempty"
     else if current.size = 1 then
-      `(term| NormalizedWeightSixteenCandidateTree.leaf $(current[0]!))
+      let row := current[0]!
+      let candidate ←
+        `(term| NormalizedWeightSixteenCandidateTree.leaf $(row.1))
+      let inverse ←
+        `(term| NormalizedWeightSixteenInverseCertificateTree.leaf $(row.2))
+      pure (candidate, inverse)
     else
       match fuel with
       | 0 => throwError "candidate-tree elaboration exhausted its structural bound"
@@ -133,7 +148,13 @@ private meta def normalizedWeightSixteenCandidateTreeTerm
           let midpoint := current.size / 2
           let left ← loop fuel (current.extract 0 midpoint)
           let right ← loop fuel (current.extract midpoint current.size)
-          `(term| NormalizedWeightSixteenCandidateTree.node $left $right)
+          let candidate ←
+            `(term| NormalizedWeightSixteenCandidateTree.node
+              $(left.1) $(right.1))
+          let inverse ←
+            `(term| NormalizedWeightSixteenInverseCertificateTree.node
+              $(left.2) $(right.2))
+          pure (candidate, inverse)
   loop rows.size rows
 
 private structure NormalizedWeightSixteenBucketData where
@@ -151,10 +172,15 @@ private meta def elaborateNormalizedWeightSixteenCandidateBucket
       let suffix := label.getId.toString.drop 1
       let declarationName := mkIdent <|
         Name.mkSimple s!"normalizedWeightSixteenCandidateBucket_{suffix}"
-      let candidates ← rows.mapM normalizedWeightSixteenCandidateTerm
-      let tree ← normalizedWeightSixteenCandidateTreeTerm candidates
+      let rows ← rows.mapM normalizedWeightSixteenCandidateTerms
+      let trees ← normalizedWeightSixteenCandidateTreesTerm rows
       elabCommand <| ← `(command|
-        def $declarationName : NormalizedWeightSixteenCandidateTree := $tree)
+        def $declarationName : NormalizedWeightSixteenCandidateTree := $(trees.1))
+      let inverseDeclarationName := mkIdent <|
+        declarationName.getId.appendAfter "_inverse"
+      elabCommand <| ← `(command|
+        def $inverseDeclarationName : NormalizedWeightSixteenInverseCertificateTree :=
+          $(trees.2))
       pure ⟨codePrefixSyntax, codePrefixSyntax.getNat, declarationName⟩
   | _ => throwUnsupportedSyntax
 
@@ -229,6 +255,7 @@ class Candidate:
     pattern_class: str
     class_code: int
     affine_code: int
+    linear_inverse_code: int
     mask_low: int
     mask_high: int
     systematic_code: int
@@ -269,6 +296,17 @@ def coordinates(inverse: Sequence[int], value: int) -> int:
     for index, row in enumerate(inverse):
         result |= PARITY[row & value] << index
     return result
+
+
+def inverse_matrix_code(rows: Sequence[int]) -> int:
+    columns = tuple(
+        sum(((rows[row] >> column) & 1) << row for row in range(7))
+        for column in range(7)
+    )
+    inverse = inverse_rows(columns)
+    if inverse is None:
+        raise GenerationError("normalizing linear map is not invertible")
+    return sum(row << (7 * index) for index, row in enumerate(inverse))
 
 
 def permute_point(point: int, permutation: Sequence[int]) -> int:
@@ -362,6 +400,7 @@ def generate_candidates(deadline: Deadline) -> tuple[Candidate, ...]:
                     pattern_class=pattern_class,
                     class_code=CLASS_CODES[pattern_class],
                     affine_code=affine_code,
+                    linear_inverse_code=inverse_matrix_code(inverse),
                     mask_low=mask_low,
                     mask_high=mask_high,
                     systematic_code=systematic_code,
@@ -423,12 +462,26 @@ def render_lean(
         deadline.check("Lean bucket rendering")
         lines.append(f"bucket b{prefix:04x} {prefix}")
         for candidate in buckets[prefix]:
-            lines.append(
-                "  "
-                f"{candidate.pattern_class} {candidate.affine_code} "
-                f"{candidate.mask_low} {candidate.mask_high} "
-                f"{candidate.systematic_code}"
+            fields = tuple(
+                str(value)
+                for value in (
+                    candidate.pattern_class,
+                    candidate.affine_code,
+                    candidate.linear_inverse_code,
+                    candidate.mask_low,
+                    candidate.mask_high,
+                    candidate.systematic_code,
+                )
             )
+            line = f"  {fields[0]}"
+            for field in fields[1:]:
+                extended = f"{line} {field}"
+                if len(extended) <= 100:
+                    line = extended
+                else:
+                    lines.append(line)
+                    line = f"    {field}"
+            lines.append(line)
     lines.extend(
         (
             "end_normalized_weight_sixteen_candidates",
