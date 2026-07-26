@@ -148,7 +148,7 @@ theorem fourier_gaussianPDFReal_zero_powTwo
       rw [mul_comm]
       congr 1
       push_cast
-      ring
+      ring_nf
     _ = (Real.exp (-((2 : ℝ) ^ n * (2 * Real.pi * ξ) ^ 2 / 2)) : ℂ) := by
       dsimp [γ]
       rw [charFun_gaussianReal]

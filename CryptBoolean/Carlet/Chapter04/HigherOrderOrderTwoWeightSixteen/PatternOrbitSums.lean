@@ -343,7 +343,7 @@ private theorem rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum_d16_r
       rw [hv6]
       convert orbitSignDerivative_add_right_self σ (∑ i, v i)
         (u + (v 0 + v 1 + v 2 + v 3 + v 4 + v 5)) using 1
-      abel
+      abel_nf
     rw [hlast]
     ac_rfl
 

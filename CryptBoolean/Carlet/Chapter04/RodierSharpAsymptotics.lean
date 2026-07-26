@@ -643,7 +643,7 @@ private theorem tendsto_rodierAsymptoticSingleCorrectionEnvelope :
     filter_upwards [] with n
     dsimp [rodierAsymptoticSingleCorrectionEnvelope]
     congr 2
-    ring
+    ring_nf
   simpa only [zero_add] using (h₁.add h₂).congr' heq
 
 private noncomputable def rodierAsymptoticOffDiagonalPairEnvelope (n : ℕ) : ℝ :=

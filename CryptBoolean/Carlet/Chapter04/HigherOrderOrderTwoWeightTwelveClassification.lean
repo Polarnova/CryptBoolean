@@ -111,7 +111,7 @@ theorem quadraticPolarKernel_eq
     quadraticPolarKernel f a b =
       f (a + b) + f a + f b + f 0 := by
   simp only [quadraticPolarKernel, FABL.booleanDerivative]
-  abel
+  abel_nf
 
 theorem quadraticPolarKernel_comm
     (f : BooleanFunction n) (a b : FABL.F₂Cube n) :

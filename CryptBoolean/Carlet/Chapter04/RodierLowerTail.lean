@@ -2928,7 +2928,7 @@ theorem norm_rodierPairCharacteristicIntegral_sub_gaussianSquare_le
     dsimp [g]
     rw [← Complex.ofReal_mul, ← Real.exp_add]
     congr 1
-    ring
+    ring_nf
   have hpointDiff (t r : ℝ) :
       ‖rodierPairCharacteristic S T t r - g t * g r‖ ≤
         q / 12 * (|t| + |r|) ^ 4 +
