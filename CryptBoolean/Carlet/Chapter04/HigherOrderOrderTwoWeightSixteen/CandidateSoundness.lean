@@ -558,7 +558,7 @@ candidate tree while keeping each certificate as an independent declaration. -/
 macro "compact_mask_soundness " theoremName:ident " for " tree:term
     " with " inverseTree:term : command =>
   `(command|
-    set_option Elab.async true in
+    set_option Elab.async false in
     set_option linter.style.maxHeartbeats false in
     set_option maxRecDepth 100000 in
     set_option maxHeartbeats 20000000 in
