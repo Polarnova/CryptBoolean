@@ -45,6 +45,30 @@ def normalizedCandidateLinearPoint
     FABL.F₂Cube 7 :=
   fun j ↦ ∑ i : Fin 7, normalizedCandidateAffineRow candidate j i * x i
 
+/-- The matrix represented by the seven encoded rows. -/
+def normalizedCandidateLinearMatrix
+    (candidate : NormalizedWeightSixteenCandidate) :
+    Matrix (Fin 7) (Fin 7) FABL.𝔽₂ :=
+  fun j i ↦ normalizedCandidateAffineRow candidate j i
+
+/-- Interpret one bit of the encoded inverse matrix over the binary field. -/
+def normalizedCandidateLinearInverseBit
+    (linearInverseCode : BitVec 49) (index : ℕ) : FABL.𝔽₂ :=
+  if linearInverseCode.getLsbD index then 1 else 0
+
+/-- The matrix represented by the row-major inverse witness. -/
+def normalizedCandidateLinearInverseMatrix
+    (linearInverseCode : BitVec 49) :
+    Matrix (Fin 7) (Fin 7) FABL.𝔽₂ :=
+  fun j i ↦ normalizedCandidateLinearInverseBit linearInverseCode (7 * j + i)
+
+/-- Row evaluation agrees with multiplication by the decoded matrix. -/
+theorem normalizedCandidateLinearPoint_eq_mulVec
+    (candidate : NormalizedWeightSixteenCandidate) (x : FABL.F₂Cube 7) :
+    normalizedCandidateLinearPoint candidate x =
+      Matrix.mulVec (normalizedCandidateLinearMatrix candidate) x :=
+  rfl
+
 /-- Decode the row-major affine certificate into the column-oriented data used
 by `sevenVariableAffinePoint`. -/
 def normalizedCandidateAffineMapData

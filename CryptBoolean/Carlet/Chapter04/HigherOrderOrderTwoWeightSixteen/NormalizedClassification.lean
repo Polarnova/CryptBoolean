@@ -7,6 +7,7 @@ module
 
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.NormalizedClassifier
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.CandidateDecode
+meta import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen.NormalizedClassifier
 
 /-!
 # Complete normalized rank-seven pattern classifier
@@ -17,9 +18,10 @@ search retains only the later columns orthogonal to the chosen column.  A
 generic extension lemma proves that every sequence satisfying the systematic
 constraints follows one branch of this search.
 
-The final finite equality is divided by the first column.  Its 120 independent
-shards are elaborated asynchronously and combined into one kernel-checked
-coverage theorem; the mathematical argument itself is shared by every shard.
+The coverage check folds directly over the search tree and stops whenever too
+few columns remain to complete a code.  Its 120 first-column branches are
+assembled into cost-balanced groups and combined into one kernel-checked
+theorem; the mathematical argument itself is shared by every group.
 -/
 
 @[expose] public section
@@ -40,15 +42,6 @@ private def systematicWeightSixteenSuccessors
   available.filter fun next =>
     column.ult next &&
       areSystematicWeightSixteenColumnsOrthogonal column next
-
-/-- Increasing orthogonal completions of a partial systematic code. -/
-private def systematicWeightSixteenCompletions :
-    Nat → List (BitVec 8) → List (BitVec 8) → List (List (BitVec 8))
-  | 0, chosen, _available => [chosen]
-  | remaining + 1, chosen, available =>
-      available.flatMap fun column =>
-        systematicWeightSixteenCompletions remaining (chosen ++ [column])
-          (systematicWeightSixteenSuccessors available column)
 
 /-- Pack an eight-column search leaf into its little-endian 64-bit code. -/
 private def packSystematicWeightSixteenColumnList :
@@ -115,20 +108,28 @@ private theorem systematicWeightSixteenExtension_of_constraints
     mem_systematicWeightSixteenSuccessors_iff]
   aesop (add safe forward bitVec_ult_trans)
 
-private theorem append_mem_systematicWeightSixteenCompletions_of_extension
-    {chosen remaining available : List (BitVec 8)}
+private theorem length_le_of_systematicWeightSixteenExtension
+    {remaining available : List (BitVec 8)}
     (h : IsSystematicWeightSixteenExtension available remaining) :
-    chosen ++ remaining ∈
-      systematicWeightSixteenCompletions remaining.length chosen available := by
-  induction remaining generalizing chosen available with
-  | nil => simp [systematicWeightSixteenCompletions]
+    remaining.length ≤ available.length := by
+  induction remaining generalizing available with
+  | nil => simp
   | cons column remaining ih =>
-      rw [List.length_cons, systematicWeightSixteenCompletions,
-        List.mem_flatMap]
-      refine ⟨column, h.1, ?_⟩
-      have hmem := ih (chosen := chosen ++ [column])
+      have hremaining := ih
         (available := systematicWeightSixteenSuccessors available column) h.2
-      simpa only [List.append_assoc, List.singleton_append] using hmem
+      have hsuccessors :
+          (systematicWeightSixteenSuccessors available column).length <
+            available.length := by
+        rw [systematicWeightSixteenSuccessors,
+          List.length_filter_lt_length_iff_exists]
+        refine ⟨column, h.1, ?_⟩
+        intro hself
+        simp only [Bool.and_eq_true] at hself
+        have hult := hself.1
+        simp only [BitVec.ult_eq_decide_lt, decide_eq_true_eq] at hult
+        exact (BitVec.lt_irrefl column hult).elim
+      simpa only [List.length_cons] using
+        Nat.succ_le_of_lt (lt_of_le_of_lt hremaining hsuccessors)
 
 private theorem pack_systematicWeightSixteenColumnsOfCode
     (code : BitVec 64) :
@@ -141,75 +142,132 @@ private theorem pack_systematicWeightSixteenColumnsOfCode
     (by norm_num)]
   exact BitVec.extractLsb'_eq_self
 
-/-- Boolean coverage of every leaf in the finite completion search. -/
-private def systematicWeightSixteenGeneratedCoverage : Bool :=
-  (systematicWeightSixteenCompletions 8 []
-      systematicWeightSixteenColumns).all fun columns =>
+/-- Boolean coverage of every completion below a partial systematic code. -/
+private def systematicWeightSixteenCoverage :
+    Nat → List (BitVec 8) → List (BitVec 8) → Bool
+  | 0, chosen, _available =>
+      isGeneratedSystematicWeightSixteenCode
+        (packSystematicWeightSixteenColumnList chosen)
+  | remaining + 1, chosen, available =>
+      if available.length < remaining + 1 then
+        true
+      else
+        available.all fun column =>
+          systematicWeightSixteenCoverage remaining (chosen ++ [column])
+            (systematicWeightSixteenSuccessors available column)
+
+private theorem generated_of_systematicWeightSixteenExtension
+    {chosen remaining available : List (BitVec 8)}
+    (hextension : IsSystematicWeightSixteenExtension available remaining)
+    (hcoverage : systematicWeightSixteenCoverage remaining.length chosen
+      available = true) :
     isGeneratedSystematicWeightSixteenCode
-      (packSystematicWeightSixteenColumnList columns)
+        (packSystematicWeightSixteenColumnList (chosen ++ remaining)) = true := by
+  induction remaining generalizing chosen available with
+  | nil => simpa [systematicWeightSixteenCoverage] using hcoverage
+  | cons column remaining ih =>
+      have hlength :=
+        length_le_of_systematicWeightSixteenExtension hextension
+      simp only [List.length_cons] at hcoverage hlength
+      rw [systematicWeightSixteenCoverage,
+        if_neg (Nat.not_lt_of_ge hlength)] at hcoverage
+      simpa only [List.append_assoc, List.singleton_append] using
+        ih hextension.2
+          ((List.all_eq_true.mp hcoverage) column hextension.1)
 
 /-- Coverage of the completion shard selected by its first column. -/
 private def systematicWeightSixteenFirstShardCoverage
     (column : BitVec 8) : Bool :=
-  (systematicWeightSixteenCompletions 7 [column]
-      (systematicWeightSixteenSuccessors
-        systematicWeightSixteenColumns column)).all fun columns =>
-    isGeneratedSystematicWeightSixteenCode
-      (packSystematicWeightSixteenColumnList columns)
+  systematicWeightSixteenCoverage 7 [column]
+    (systematicWeightSixteenSuccessors systematicWeightSixteenColumns column)
 
-private theorem systematicWeightSixteenGeneratedCoverage_eq_shards :
-    systematicWeightSixteenGeneratedCoverage =
-      systematicWeightSixteenColumns.all
-        systematicWeightSixteenFirstShardCoverage := by
-  rw [systematicWeightSixteenGeneratedCoverage,
-    systematicWeightSixteenCompletions, List.all_flatMap]
-  rfl
+/-- Boolean coverage of every leaf in the finite completion search. -/
+private def systematicWeightSixteenGeneratedCoverage : Bool :=
+  systematicWeightSixteenColumns.all
+    systematicWeightSixteenFirstShardCoverage
 
 private meta def systematicWeightSixteenColumnValues : List Nat :=
   (List.range 256).filter fun value =>
-    let weight := (List.range 8).foldl
-      (fun count bit => if value.testBit bit then count + 1 else count) 0
-    weight % 2 == 1 && weight != 1
+    isSystematicWeightSixteenNonunitOddColumn (BitVec.ofNat 8 value)
+
+private meta def areSystematicWeightSixteenValuesOrthogonal
+    (left right : Nat) : Bool :=
+  areSystematicWeightSixteenColumnsOrthogonal
+    (BitVec.ofNat 8 left) (BitVec.ofNat 8 right)
+
+private meta def systematicWeightSixteenSuccessorValues
+    (available : List Nat) (column : Nat) : List Nat :=
+  available.filter fun next =>
+    decide (column < next) &&
+      areSystematicWeightSixteenValuesOrthogonal column next
+
+private meta def systematicWeightSixteenCoverageCost :
+    Nat → List Nat → Nat
+  | 0, _available => 1
+  | remaining + 1, available =>
+      if available.length < remaining + 1 then
+        1
+      else
+        available.foldl (fun cost column =>
+          cost + systematicWeightSixteenCoverageCost remaining
+            (systematicWeightSixteenSuccessorValues available column)) 1
+
+private structure SystematicWeightSixteenFirstShardValue where
+  column : Nat
+  cost : Nat
+
+private meta def systematicWeightSixteenFirstShardValues :
+    List SystematicWeightSixteenFirstShardValue :=
+  systematicWeightSixteenColumnValues.map fun column =>
+    ⟨column, systematicWeightSixteenCoverageCost 7
+      (systematicWeightSixteenSuccessorValues
+        systematicWeightSixteenColumnValues column)⟩
+
+private meta def partitionSystematicWeightSixteenFirstShards
+    (limit : Nat) : List SystematicWeightSixteenFirstShardValue →
+      List (List SystematicWeightSixteenFirstShardValue) := by
+  let rec loop
+      (current : List SystematicWeightSixteenFirstShardValue)
+      (currentCost : Nat) :
+      List SystematicWeightSixteenFirstShardValue →
+        List (List SystematicWeightSixteenFirstShardValue)
+    | [] => if current.isEmpty then [] else [current.reverse]
+    | shard :: remaining =>
+        if !current.isEmpty && limit < currentCost + shard.cost then
+          current.reverse :: loop [shard] shard.cost remaining
+        else
+          loop (shard :: current) (currentCost + shard.cost) remaining
+  exact loop [] 0
 
 local syntax "systematic_weight_sixteen_completion_certificates" : command
 
 local macro_rules
   | `(command| systematic_weight_sixteen_completion_certificates) => do
-      let values := systematicWeightSixteenColumnValues
-      unless values.length == 120 do
+      let shards := systematicWeightSixteenFirstShardValues
+      unless shards.length == 120 do
         Lean.Macro.throwError
           "the normalized completion search must have 120 first-column shards"
-      let generated ← values.toArray.mapIdxM fun index value => do
+      let targetGroupCount := 32
+      let totalCost := shards.foldl (fun total shard => total + shard.cost) 0
+      let costLimit :=
+        (totalCost + targetGroupCount - 1) / targetGroupCount
+      let shardGroups :=
+        partitionSystematicWeightSixteenFirstShards costLimit shards
+      let groups ← shardGroups.toArray.mapIdxM fun index group => do
+        let columnTerms := group.toArray.map fun shard =>
+          show TSyntax `term from
+            ⟨Syntax.mkNumLit (toString shard.column)⟩
         let proofName := Lean.mkIdent <|
-          Name.mkSimple s!"systematicWeightSixteenFirstShard_{index}"
-        let valueTerm : TSyntax `term :=
-          ⟨Syntax.mkNumLit (toString value)⟩
-        let proofLemma ←
-          `(Parser.Tactic.simpLemma| $proofName:term)
+          Name.mkSimple s!"systematicWeightSixteenFirstShardGroup_{index}"
+        let groupTerm ← `(term| [$[$columnTerms],*])
         let declaration ← `(command|
           set_option Elab.async true in
           set_option maxRecDepth 1000000 in
           set_option maxHeartbeats 20000000 in
-          -- Each finite first-column shard requires exhaustive kernel reduction.
-          private theorem $proofName :
-              systematicWeightSixteenFirstShardCoverage $valueTerm = true := by
-            rfl)
-        pure (valueTerm, proofLemma, declaration)
-      let declarations := generated.map fun item => item.2.2
-      let groups ← generated.toList.toChunks 8 |>.toArray.mapIdxM
-          fun index group => do
-        let groupArray := group.toArray
-        let valueTerms := groupArray.map fun item => item.1
-        let proofLemmas := groupArray.map fun item => item.2.1
-        let proofName := Lean.mkIdent <|
-          Name.mkSimple s!"systematicWeightSixteenFirstShardGroup_{index}"
-        let groupTerm ← `(term| [$[$valueTerms],*])
-        let declaration ← `(command|
           private theorem $proofName :
               ($groupTerm).all
                 systematicWeightSixteenFirstShardCoverage = true := by
-            simp only [List.all_cons, $proofLemmas,*, List.all_nil,
-              Bool.true_and])
+            rfl)
         pure (groupTerm, proofName, declaration)
       let groupTerms := groups.map fun item => item.1
       let groupDeclarations := groups.map fun item => item.2.2
@@ -218,7 +276,8 @@ local macro_rules
         `(tactic| rw [List.all_cons, $proofName:term, Bool.true_and])
       let groupRewriteSequence ←
         `(tacticSeq| $[$groupRewriteTactics]*)
-      let columnsDeclaration ← `(command|
+      let shardsDeclaration ← `(command|
+        set_option maxRecDepth 1000000 in
         private theorem systematicWeightSixteenColumns_eq_groups :
             systematicWeightSixteenColumns =
               ([$[$groupTerms],*] : List (List (BitVec 8))).flatten := by
@@ -226,7 +285,7 @@ local macro_rules
       let aggregate ← `(command|
         private theorem systematicWeightSixteenGeneratedCoverage_true :
             systematicWeightSixteenGeneratedCoverage = true := by
-          rw [systematicWeightSixteenGeneratedCoverage_eq_shards,
+          rw [systematicWeightSixteenGeneratedCoverage,
             systematicWeightSixteenColumns_eq_groups, List.all_flatten]
           ($groupRewriteSequence)
           rfl)
@@ -241,28 +300,37 @@ local macro_rules
             isGeneratedSystematicWeightSixteenCode code = true := by
           have hextension :=
             systematicWeightSixteenExtension_of_constraints code hconstraints
-          have hmember :=
-            append_mem_systematicWeightSixteenCompletions_of_extension
-              (chosen := []) hextension
-          simp only [systematicWeightSixteenColumnsOfCode, List.nil_append,
-            List.length_cons, List.length_nil] at hmember
-          have hgenerated :=
+          change IsSystematicWeightSixteenExtension
+            systematicWeightSixteenColumns
+              [systematicWeightSixteenColumn code 0,
+                systematicWeightSixteenColumn code 1,
+                systematicWeightSixteenColumn code 2,
+                systematicWeightSixteenColumn code 3,
+                systematicWeightSixteenColumn code 4,
+                systematicWeightSixteenColumn code 5,
+                systematicWeightSixteenColumn code 6,
+                systematicWeightSixteenColumn code 7] at hextension
+          have hcoverage :=
             (List.all_eq_true.mp
-              systematicWeightSixteenGeneratedCoverage_true) _ hmember
+              systematicWeightSixteenGeneratedCoverage_true) _ hextension.1
+          simp only [systematicWeightSixteenFirstShardCoverage] at hcoverage
+          have hgenerated :=
+            generated_of_systematicWeightSixteenExtension
+              (chosen := [systematicWeightSixteenColumn code 0])
+              hextension.2 hcoverage
           change isGeneratedSystematicWeightSixteenCode
             (packSystematicWeightSixteenColumnList
               (systematicWeightSixteenColumnsOfCode code)) = true at hgenerated
           simpa only [pack_systematicWeightSixteenColumnsOfCode] using
             hgenerated)
       return Lean.mkNullNode <|
-        declarations.map (·.raw) ++ groupDeclarations.map (·.raw) ++
-          #[columnsDeclaration.raw, aggregate.raw, classifier.raw]
+        groupDeclarations.map (·.raw) ++
+          #[shardsDeclaration.raw, aggregate.raw, classifier.raw]
 
 section
 
 set_option maxRecDepth 1000000
 
--- The generated command tree contains all 120 independent finite shards.
 systematic_weight_sixteen_completion_certificates
 
 end

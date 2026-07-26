@@ -1,135 +1,117 @@
 # CryptBoolean: Cryptographic Boolean Functions in Lean
 
-CryptBoolean is a Lean 4 and Mathlib formalization of cryptographic Boolean functions, guided by
-Claude Carlet's *Boolean Functions for Cryptography and Error Correcting Codes*. It develops the
-algebraic, spectral, coding-theoretic, and cryptographic theory as a reusable theorem library.
+[![CI](https://github.com/Polarnova/CryptBoolean/actions/workflows/ci.yml/badge.svg)](https://github.com/Polarnova/CryptBoolean/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Polarnova/CryptBoolean)](https://github.com/Polarnova/CryptBoolean/releases)
+[![Lean 4](https://img.shields.io/badge/Lean-4.32.0-blue)](https://lean-lang.org/)
+[![Blueprint](https://img.shields.io/badge/Verso-Blueprint-5b4b8a)](https://polarnova.github.io/CryptBoolean/)
+[![License](https://img.shields.io/github/license/Polarnova/CryptBoolean)](LICENSE)
 
-The project uses [FABL](https://github.com/Polarnova/FABL) for Boolean Fourier analysis and its
-canonical ANF, algebraic-degree, affine-function, and derivative APIs. CryptBoolean imports those
-APIs directly and supplies explicit bridges between FABL's normalized coefficients and Carlet's raw
-Walsh transform.
+CryptBoolean is a Lean 4 and Mathlib library for the theory of cryptographic Boolean functions. Its
+main source is Claude Carlet's *Boolean Functions for Cryptography and Error Correcting Codes*,
+with supplementary results from Cusick--Stănică. The library uses
+[FABL](https://github.com/Polarnova/FABL) for Boolean Fourier analysis, algebraic normal forms,
+algebraic degree, affine functions, and derivatives.
 
-## Status
+Read the [interactive Blueprint](https://polarnova.github.io/CryptBoolean/) for the mathematical
+statements, Lean declarations, references, and proof-dependency graph.
 
-The verified production surface currently covers selected results from Carlet Chapters 2--4.
-Every Blueprint node has a complete mathematical statement and reviewed dependencies. Formalized
-nodes are associated with compiled Lean declarations; open source theorems remain visible without
-placeholder associations.
+## Mathematical scope
 
-| Chapter | Subject | Statements | Formalized | Open | Lean declarations | Dependency edges |
-|---|---|---:|---:|---:|---:|---:|
-| 2 | Representations and Fourier/Walsh transforms | 36 | 35 | 1 | 159 | 45 |
-| 3 | Boolean functions and Reed--Muller coding | 7 | 7 | 0 | 32 | 19 |
-| 4 | Cryptographic criteria | 73 | 73 | 0 | 568 | 159 |
-| **Total** |  | **116** | **115** | **1** | **759** | **223** |
+The current library covers Carlet Chapters 2--4:
 
-The Chapter 2 surface includes algebraic and numerical normal forms, Walsh and pseudo-Boolean
-Fourier transforms, inversion and Plancherel identities, the full raw Poisson formula, the
-numerical-normal-form integrality criterion, affine invariance, restriction recovery,
-spectral-support bounds, derivatives, autocorrelation, and finite-field representations. Chapter 3
-defines Reed--Muller codes and proves the general distance bound, dimension and cardinality
-formulas, duality theorem, and Proposition 12's classification of minimum-weight words as affine-
-flat indicators. Chapter 4 now compiles the reviewed finite theory of nonlinearity, higher-order
-nonlinearity, resiliency and propagation, linear structures, algebraic immunity, autocorrelation,
-maximum correlation, and the remaining complexity criteria.
+- **Representations and transforms:** support and weight, algebraic and numerical normal forms,
+  Walsh and pseudo-Boolean Fourier transforms, inversion, Parseval and Poisson formulas,
+  derivatives, autocorrelation, restrictions, affine invariance, and finite-field representations.
+- **Reed--Muller codes:** minimum distance, dimension, cardinality, duality, and Proposition 12's
+  classification of minimum-weight words as indicators of affine flats.
+- **Cryptographic criteria:** nonlinearity and higher-order nonlinearity, correlation immunity,
+  resiliency, propagation criteria, linear structures, algebraic immunity, autocorrelation
+  indicators, and maximum correlation. This includes the exact seven-variable maximum and sharp
+  fixed-order asymptotic bounds for higher-order nonlinearity.
 
-One source node remains open: Carlet Proposition 3 still requires the finite-field coordinate and
-cyclotomic-orbit noncancellation bridge. Chapter 4 is source-complete. Its last closures are
-Rodier's sharp random-nonlinearity interval, the exact dimension-seven maximum, and the sharp
-fixed-order higher-order asymptotic upper bound. The latter is exposed through separate formal
-nodes for the moment ratio, dual-code weight decomposition, low-weight estimates, the exact
-weight-`16` rank-seven classification and character bound, and finite Plotkin propagation.
-Strict improvement over
-the quadratic bound in every odd dimension above seven follows from a kernel-checked Kavut--Yücel
-certificate. The balanced Maitra--Kavut--Yücel family is proved for every odd dimension at least
-thirteen; a linear reindexing and complete bent extensions give `PC(1)` witnesses over the same
-range; and a Proposition 12 affine-line repair gives balanced degree-`n-1` witnesses for every odd
-dimension at least fifteen.
+Chapters 3 and 4 are complete. One Chapter 2 statement remains open: Carlet Proposition 3 on the
+algebraic degree of trace monomials. Open statements remain visible in the Blueprint; every
+associated Lean declaration is proved and kernel-checked.
 
-Two source-fidelity distinctions are explicit in the formalized Chapter 4 surface. Carlet's Reed--
-Muller coset-distance formula needs pairwise distinct cosets (and, for the two-coset corollary, a
-non-affine representative). Carlet calls the even-output tuple count `k`th nonhomomorphicity,
-whereas reference [357] calls that same count homomorphicity and uses nonhomomorphicity for its
-odd-output complement.
-
-The production library contains zero `sorry`, project-defined axioms, unsafe declarations, or
-native proof shortcuts.
+Carlet's Walsh transform is an unnormalized integer sum, whereas FABL uses normalized Fourier
+coefficients. CryptBoolean provides explicit scaling theorems between these conventions. Its
+canonical scalar Boolean functions have type `FABL.F₂Cube n → FABL.𝔽₂`.
 
 ## Using CryptBoolean
 
-The repository pins Lean and Mathlib `v4.32.0` and the latest stable FABL release, currently
-`v0.5.6`. Release `v0.3.0` provides verified Lake archives for Linux x86-64 and macOS arm64.
-To use it as a dependency, add the following entry to `lakefile.toml`:
+Release `v0.3.5` uses Lean and Mathlib `v4.32.0` and pins FABL `v0.5.6`. Add the package to a
+downstream `lakefile.toml`:
 
 ```toml
 [[require]]
 name = "CryptBooleanFunction"
 git = "https://github.com/Polarnova/CryptBoolean.git"
-rev = "v0.3.0"
+rev = "v0.3.5"
 ```
 
-Then `import CryptBoolean` in Lean. Lake selects the matching release archive when one is
-available. After cloning the repository for development, fetch and verify the precompiled
-dependencies, then build CryptBoolean:
+On Linux x86-64 and macOS arm64, obtain the verified release archive with:
 
 ```bash
+lake update
 lake exe cache get
-./.github/scripts/require_latest_fabl_release.sh
-lake build CryptBoolean
+lake build @CryptBooleanFunction:release
 ```
 
-The release check downloads FABL and ProbabilityApproximation archives on Linux x86-64 and macOS
-arm64 and fails instead of compiling their source when a matching verified asset is unavailable.
-An hourly workflow, also callable by a FABL release dispatch, opens an exact-pin upgrade pull
-request whenever FABL publishes a newer stable release. It updates the Lean toolchain and both Lake
-manifests, runs the complete CryptBoolean and Blueprint build in GitHub Actions, and merges only a
-green dependency update.
-
-The root module imports every verified production module:
+Import the complete public library with:
 
 ```lean
 import CryptBoolean
 ```
 
-Source modules follow Carlet's chapters under `CryptBoolean/Carlet`. Representation bridges live
-under `CryptBoolean/Bridge`.
+For source development, clone the repository, fetch the dependency archives, and build the root
+module:
 
-## Book and dependency graph
+```bash
+git clone https://github.com/Polarnova/CryptBoolean.git
+cd CryptBoolean
+lake update
+lake exe cache get
+./.github/scripts/require_latest_fabl_release.sh
+lake build CryptBoolean
+```
 
-The Verso Blueprint presents source-facing statements beside their Lean declarations and records
-the reviewed dependency graph. Statement blocks contain only mathematics; implementation and
-normalization notes are rendered separately. GitHub Actions performs the full publication build.
-For a local preview after the root library is current:
+Production modules follow Carlet's chapters under `CryptBoolean/Carlet`; representation bridges
+are under `CryptBoolean/Bridge`.
+
+## Blueprint
+
+The [Verso Blueprint](https://github.com/leanprover/verso-blueprint) is the reader-facing
+mathematical text. Its References page is generated from
+[`references.bib`](blueprint-verso/CryptBooleanBlueprint/references.bib).
+
+After the root library is current, preview the development edition locally with:
 
 ```bash
 cd blueprint-verso
+lake update
 lake exe cache get
 ./scripts/site.sh serve dev
 ```
 
-Then open [http://localhost:8000/](http://localhost:8000/). Generated files live under
-`blueprint-verso/_out/`. Pushes to `main` run the same checked build and automatically publish the
-book through GitHub Pages at
-[polarnova.github.io/CryptBoolean](https://polarnova.github.io/CryptBoolean/).
-The `dev` profile retains fidelity metadata for review; public CI uses the default `release`
-profile and omits those tags from the reading view.
+Then open [http://localhost:8000/](http://localhost:8000/).
 
 ## Contributing
 
-Read [`AGENTS.md`](AGENTS.md) for the contributor contract and verification workflow.
+Read [`AGENTS.md`](AGENTS.md) for the source-fidelity, Mathlib and FABL reuse, proof, Blueprint, and
+verification conventions.
 
-## References and prior work
-
-The reader-facing Blueprint generates a sorted References page from the single
-[`references.bib`](blueprint-verso/CryptBooleanBlueprint/references.bib) database. Source notes use
-the same citation keys, so papers, stable URLs, and DOIs are maintained in one place.
+## References
 
 - Claude Carlet, *Boolean Functions for Cryptography and Error Correcting Codes*, 2010.
 - Thomas W. Cusick and Pantelimon Stănică, *Cryptographic Boolean Functions and Applications*,
   second edition, 2017.
-- Ryan O'Donnell, *Analysis of Boolean Functions*, May 2021 edition, formalized by
-  [FABL](https://github.com/Polarnova/FABL).
+- Ryan O'Donnell, [*Analysis of Boolean Functions*](https://arxiv.org/abs/2105.10386), May 2021
+  edition, formalized by [FABL](https://github.com/Polarnova/FABL).
 - [Mathlib](https://github.com/leanprover-community/mathlib4), the mathematical foundation used by
   CryptBoolean.
-- [Verso Blueprint](https://github.com/leanprover/verso-blueprint), used for the source-facing book
+- [Verso Blueprint](https://github.com/leanprover/verso-blueprint), used for the mathematical text
   and dependency graph.
+
+## License
+
+CryptBoolean is released under the Apache License 2.0. See [`LICENSE`](LICENSE).
