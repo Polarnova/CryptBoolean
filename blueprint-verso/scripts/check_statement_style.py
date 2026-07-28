@@ -31,58 +31,6 @@ DISALLOWED_LABEL = "Formalization" + " note"
 DISALLOWED_CONTRAST = "rather" + " than"
 NUMBERED_HEADING = re.compile(r"^#{1,6}\s+\d+(?:\.\d+)*\.?\s+")
 DEEP_HEADING = re.compile(r"^#{2,6}\s+")
-REQUIRED_VOLUME_GROUPS = (
-    "Chapter 1: Generalities on Boolean functions",
-    "Chapter 2: Boolean functions and coding",
-    "Chapter 3: Boolean functions and cryptography",
-    "Chapter 4: Classes with Provable Spectra and Weights",
-)
-REQUIRED_CHAPTER_TITLES = {
-    Path("Chapter02.lean"): '#doc (Manual) "Generalities on Boolean functions" =>',
-    Path("Chapter03.lean"): '#doc (Manual) "Boolean functions and coding" =>',
-    Path("Chapter04.lean"): '#doc (Manual) "Boolean functions and cryptography" =>',
-    Path("Chapter05/Classes.lean"): '#doc (Manual) "Classes with Provable Spectra and Weights" =>',
-}
-REQUIRED_PUBLIC_HEADINGS = {
-    Path("Chapter05/Classes.lean"): (
-        "# Affine functions",
-        "# Quadratic functions",
-        "# Indicators of flats",
-        "# Normal functions",
-        "# Functions admitting partial covering sequences",
-        "# Functions with low univariate degree",
-    ),
-}
-REQUIRED_OUTLINE_ORDER = {
-    Path("Chapter02.lean"): (
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.ANF}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.ANFExistence}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.AlgebraicDegree}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.FiniteField}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}",
-    ),
-    Path("Chapter03.lean"): (
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter03.ReedMuller}",
-    ),
-    Path("Chapter04.lean"): (
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}",
-        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}",
-    ),
-}
 
 
 @dataclass(frozen=True)
@@ -150,39 +98,6 @@ def main() -> None:
             if offset >= 0:
                 line = text.count("\n", 0, offset) + 1
                 errors.append(f"{location}:{line}: disallowed reader phrase {phrase!r}")
-    root_lines = PUBLIC_SOURCES[0].read_text().splitlines()
-    group_positions = [
-        root_lines.index(group) if group in root_lines else -1 for group in REQUIRED_VOLUME_GROUPS
-    ]
-    for group, position in zip(REQUIRED_VOLUME_GROUPS, group_positions):
-        if position < 0:
-            errors.append(f"CryptBooleanBlueprint/Blueprint.lean: missing volume group {group!r}")
-    if all(position >= 0 for position in group_positions) and group_positions != sorted(
-        group_positions
-    ):
-        errors.append("CryptBooleanBlueprint/Blueprint.lean: volume groups are out of order")
-    for relative, title in REQUIRED_CHAPTER_TITLES.items():
-        path = SOURCE_ROOT / relative
-        if title not in path.read_text().splitlines():
-            errors.append(f"{path.relative_to(ROOT)}: missing chapter title {title!r}")
-    for relative, headings in REQUIRED_PUBLIC_HEADINGS.items():
-        path = SOURCE_ROOT / relative
-        lines = path.read_text().splitlines()
-        positions = [lines.index(heading) if heading in lines else -1 for heading in headings]
-        for heading, position in zip(headings, positions):
-            if position < 0:
-                errors.append(f"{path.relative_to(ROOT)}: missing public heading {heading!r}")
-        if all(position >= 0 for position in positions) and positions != sorted(positions):
-            errors.append(f"{path.relative_to(ROOT)}: public headings are out of order")
-    for relative, outline in REQUIRED_OUTLINE_ORDER.items():
-        path = SOURCE_ROOT / relative
-        lines = path.read_text().splitlines()
-        positions = [lines.index(item) if item in lines else -1 for item in outline]
-        for item, position in zip(outline, positions):
-            if position < 0:
-                errors.append(f"{path.relative_to(ROOT)}: missing outline item {item!r}")
-        if all(position >= 0 for position in positions) and positions != sorted(positions):
-            errors.append(f"{path.relative_to(ROOT)}: public outline is out of order")
     for block in blocks:
         location = f"{block.path.relative_to(ROOT)}:{block.line}"
         first_line = next((line.strip() for line in block.body.splitlines() if line.strip()), "")

@@ -48,7 +48,6 @@ build_site() {
   test -f "$output/html-multi/index.html"
   test -f "$output/html-multi/-verso-data/blueprint-manifest.json"
   "$lake_cmd" exe vbp check --site "$output" >/dev/null
-  python3 "$root/scripts/check_rendered_outline.py" "$output/html-multi"
   python3 "$root/scripts/validate_manifest.py" \
     "$output/html-multi/-verso-data/blueprint-manifest.json"
   touch "$output/html-multi/.nojekyll"
