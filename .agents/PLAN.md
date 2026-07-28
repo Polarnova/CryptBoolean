@@ -95,6 +95,9 @@ into heading text. Source subsections are grouped into clear reader sections in 
 internal identifiers and citations retain the source numbers. Lean modules and the proof plan may
 follow dependency order.
 
+The site build rejects written numeric prefixes, source headings below the section level, and any
+rendered table-of-contents number deeper than `x.y`.
+
 In parallel with manual review, produce a source crosswalk for repeated numbering and for claims
 that are stated in one section and proved later.
 

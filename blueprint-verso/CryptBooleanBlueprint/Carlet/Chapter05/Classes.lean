@@ -12,7 +12,7 @@ open Verso.Genre
 open Verso.Genre.Manual
 open Informal
 
-#doc (Manual) "Restricted-weight and restricted-spectrum classes" =>
+#doc (Manual) "Classes with Provable Spectra and Weights" =>
 
 # Affine functions
 

@@ -38,30 +38,24 @@ spectral-support bounds. It also includes the coordinate formula relating univar
 exponent weight to ANF degree, Proposition 3 on trace-monomial degree, and the representation of
 binary coordinates by the trace pairing.
 
-# Representation of Boolean functions
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.ANF}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.ANF}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.ANFExistence}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.ANFExistence}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.AlgebraicDegree}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.AlgebraicDegree}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.FiniteField}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.FiniteField}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}
 
-# The discrete Fourier transform on pseudo-Boolean and on Boolean functions
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}
-
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}
-
-# Fourier support and Cayley graphs
-
-{include 2 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}

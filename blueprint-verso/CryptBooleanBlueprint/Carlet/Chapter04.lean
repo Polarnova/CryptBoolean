@@ -31,40 +31,22 @@ higher-order upper bound,
 Reed--Muller coset distances, resiliency, propagation criteria, linear structures, algebraic
 immunity, autocorrelation indicators, maximum correlation, and scalar complexity criteria.
 
-# Algebraic degree
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}
 
-# Nonlinearity
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}
 
-# Balancedness and resiliency
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}
 
-# Strict avalanche and propagation criteria
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}
 
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}
 
-# Linear structures
-
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}
-
-# Algebraic immunity
-
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}
-
-# Autocorrelation
-
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}
-
-# Maximum correlation
-
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}
-
-# Other criteria
-
-{include 2 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}

@@ -295,8 +295,9 @@ reader Chapters 1--9. Its headings use only chapter and section levels; Verso su
 automatically, and heading text never repeats those numbers. Source subsections are grouped into
 clear reader sections in mathematical order. Internal module names, statement identifiers,
 inventories, tags, and citations retain Carlet's original numbers. Lean modules may follow proof
-dependencies. The site build runs
-`blueprint-verso/scripts/check_statement_style.py` to enforce the public language and structure.
+dependencies. The site build runs `blueprint-verso/scripts/check_statement_style.py` and
+`blueprint-verso/scripts/check_rendered_outline.py` to enforce the public language and the rendered
+`x.y` section ceiling.
 
 ## Cusick--Stănică integration
 

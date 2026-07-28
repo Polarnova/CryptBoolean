@@ -37,24 +37,13 @@ REQUIRED_VOLUME_GROUPS = (
     "Chapter 3: Boolean functions and cryptography",
     "Chapter 4: Classes with Provable Spectra and Weights",
 )
+REQUIRED_CHAPTER_TITLES = {
+    Path("Chapter02.lean"): '#doc (Manual) "Generalities on Boolean functions" =>',
+    Path("Chapter03.lean"): '#doc (Manual) "Boolean functions and coding" =>',
+    Path("Chapter04.lean"): '#doc (Manual) "Boolean functions and cryptography" =>',
+    Path("Chapter05/Classes.lean"): '#doc (Manual) "Classes with Provable Spectra and Weights" =>',
+}
 REQUIRED_PUBLIC_HEADINGS = {
-    Path("Chapter02.lean"): (
-        "# Representation of Boolean functions",
-        "# The discrete Fourier transform on pseudo-Boolean and on Boolean functions",
-        "# Fourier support and Cayley graphs",
-    ),
-    Path("Chapter03.lean"): ("# Reed--Muller codes",),
-    Path("Chapter04.lean"): (
-        "# Algebraic degree",
-        "# Nonlinearity",
-        "# Balancedness and resiliency",
-        "# Strict avalanche and propagation criteria",
-        "# Linear structures",
-        "# Algebraic immunity",
-        "# Autocorrelation",
-        "# Maximum correlation",
-        "# Other criteria",
-    ),
     Path("Chapter05/Classes.lean"): (
         "# Affine functions",
         "# Quadratic functions",
@@ -66,45 +55,32 @@ REQUIRED_PUBLIC_HEADINGS = {
 }
 REQUIRED_OUTLINE_ORDER = {
     Path("Chapter02.lean"): (
-        "# Representation of Boolean functions",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.ANF}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.ANFExistence}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.AlgebraicDegree}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.FiniteField}",
-        "# The discrete Fourier transform on pseudo-Boolean and on Boolean functions",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}",
-        "# Fourier support and Cayley graphs",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.ANF}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.ANFExistence}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.AlgebraicDegree}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.FiniteField}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}",
     ),
     Path("Chapter03.lean"): (
-        "# Reed--Muller codes",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter03.ReedMuller}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter03.ReedMuller}",
     ),
     Path("Chapter04.lean"): (
-        "# Algebraic degree",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}",
-        "# Nonlinearity",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}",
-        "# Balancedness and resiliency",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}",
-        "# Strict avalanche and propagation criteria",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}",
-        "# Linear structures",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}",
-        "# Algebraic immunity",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}",
-        "# Autocorrelation",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}",
-        "# Maximum correlation",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}",
-        "# Other criteria",
-        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}",
+        "{include 0 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}",
     ),
 }
 
@@ -185,6 +161,10 @@ def main() -> None:
         group_positions
     ):
         errors.append("CryptBooleanBlueprint/Blueprint.lean: volume groups are out of order")
+    for relative, title in REQUIRED_CHAPTER_TITLES.items():
+        path = SOURCE_ROOT / relative
+        if title not in path.read_text().splitlines():
+            errors.append(f"{path.relative_to(ROOT)}: missing chapter title {title!r}")
     for relative, headings in REQUIRED_PUBLIC_HEADINGS.items():
         path = SOURCE_ROOT / relative
         lines = path.read_text().splitlines()

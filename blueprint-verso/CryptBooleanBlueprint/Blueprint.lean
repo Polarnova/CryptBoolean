@@ -11,7 +11,7 @@ import CryptBooleanBlueprint.Citations
 import CryptBooleanBlueprint.Carlet.Chapter02
 import CryptBooleanBlueprint.Carlet.Chapter03
 import CryptBooleanBlueprint.Carlet.Chapter04
-import CryptBooleanBlueprint.Carlet.Chapter05
+import CryptBooleanBlueprint.Carlet.Chapter05.Classes
 import CryptBooleanBlueprint.References
 
 open Verso.Genre
@@ -64,7 +64,7 @@ Chapter 4: Classes with Provable Spectra and Weights
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter04}
 
-{include 0 CryptBooleanBlueprint.Carlet.Chapter05}
+{include 0 CryptBooleanBlueprint.Carlet.Chapter05.Classes}
 
 {references}
 

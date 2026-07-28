@@ -181,8 +181,9 @@ the numbers `x` and `x.y`, while heading text contains no written numeric prefix
 are grouped into clear reader sections in mathematical order. Internal module names, statement
 identifiers, inventories, tags, and source citations retain Carlet's original numbers. Production
 Lean modules may follow mathematical dependency boundaries. Run
-`blueprint-verso/scripts/check_statement_style.py` through the site build to enforce the public
-language and section structure.
+`blueprint-verso/scripts/check_statement_style.py` and
+`blueprint-verso/scripts/check_rendered_outline.py` through the site build to enforce the public
+language and the rendered `x.y` section ceiling.
 
 Include active chapters in the Blueprint aggregate throughout development so open nodes remain
 visible. A missing declaration association honestly represents unfinished work. Never attach a
