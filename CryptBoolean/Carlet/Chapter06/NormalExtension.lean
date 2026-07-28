@@ -1834,13 +1834,6 @@ private def prop29CubeThreeLinearEquiv (a b c : ℕ) :
     ((LinearEquiv.refl FABL.𝔽₂ (FABL.F₂Cube a)).prodCongr
       (cubeSplitLinearEquiv b c))
 
-@[simp] private theorem finAppend_add
-    (u₁ u₂ : FABL.F₂Cube a) (v₁ v₂ : FABL.F₂Cube b) :
-    Fin.append (u₁ + u₂) (v₁ + v₂) =
-      Fin.append u₁ v₁ + Fin.append u₂ v₂ := by
-  funext i
-  refine Fin.addCases (fun j ↦ ?_) (fun j ↦ ?_) i <;> simp
-
 @[simp] private theorem finAppend_smul
     (c : FABL.𝔽₂) (u : FABL.F₂Cube a) (v : FABL.F₂Cube b) :
     Fin.append (c • u) (c • v) = c • Fin.append u v := by

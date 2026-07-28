@@ -31,7 +31,7 @@ def singletonF₂Cube (b : FABL.𝔽₂) : FABL.F₂Cube 1 :=
     singletonF₂Cube b i = b :=
   rfl
 
-private def singletonF₂CubeLinearEquiv :
+def singletonF₂CubeLinearEquiv :
     FABL.𝔽₂ ≃ₗ[FABL.𝔽₂] FABL.F₂Cube 1 where
   toFun := singletonF₂Cube
   invFun x := x 0
@@ -46,7 +46,7 @@ private def singletonF₂CubeLinearEquiv :
     fin_cases i
     rfl
 
-private theorem sum_singletonF₂Cube
+theorem sum_singletonF₂Cube
     {R : Type*} [AddCommMonoid R] (g : FABL.F₂Cube 1 → R) :
     (∑ y, g y) = g (singletonF₂Cube 0) + g (singletonF₂Cube 1) := by
   calc

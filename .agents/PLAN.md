@@ -8,13 +8,13 @@ Plancherel, relative Hamming distance, balancedness, restrictions, ANF, algebrai
 functions, and derivatives needed by CryptBoolean. FABL is the canonical owner of those shared APIs;
 this project imports them directly and adds only source-facing or cross-representation laws.
 
-The current Blueprint baseline contains 209 source-facing statement nodes: 206 formalized nodes
-associated with 1338 proved Lean declarations and 3 visibly open nodes, connected by 467 reviewed
+The current Blueprint baseline contains 222 source-facing statement nodes: 219 formalized nodes
+associated with 1418 proved Lean declarations and 3 visibly open nodes, connected by 493 reviewed
 dependency edges. Chapter 2 contributes 41 formalized nodes, 174 declarations, and 56 incoming
 edges. Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized nodes, 568 declarations, and 159 incoming edges. Chapter
 5 contributes 31 nodes (28 formalized and 3 open), 203 declarations, and 70 incoming edges. Chapter
-6 contributes 57 formalized nodes, 361 declarations, and 163 incoming edges. These counts are a
+6 contributes 70 formalized nodes, 441 declarations, and 189 incoming edges. These counts are a
 synchronized verification contract shared by the inventories,
 Verso sources, `blueprint-verso/scripts/validate_manifest.py`, and `AGENTS.md`.
 
@@ -78,7 +78,7 @@ tooling pipeline runs, and no local filesystem path appears in package metadata.
 ## Phase 1 - Complete Carlet inventory
 
 Status: in progress. Chapters 2--6 are source-reviewed and Blueprint-synchronized under
-`.agents/inventory/`. Chapter 6 has 57 promoted mathematical statements and 19 additional
+`.agents/inventory/`. Chapter 6 has 70 promoted mathematical statements and 18 additional
 source-recovery records covering cited or underspecified families that are not yet promoted to
 Blueprint nodes. Chapters 7--10 are not yet inventoried.
 
@@ -213,10 +213,13 @@ bent/resilient construction phases.
 
 ## Phase 6 - Chapter 6 bent functions
 
-Status: complete. All 57 reviewed nodes are formalized by 361 proved declarations with 163
-reviewed dependency edges. The completed surface includes bentness and its dual, the Rothaus bound
+Status: complete. All 70 reviewed nodes are formalized by 441 proved declarations with 189
+reviewed dependency edges. The completed surface includes bentness, its Hadamard-matrix,
+difference-set, and strongly regular Cayley-graph characterizations, its dual, the Rothaus bound
 and Relation (47), the reusable McEliece--Ax character-sum divisibility theorem, primary and
-secondary constructions, decompositions and counting, NNF, geometric and second-order
+secondary constructions including Classes D₀, D, and C and two further Theorem 10
+specializations, hyperplane and codimension-two decompositions, the exact `PS_ap` count, NNF,
+geometric and second-order
 characterizations, the hyper-bent partial-spread family, partially bent and plateaued
 superclasses, normal extensions, and the explicit finite-field Kerdock construction and code
 parameters.

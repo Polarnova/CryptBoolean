@@ -56,6 +56,53 @@ theorem hammingWeight_eq_card_support (f : BooleanFunction n) :
     hammingWeight f = (support f).card := by
   exact FABL.hammingNorm_eq_card_f₂OneSupport f
 
+/-- The natural-valued Hamming weight of a binary scalar. -/
+def f₂BitWeight (b : FABL.𝔽₂) : ℕ :=
+  if b ≠ 0 then 1 else 0
+
+/-- Hamming norm is the sum of the scalar binary weights. -/
+theorem hammingNorm_eq_sum_f₂BitWeight
+    {ι : Type*} [Fintype ι] (x : ι → FABL.𝔽₂) :
+    hammingNorm x = ∑ i, f₂BitWeight (x i) := by
+  simp [hammingNorm, f₂BitWeight, Finset.card_filter]
+
+/-- Hamming weight decomposes into the symmetric-difference weight and twice
+the common-support weight. -/
+theorem hammingNorm_add_restrictSupport_identity
+    {ι : Type*} [Fintype ι] (x y : ι → FABL.𝔽₂) :
+    hammingNorm (x + y) +
+        2 * hammingNorm (fun j : {i : ι // x i ≠ 0} ↦ y j.1) =
+      hammingNorm x + hammingNorm y := by
+  classical
+  have hrestricted :
+      (∑ i, if x i ≠ 0 then f₂BitWeight (y i) else 0) =
+        hammingNorm (fun j : {i : ι // x i ≠ 0} ↦ y j.1) := by
+    rw [hammingNorm_eq_sum_f₂BitWeight, ← Finset.sum_filter]
+    exact Finset.sum_subtype (Finset.univ.filter fun i ↦ x i ≠ 0)
+      (by simp) (fun i ↦ f₂BitWeight (y i))
+  rw [hammingNorm_eq_sum_f₂BitWeight (x + y),
+    hammingNorm_eq_sum_f₂BitWeight x, hammingNorm_eq_sum_f₂BitWeight y,
+    ← hrestricted, Finset.mul_sum,
+    ← Finset.sum_add_distrib]
+  calc
+    ∑ i, (f₂BitWeight ((x + y) i) +
+        2 * (if x i ≠ 0 then f₂BitWeight (y i) else 0)) =
+        ∑ i, (f₂BitWeight (x i) + f₂BitWeight (y i)) := by
+      apply Finset.sum_congr rfl
+      intro i _hi
+      by_cases hx : x i = 0
+      · by_cases hy : y i = 0
+        · simp [hx, hy, f₂BitWeight]
+        · have hyOne : y i = 1 := Fin.eq_one_of_ne_zero _ hy
+          simp [hx, hyOne, f₂BitWeight]
+      · have hxOne : x i = 1 := Fin.eq_one_of_ne_zero _ hx
+        by_cases hy : y i = 0
+        · simp [hxOne, hy, f₂BitWeight]
+        · have hyOne : y i = 1 := Fin.eq_one_of_ne_zero _ hy
+          simp [hxOne, hyOne, f₂BitWeight]
+    _ = (∑ i, f₂BitWeight (x i)) + ∑ i, f₂BitWeight (y i) :=
+      Finset.sum_add_distrib
+
 /-- The binary cube has cardinality `2^n`. -/
 theorem card_f₂Cube (n : ℕ) :
     Fintype.card (FABL.F₂Cube n) = 2 ^ n := by

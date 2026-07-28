@@ -21,28 +21,35 @@ namespace CryptBoolean
 
 variable {n m : ℕ}
 
+/-- Appending binary-cube blocks commutes with addition. -/
+@[simp] theorem finAppend_add
+    (u₁ u₂ : FABL.F₂Cube n) (v₁ v₂ : FABL.F₂Cube m) :
+    Fin.append (u₁ + u₂) (v₁ + v₂) =
+      Fin.append u₁ v₁ + Fin.append u₂ v₂ := by
+  funext i
+  refine Fin.addCases (fun j ↦ ?_) (fun j ↦ ?_) i <;> simp
+
 /-- The restriction of a block Boolean function at a fixed second-block input. -/
 def firstBlockSlice
     (f : BooleanFunction (n + m)) (y : FABL.F₂Cube m) : BooleanFunction n :=
   fun x ↦ f (Fin.append x y)
 
-/-- At a first-block frequency, collect the dual values of all bent first-block slices. -/
-noncomputable def dualSliceFunction
-    (f : BooleanFunction (n + m)) (s : FABL.F₂Cube n) : BooleanFunction m :=
-  fun y ↦ bentDual (firstBlockSlice f y) s
+/-- The restriction of a block Boolean function at a fixed first-block input. -/
+def secondBlockSlice
+    (f : BooleanFunction (n + m)) (x : FABL.F₂Cube n) : BooleanFunction m :=
+  fun y ↦ f (Fin.append x y)
 
-/-- The raw Walsh transform of nested bent slices factors through their dual slice. -/
-theorem walshTransform_eq_two_pow_half_mul_walshTransform_dualSliceFunction
+/-- At fixed first-block frequency, the ambient Walsh transform is the raw
+Fourier transform of the Walsh coefficients of the first-block slices. -/
+theorem walshTransform_append_cast_eq_rawFourierTransform_sliceWalsh
     (f : BooleanFunction (n + m))
-    (hslices : ∀ y, IsBent (firstBlockSlice f y))
     (s : FABL.F₂Cube n) (t : FABL.F₂Cube m) :
-    walshTransform f (Fin.append s t) =
-      (2 ^ (n / 2) : ℤ) * walshTransform (dualSliceFunction f s) t := by
+    (walshTransform f (Fin.append s t) : ℝ) =
+      rawFourierTransform
+        (fun y ↦ (walshTransform (firstBlockSlice f y) s : ℝ)) t := by
   classical
-  apply Int.cast_injective (α := ℝ)
-  push_cast
   rw [walshTransform_cast_eq_sum_realSignView_mul_character,
-    walshTransform_cast_eq_sum_realSignView_mul_character]
+    rawFourierTransform]
   calc
     (∑ z : FABL.F₂Cube (n + m),
         realSignView f z * FABL.vectorWalshCharacter (Fin.append s t) z) =
@@ -90,7 +97,31 @@ theorem walshTransform_eq_two_pow_half_mul_walshTransform_dualSliceFunction
       apply Finset.sum_congr rfl
       intro y _hy
       rw [walshTransform_cast_eq_sum_realSignView_mul_character]
-    _ = ∑ y : FABL.F₂Cube m,
+
+/-- At a first-block frequency, collect the dual values of all bent first-block slices. -/
+noncomputable def dualSliceFunction
+    (f : BooleanFunction (n + m)) (s : FABL.F₂Cube n) : BooleanFunction m :=
+  fun y ↦ bentDual (firstBlockSlice f y) s
+
+/-- The raw Walsh transform of nested bent slices factors through their dual slice. -/
+theorem walshTransform_eq_two_pow_half_mul_walshTransform_dualSliceFunction
+    (f : BooleanFunction (n + m))
+    (hslices : ∀ y, IsBent (firstBlockSlice f y))
+    (s : FABL.F₂Cube n) (t : FABL.F₂Cube m) :
+    walshTransform f (Fin.append s t) =
+      (2 ^ (n / 2) : ℤ) * walshTransform (dualSliceFunction f s) t := by
+  classical
+  apply Int.cast_injective (α := ℝ)
+  push_cast
+  rw [walshTransform_append_cast_eq_rawFourierTransform_sliceWalsh,
+    rawFourierTransform,
+    walshTransform_cast_eq_sum_realSignView_mul_character
+      (dualSliceFunction f s) t]
+  calc
+    (∑ y : FABL.F₂Cube m,
+        (walshTransform (firstBlockSlice f y) s : ℝ) *
+          FABL.vectorWalshCharacter t y) =
+      ∑ y : FABL.F₂Cube m,
         ((2 : ℝ) ^ (n / 2) *
           (bitSignInt (dualSliceFunction f s y) : ℝ)) *
           FABL.vectorWalshCharacter t y := by

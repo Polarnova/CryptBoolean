@@ -21,7 +21,26 @@ open scoped BigOperators BooleanCube
 
 namespace CryptBoolean
 
-variable {n : ℕ}
+variable {m n : ℕ}
+
+/-- The Boolean-valued original Maiorana--McFarland function associated to a
+permutation and an arbitrary Boolean offset. -/
+def booleanMaioranaMcFarlandPermutation
+    (π : Equiv.Perm (FABL.F₂Cube m)) (g : BooleanFunction m) :
+    BooleanFunction (m + m) :=
+  fun z ↦
+    let blocks := FABL.f₂CubeBlockEquiv m z
+    FABL.f₂DotProduct blocks.1 (π blocks.2) + g blocks.2
+
+/-- Evaluation of the Boolean Maiorana--McFarland function on its two
+coordinate blocks. -/
+@[simp] theorem booleanMaioranaMcFarlandPermutation_joinF₂CubeBlocks
+    (π : Equiv.Perm (FABL.F₂Cube m)) (g : BooleanFunction m)
+    (x y : FABL.F₂Cube m) :
+    booleanMaioranaMcFarlandPermutation π g
+        (FABL.joinF₂CubeBlocks x y) =
+      FABL.f₂DotProduct x (π y) + g y := by
+  simp [booleanMaioranaMcFarlandPermutation]
 
 /-- The original permutation construction belongs to the Maiorana--McFarland
 class introduced in Chapter 5. -/
@@ -124,5 +143,14 @@ theorem bentDual_maioranaMcFarlandPermutation
     apply mul_right_cancel₀ (by positivity : (2 ^ n : ℤ) ≠ 0)
     simpa [add_comm, mul_comm] using hdual.symm
   exact bitSignInt_injective hsign
+
+/-- Every Boolean-valued original Maiorana--McFarland function is bent. -/
+theorem isBent_booleanMaioranaMcFarlandPermutation
+    (π : Equiv.Perm (FABL.F₂Cube m)) (g : BooleanFunction m) :
+    IsBent (booleanMaioranaMcFarlandPermutation π g) := by
+  apply isBent_of_maioranaMcFarlandPermutation
+    (booleanMaioranaMcFarlandPermutation π g) g π
+  intro x y
+  exact booleanMaioranaMcFarlandPermutation_joinF₂CubeBlocks π g x y
 
 end CryptBoolean

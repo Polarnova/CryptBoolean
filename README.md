@@ -52,14 +52,14 @@ canonical scalar Boolean functions have type `FABL.F₂Cube n → FABL.𝔽₂`.
 
 ## Using CryptBoolean
 
-Release `v0.5.0` uses Lean and Mathlib `v4.32.0` and pins FABL `v0.5.6`. Add the package to a
+Release `v0.5.1` uses Lean and Mathlib `v4.32.0` and pins FABL `v0.5.6`. Add the package to a
 downstream `lakefile.toml`:
 
 ```toml
 [[require]]
 name = "CryptBooleanFunction"
 git = "https://github.com/Polarnova/CryptBoolean.git"
-rev = "v0.5.0"
+rev = "v0.5.1"
 ```
 
 On Linux x86-64 and macOS arm64, obtain the verified release archive with:

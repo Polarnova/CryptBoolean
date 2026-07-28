@@ -46,7 +46,7 @@ d_H(\widetilde f,\widetilde g)=d_H(f,g),
 so duality preserves pairwise Hamming distance on bent functions.
 :::
 
-:::theorem "carlet-6-rel-45-dual-derivatives" (parent := "carlet-chapter-6") (lean := "CryptBoolean.isBent_domainTranslate, CryptBoolean.isBent_domainTranslate_add_linear, CryptBoolean.bentDual_domainTranslate_add_linear, CryptBoolean.walshTransform_zero_bentDual_derivative_add_linear") (uses := "carlet-6-dual, carlet-6-rel-44-dual-isometry, carlet-2-prop-6-fourier-shifts, carlet-2-def-2-derivative") (tags := "carlet, chapter-6, duality, relation-45, pages-79-80, fidelity-exact")
+:::theorem "carlet-6-rel-45-dual-derivatives" (parent := "carlet-chapter-6") (lean := "CryptBoolean.isBent_domainTranslate, CryptBoolean.isBent_domainTranslate_add_linear, CryptBoolean.bentDual_domainTranslate_add_linear, CryptBoolean.bentDual_add_constant, CryptBoolean.walshTransform_zero_bentDual_derivative_add_linear") (uses := "carlet-6-dual, carlet-6-rel-44-dual-isometry, carlet-2-prop-6-fourier-shifts, carlet-2-def-2-derivative") (tags := "carlet, chapter-6, duality, relation-45, pages-79-80, fidelity-exact")
 *Relation (45) (Carlet, pp. 79--80).* Let $`f:V_n\to\mathbb F_2` be bent
 and let $`a,b\in V_n`. The function
 $$`
