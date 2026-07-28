@@ -55,7 +55,7 @@ Chapter 3: Boolean functions and cryptography
 :::
 
 :::group "carlet-chapter-5"
-Chapter 4: Classes of functions for which restrictions on the possible values of the weights, Walsh spectra and nonlinearities can be proved
+Chapter 4: Classes with Provable Spectra and Weights
 :::
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02}

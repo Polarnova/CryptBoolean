@@ -291,9 +291,11 @@ representation, equivalence, reduction, specialization, or corollary. Negation a
 retained only for a mathematical hypothesis, conclusion, source correction, or genuine distinction.
 
 The public Blueprint omits Carlet's introductory Chapter 1 and numbers Carlet Chapters 2--10 as
-reader Chapters 1--9 while preserving the source titles, section nesting, and order. Internal module
-names, statement identifiers, inventories, tags, and citations retain Carlet's original numbers.
-Lean modules may follow proof dependencies. The site build runs
+reader Chapters 1--9. Its headings use only chapter and section levels; Verso supplies `x` and `x.y`
+automatically, and heading text never repeats those numbers. Source subsections are grouped into
+clear reader sections in mathematical order. Internal module names, statement identifiers,
+inventories, tags, and citations retain Carlet's original numbers. Lean modules may follow proof
+dependencies. The site build runs
 `blueprint-verso/scripts/check_statement_style.py` to enforce the public language and structure.
 
 ## Cusick--Stănică integration

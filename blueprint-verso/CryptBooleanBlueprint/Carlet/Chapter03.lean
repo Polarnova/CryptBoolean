@@ -18,6 +18,6 @@ Chapter 3 defines Reed--Muller codes and proves the order-one specialization and
 form of Carlet's Theorem 1, Proposition 12's complete minimum-weight equality classification, the
 dimension and cardinality formulas, and Theorem 2 on duality.
 
-# 2.1 Reed--Muller codes
+# Reed--Muller codes
 
 {include 2 CryptBooleanBlueprint.Carlet.Chapter03.ReedMuller}

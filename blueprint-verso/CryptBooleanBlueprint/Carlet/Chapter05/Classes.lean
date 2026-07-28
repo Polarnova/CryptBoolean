@@ -14,7 +14,7 @@ open Informal
 
 #doc (Manual) "Restricted-weight and restricted-spectrum classes" =>
 
-# 4.1 Affine functions
+# Affine functions
 
 :::theorem "carlet-5-affine-walsh-spectrum" (parent := "carlet-chapter-5") (lean := "CryptBoolean.walshTransform_affineFunction") (uses := "carlet-2-def-walsh-transform, carlet-3-affine-weight") (tags := "carlet, chapter-5, affine-functions, walsh-spectrum, page-68, fidelity-exact")
 *Affine Walsh spectrum (Carlet, Section 5.1, p. 68).* Let $`n\ge0`, let
@@ -44,7 +44,7 @@ concatenation, indexed by $`y`, of affine truth tables on $`V_r`.
 Carlet uses this Chapter 5 name for concatenations of affine restrictions. Section 6.4 later
 specializes the construction to a class of bent functions.
 
-# 4.2 Quadratic functions
+# Quadratic functions
 
 :::definition "carlet-5-def-quadratic-symplectic-form" (parent := "carlet-chapter-5") (lean := "CryptBoolean.quadraticPolarKernel, CryptBoolean.quadraticPolarKernel_eq, CryptBoolean.quadraticPolarKernel_comm, CryptBoolean.quadraticPolarKernel_eq_dotProduct_of_derivative_eq_affine, CryptBoolean.quadraticPolarKernel_add_right, CryptBoolean.quadraticPolarKernel_smul_right, CryptBoolean.quadraticPolarKernel_add_left, CryptBoolean.quadraticPolarKernel_smul_left, CryptBoolean.quadraticPolar, CryptBoolean.quadraticPolar_apply, CryptBoolean.quadraticPolar_isSymm, CryptBoolean.quadraticPolar_isAlt, CryptBoolean.quadraticRadical, CryptBoolean.mem_quadraticRadical_iff, CryptBoolean.booleanDerivative_eq_const_of_mem_quadraticRadical, CryptBoolean.quadraticRadicalSignCharacter, CryptBoolean.quadraticRadical_eq_linearKernel") (uses := "carlet-3-reed-muller-code, carlet-2-def-2-derivative, carlet-4-def-linear-kernel") (tags := "carlet, chapter-5, quadratic-functions, symplectic-form, pages-68-69, fidelity-exact-with-derived-identities")
 *Quadratic symplectic form (Carlet, Section 5.2, pp. 68--69).* A quadratic
@@ -214,7 +214,7 @@ that satisfy this condition.
 The displayed nonlinearity is part of the definition. The trace expression describes the family
 under study, whose coefficients must satisfy that condition.
 
-# 4.3 Indicators of flats
+# Indicators of flats
 
 :::theorem "carlet-5-flat-indicator-walsh-nonlinearity" (parent := "carlet-chapter-5") (lean := "CryptBoolean.rawFourierTransform_setIndicator_binaryAffineSubspace, CryptBoolean.realSignView_affineFlatIndicator, CryptBoolean.walshTransform_affineFlatIndicator, CryptBoolean.maxWalshMagnitude_affineFlatIndicator_of_two_le_codimension, CryptBoolean.nonlinearity_affineFlatIndicator_of_two_le_codimension, CryptBoolean.nonlinearity_affineFlatIndicator_of_codimension_le_one, CryptBoolean.nonlinearity_affineFlatIndicator, CryptBoolean.nonlinearity_affineFlatIndicator_of_codimension_one, CryptBoolean.nonlinearity_affineFlatIndicator_of_finrank_eq") (uses := "carlet-3-prop-12, carlet-2-def-walsh-transform, carlet-4-rel-35-nonlinearity-walsh") (tags := "carlet, chapter-5, affine-flat-indicator, walsh-spectrum, nonlinearity, page-71, fidelity-corrected-codimension-one")
 *Affine-flat indicator spectrum (Carlet, Section 5.3, p. 71).* Let
@@ -247,7 +247,7 @@ $$`
 For $`r=1` the indicator is affine and has nonlinearity zero. Thus the printed value
 $`\operatorname{nl}(f)=2^{n-r}` follows from the stated Walsh formula precisely when $`r\ge2`.
 
-# 4.4 Normal functions
+# Normal functions
 
 :::theorem "carlet-5-rel-42-restriction-nonlinearity" (parent := "carlet-chapter-5") (lean := "CryptBoolean.coordinateAffineSubspaceRestriction, CryptBoolean.coordinateAffineSubspaceDimension_le, CryptBoolean.exists_ambientFrequency_restricts_to_subspace, CryptBoolean.sum_walshTransform_perpendicularCoset_eq_restriction, CryptBoolean.abs_walshTransform_coordinateAffineSubspaceRestriction_le, CryptBoolean.maxWalshMagnitude_coordinateAffineSubspaceRestriction_le, CryptBoolean.two_mul_nonlinearity_add_two_pow_le_restriction, CryptBoolean.nonlinearity_cast_le_restriction_relation_42, CryptBoolean.nonlinearity_le_restriction_relation_42, CryptBoolean.nonlinearity_le_restriction_relation_42_of_isCompl") (uses := "carlet-2-cor-1-poisson-summation, carlet-4-rel-35-nonlinearity-walsh") (tags := "carlet, chapter-5, restrictions, nonlinearity, relation-42, pages-71-72, fidelity-exact-with-division-free-total-form")
 *Restriction nonlinearity bound (Carlet, Relation (42), pp. 71--72).* Let
@@ -295,7 +295,7 @@ function is not $`\lfloor\alpha\log_2 n\rfloor`-normal tends to one.
 The proof first establishes the general criterion $`2^{k_n}/(nk_n)\to\infty`, then verifies it for
 the displayed floored logarithmic dimension.
 
-# 4.5 Functions admitting partial covering sequences
+# Functions admitting partial covering sequences
 
 :::definition "carlet-5-def-5-covering-sequence" (parent := "carlet-chapter-5") (lean := "CryptBoolean.bitValueInt, CryptBoolean.integerWalshTransform, CryptBoolean.weightedDerivativeSum, CryptBoolean.IsCoveringSequence") (uses := "carlet-2-def-2-derivative") (tags := "carlet, chapter-5, definition-5, covering-sequence, page-73, fidelity-exact-integer-valued")
 *Covering sequences (Carlet, Definition 5, p. 73).* Let
@@ -410,7 +410,7 @@ Multiplying by $`\rho` gives the equivalent identity
 $`\rho W_f(0)=(\rho-\rho')\sum_{x\in A}(-1)^{f(x)}` without assuming
 $`\rho\ne0`.
 
-# 4.6 Functions with low univariate degree
+# Functions with low univariate degree
 
 :::theorem "carlet-5-theorem-7-weil-bound" (parent := "carlet-chapter-5") (tags := "carlet, chapter-5, additive-character-sums, weil-bound, theorem-7, reference-245, page-76, source-open")
 *Weil bound (Carlet, Theorem 7, p. 76).* Let $`q` be a prime power, let

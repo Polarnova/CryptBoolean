@@ -176,9 +176,11 @@ negation and contrast only when they change the mathematical claim, state a nece
 or correct the source; otherwise write the positive statement directly.
 
 The public Blueprint omits Carlet's introductory Chapter 1 and therefore numbers Carlet Chapters
-2--10 as reader Chapters 1--9. It preserves the source titles, section nesting, and order. Internal
-module names, statement identifiers, inventories, tags, and source citations retain Carlet's
-original numbers. Production Lean modules may follow mathematical dependency boundaries. Run
+2--10 as reader Chapters 1--9. Reader headings have only chapter and section levels: Verso generates
+the numbers `x` and `x.y`, while heading text contains no written numeric prefix. Source subsections
+are grouped into clear reader sections in mathematical order. Internal module names, statement
+identifiers, inventories, tags, and source citations retain Carlet's original numbers. Production
+Lean modules may follow mathematical dependency boundaries. Run
 `blueprint-verso/scripts/check_statement_style.py` through the site build to enforce the public
 language and section structure.
 

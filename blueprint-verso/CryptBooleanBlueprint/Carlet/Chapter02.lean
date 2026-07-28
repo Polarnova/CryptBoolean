@@ -38,7 +38,7 @@ spectral-support bounds. It also includes the coordinate formula relating univar
 exponent weight to ANF degree, Proposition 3 on trace-monomial degree, and the representation of
 binary coordinates by the trace pairing.
 
-# 1.1 Representation of Boolean functions
+# Representation of Boolean functions
 
 {include 2 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}
 
@@ -50,20 +50,18 @@ binary coordinates by the trace pairing.
 
 {include 2 CryptBooleanBlueprint.Carlet.Chapter02.FiniteField}
 
-# 1.2 The discrete Fourier transform on pseudo-Boolean and on Boolean functions
+# The discrete Fourier transform on pseudo-Boolean and on Boolean functions
 
-## 1.2.1 Fourier transform and NNF
+{include 2 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}
+{include 2 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}
+{include 2 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}
+{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}
+{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}
+# Fourier support and Cayley graphs
 
-## 1.2.2 The size of the support of the Fourier transform and its relationship with Cayley graphs
-
-{include 3 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}
+{include 2 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}

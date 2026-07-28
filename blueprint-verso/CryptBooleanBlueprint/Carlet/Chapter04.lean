@@ -21,7 +21,7 @@ open Verso.Genre
 open Verso.Genre.Manual
 open Informal
 
-#doc (Manual) "Cryptographic criteria" =>
+#doc (Manual) "Boolean functions and cryptography" =>
 
 Chapter 4 develops nonlinearity and its Walsh formula, Rodier's sharp random-nonlinearity
 interval, general odd-dimensional bounds and exact values in dimensions one, three, five, and
@@ -31,38 +31,40 @@ higher-order upper bound,
 Reed--Muller coset distances, resiliency, propagation criteria, linear structures, algebraic
 immunity, autocorrelation indicators, maximum correlation, and scalar complexity criteria.
 
-# 3.1 Cryptographic criteria for Boolean functions
+# Algebraic degree
 
-## 3.1.1 The algebraic degree
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}
+# Nonlinearity
 
-## 3.1.2 The nonlinearity
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}
+# Balancedness and resiliency
 
-## 3.1.3 Balancedness and resiliency
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}
+# Strict avalanche and propagation criteria
 
-## 3.1.4 Strict avalanche criterion and propagation criterion
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}
+# Linear structures
 
-## 3.1.5 Non-existence of nonzero linear structure
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}
+# Algebraic immunity
 
-## 3.1.6 Algebraic immunity
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}
+# Autocorrelation
 
-## 3.1.7 Other criteria
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}
+# Maximum correlation
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}
 
-{include 3 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}
+# Other criteria
+
+{include 2 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}

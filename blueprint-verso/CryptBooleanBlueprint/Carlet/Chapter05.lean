@@ -12,9 +12,9 @@ open Verso.Genre
 open Verso.Genre.Manual
 open Informal
 
-#doc (Manual) "Classes of functions for which restrictions on the possible values of the weights, Walsh spectra and nonlinearities can be proved" =>
+#doc (Manual) "Classes with Provable Spectra and Weights" =>
 
-Chapter 5 studies affine and quadratic functions, affine-flat indicators, normality, covering
+Carlet's Chapter 5 studies affine and quadratic functions, affine-flat indicators, normality, covering
 sequences, and character-sum bounds.
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter05.Classes}

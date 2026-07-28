@@ -29,83 +29,82 @@ READER_PROSE_TERMS = re.compile(
 )
 DISALLOWED_LABEL = "Formalization" + " note"
 DISALLOWED_CONTRAST = "rather" + " than"
+NUMBERED_HEADING = re.compile(r"^#{1,6}\s+\d+(?:\.\d+)*\.?\s+")
+DEEP_HEADING = re.compile(r"^#{2,6}\s+")
 REQUIRED_VOLUME_GROUPS = (
     "Chapter 1: Generalities on Boolean functions",
     "Chapter 2: Boolean functions and coding",
     "Chapter 3: Boolean functions and cryptography",
-    "Chapter 4: Classes of functions for which restrictions on the possible values of the "
-    "weights, Walsh spectra and nonlinearities can be proved",
+    "Chapter 4: Classes with Provable Spectra and Weights",
 )
 REQUIRED_PUBLIC_HEADINGS = {
     Path("Chapter02.lean"): (
-        "# 1.1 Representation of Boolean functions",
-        "# 1.2 The discrete Fourier transform on pseudo-Boolean and on Boolean functions",
-        "## 1.2.1 Fourier transform and NNF",
-        "## 1.2.2 The size of the support of the Fourier transform and its relationship with "
-        "Cayley graphs",
+        "# Representation of Boolean functions",
+        "# The discrete Fourier transform on pseudo-Boolean and on Boolean functions",
+        "# Fourier support and Cayley graphs",
     ),
-    Path("Chapter03.lean"): ("# 2.1 Reed--Muller codes",),
+    Path("Chapter03.lean"): ("# Reed--Muller codes",),
     Path("Chapter04.lean"): (
-        "# 3.1 Cryptographic criteria for Boolean functions",
-        "## 3.1.1 The algebraic degree",
-        "## 3.1.2 The nonlinearity",
-        "## 3.1.3 Balancedness and resiliency",
-        "## 3.1.4 Strict avalanche criterion and propagation criterion",
-        "## 3.1.5 Non-existence of nonzero linear structure",
-        "## 3.1.6 Algebraic immunity",
-        "## 3.1.7 Other criteria",
+        "# Algebraic degree",
+        "# Nonlinearity",
+        "# Balancedness and resiliency",
+        "# Strict avalanche and propagation criteria",
+        "# Linear structures",
+        "# Algebraic immunity",
+        "# Autocorrelation",
+        "# Maximum correlation",
+        "# Other criteria",
     ),
     Path("Chapter05/Classes.lean"): (
-        "# 4.1 Affine functions",
-        "# 4.2 Quadratic functions",
-        "# 4.3 Indicators of flats",
-        "# 4.4 Normal functions",
-        "# 4.5 Functions admitting partial covering sequences",
-        "# 4.6 Functions with low univariate degree",
+        "# Affine functions",
+        "# Quadratic functions",
+        "# Indicators of flats",
+        "# Normal functions",
+        "# Functions admitting partial covering sequences",
+        "# Functions with low univariate degree",
     ),
 }
 REQUIRED_OUTLINE_ORDER = {
     Path("Chapter02.lean"): (
-        "# 1.1 Representation of Boolean functions",
+        "# Representation of Boolean functions",
         "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}",
         "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.ANF}",
         "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.ANFExistence}",
         "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.AlgebraicDegree}",
         "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.FiniteField}",
-        "# 1.2 The discrete Fourier transform on pseudo-Boolean and on Boolean functions",
-        "## 1.2.1 Fourier transform and NNF",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}",
-        "## 1.2.2 The size of the support of the Fourier transform and its relationship with "
-        "Cayley graphs",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}",
+        "# The discrete Fourier transform on pseudo-Boolean and on Boolean functions",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.NumericalNormalForm}",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.WalshTransform}",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.FourierOperations}",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Fourier}",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.Derivatives}",
+        "# Fourier support and Cayley graphs",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter02.SpectralSupport}",
     ),
     Path("Chapter03.lean"): (
-        "# 2.1 Reed--Muller codes",
+        "# Reed--Muller codes",
         "{include 2 CryptBooleanBlueprint.Carlet.Chapter03.ReedMuller}",
     ),
     Path("Chapter04.lean"): (
-        "# 3.1 Cryptographic criteria for Boolean functions",
-        "## 3.1.1 The algebraic degree",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}",
-        "## 3.1.2 The nonlinearity",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}",
-        "## 3.1.3 Balancedness and resiliency",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}",
-        "## 3.1.4 Strict avalanche criterion and propagation criterion",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}",
-        "## 3.1.5 Non-existence of nonzero linear structure",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}",
-        "## 3.1.6 Algebraic immunity",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}",
-        "## 3.1.7 Other criteria",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}",
-        "{include 3 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}",
+        "# Algebraic degree",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicDegree}",
+        "# Nonlinearity",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Nonlinearity}",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.HigherOrderNonlinearity}",
+        "# Balancedness and resiliency",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Resiliency}",
+        "# Strict avalanche and propagation criteria",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Propagation}",
+        "# Linear structures",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.LinearStructures}",
+        "# Algebraic immunity",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.AlgebraicImmunity}",
+        "# Autocorrelation",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.Autocorrelation}",
+        "# Maximum correlation",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.MaximumCorrelation}",
+        "# Other criteria",
+        "{include 2 CryptBooleanBlueprint.Carlet.Chapter04.OtherCriteria}",
     ),
 }
 
@@ -161,6 +160,11 @@ def main() -> None:
     for path in (*PUBLIC_SOURCES, *sorted(SOURCE_ROOT.rglob("*.lean"))):
         text = path.read_text()
         location = path.relative_to(ROOT)
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            if NUMBERED_HEADING.match(line):
+                errors.append(f"{location}:{line_number}: public heading contains a written number")
+            if DEEP_HEADING.match(line):
+                errors.append(f"{location}:{line_number}: public heading is deeper than x.y")
         term = READER_PROSE_TERMS.search(text)
         if term is not None:
             line = text.count("\n", 0, term.start()) + 1
