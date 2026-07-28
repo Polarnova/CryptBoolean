@@ -6,7 +6,7 @@ Authors: Asher Yan with Codex
 import Verso
 import VersoManual
 import VersoBlueprint
-import CryptBoolean.Carlet.Chapter02.Derivatives
+import CryptBoolean.Carlet.Chapter02.RestrictionSquareIdentity
 
 open Verso.Genre
 open Verso.Genre.Manual
@@ -52,5 +52,15 @@ $$`
 *Relation (26) (Carlet, p. 28).* For every $`f:V_n\to\mathbb F_2`,
 $$`
 \sum_{b\in V_n}\Delta_f(b)=W_f(0)^2.
+`
+:::
+
+:::proposition "carlet-2-prop-9-restriction-square" (parent := "carlet-chapter-2") (lean := "CryptBoolean.affineSubspaceRestrictionImbalance, CryptBoolean.sum_autocorrelation_submodule_eq_sum_affineSubspaceRestrictionImbalance_sq, CryptBoolean.sum_walshTransform_sq_perpendicular_eq_card_mul_sum_restrictionImbalance_sq") (uses := "carlet-2-cor-1-poisson-summation, carlet-2-rel-25-wiener-khinchin, carlet-2-def-2-derivative") (tags := "carlet, chapter-2, proposition-9, relation-28, page-28, fidelity-exact")
+*Proposition 9 (Carlet, Relation (28), p. 28).* Let $`E,E'` be complementary
+subspaces of $`V_n`. For every Boolean function $`f:V_n\to\mathbb F_2`,
+$$`
+\sum_{u\in E^\perp}W_f(u)^2
+=|E^\perp|\sum_{a\in E'}
+  \left(\sum_{x\in a+E}(-1)^{f(x)}\right)^2.
 `
 :::

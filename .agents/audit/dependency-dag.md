@@ -12,11 +12,12 @@ spine. The current baseline is:
 
 | Chapter | Nodes | Formalized | Open | Associated declarations | Incoming edges |
 |---|---:|---:|---:|---:|---:|
-| Carlet Chapter 2 | 38 | 38 | 0 | 166 | 48 |
+| Carlet Chapter 2 | 41 | 41 | 0 | 174 | 56 |
 | Carlet Chapter 3 | 7 | 7 | 0 | 32 | 19 |
 | Carlet Chapter 4 | 73 | 73 | 0 | 568 | 159 |
-| Carlet Chapter 5 | 31 | 28 | 3 | 195 | 70 |
-| **Total** | **149** | **146** | **3** | **961** | **296** |
+| Carlet Chapter 5 | 31 | 28 | 3 | 203 | 70 |
+| Carlet Chapter 6 | 57 | 57 | 0 | 361 | 163 |
+| **Total** | **209** | **206** | **3** | **1338** | **467** |
 
 An item marked `[open]` has a complete mathematical statement but no Lean association. In the
 tables below, `consumer <- prerequisite-1, prerequisite-2` denotes one incoming edge from each
@@ -79,6 +80,9 @@ carlet-2-prop-4-nnf-mobius
   <- carlet-2-nnf-existence-uniqueness
 carlet-2-prop-5-nnf-integrality
   <- carlet-2-prop-4-nnf-mobius
+carlet-2-rel-30-nnf-fourier
+  <- carlet-2-nnf-existence-uniqueness, carlet-2-pseudoboolean-fourier,
+     carlet-2-prop-7-subspace-indicator
 ```
 
 The restriction theorem has two genuine mathematical prerequisites: unique ANF recovery and affine
@@ -108,6 +112,8 @@ carlet-2-rel-22-plancherel
 carlet-2-spectral-support-bounds
   <- carlet-2-cor-1-poisson-summation, carlet-2-restriction-recovery,
      carlet-2-nnf-existence-uniqueness
+carlet-2-prop-11-walsh-divisibility
+  <- carlet-2-def-algebraic-degree, carlet-2-def-walsh-transform
 ```
 
 The normalized Poisson theorem and Carlet's full Corollary 1 are separate consumers of the same two
@@ -127,6 +133,9 @@ carlet-2-rel-25-wiener-khinchin
      carlet-2-def-walsh-transform
 carlet-2-rel-26-total-autocorrelation
   <- carlet-2-rel-25-wiener-khinchin
+carlet-2-prop-9-restriction-square
+  <- carlet-2-cor-1-poisson-summation, carlet-2-rel-25-wiener-khinchin,
+     carlet-2-def-2-derivative
 ```
 
 Together with the convolution and Walsh-transform edges shown above, these nodes derive the raw
@@ -152,7 +161,7 @@ explicit Frobenius orbit of a trace monomial. The trace-pairing coordinate theor
 the Chapter 5 quadratic representation and its character-sum reduction. Proposition 3 follows from
 the binary-degree formula and cyclic-orbit weight invariance.
 
-The Chapter 2 groups above contain exactly 48 incoming statement edges.
+The Chapter 2 groups above contain exactly 56 incoming statement edges.
 
 ## Chapter 3: Reed--Muller coding
 
@@ -610,6 +619,229 @@ bound remain separate because the former is an additive-character theorem and th
 rational-function estimate. Across the four Chapter 5 families, the reviewed counts are
 `34 + 11 + 19 + 6 = 70` incoming edges.
 
+## Chapter 6: bent functions
+
+Chapter 6 has 57 reviewed statements, all formalized by 361 proved declarations with 163 incoming
+statement edges. Its graph reuses the Chapter 2 raw Walsh, Fourier, NNF, Poisson, derivative, and
+trace layers; the Chapter 3 Reed--Muller layer; the Chapter 4 nonlinearity, propagation,
+support-code, and linear-structure layers; and the Chapter 5 quadratic, restriction, trace, and
+normality layers.
+
+### Bentness, duality, and algebraic degree
+
+```text
+carlet-6-def-7-bent
+  <- carlet-4-rel-36-covering-radius-bent, carlet-4-nonlinearity-affine-invariance,
+     carlet-2-def-walsh-transform, carlet-2-def-hamming-distance
+carlet-6-lemma-2-walsh-congruence
+  <- carlet-6-def-7-bent, carlet-2-parseval
+carlet-6-theorem-8-perfect-nonlinearity
+  <- carlet-6-def-7-bent, carlet-2-rel-25-wiener-khinchin,
+     carlet-4-def-propagation-criteria
+carlet-6-prop-16-support-code
+  <- carlet-6-def-7-bent, carlet-4-resiliency-support-dual-distance,
+     carlet-2-balanced-zero-walsh, carlet-2-parseval
+
+carlet-6-dual
+  <- carlet-6-def-7-bent, carlet-2-def-walsh-transform, carlet-2-fourier-inversion
+carlet-6-rel-44-dual-isometry
+  <- carlet-6-dual, carlet-2-rel-22-plancherel, carlet-2-def-hamming-distance
+carlet-6-rel-45-dual-derivatives
+  <- carlet-6-dual, carlet-6-rel-44-dual-isometry, carlet-2-prop-6-fourier-shifts,
+     carlet-2-def-2-derivative
+carlet-6-dual-nnf
+  <- carlet-6-dual, carlet-2-nnf-existence-uniqueness, carlet-2-rel-30-nnf-fourier
+carlet-6-prop-17-dual-nnf-divisibility
+  <- carlet-6-dual-nnf, carlet-6-lemma-2-walsh-congruence,
+     carlet-2-prop-5-nnf-integrality
+carlet-6-half-degree-anf-complement
+  <- carlet-6-prop-17-dual-nnf-divisibility, carlet-6-dual-nnf,
+     carlet-2-anf-existence-uniqueness
+carlet-6-rel-46-dual-poisson
+  <- carlet-6-dual, carlet-2-cor-1-poisson-summation
+
+carlet-6-quadratic-bent-characterization
+  <- carlet-6-def-7-bent, carlet-5-def-quadratic-symplectic-form, carlet-5-theorem-5,
+     carlet-5-quadratic-weight-nonlinearity-values
+carlet-6-prop-18-rothaus-degree-bound
+  <- carlet-6-prop-17-dual-nnf-divisibility, carlet-6-dual,
+     carlet-2-def-algebraic-degree
+carlet-6-prop-19
+  <- carlet-6-rel-46-dual-poisson, carlet-6-prop-18-rothaus-degree-bound, carlet-6-dual,
+     carlet-2-anf-existence-uniqueness
+```
+
+The duality branch keeps Carlet's unnormalized integer Walsh convention. Proposition 17 is proved
+through the NNF Fourier formula and its divisibility conditions; reducing the half-degree identity
+modulo two gives the complementary ANF-coefficient relation. Proposition 19 composes Relation (46)
+with a reusable McEliece--Ax character-sum divisibility theorem, the exact two-adic valuation of a
+top-degree ANF slice, and the dual Rothaus bound.
+
+### Primary and secondary constructions
+
+```text
+carlet-6-maiorana-mcfarland
+  <- carlet-6-def-7-bent, carlet-5-def-maiorana-mcfarland,
+     carlet-5-affine-walsh-spectrum
+carlet-6-prop-20-general-maiorana-mcfarland
+  <- carlet-6-maiorana-mcfarland, carlet-5-affine-flat-restriction-bound,
+     carlet-6-def-7-bent
+carlet-6-partial-spread-construction
+  <- carlet-6-theorem-12-geometric-characterization
+
+carlet-6-direct-sum
+  <- carlet-6-def-7-bent, carlet-6-dual
+carlet-6-rothaus-construction
+  <- carlet-6-theorem-10-slice-construction, carlet-6-cor-4-three-function-construction
+carlet-6-theorem-9-flat-switching
+  <- carlet-6-theorem-8-perfect-nonlinearity, carlet-6-rel-46-dual-poisson,
+     carlet-2-prop-11-walsh-divisibility, carlet-3-prop-12
+carlet-6-theorem-10-slice-construction
+  <- carlet-6-def-7-bent, carlet-6-dual
+carlet-6-indirect-sum
+  <- carlet-6-theorem-10-slice-construction
+carlet-6-prop-21-permutation-reindexing
+  <- carlet-6-def-7-bent, carlet-2-def-hamming-distance
+carlet-6-prop-22-three-function-identity
+  <- carlet-2-pseudoboolean-fourier, carlet-2-def-walsh-transform
+carlet-6-cor-4-three-function-construction
+  <- carlet-6-prop-22-three-function-identity, carlet-6-lemma-2-walsh-congruence,
+     carlet-6-dual
+
+carlet-6-theorem-11-hyperplane-restrictions
+  <- carlet-2-prop-9-restriction-square, carlet-6-def-7-bent
+carlet-6-hyperplane-restriction-plateaued
+  <- carlet-6-theorem-11-hyperplane-restrictions, carlet-6-def-plateaued,
+     carlet-4-rel-35-nonlinearity-walsh
+```
+
+The flat-switching proof composes the Chapter 2 Walsh-divisibility theorem with the Chapter 3
+minimum-weight affine-flat classification. The general slice construction owns the indirect-sum
+and Rothaus specializations. The hyperplane decomposition uses the exact restriction-square
+identity rather than introducing a second spectral normalization.
+
+### Counting and three characterizations
+
+```text
+carlet-6-maiorana-mcfarland-count
+  <- carlet-6-maiorana-mcfarland
+carlet-6-naive-bent-count-bound
+  <- carlet-6-prop-18-rothaus-degree-bound, carlet-3-reed-muller-dimension
+
+carlet-6-prop-23-nnf-characterization
+  <- carlet-6-lemma-2-walsh-congruence, carlet-2-rel-30-nnf-fourier,
+     carlet-2-prop-4-nnf-mobius, carlet-2-prop-5-nnf-integrality
+carlet-6-lemma-3-subspace-indicators
+carlet-6-theorem-12-geometric-characterization
+  <- carlet-6-prop-23-nnf-characterization, carlet-6-lemma-3-subspace-indicators,
+     carlet-6-lemma-2-walsh-congruence, carlet-2-prop-7-subspace-indicator,
+     carlet-6-dual
+carlet-6-prop-24-second-order-characterization
+  <- carlet-6-theorem-8-perfect-nonlinearity, carlet-4-autocorrelation-indicator-bounds,
+     carlet-4-second-derivative-sum, carlet-2-def-convolution,
+     carlet-2-prop-8-convolution, carlet-2-fourier-inversion
+```
+
+Lemma 3 is an independent finite-dimensional subspace-indicator root. Theorem 12 combines it with
+the NNF congruence criterion and the half-dimensional indicator transform; its exact generalized
+partial-spread case also transports the dual through perpendicular subspaces. Proposition 24 is
+proved by Fourier transforming the triple convolution of the sign function.
+
+### Hyper-bent functions and superclasses
+
+```text
+carlet-6-def-hyper-bent
+  <- carlet-2-absolute-trace, carlet-2-trace-pairing-coordinates, carlet-6-def-7-bent
+carlet-6-lemma-4-subfield-intersection
+  <- carlet-6-def-hyper-bent, carlet-2-absolute-trace
+carlet-6-prop-25-psap-hyper-bent
+  <- carlet-6-def-hyper-bent, carlet-6-lemma-4-subfield-intersection,
+     carlet-6-partial-spread-construction, carlet-5-quadratic-trace-representation
+
+carlet-6-prop-26-partially-bent
+  <- carlet-2-rel-25-wiener-khinchin, carlet-2-parseval,
+     carlet-4-def-linear-kernel, carlet-6-def-plateaued
+carlet-6-prop-27-fourier-uncertainty
+  <- carlet-2-pseudoboolean-fourier, carlet-2-parseval,
+     carlet-2-cor-1-poisson-summation
+carlet-6-def-partial-bent
+  <- carlet-2-pseudoboolean-fourier
+carlet-6-partial-bent-duality
+  <- carlet-6-def-partial-bent, carlet-2-cor-2-fourier-involution
+carlet-6-partial-bent-degree-bound
+  <- carlet-6-def-partial-bent, carlet-6-prop-18-rothaus-degree-bound
+carlet-6-partial-bent-types
+  <- carlet-6-def-partial-bent, carlet-2-parseval
+carlet-6-partial-bent-disjoint-support-sum
+  <- carlet-6-def-partial-bent, carlet-6-partial-bent-types,
+     carlet-2-pseudoboolean-fourier
+carlet-6-def-plateaued
+  <- carlet-2-def-walsh-transform, carlet-2-parseval, carlet-6-def-7-bent
+carlet-6-plateaued-support-nonlinearity
+  <- carlet-6-def-plateaued, carlet-4-rel-35-nonlinearity-walsh, carlet-2-parseval
+carlet-6-prop-28-second-order-plateaued
+  <- carlet-6-def-plateaued, carlet-6-prop-24-second-order-characterization
+carlet-6-plateaued-coset-orphan
+  <- carlet-6-def-plateaued, carlet-6-plateaued-support-nonlinearity,
+     carlet-3-reed-muller-code, carlet-4-def-nonlinearity, carlet-2-parseval
+```
+
+The finite-field hyper-bent predicate is reduced to ordinary cube bentness through the Chapter 2
+trace-pairing equivalence. Proposition 26 reuses Wiener--Khinchin and the Fourier uncertainty
+equality case to recover the bent-plus-affine complementary decomposition. Plateauedness keeps a
+positive integer Walsh amplitude and derives its power-of-two form through Parseval. Under the
+source's exact punctured two-level definition, Fourier involution proves partial-bent duality and
+Parseval gives the corrected type formula; explicit two-variable examples refute the printed
+degree bound and disjoint-support closure. The orphan theorem uses the necessary non-affine
+hypothesis.
+
+### Normal extensions and Kerdock codes
+
+```text
+carlet-6-def-8-normal-extension
+  <- carlet-6-def-7-bent
+carlet-6-normal-extension-composition-duality
+  <- carlet-6-def-8-normal-extension, carlet-6-dual, carlet-6-rel-46-dual-poisson
+carlet-6-normal-zero-dimensional-characterization
+  <- carlet-6-def-8-normal-extension, carlet-5-def-4-normality,
+     carlet-2-affine-invariance
+carlet-6-prop-29-direct-sum-normality
+  <- carlet-6-direct-sum, carlet-6-def-8-normal-extension,
+     carlet-6-normal-zero-dimensional-characterization,
+     carlet-5-affine-flat-restriction-bound
+carlet-6-prop-30-normality-descends
+  <- carlet-6-def-8-normal-extension, carlet-6-normal-zero-dimensional-characterization,
+     carlet-6-prop-31-normal-extension-replacement,
+     carlet-5-affine-flat-restriction-bound
+carlet-6-prop-31-normal-extension-replacement
+  <- carlet-6-def-8-normal-extension, carlet-6-normal-extension-composition-duality,
+     carlet-6-rel-46-dual-poisson
+
+carlet-6-rel-56-complete-quadratic
+  <- carlet-6-quadratic-bent-characterization, carlet-2-def-support-weight
+carlet-6-kerdock-parameters
+  <- carlet-6-def-7-bent, carlet-3-reed-muller-code,
+     carlet-4-reed-muller-coset-distance
+carlet-6-kerdock-field-trace-identity
+  <- carlet-6-rel-56-complete-quadratic, carlet-2-absolute-trace,
+     carlet-6-kerdock-field-construction
+carlet-6-kerdock-field-construction
+  <- carlet-5-quadratic-trace-representation, carlet-6-quadratic-bent-characterization,
+     carlet-6-kerdock-parameters, carlet-2-absolute-trace,
+     carlet-2-trace-pairing-coordinates
+```
+
+The zero-dimensional normal-extension statement distinguishes the source's linear-subspace
+convention from Chapter 5's affine-flat convention and supplies the necessary affine-equivalence
+correction with an explicit two-variable counterexample. Proposition 31 is proved through the
+Poisson formula. The Kerdock parameter theorem consumes only a finite quadratic representative
+family with pairwise bent sums. The direct trace expression allowed by Carlet's footnote 44 now
+constructs such a family and proves its parameters; the separate coordinate theorem proves the
+self-dual-normal-basis identity under its explicit Frobenius, trace, and trace-pairing hypotheses
+without conflating it with the coordinate-invariant construction.
+
+These Chapter 6 families contain exactly 163 incoming statement edges.
+
 ## Remaining proof frontier
 
 Three source statements remain open, all in the analytic Chapter 5 character-sum branch. Their complete
@@ -632,21 +864,25 @@ and the sharp higher-order upper bound are associated with their complete produc
 their mathematical ingredients remain separately visible in the graph. Chapter 5's quadratic
 normal form, quadratic trace representation, Relation (42), random-nonnormality limit, and
 trace-character reduction are closed; the three analytic open nodes above define the remaining
-reviewed frontier.
+reviewed frontier. Chapter 6 is closed: all 57 nodes have proved associations, while its nineteen
+source-recovery records remain outside the graph until their cited statements or certificates can
+be recovered faithfully.
 
 ## Machine verification
 
 The current counts and edge set are enforced by
 `blueprint-verso/scripts/validate_manifest.py`. The style and association split are enforced by
-`blueprint-verso/scripts/check_statement_style.py`, which runs through the site driver. Before a
-handoff, run from the repository root:
+`blueprint-verso/scripts/check_statement_style.py`, which runs through the site driver. Local
+handoff verification uses the narrow affected module and lightweight text gates:
 
 ```bash
-lake build CryptBoolean
+lake build CryptBoolean.Carlet.Chapter06
 ./.github/scripts/forbidden_tokens.sh
-./.github/scripts/audit_axioms.sh
-./blueprint-verso/scripts/site.sh build
+python3 ./blueprint-verso/scripts/check_statement_style.py
 ```
+
+The root build, axiom audit, complete Blueprint build, and publication build run in GitHub Actions;
+they are intentionally not run on the development machine.
 
 The inventories under `.agents/inventory/`, the Verso `uses :=` metadata, this audit, and the
 manifest validator must be changed together whenever the reviewed graph changes.

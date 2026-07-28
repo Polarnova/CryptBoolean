@@ -32,18 +32,20 @@ PDFs, manifests, graphs, and caches are not sources of truth.
 
 ## Current verified baseline
 
-The reviewed Blueprint contains 149 source-facing statements, of which 146 are associated with 961
-proved Lean declarations and 3 remain visibly open, connected by 296 mathematical dependency
-edges. Chapter 2 contributes 38 formalized statements, 166 declarations, and 48
+The reviewed Blueprint contains 209 source-facing statements, of which 206 are associated with
+1338 proved Lean declarations and 3 remain visibly open, connected by 467 mathematical dependency
+edges. Chapter 2 contributes 41 formalized statements, 174 declarations, and 56
 incoming edges. Chapter 3 contributes 7 formalized statements, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized statements, 568 declarations, and 159 incoming edges.
-Chapter 5 contributes 31 statements (28 formalized and 3 open), 195 declarations, and 70 incoming
-edges.
+Chapter 5 contributes 31 statements (28 formalized and 3 open), 203 declarations, and 70 incoming
+edges. Chapter 6 contributes 57 formalized statements, 361 declarations, and 163 incoming edges.
 
 The completed Chapter 2 frontier includes Proposition 5's numerical-normal-form integrality
 criterion, the full raw Poisson formula, affine invariance, restriction recovery, the
-spectral-support bounds, the coordinate/univariate binary-degree formula, Proposition 3 on trace
-monomials, and trace-pairing coordinates. The completed Chapter 3 frontier includes
+spectral-support bounds, Relation (30)'s NNF Fourier formula, Proposition 9's restriction-square
+identity, Proposition 11's Walsh-divisibility degree bound, the coordinate/univariate
+binary-degree formula, Proposition 3 on trace monomials, and trace-pairing coordinates. The
+completed Chapter 3 frontier includes
 the general Reed--Muller distance theorem, Proposition 12's minimum-weight affine-flat
 classification, dimension and cardinality formulas, and duality.
 
@@ -65,11 +67,26 @@ trace-character/nonlinearity reduction. The quadratic trace representation is cl
 and even dimensions. The three open nodes preserve the complete analytic source statements for the
 Weil character-sum bound, its nonlinearity corollary, and the reciprocal character-sum bound.
 
+The Chapter 6 inventory is source-reviewed and Blueprint-synchronized. Its 57 formalized nodes
+cover the spectral and derivative characterizations of bentness, duality, the Rothaus and
+McEliece--Ax algebraic-degree bounds, primary and secondary constructions, decompositions and
+counting, NNF, geometric and second-order characterizations, hyper-bent functions, partially bent
+and plateaued superclasses, normal extensions, and the explicit finite-field Kerdock family and
+code parameters. The proofs reuse FABL's canonical Fourier, ANF, degree, affine, and derivative
+interfaces and the Chapter 2--5 Walsh, Reed--Muller, nonlinearity, quadratic, trace, restriction,
+and normality layers.
+
 Chapter 2 has no open node: the finite-field coordinate theorem identifies ANF degree with the
 maximum binary weight in the univariate support, cyclotomic-orbit noncancellation closes Carlet
 Proposition 3, and the trace-pairing coordinate theorem is compiled. Chapter 3 likewise has no open node: the
 affine-flat normal form, codimension--degree theorem, and equality-case slice infrastructure compose
 into the exact Proposition 12 classification.
+
+Chapter 6 has no open node. Its source corrections are explicit: Proposition 16 uses the necessary
+dimension lower bound; the partial-spread constructions use their valid positive range; the
+punctured two-level partial-bent definition yields a corrected type formula and counterexamples to
+two printed consequences; Langevin's orphan statement assumes a non-affine representative; and the
+self-dual-normal-basis Kerdock identity states its coordinate hypotheses.
 
 Source-facing splits remain explicit in Chapter 4. Rodier's one-sided lower endpoint and sharp
 interval have distinct nodes, as do the finite Hamming-ball and Plotkin lemmas and the resulting

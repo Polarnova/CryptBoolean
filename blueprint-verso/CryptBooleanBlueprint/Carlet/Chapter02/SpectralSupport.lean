@@ -7,6 +7,7 @@ import Verso
 import VersoManual
 import VersoBlueprint
 import CryptBoolean.Carlet.Chapter02.SpectralSupport
+import CryptBoolean.Carlet.Chapter02.WalshDivisibility
 
 open Verso.Genre
 open Verso.Genre.Manual
@@ -46,3 +47,11 @@ N_{\widehat\varphi}\le\sum_{i=0}^{D}\binom ni.
 The lower bound assumes $`f\ne0`, since the zero function has empty Fourier support. The condition
 $`\varphi\ne0` likewise makes the displayed numerical degree a maximum over a nonempty set; with
 the zero-degree convention, the resulting upper bound also holds for $`\varphi=0`.
+
+:::proposition "carlet-2-prop-11-walsh-divisibility" (parent := "carlet-chapter-2") (lean := "CryptBoolean.vectorFourierCoeff_booleanRealEmbedding_eq, CryptBoolean.functionAlgebraicDegree_le_of_two_pow_dvd_walshTransform") (uses := "carlet-2-def-algebraic-degree, carlet-2-def-walsh-transform") (tags := "carlet, chapter-2, proposition-11, page-34, fidelity-exact")
+*Proposition 11 (Carlet, p. 34).* Let $`n\ge2` and $`1\le k\le n`. If
+$`2^k` divides $`W_f(a)` for every $`a\in V_n`, then
+$$`
+\deg_{\mathrm{alg}}(f)\le n-k+1.
+`
+:::

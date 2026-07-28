@@ -71,6 +71,17 @@ theorem bitSignInt_eq_if_one (b : FABL.𝔽₂) :
       exact hb (Fin.eq_one_of_ne_zero b hzero)
     simp [bitSignInt, hb_zero]
 
+/-- The integer sign encoding distinguishes the two binary values. -/
+theorem bitSignInt_injective : Function.Injective bitSignInt := by
+  intro p q hpq
+  apply FABL.binarySign_injective
+  rw [← FABL.signValue_signEncode_eq_binarySign,
+    ← FABL.signValue_signEncode_eq_binarySign]
+  have hunit : FABL.signEncode p = FABL.signEncode q := by
+    apply Units.ext
+    exact hpq
+  exact congrArg FABL.signValue hunit
+
 /-- The integer sign encoding sends binary addition to multiplication. -/
 theorem bitSignInt_add (a b : FABL.𝔽₂) :
     bitSignInt (a + b) = bitSignInt a * bitSignInt b := by

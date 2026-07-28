@@ -6,7 +6,7 @@ Authors: Asher Yan with Codex
 import Verso
 import VersoManual
 import VersoBlueprint
-import CryptBoolean.Carlet.Chapter02.NumericalNormalForm
+import CryptBoolean.Carlet.Chapter02.FourierNNF
 
 open Verso.Genre
 open Verso.Genre.Manual
@@ -30,6 +30,18 @@ For every $`S\subseteq[n]`, the coefficients therefore satisfy
 $$`
 \lambda_S
 =\varphi(\mathbf 1_S)-\sum_{T\subsetneq S}\lambda_T.
+`
+:::
+
+:::theorem "carlet-2-rel-30-nnf-fourier" (parent := "carlet-chapter-2") (lean := "CryptBoolean.rawFourierTransform_numericalMonomial, CryptBoolean.rawFourierTransform_numericalEval") (uses := "carlet-2-nnf-existence-uniqueness, carlet-2-pseudoboolean-fourier, carlet-2-prop-7-subspace-indicator") (tags := "carlet, chapter-2, relation-30, page-32, fidelity-exact")
+*Relation (30) (Carlet, p. 32).* If
+$`\varphi(x)=\sum_{S\subseteq[n]}\lambda_S\prod_{i\in S}x_i`, then for every
+$`u\in V_n`,
+$$`
+\widehat\varphi(u)
+=(-1)^{w_H(u)}
+  \sum_{\operatorname{supp}(u)\subseteq S}
+    2^{n-|S|}\lambda_S.
 `
 :::
 

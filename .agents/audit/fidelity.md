@@ -17,14 +17,15 @@ The generated manifest currently verifies the following baseline:
 
 | Chapter | Statements | Formalized | Open | Associated declarations | Incoming statement edges |
 |---|---:|---:|---:|---:|---:|
-| Carlet Chapter 2 | 38 | 38 | 0 | 166 | 48 |
+| Carlet Chapter 2 | 41 | 41 | 0 | 174 | 56 |
 | Carlet Chapter 3 | 7 | 7 | 0 | 32 | 19 |
 | Carlet Chapter 4 | 73 | 73 | 0 | 568 | 159 |
-| Carlet Chapter 5 | 31 | 28 | 3 | 195 | 70 |
-| **Total** | **149** | **146** | **3** | **961** | **296** |
+| Carlet Chapter 5 | 31 | 28 | 3 | 203 | 70 |
+| Carlet Chapter 6 | 57 | 57 | 0 | 361 | 163 |
+| **Total** | **209** | **206** | **3** | **1338** | **467** |
 
 The manifest count is an association count, not a claim that every printed result in Carlet
-Chapters 2--5 is complete. Coverage outside these 149 reviewed nodes remains governed by the
+Chapters 2--6 is complete. Coverage outside these 209 reviewed nodes remains governed by the
 inventories under `.agents/inventory/`.
 
 ## Corrected source mappings
@@ -76,6 +77,21 @@ inventories under `.agents/inventory/`.
 | `carlet-5-covering-sequence-resiliency` | Carlet p. 74 derives correlation-immunity and resiliency orders from the minimum nonzero transform-fiber weight and gives converses at the first failed order. | The forward and converse declarations retain the stated minimum and nontrivial-level conditions on every feasible order. The Walsh-zero coefficient sequence is constructed explicitly from its defining formula. |
 | `carlet-5-derivative-space-partial-covering-sequence` | Carlet p. 74: a nonzero binary space of derivatives has pointwise integer sum zero or half its cardinality, and a minimal representative direction set gives a nontrivial partial covering sequence. | Ten declarations model the finite Boolean-function subspace, prove the half-cardinality dichotomy, choose one direction per derivative, prove the resulting derivative map is bijective and the representative set has cardinality `|D|`, and establish the two-level partial-covering property with nonzero upper level. |
 | `carlet-5-theorem-6-weight-corollary` | Carlet p. 76 divides by a nonzero level `rho` to write `W_f(0)=(1-rho'/rho) sum_(x in A)(-1)^f(x)`. | The associated theorem proves the equivalent integer identity `rho W_f(0)=(rho-rho') sum_(x in A)(-1)^f(x)`, valid even at `rho=0`; the printed quotient follows under its stated nonzero hypothesis. |
+| `carlet-6-prop-16-support-code` | Carlet Proposition 16, p. 79: the support of a bent function generates the ambient space and yields a binary linear code with dual distance at least three. | The printed unrestricted statement is false in dimension two: a weight-one bent function has singleton support. The formal node makes the necessary `n>=4` hypothesis explicit and proves both spanning and the dual-distance conclusion. |
+| `carlet-6-prop-18-rothaus-degree-bound` | Carlet Proposition 18, p. 83 gives degree at most `n/2` for even `n>=4`; the following sentence treats `n=2`. | The main theorem retains `n>=4`. A separate declaration proves that every two-variable bent function has algebraic degree exactly two, and the same conclusions are applied independently to the dual. |
+| `carlet-6-prop-19` | Carlet Proposition 19, Relation (47), p. 83 relates the algebraic degrees `d` and `d_tilde` of a bent function and its dual by `(n/2-d) >= (n/2-d_tilde)/(d_tilde-1)`. | One associated declaration proves the reusable McEliece--Ax divisibility `2^ceil(n/d) | sum_x (-1)^f(x)` for every positive degree bound `d`; the second composes it with Relation (46), an exact top-ANF-slice valuation, the dual degree bound, and the separate `n=2` case to prove the source's rational inequality. |
+| `carlet-6-partial-spread-construction` | Carlet pp. 86--88 constructs the `PS^-` and `PS^+` bent families from a spread of `V_{2m}`. | The formal statement uses `m>=2`, the smallest range in which the two printed support-cardinality choices and the stated nonzero-subspace geometry are simultaneously valid. No degenerate low-dimensional family is silently admitted. |
+| `carlet-6-prop-27-fourier-uncertainty` | Carlet Proposition 27, pp. 104--105: a nonzero pseudo-Boolean function and its raw Fourier support satisfy the uncertainty product, with equality exactly for a modulated affine-flat indicator. | The equality form explicitly quantifies the printed frequency `u` and requires the scale `lambda` to be nonzero; both are necessary for the iff and are implicit in the source prose. |
+| `carlet-6-lemma-4-subfield-intersection` | Carlet Lemma 4, p. 102 is printed with a positive ambient dimension while its notation uses the quadratic tower `GF(2^m) subset GF(2^(2m))`. | The Blueprint corrects the dimension convention to positive half-dimension `m`, so the ambient Boolean dimension is even. The complete field-intersection claim remains visible without a weakened association. |
+| `carlet-6-partial-bent-degree-bound` | Carlet p. 105 asserts the bent half-dimension degree bound for partial-bent functions defined only by two Fourier levels away from zero. | The assertion is false under that exact definition. The associated declarations give a two-variable point-indicator that satisfies the punctured two-level condition and has algebraic degree two, strictly above `n/2`. |
+| `carlet-6-partial-bent-types` | Carlet p. 105 gives two possible relations among the zero-frequency value, the level `lambda`, and `f(0)`. | Fourier involution and Parseval give the corrected alternatives `W_f(0)-e=-(lambda-e)(q-1)` and `W_f(0)-e=(q+lambda-e)(q+1)` for `q=2^(n/2)` and `e=f(0)`; the node states exactly this dichotomy. |
+| `carlet-6-partial-bent-disjoint-support-sum` | Carlet p. 105 asserts closure under sums of partial-bent functions of one type whose supports intersect only at zero. | The printed assertion is false under the punctured two-level definition. Explicit two-variable partial-bent functions satisfy the stated type and support conditions while their sum is not partial bent. |
+| `carlet-6-prop-28-second-order-plateaued` | Carlet Proposition 28, Relation (55), p. 106 characterizes plateaued functions by a constant second-order derivative sum. | The proof paragraph's reference to “Proposition 52” is a typographical error for Relation (52), the second-order bent characterization. The dependency edge targets that mathematical statement. |
+| `carlet-6-plateaued-coset-orphan` | Carlet p. 106 states that a plateaued function determines an orphan first-order Reed--Muller coset. | Affine functions are plateaued but determine the least coset, so the statement needs the omitted non-affine hypothesis. The formal theorem proves the corrected claim and records the affine countercase. |
+| `carlet-6-normal-zero-dimensional-characterization` | Carlet p. 108 says a bent function is normal exactly when a zero-dimensional constant is a normal extension. | Under Chapter 5's affine-flat normality convention, the bare statement is false. The formal node proves the exact linear-subspace version, proves the affine-flat version after an affine automorphism, and supplies a two-variable bent counterexample showing that this automorphism cannot be omitted. |
+| `carlet-6-kerdock-parameters` | Carlet pp. 108--110 derives the Kerdock size and minimum distance from a quadratic representative family with pairwise bent sums. | The associated theorem is deliberately conditional on a finite family satisfying those hypotheses. It proves containment between `R(1,n)` and `R(2,n)`, distinctness of the first-order cosets, cardinality, and minimum distance; it is not presented as an existence proof for the explicit field family. |
+| `carlet-6-kerdock-field-trace-identity` | Carlet Relation (56), pp. 109--110 identifies the complete quadratic function with a trace expression in self-dual normal coordinates. | The theorem states the exact coordinate data it consumes: Frobenius is cyclic rotation, absolute trace is coordinate sum, and the trace pairing is the binary dot product. It then proves the identity; these hypotheses are not silently inferred from an arbitrary coordinate equivalence. |
+| `carlet-6-kerdock-field-construction` | Carlet pp. 109--110 and footnote 44 allow the trace expression to define the Kerdock representatives directly. | The construction is coordinate-invariant: the Chapter 5 trace-quadratic polar formula proves every nonzero difference bent, then the conditional Kerdock parameter theorem supplies the code size and distance. It does not depend on the separate self-dual-normal-basis coordinate identity. |
 
 **Proof of Proposition 13.** Carlet refers the omitted proof to reference [72]. The
 formal proof follows that source's two arguments: differentiating a closest order-`r` Reed--Muller
@@ -105,24 +121,44 @@ needs an explicit fidelity decision:
   `delta*n`; this is not Carlet's printed `n^delta` claim. That mismatch must be resolved against
   the primary journal theorem or recorded as a source correction before promotion.
 
+### Chapter 6 source-recovery boundary
+
+Nineteen Chapter 6 records remain outside the promoted Blueprint graph. They preserve the source
+boundary without manufacturing declarations from survey prose or incomplete citations:
+
+- equivalent Hadamard, difference-set, and Cayley-graph characterizations; alternate support-code,
+  derivative-moment, and geometric/GPS descriptions;
+- explicit low-degree trace and power families, the `D`, `C`, Dobbertin, vectorial almost-bent,
+  power-sum, homogeneous, and additional primary-class structural results;
+- cited specializations of the secondary constructions, additional decomposition and counting
+  claims, the cyclic-code degree theorem for hyper-bent functions, and the trace family from
+  reference [101];
+- finite nonnormal examples whose certificates or dimension-ten translate are not printed, and
+  Kerdock distance-enumerator, Preparata-duality, and `Z/4Z`-linearity properties that require a
+  code layer beyond the current membership and minimum-distance interface.
+
+Each record gives the recoverable quantifiers and parameters, identifies the missing primary
+statement or certificate, and names the already formalized declarations that a future promotion
+must reuse.
+
 ## Reviewed formalized surface
 
-The 146 formalized statements are split by mathematical result. Implementation module boundaries
+The formalized statements are split by mathematical result. Implementation module boundaries
 do not determine this split. The fidelity column records how the compiled declarations meet the displayed
 source mathematics.
 
 | Family | Formalized Blueprint items | Fidelity | Lean declarations |
 |---|---|---|---:|
-| Boolean foundations and raw Walsh transform | `carlet-2-def-boolean-function`, `carlet-2-def-support-weight`, `carlet-2-def-walsh-transform`, `carlet-2-walsh-normalization`, `carlet-2-balanced-zero-walsh` | Exact definitions and results, including Walsh normalization and the Hamming-weight identification | 20 |
+| Boolean foundations and raw Walsh transform | `carlet-2-def-boolean-function`, `carlet-2-def-support-weight`, `carlet-2-def-walsh-transform`, `carlet-2-walsh-normalization`, `carlet-2-balanced-zero-walsh` | Exact definitions and results, including Walsh normalization, injectivity of the integer sign encoding, and the Hamming-weight identification | 21 |
 | Algebraic normal form | `carlet-2-anf-skeleton`, `carlet-2-anf-existence-uniqueness` | Exact, with the explicit zero-degree convention | 18 |
-| Numerical normal form | `carlet-2-nnf-existence-uniqueness`, `carlet-2-prop-4-nnf-mobius`, `carlet-2-prop-5-nnf-integrality` | Exact | 19 |
+| Numerical normal form | `carlet-2-nnf-existence-uniqueness`, `carlet-2-rel-30-nnf-fourier`, `carlet-2-prop-4-nnf-mobius`, `carlet-2-prop-5-nnf-integrality` | Exact, including the raw Fourier transform of an arbitrary NNF | 21 |
 | Algebraic degree, distance, and affine functions | `carlet-2-def-algebraic-degree`, `carlet-2-support-degree-addition`, `carlet-2-def-hamming-distance`, `carlet-2-relative-hamming-normalization`, `carlet-2-def-affine-functions` | Exact source items plus explicit relative-distance normalization and derived addition law | 18 |
 | Affine invariance | `carlet-2-affine-invariance` | Exact source theorem with used ANF-substitution proof layer | 13 |
 | Restriction recovery | `carlet-2-restriction-recovery` | Exact formula and affine-automorphism consequence | 10 |
 | Raw pseudo-Boolean Fourier operations | `carlet-2-pseudoboolean-fourier`, `carlet-2-prop-6-fourier-shifts`, `carlet-2-cor-2-fourier-involution`, `carlet-2-prop-7-subspace-indicator`, `carlet-2-poisson-normalized-specialization`, `carlet-2-cor-1-poisson-summation`, `carlet-2-def-convolution`, `carlet-2-prop-8-convolution`, `carlet-2-rel-22-plancherel` | Exact raw results plus one explicitly labelled direct-FABL normalized specialization | 13 |
-| Spectral-support bounds | `carlet-2-spectral-support-bounds` | Exact with explicit zero-function conventions and the raw/normalized support identity | 24 |
+| Spectral-support bounds and Walsh divisibility | `carlet-2-spectral-support-bounds`, `carlet-2-prop-11-walsh-divisibility` | Exact with explicit zero-function conventions, the raw/normalized support identity, and the degree consequence of uniform Walsh divisibility | 26 |
 | Walsh inversion and Parseval for sign views | `carlet-2-fourier-inversion`, `carlet-2-parseval` | Exact sign-function specializations | 6 |
-| Derivatives and autocorrelation | `carlet-2-def-2-derivative`, `carlet-2-def-autocorrelation`, `carlet-2-rel-25-wiener-khinchin`, `carlet-2-rel-26-total-autocorrelation` | Exact | 6 |
+| Derivatives, autocorrelation, and restriction squares | `carlet-2-def-2-derivative`, `carlet-2-def-autocorrelation`, `carlet-2-rel-25-wiener-khinchin`, `carlet-2-rel-26-total-autocorrelation`, `carlet-2-prop-9-restriction-square` | Exact, including both autocorrelation and perpendicular-Walsh forms of Relation (28) | 9 |
 | Finite-field representation | 5 formalized nodes from `carlet-2-absolute-trace` through `carlet-2-trace-monomial-degree` | Exact absolute trace and interpolation results, an explicit shared trace-pairing coordinate theorem, the binary-degree formula for canonical univariate representations, and Proposition 3's exact nonzero trace-monomial degree | 19 |
 | Reed--Muller foundations | `carlet-3-affine-weight`, `carlet-3-reed-muller-code`, `carlet-3-theorem-1-order-one` | Exact source items plus explicitly derived order-one specialization | 11 |
 | General Reed--Muller distance | `carlet-3-theorem-1` | Exact all-orders theorem | 2 |
@@ -137,11 +173,16 @@ source mathematics.
 | Autocorrelation indicators | 5 formalized nodes from `carlet-4-def-autocorrelation-indicators` through `carlet-4-indicator-nonlinearity-spectral-support` | Exact indicators, moment identities, and spectral/nonlinearity consequences | 36 |
 | Maximum correlation and generalized distance | 3 formalized nodes from `carlet-4-def-maximum-correlation` through `carlet-4-generalized-linear-structure-distance` | Exact coordinate-restriction and linear-structure distances | 38 |
 | Other complexity criteria | `carlet-4-other-complexity-definitions`, `carlet-4-kth-nonhomomorphicity`, `carlet-4-affine-reindex-first-resilient` | Exact criteria with the recorded tuple-count terminology discrepancy | 36 |
-| Chapter 5 affine and quadratic classes | 13 formalized nodes from `carlet-5-affine-walsh-spectrum` through `carlet-5-def-quadratic-semi-bent` | Exact affine spectra, quadratic polar/radical structure, Relation (41), Theorems 4 and 5, derivative and even-rank consequences, exact weight and nonlinearity value sets with realizations, the complete affine normal-form trichotomy, the odd/even finite-field quadratic trace representation, the quadraticization step and its degree-three iteration, and an exact semi-bent predicate | 89 |
+| Chapter 5 affine and quadratic classes | 13 formalized nodes from `carlet-5-affine-walsh-spectrum` through `carlet-5-def-quadratic-semi-bent` | Exact affine spectra, quadratic polar/radical structure, Relation (41), Theorems 4 and 5, derivative and even-rank consequences, exact weight and nonlinearity value sets with realizations, the complete affine normal-form trichotomy, the odd/even finite-field quadratic trace representation and its reusable Frobenius-linear, polar-sum, degree, and middle-term components, the quadraticization step and its degree-three iteration, and an exact semi-bent predicate | 97 |
 | Chapter 5 flat restrictions and normality | `carlet-5-flat-indicator-walsh-nonlinearity`, `carlet-5-rel-42-restriction-nonlinearity`, `carlet-5-affine-flat-restriction-bound`, `carlet-5-def-4-normality`, `carlet-5-random-nonnormality` | Corrected codimension-one flat value, total restriction inequalities, the full equality case, exact fixed-dimension normality predicates, the finite certificate bound, and the exact floored logarithmic random-nonnormality limit | 44 |
 | Chapter 5 covering sequences | 9 formalized nodes from `carlet-5-def-5-covering-sequence` through `carlet-5-theorem-6-weight-corollary` | Exact integer covering and partial-covering definitions, Walsh characterization, balancedness/resiliency consequences, regular families, the derivative-space representative construction, Theorem 6, and its division-free weight identity | 56 |
 | Chapter 5 trace-character reduction | `carlet-5-trace-character-sum-walsh` | Reuse of the shared Chapter 2 trace-pairing coordinate theorem, the exact complete-sum Walsh identity, and the conditional maximum-Walsh/nonlinearity reduction | 6 |
-| **Total** | **146 items** |  | **961** |
+| Chapter 6 bentness, duality, and algebraic degree | 14 formalized nodes from `carlet-6-def-7-bent` through `carlet-6-prop-19` | Exact Walsh and derivative characterizations, dual isometry, derivative and Poisson identities, NNF divisibility, the quadratic criterion, the Rothaus bound including dimension two, and Relation (47) through the reusable McEliece--Ax theorem | 43 |
+| Chapter 6 constructions and decompositions | 13 formalized nodes from `carlet-6-maiorana-mcfarland` through `carlet-6-hyperplane-restriction-plateaued` | Exact Maiorana--McFarland and partial-spread primary families, flat switching, slicing, direct, indirect, Rothaus, permutation, and three-function constructions, and the hyperplane restriction formulas | 77 |
+| Chapter 6 counting and characterizations | 6 formalized nodes from `carlet-6-maiorana-mcfarland-count` through `carlet-6-prop-24-second-order-characterization` | Exact finite counting bounds and NNF, geometric, generalized partial-spread, and second-order characterizations using the canonical raw Fourier normalization | 67 |
+| Chapter 6 hyper-bent functions and superclasses | 14 formalized nodes from `carlet-6-def-hyper-bent` through `carlet-6-plateaued-coset-orphan` | Exact field/cube coordinate equivalence, subfield-intersection and `PS_ap` construction, partially bent decomposition, uncertainty equality, partial-bent duality, corrected partial-bent type formula and two counterexamples, and plateaued support, derivative, and corrected orphan results | 97 |
+| Chapter 6 normal extensions and Kerdock codes | 10 formalized nodes from `carlet-6-def-8-normal-extension` through `carlet-6-kerdock-field-construction` | Exact coordinate-invariant extension relation, duality, composition, replacement, and direct-sum/normality results with the affine-flat correction; complete quadratic functions; conditional Kerdock parameters; the explicit trace family; and its separately hypothesized self-dual-normal-coordinate identity | 77 |
+| **Total** | **206 items** |  | **1338** |
 
 The following distinctions are part of the fidelity boundary:
 
@@ -207,6 +248,25 @@ The following distinctions are part of the fidelity boundary:
 - The four Chapter 5 citation-recovery records are not weakened into Blueprint statements. In
   particular, the BKSSW primary formulation uses affine dimension at least `delta*n`, whereas
   Carlet prints `n^delta`.
+- Chapter 6 reuses FABL's canonical bent predicate and dual, Maiorana--McFarland permutation
+  theorem, ANF and algebraic-degree APIs, affine functions, derivatives, and complete quadratic
+  decomposition. Raw Carlet formulas pass through the Chapter 2 scaling, inversion, Parseval,
+  Poisson, restriction-square, Walsh-divisibility, and trace-coordinate theorems instead of
+  introducing a competing normalization.
+- Proposition 19 keeps its source inequality and positive even-dimensional domain. Its generic
+  McEliece--Ax character-sum divisibility result is associated with the same source node as the
+  final dual-degree relation because it is the cited mathematical proof theorem, not a separate
+  Carlet statement.
+- The exact punctured partial-bent definition is retained even though it makes two printed
+  consequences false; the Blueprint presents proof-checked counterexamples and the corrected
+  two-type formula. The normality and orphan statements likewise expose the affine-automorphism
+  and non-affine hypotheses needed for correctness.
+- The conditional Kerdock parameter theorem, the explicit coordinate-invariant field family, and
+  the self-dual-normal-coordinate identity remain distinct. The identity lists its Frobenius,
+  trace, and trace-pairing hypotheses, while the construction uses the Chapter 5 quadratic-trace
+  polar formula and does not assume those coordinates.
+- The nineteen Chapter 6 source-recovery records remain outside the 57-node graph rather than
+  being weakened into statements without recoverable primary-source parameters or certificates.
 - Definitions, normalization laws, source propositions, and derived consequences have separate Blueprint
   nodes when their quantifiers or conclusions differ.
 
@@ -224,9 +284,9 @@ declaration association. All three are in the Chapter 5 character-sum branch.
 Chapter 3 has no open node: Proposition 12's affine-flat and equality-case slice layer is
 formalized. Chapter 4 has no open node: its former frontier statements are associated with complete
 declarations while their principal mathematical ingredients retain independent nodes. Chapter 2
-has no open node: the binary-degree formula and Proposition 3 are formalized. The four Chapter 5
-citation-recovery records remain outside the 31-node Chapter 5 graph until their source statements
-are complete.
+has no open node: the binary-degree formula and Proposition 3 are formalized. Chapter 6 has no open
+node: all 57 reviewed statements have proved associations. The four Chapter 5 citation-recovery
+records remain outside the 31-node Chapter 5 graph until their source statements are complete.
 
 ## Verification perimeter
 
@@ -235,14 +295,16 @@ missing mathematical notation, or inconsistent open/formalized metadata inside s
 The strict manifest validator checks the exact statement split, declaration presence and proof
 status, graph node set, open-node set, and edge count.
 
-Run from the repository root:
+Local review runs the narrow affected module and lightweight gates from the repository root:
 
 ```bash
-lake build CryptBoolean
+lake build CryptBoolean.Carlet.Chapter06
 ./.github/scripts/forbidden_tokens.sh
-./.github/scripts/audit_axioms.sh
-./blueprint-verso/scripts/site.sh build
+python3 ./blueprint-verso/scripts/check_statement_style.py
 ```
+
+The root build, axiom audit, complete Blueprint build, and publication build remain GitHub Actions
+jobs because the full local workloads are outside the supported development envelope.
 
 Source fidelity still requires human comparison with Carlet; compilation and manifest validation
 alone do not establish that a statement has the correct domain, hypotheses, normalization, or

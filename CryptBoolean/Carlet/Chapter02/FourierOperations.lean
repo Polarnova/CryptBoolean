@@ -39,6 +39,15 @@ theorem rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff
   norm_num
   field_simp
 
+/-- The raw Fourier transform of the constant-one function is supported only
+at the zero frequency. -/
+theorem rawFourierTransform_one (a : FABL.F₂Cube n) :
+    rawFourierTransform (fun _ ↦ (1 : ℝ)) a =
+      if a = 0 then (2 : ℝ) ^ n else 0 := by
+  rw [rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff,
+    FABL.vectorFourierCoeff_eq_expect]
+  simp [FABL.expect_vectorWalshCharacter]
+
 /-- Multiplying by a Walsh character shifts the normalized Fourier index. -/
 theorem vectorFourierCoeff_mul_vectorWalshCharacter
     (φ : FABL.F₂Cube n → ℝ) (a u : FABL.F₂Cube n) :

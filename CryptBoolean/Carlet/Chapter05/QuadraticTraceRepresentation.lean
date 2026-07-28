@@ -25,7 +25,8 @@ open scoped BigOperators BooleanCube
 
 namespace CryptBoolean
 
-private noncomputable def binaryFrobeniusLinear (n i : ℕ) :
+/-- The `i`th binary Frobenius power as a linear endomorphism. -/
+noncomputable def binaryFrobeniusLinear (n i : ℕ) :
     BinaryGaloisField n →ₗ[FABL.𝔽₂] BinaryGaloisField n :=
   (FiniteField.frobeniusAlgHom FABL.𝔽₂ (BinaryGaloisField n) ^ i).toLinearMap
 
@@ -34,7 +35,9 @@ private noncomputable def binaryFrobeniusEquiv (n : ℕ) :
   FiniteField.frobeniusAlgEquivOfAlgebraic FABL.𝔽₂
     (BinaryGaloisField n)
 
-private theorem binaryFrobeniusLinear_apply (n i : ℕ)
+/-- Evaluation of the linear Frobenius endomorphism is the corresponding
+binary power. -/
+theorem binaryFrobeniusLinear_apply (n i : ℕ)
     (x : BinaryGaloisField n) :
     binaryFrobeniusLinear n i x = x ^ (2 ^ i) := by
   change (FiniteField.frobeniusAlgHom FABL.𝔽₂
@@ -107,6 +110,18 @@ private theorem absoluteTrace_mul_binaryFrobeniusLinear
     _ = absoluteTrace n ((E ^ (n - i)) a * y) := by
       rw [binaryFrobeniusAlgEquiv_pow_complement_apply n i hn hi]
     _ = _ := rfl
+
+/-- The adjoint of the `i`th binary Frobenius power under the absolute-trace
+pairing is the complementary Frobenius power. -/
+theorem absoluteTrace_mul_frobeniusPow
+    (n i : ℕ) (hn : n ≠ 0) (hi : i ≤ n)
+    (a y : BinaryGaloisField n) :
+    absoluteTrace n (a * y ^ (2 ^ i)) =
+      absoluteTrace n (a ^ (2 ^ (n - i)) * y) := by
+  rw [← binaryFrobeniusLinear_apply n i y,
+    absoluteTrace_mul_binaryFrobeniusLinear n i hn hi]
+  rw [← binaryFrobeniusLinear_eq_algEquiv_pow_apply n (n - i) a,
+    binaryFrobeniusLinear_apply]
 
 private noncomputable def alternatingMapOfBilinForm
     {V : Type*} [AddCommGroup V] [Module FABL.𝔽₂ V]
@@ -181,7 +196,9 @@ private noncomputable def oddQuadraticPolarAlternating (m : ℕ)
             x * binaryFrobeniusLinear (2 * m + 1) (i + 1) y)) := by
   rfl
 
-private noncomputable def oddQuadraticTracePart (m : ℕ)
+/-- The homogeneous quadratic part in Carlet's odd-dimensional trace
+representation. -/
+noncomputable def oddQuadraticTracePart (m : ℕ)
     (beta : Fin m → BinaryGaloisField (2 * m + 1)) :
     FieldBooleanFunction (2 * m + 1) :=
   fun x ↦ absoluteTrace (2 * m + 1)
@@ -210,6 +227,25 @@ private theorem oddQuadraticTracePart_polar (m : ℕ)
   rw [show (2 : BinaryGaloisField (2 * m + 1)) = 0 from
     CharP.cast_eq_zero (BinaryGaloisField (2 * m + 1)) 2]
   simp
+
+/-- The polar form of the odd-dimensional quadratic trace part, written as
+the explicit sum of paired Frobenius monomials. -/
+theorem oddQuadraticTracePart_polar_eq_sum (m : ℕ)
+    (beta : Fin m → BinaryGaloisField (2 * m + 1))
+    (x y : BinaryGaloisField (2 * m + 1)) :
+    oddQuadraticTracePart m beta (x + y) +
+        oddQuadraticTracePart m beta x +
+        oddQuadraticTracePart m beta y +
+        oddQuadraticTracePart m beta 0 =
+      ∑ i, absoluteTrace (2 * m + 1)
+        (beta i *
+          (x ^ (2 ^ ((i : ℕ) + 1)) * y +
+            x * y ^ (2 ^ ((i : ℕ) + 1)))) := by
+  rw [oddQuadraticTracePart_polar,
+    oddQuadraticPolarAlternating_apply]
+  apply Finset.sum_congr rfl
+  intro i _hi
+  rw [binaryFrobeniusLinear_apply, binaryFrobeniusLinear_apply]
 
 private noncomputable def oddQuadraticPolarMap (m : ℕ) :
     (Fin m → BinaryGaloisField (2 * m + 1)) →ₗ[FABL.𝔽₂]
@@ -630,7 +666,9 @@ private theorem functionAlgebraicDegree_constant_le_two {n : ℕ} (c : FABL.𝔽
     rw [hconstant]
     simp
 
-private theorem functionAlgebraicDegree_traceMonomial_two_pow_add_one_le_two
+/-- A binary trace monomial with exponent `2^i + 1` has algebraic degree at
+most two whenever the exponent lies below the field modulus. -/
+theorem functionAlgebraicDegree_traceMonomial_two_pow_add_one_le_two
     {n i : ℕ} (hn : 0 < n) (hk : 2 ^ i + 1 < 2 ^ n - 1)
     (theta : FABL.F₂Cube n ≃ₗ[FABL.𝔽₂] BinaryGaloisField n)
     (a : BinaryGaloisField n) :
@@ -643,7 +681,9 @@ private theorem functionAlgebraicDegree_traceMonomial_two_pow_add_one_le_two
   · rw [functionAlgebraicDegree_traceMonomial hn hk theta a hzero]
     exact binaryWeight_two_pow_add_one_le_two i
 
-private theorem two_pow_add_one_lt_odd_modulus
+/-- The quadratic exponents in the odd-dimensional trace representation lie
+strictly below the multiplicative field modulus. -/
+theorem two_pow_add_one_lt_odd_modulus
     (m : ℕ) (hm : 0 < m) (i : Fin (m + 1)) :
     2 ^ (i : ℕ) + 1 < 2 ^ (2 * m + 1) - 1 := by
   have hi : (i : ℕ) ≤ m := Nat.le_of_lt_succ i.isLt
@@ -714,7 +754,9 @@ noncomputable def quadraticTraceMiddleNorm
   letI := iota.toAlgebra
   exact Algebra.norm (BinaryGaloisField m) x
 
-private theorem quadraticTraceMiddle_finrank (hm : m ≠ 0)
+/-- The explicitly embedded middle field has relative degree two in the
+quadratic binary extension. -/
+theorem quadraticTraceMiddle_finrank (hm : m ≠ 0)
     (iota : BinaryGaloisField m →ₐ[FABL.𝔽₂] BinaryGaloisField (2 * m)) :
     letI := iota.toAlgebra
     Module.finrank (BinaryGaloisField m) (BinaryGaloisField (2 * m)) = 2 := by

@@ -1,0 +1,2495 @@
+source: carlet-2010
+chapter: 6
+status: source-reviewed
+summary:
+  statements: 57
+  source_statements: 57
+  core_items: 57
+  blueprint_ready_statements: 57
+  source_recovery_items: 19
+  total_records: 76
+  formalized: 57
+  open: 0
+  declarations: 361
+  dependency_edges: 163
+scope_note: >-
+  The 57 source-facing items below have complete statements checked
+  against Carlet pages 77--110 and are synchronized with the current Chapter 6
+  Blueprint. The 19 records under source_recovery retain complete
+  and incomplete cited families that have not been promoted to nodes. In
+  particular, the Kerdock parameter theorem is conditional on a given
+  representative family; only the separate finite-field construction states
+  that explicit representatives exist. The partial-bent nodes preserve the
+  exact punctured two-level definition, formalize its duality and corrected
+  type dichotomy, and replace two false printed consequences by explicit
+  counterexamples. Langevin's orphan theorem includes the necessary
+  non-affine hypothesis omitted in the source.
+items:
+  - id: carlet-6-def-7-bent
+    kind: definition
+    location: >-
+      Definition 7 (Carlet, pp. 77--78)
+    statement: |-
+      Let n be even. A Boolean function
+      f:V_n\to\mathbb F_2 is bent when
+
+      \operatorname{nl}(f)=2^{n-1}-2^{n/2-1}.
+
+      Equivalently, |W_f(a)|=2^{n/2} for every a\in V_n, or the distance
+      from f to every affine function is 2^{n-1}\pm2^{n/2-1}. Bentness is
+      preserved by affine changes of variables and by addition of affine functions.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.natAbs_walshTransform_eq_two_pow_half_of_isBent
+      - CryptBoolean.maxWalshMagnitude_eq_two_pow_half_of_isBent
+      - CryptBoolean.nonlinearity_eq_two_pow_sub_two_pow_half_of_isBent
+      - CryptBoolean.isBent_iff_forall_natAbs_walshTransform_eq_two_pow_half
+      - CryptBoolean.isBent_add_affineFunction_iff
+      - CryptBoolean.isBent_comp_affineEquiv_iff
+      - CryptBoolean.abs_hammingDistance_affine_sub_half_of_isBent
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-4-rel-36-covering-radius-bent
+      - carlet-4-nonlinearity-affine-invariance
+      - carlet-2-def-walsh-transform
+      - carlet-2-def-hamming-distance
+
+  - id: carlet-6-lemma-2-walsh-congruence
+    kind: lemma
+    location: >-
+      Lemma 2 (Carlet, p. 77)
+    statement: |-
+      Let n\ge2 be even. A Boolean function
+      f:V_n\to\mathbb F_2 is bent if and only if
+
+      W_f(a)\equiv 2^{n/2}\pmod {2^{n/2+1}}
+      \qquad(a\in V_n).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBent_iff_forall_walshTransform_modeq
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-2-parseval
+
+  - id: carlet-6-theorem-8-perfect-nonlinearity
+    kind: theorem
+    location: >-
+      Theorem 8 (Carlet, p. 78)
+    statement: |-
+      A Boolean function f:V_n\to\mathbb F_2
+      is bent if and only if every derivative in a nonzero direction is balanced:
+
+      \forall a\in V_n\setminus\{0\},\qquad D_af\text{ is balanced}.
+
+      Equivalently, f satisfies the propagation criterion of degree n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBent_iff_forall_nonzero_derivative_isBalanced
+      - CryptBoolean.isBent_iff_satisfiesPropagationCriterion_dimension
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-2-rel-25-wiener-khinchin
+      - carlet-4-def-propagation-criteria
+
+  - id: carlet-6-prop-16-support-code
+    kind: proposition
+    location: >-
+      Proposition 16 (Carlet, pp. 78--79; corrected dimension range)
+    statement: |-
+      Let
+      n\ge4 be even, let S_f=\{u_1,\ldots,u_w\} be the support of
+      f:V_n\to\mathbb F_2, and let
+
+      C_f=\{(v\mathbin\cdot u_1,\ldots,v\mathbin\cdot u_w):v\in V_n\}.
+
+      Then f is bent if and only if \dim C_f=n and the nonzero words of
+      C_f have exactly the two weights
+
+      2^{n-2}\quad\text{and}\quad w_H(f)-2^{n-2},
+
+      with both weights occurring.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.supportCodeMap
+      - CryptBoolean.supportCode
+      - CryptBoolean.supportCodewordWeight
+      - CryptBoolean.supportCodewordWeight_zero
+      - CryptBoolean.supportCodewordWeight_eq_card_filter
+      - CryptBoolean.codeCharacterSum_support_eq_card_sub_two_weight
+      - CryptBoolean.four_mul_supportCodewordWeight_eq
+      - CryptBoolean.SupportCodeHasExactlyTwoNonzeroWeights
+      - CryptBoolean.isBent_iff_supportCode_finrank_and_two_nonzero_weights
+    fidelity_note: >-
+      Carlet states positive even dimension, but in dimension two one displayed nonzero weight can be zero. The reviewed node therefore uses n >= 4 and records the exceptional failure explicitly.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-4-resiliency-support-dual-distance
+      - carlet-2-balanced-zero-walsh
+      - carlet-2-parseval
+
+  - id: carlet-6-dual
+    kind: definition
+    location: >-
+      Bent dual (Carlet, Section 6.1, p. 79)
+    statement: |-
+      Let n be even and let
+      f:V_n\to\mathbb F_2 be bent. Its dual is the unique Boolean function
+      \widetilde f:V_n\to\mathbb F_2 satisfying
+
+      W_f(u)=2^{n/2}(-1)^{\widetilde f(u)}
+      \qquad(u\in V_n).
+
+      The function \widetilde f is bent and satisfies
+
+      W_{\widetilde f}(a)=2^{n/2}(-1)^{f(a)},
+      \qquad
+      \widetilde{\widetilde f}=f.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.bentDual
+      - CryptBoolean.walshTransform_eq_two_pow_half_mul_bitSignInt_bentDual
+      - CryptBoolean.realSignView_bentDual
+      - CryptBoolean.isBent_bentDual
+      - CryptBoolean.walshTransform_bentDual
+      - CryptBoolean.bentDual_bentDual
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-2-def-walsh-transform
+      - carlet-2-fourier-inversion
+
+  - id: carlet-6-rel-44-dual-isometry
+    kind: theorem
+    location: >-
+      Relation (44) (Carlet, p. 79)
+    statement: |-
+      If f,g:V_n\to\mathbb F_2 are bent,
+      then
+
+      W_{\widetilde f+\widetilde g}(0)=W_{f+g}(0).
+
+      Consequently,
+
+      d_H(\widetilde f,\widetilde g)=d_H(f,g),
+
+      so duality preserves pairwise Hamming distance on bent functions.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_zero_bentDual_add
+      - CryptBoolean.hammingDistance_bentDual
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-dual
+      - carlet-2-rel-22-plancherel
+      - carlet-2-def-hamming-distance
+
+  - id: carlet-6-rel-45-dual-derivatives
+    kind: theorem
+    location: >-
+      Relation (45) (Carlet, pp. 79--80)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be bent
+      and let a,b\in V_n. The function
+
+      g(x)=f(x+b)+a\mathbin\cdot x
+
+      is bent, and its dual is
+
+      \widetilde g(x)=\widetilde f(x+a)+b\mathbin\cdot(x+a).
+
+      Writing \ell_c(x)=c\mathbin\cdot x, one has
+
+      W_{D_a\widetilde f+\ell_b}(0)
+      =W_{D_bf+\ell_a}(0).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBent_domainTranslate
+      - CryptBoolean.isBent_domainTranslate_add_linear
+      - CryptBoolean.bentDual_domainTranslate_add_linear
+      - CryptBoolean.walshTransform_zero_bentDual_derivative_add_linear
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-dual
+      - carlet-6-rel-44-dual-isometry
+      - carlet-2-prop-6-fourier-shifts
+      - carlet-2-def-2-derivative
+
+  - id: carlet-6-dual-nnf
+    kind: theorem
+    location: >-
+      Numerical normal form of the dual (Carlet, pp. 79--80)
+    statement: |-
+      Let
+      f:V_n\to\mathbb F_2 be bent, and write its numerical normal form as
+
+      f(x)=\sum_{S\subseteq[n]}\lambda_Sx^S.
+
+      If \delta_0(x) is one at x=0 and zero elsewhere, then
+
+      \widetilde f(x)
+      =\frac12-\frac{2^{n/2}}2\,\delta_0(x)
+      +\frac{(-1)^{w_H(x)}}{2^{n/2}}
+        \sum_{\operatorname{supp}(x)\subseteq S}
+          2^{n-|S|}\lambda_S.
+
+      This identity determines the numerical normal form of \widetilde f.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanRealEmbedding_bentDual_eq_rawFourierTransform
+      - CryptBoolean.booleanRealEmbedding_bentDual_eq_numericalCoeff_sum
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-dual
+      - carlet-2-nnf-existence-uniqueness
+      - carlet-2-rel-30-nnf-fourier
+
+  - id: carlet-6-prop-17-dual-nnf-divisibility
+    kind: proposition
+    location: >-
+      Proposition 17 (Carlet, p. 80)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be bent,
+      where n is even, and let \lambda_I and \widetilde\lambda_I be the
+      integer numerical-normal-form coefficients of f and \widetilde f.
+      For every proper subset I\subsetneq[n] with |I|>n/2,
+
+      2^{|I|-n/2}\mid\lambda_I,
+      \qquad
+      2^{|I|-n/2}\mid\widetilde\lambda_I.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.bentDual_and_self_nnfCoefficient_divisibility
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-dual-nnf
+      - carlet-6-lemma-2-walsh-congruence
+      - carlet-2-prop-5-nnf-integrality
+
+  - id: carlet-6-half-degree-anf-complement
+    kind: corollary
+    location: >-
+      Complementary half-degree ANF coefficients (Carlet, p. 81)
+    statement: |-
+      Let n\ge4,
+      let f:V_n\to\mathbb F_2 be bent, and let c_{f,I} denote the coefficient
+      of x^I in the ANF of f. For every I\subseteq[n] with |I|=n/2,
+
+      c_{\widetilde f,I}=c_{f,[n]\setminus I},
+      \qquad
+      c_{f,I}=c_{\widetilde f,[n]\setminus I}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.anfCoeff_bentDual_eq_complement_of_card_eq_half
+      - CryptBoolean.anfCoeff_eq_bentDual_complement_of_card_eq_half
+    fidelity_note: >-
+      The first coefficient identity is the source consequence on p. 81; the second is its exact dual-symmetric counterpart obtained from involutivity, with no changed hypothesis.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-prop-17-dual-nnf-divisibility
+      - carlet-6-dual-nnf
+      - carlet-2-anf-existence-uniqueness
+
+  - id: carlet-6-rel-46-dual-poisson
+    kind: theorem
+    location: >-
+      Relation (46) (Carlet, p. 81)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be bent, let
+      E\le V_n, and let a,b\in V_n. Then
+
+      \sum_{x\in a+E}(-1)^{\widetilde f(x)+b\mathbin\cdot x}
+      =2^{-n/2}|E|(-1)^{a\mathbin\cdot b}
+       \sum_{x\in b+E^\perp}(-1)^{f(x)+a\mathbin\cdot x}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.bentDual_poissonSummationFormula
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-dual
+      - carlet-2-cor-1-poisson-summation
+
+  - id: carlet-6-quadratic-bent-characterization
+    kind: theorem
+    location: >-
+      Quadratic bent functions (Carlet, Section 6.2, pp. 80--81)
+    statement: |-
+      Let n\ge2
+      be even and let f:V_n\to\mathbb F_2 have algebraic degree at most two. The
+      following conditions are equivalent:
+
+      1. f is bent;
+      2. w_H(f)=2^{n-1}\pm2^{n/2-1};
+      3. the alternating polar form
+
+      \phi_f(x,y)=f(0)+f(x)+f(y)+f(x+y)
+
+         is nondegenerate, equivalently the linear kernel of f is \{0\};
+      4. the symmetric zero-diagonal coefficient matrix of the quadratic part of
+         f is nonsingular;
+      5. after an invertible affine change of variables, f has the form
+
+      x_1x_2+x_3x_4+\cdots+x_{n-1}x_n+\varepsilon
+      \qquad(\varepsilon\in\mathbb F_2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBent_iff_quadraticRadical_eq_bot
+      - CryptBoolean.isBent_iff_linearKernel_eq_bot_of_degree_le_two
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-5-def-quadratic-symplectic-form
+      - carlet-5-theorem-5
+      - carlet-5-quadratic-weight-nonlinearity-values
+
+  - id: carlet-6-prop-18-rothaus-degree-bound
+    kind: proposition
+    location: >-
+      Proposition 18: Rothaus' bound (Carlet, p. 83)
+    statement: |-
+      Let n\ge4 be even.
+      Every bent function f:V_n\to\mathbb F_2 satisfies
+
+      \deg_{\mathrm{alg}}(f)\le n/2,
+      \qquad
+      \deg_{\mathrm{alg}}(\widetilde f)\le n/2.
+
+      In dimension n=2, every bent function, and hence its dual, has algebraic
+      degree exactly two.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.functionAlgebraicDegree_le_half_of_isBent
+      - CryptBoolean.functionAlgebraicDegree_eq_two_of_isBent
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-prop-17-dual-nnf-divisibility
+      - carlet-6-dual
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-6-prop-19
+    kind: proposition
+    location: >-
+      Proposition 19 (Carlet, Relation (47), p. 83)
+    statement: |-
+      Let n\ge2 be even, let
+      f:V_n\to\mathbb F_2 be bent, and put
+
+      d=\deg_{\mathrm{alg}}(f),
+      \qquad
+      \widetilde d=\deg_{\mathrm{alg}}(\widetilde f).
+
+      Then
+
+      \frac n2-d
+      \ge
+      \frac{\frac n2-\widetilde d}{\widetilde d-1}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_ceilDiv_dvd_booleanCharacterSum_of_degree_le
+      - CryptBoolean.bentDual_functionAlgebraicDegree_relation
+    fidelity_note: >-
+      The positive even-dimension convention makes every displayed degree and denominator meaningful. The complete domains, hypotheses, normalization, and rational inequality match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations formalize the McEliece--Ax character-sum divisibility exponent and compose it with the canonical bent dual, Poisson summation, and algebraic-degree APIs.
+    dependencies:
+      - carlet-6-rel-46-dual-poisson
+      - carlet-6-prop-18-rothaus-degree-bound
+      - carlet-6-dual
+      - carlet-2-anf-existence-uniqueness
+
+  - id: carlet-6-maiorana-mcfarland
+    kind: theorem
+    location: >-
+      Maiorana--McFarland construction (Carlet, Relation (48), pp. 83--84)
+    statement: |-
+      For x,y\in V_m, let
+
+      f(x,y)=x\mathbin\cdot\pi(y)+g(y),
+
+      where g:V_m\to\mathbb F_2 is arbitrary. The function f is bent if
+      and only if \pi:V_m\to V_m is bijective. In that case
+
+      \widetilde f(a,b)=b\mathbin\cdot\pi^{-1}(a)+g(\pi^{-1}(a)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isMaioranaMcFarland_of_eq_permutation
+      - CryptBoolean.walshTransform_maioranaMcFarlandPermutation
+      - CryptBoolean.isBent_of_maioranaMcFarlandPermutation
+      - CryptBoolean.bentDual_maioranaMcFarlandPermutation
+      - CryptBoolean.isBent_iff_bijective_maioranaMcFarland
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-5-def-maiorana-mcfarland
+      - carlet-5-affine-walsh-spectrum
+
+  - id: carlet-6-prop-20-general-maiorana-mcfarland
+    kind: proposition
+    location: >-
+      Proposition 20 (Carlet, Relation (49), pp. 84--85)
+    statement: |-
+      Let n=r+s be
+      even with r\le s, let \varphi:V_s\to V_r, and put
+
+      f_{\varphi,g}(x,y)=x\mathbin\cdot\varphi(y)+g(y).
+
+      For every a\in V_r and b\in V_s,
+
+      W_{f_{\varphi,g}}(a,b)
+      =2^r\sum_{y\in\varphi^{-1}(a)}(-1)^{g(y)+b\mathbin\cdot y}.
+
+      If every fiber \varphi^{-1}(a) is an affine subspace of dimension
+      s-r and, when r<s, the restriction of g to every fiber is bent,
+      then f_{\varphi,g} is bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maioranaMcFarlandFiberCharacterSum
+      - CryptBoolean.walshTransform_maioranaMcFarlandGeneral
+      - CryptBoolean.isBent_iff_maioranaMcFarlandFiberCharacterSum_natAbs
+      - CryptBoolean.isBent_maioranaMcFarlandGeneral_of_affineFibers
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
+      - carlet-5-affine-flat-restriction-bound
+      - carlet-6-def-7-bent
+
+  - id: carlet-6-partial-spread-construction
+    kind: theorem
+    location: >-
+      Dillon's partial-spread construction (Carlet, pp. 85--86)
+    statement: |-
+      Let n be
+      even with n/2\ge2, and let \mathcal P be a family of
+      n/2-dimensional subspaces of V_n such that distinct members meet only
+      at zero. If
+
+      |\mathcal P|=2^{n/2-1}\quad\text{or}\quad
+      |\mathcal P|=2^{n/2-1}+1,
+
+      then the sum over \mathbb F_2 of the indicators of the members of
+      \mathcal P is bent. Its dual is obtained by replacing every member by
+      its orthogonal complement in the corresponding exact partial-spread
+      expression.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsHalfDimensionalPartialSpread
+      - CryptBoolean.HasPartialSpreadBentCardinality
+      - CryptBoolean.partialSpreadFunction
+      - CryptBoolean.partialSpreadCoefficients
+      - CryptBoolean.bitValueInt_partialSpreadFunction_of_ne_zero
+      - CryptBoolean.partialSpreadFunction_zero
+      - CryptBoolean.hasExactGPSRepresentation_partialSpreadFunction
+      - CryptBoolean.isBent_partialSpreadFunction
+    fidelity_note: >-
+      The positive nondegenerate half-dimension convention makes the two cardinality cases and exact partial-spread expression total; the dual statement retains the same representation.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-theorem-12-geometric-characterization
+
+  - id: carlet-6-direct-sum
+    kind: theorem
+    location: >-
+      Direct sum (Carlet, pp. 88--89)
+    statement: |-
+      If f:V_n\to\mathbb F_2 and
+      g:V_m\to\mathbb F_2 are bent, then
+
+      h(x,y)=f(x)+g(y)
+
+      is bent on V_{n+m}. Its spectrum and dual factor as
+      W_h(a,b)=W_f(a)W_g(b) and
+      \widetilde h(a,b)=\widetilde f(a)+\widetilde g(b).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsDecomposable
+      - CryptBoolean.isDecomposable_booleanDirectSum
+      - CryptBoolean.walshTransform_directSum
+      - CryptBoolean.isBent_booleanDirectSum
+      - CryptBoolean.bentDual_booleanDirectSum_append
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-6-dual
+
+  - id: carlet-6-rothaus-construction
+    kind: theorem
+    location: >-
+      Dillon--Rothaus construction (Carlet, p. 89)
+    statement: |-
+      Let g,h,k, and
+      g+h+k be bent functions on V_n. Then the function on
+      \mathbb F_2^2\times V_n given by
+
+      gh+gk+hk+(g+h)x_1+(g+k)x_2+x_1x_2
+
+      is bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rothausConstruction
+      - CryptBoolean.rothausConstruction_append
+      - CryptBoolean.isBent_rothausConstruction
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-theorem-10-slice-construction
+      - carlet-6-cor-4-three-function-construction
+
+  - id: carlet-6-theorem-9-flat-switching
+    kind: theorem
+    location: >-
+      Theorem 9 (Carlet, pp. 90--91)
+    statement: |-
+      Let f be bent on V_n, let
+      b+E be an affine flat, and put f^*=f+\mathbf1_{b+E}. Then f^* is
+      bent if and only if either of the following equivalent conditions holds:
+
+      1. for every a\notin E, the derivative D_af is balanced on b+E;
+      2. on every coset of E^\perp, the restriction of
+         \widetilde f(x)+b\mathbin\cdot x is constant or balanced.
+
+      If both f and f^* are bent, then \dim E\ge n/2 and the restriction
+      of f to b+E has algebraic degree at most
+      \dim E-n/2+1. Conversely, if \dim E=n/2 and that restriction is
+      affine, then f^* is bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.flatSwitch
+      - CryptBoolean.IsBalancedOnAffineFlat
+      - CryptBoolean.IsConstantOrBalancedOnAffineFlat
+      - CryptBoolean.affineFlatWalshSum
+      - CryptBoolean.walshTransform_sub_flatSwitch
+      - CryptBoolean.affineFlatWalshSum_eq_bitSignInt_mul_walshTransform_restriction
+      - CryptBoolean.affineSubspaceRestrictionImbalance_bentDual_add_linear
+      - CryptBoolean.abs_affineSubspaceRestrictionImbalance_bentDual_add_linear
+      - CryptBoolean.autocorrelation_flatSwitch
+      - CryptBoolean.isBent_flatSwitch_iff_derivative_balanced_on_affineFlat
+      - CryptBoolean.isBent_flatSwitch_iff_bentDual_add_linear_constant_or_balanced
+      - CryptBoolean.derivative_balanced_on_affineFlat_iff_bentDual_add_linear_constant_or_balanced
+      - CryptBoolean.two_pow_half_dvd_walshTransform_affineFlatRestriction
+      - CryptBoolean.half_dimension_le_finrank_of_isBent_flatSwitch
+      - CryptBoolean.functionAlgebraicDegree_affineFlatRestriction_le_of_isBent_flatSwitch
+      - CryptBoolean.isBent_flatSwitch_of_half_dimension_of_restriction_degree_le_one
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-theorem-8-perfect-nonlinearity
+      - carlet-6-rel-46-dual-poisson
+      - carlet-2-prop-11-walsh-divisibility
+      - carlet-3-prop-12
+
+  - id: carlet-6-theorem-10-slice-construction
+    kind: theorem
+    location: >-
+      Theorem 10 (Carlet, pp. 91--92)
+    statement: |-
+      Let n,m be even and let
+      f:V_n\times V_m\to\mathbb F_2. Suppose every slice
+      f_y(x)=f(x,y) is bent, and define \varphi_s(y)=\widetilde{f_y}(s).
+      Then f is bent if and only if every \varphi_s is bent. In that case
+
+      \widetilde f(s,t)=\widetilde{\varphi_s}(t).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.firstBlockSlice
+      - CryptBoolean.dualSliceFunction
+      - CryptBoolean.walshTransform_eq_two_pow_half_mul_walshTransform_dualSliceFunction
+      - CryptBoolean.isBent_iff_forall_isBent_dualSliceFunction
+      - CryptBoolean.bentDual_append_eq_bentDual_dualSliceFunction
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-6-dual
+
+  - id: carlet-6-indirect-sum
+    kind: theorem
+    location: >-
+      Indirect sum (Carlet, p. 92)
+    statement: |-
+      If f_1,f_2 are bent on V_n and
+      g_1,g_2 are bent on V_m, then
+
+      h(x,y)=f_1(x)+g_1(y)+(f_1+f_2)(x)(g_1+g_2)(y)
+
+      is bent. Its dual is obtained by applying the same formula to the four
+      duals.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.indirectSum
+      - CryptBoolean.indirectSum_append
+      - CryptBoolean.isBent_indirectSum
+      - CryptBoolean.bentDual_indirectSum_append
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-theorem-10-slice-construction
+
+  - id: carlet-6-prop-21-permutation-reindexing
+    kind: proposition
+    location: >-
+      Proposition 21 (Carlet, pp. 93--94)
+    statement: |-
+      Let \sigma be a permutation of
+      V_n, with coordinate functions \sigma_1,\ldots,\sigma_n. If
+
+      d_H\!\left(f,\sum_{i=1}^n a_i\sigma_i\right)
+      =2^{n-1}\pm2^{n/2-1}
+      \qquad(a\in V_n),
+
+      then f\circ\sigma^{-1} is bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hammingDistance_comp_perm
+      - CryptBoolean.hammingDistance_comp_perm_symm_linearFunction
+      - CryptBoolean.walshTransform_comp_perm_symm_eq_two_pow_sub_two_hammingDistance
+      - CryptBoolean.isBent_comp_perm_symm_of_hammingDistance
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-2-def-hamming-distance
+
+  - id: carlet-6-prop-22-three-function-identity
+    kind: proposition
+    location: >-
+      Proposition 22 (Carlet, Relation (50), pp. 94--95)
+    statement: |-
+      For Boolean functions
+      f_1,f_2,f_3, put
+
+      s_1=f_1+f_2+f_3,
+      \qquad
+      s_2=f_1f_2+f_1f_3+f_2f_3.
+
+      As integer-valued functions, f_1+f_2+f_3=s_1+2s_2; consequently
+
+      W_{f_1}+W_{f_2}+W_{f_3}=W_{s_1}+2W_{s_2}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.threeFunctionSum
+      - CryptBoolean.threeFunctionPairwiseProductSum
+      - CryptBoolean.bitValueInt_threeFunctionIdentity
+      - CryptBoolean.rawFourierTransform_threeFunctionIdentity
+      - CryptBoolean.walshTransform_cast_eq_rawFourierTransform_sub_two_mul
+      - CryptBoolean.walshTransform_threeFunctionIdentity
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-6-cor-4-three-function-construction
+    kind: corollary
+    location: >-
+      Corollary 4 (Carlet, p. 95)
+    statement: |-
+      Suppose f_1,f_2,f_3 are bent. If
+      s_1=f_1+f_2+f_3 is bent and
+      \widetilde{s_1}=\widetilde f_1+\widetilde f_2+\widetilde f_3, then
+      s_2=f_1f_2+f_1f_3+f_2f_3 is bent and
+
+      \widetilde{s_2}
+      =\widetilde f_1\widetilde f_2+
+       \widetilde f_1\widetilde f_3+
+       \widetilde f_2\widetilde f_3.
+
+      Conversely, if 2^{n/2} divides every Walsh coefficient of s_2, then
+      s_1 is bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBent_threeFunctionPairwiseProductSum_and_bentDual_eq
+      - CryptBoolean.isBent_threeFunctionSum_of_two_pow_half_dvd_walshTransform
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-prop-22-three-function-identity
+      - carlet-6-lemma-2-walsh-congruence
+      - carlet-6-dual
+
+  - id: carlet-6-theorem-11-hyperplane-restrictions
+    kind: theorem
+    location: >-
+      Theorem 11 (Carlet, pp. 95--96)
+    statement: |-
+      Let n\ge4 be even and let
+      f:V_n\to\mathbb F_2. For a linear hyperplane E, identify E and
+      its complementary coset with V_{n-1} and denote the two restrictions by
+      h_0,h_1. The following are equivalent:
+
+      1. f is bent;
+      2. for every linear hyperplane, and equivalently for at least one linear
+         hyperplane, the transforms W_{h_0} and W_{h_1} take values in
+         \{0,\pm2^{n/2}\}, and at every frequency exactly one is nonzero.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.singletonF₂Cube
+      - CryptBoolean.singletonF₂Cube_apply
+      - CryptBoolean.walshTransform_append_singletonF₂Cube
+      - CryptBoolean.linearHyperplaneRestriction
+      - CryptBoolean.HasComplementaryHyperplaneRestrictionSpectra
+      - CryptBoolean.isBent_iff_hasComplementaryHyperplaneRestrictionSpectra
+      - CryptBoolean.hyperplaneExtension
+      - CryptBoolean.hyperplaneExtension_append_singletonF₂Cube
+      - CryptBoolean.linearHyperplaneRestriction_hyperplaneExtension_refl
+      - CryptBoolean.isBent_hyperplaneExtension_of_complementaryWalshSpectra
+      - CryptBoolean.isBent_iff_forall_hasComplementaryHyperplaneRestrictionSpectra
+      - CryptBoolean.isBent_iff_exists_hasComplementaryHyperplaneRestrictionSpectra
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-2-prop-9-restriction-square
+      - carlet-6-def-7-bent
+
+  - id: carlet-6-hyperplane-restriction-plateaued
+    kind: corollary
+    location: >-
+      Hyperplane-restriction consequence (Carlet, p. 96)
+    statement: |-
+      Every restriction of
+      an n-variable bent function to an affine hyperplane, with n\ge4 even,
+      is plateaued on V_{n-1} with amplitude 2^{n/2} and has the optimal
+      odd-dimensional nonlinearity
+
+      2^{n-2}-2^{(n-2)/2}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hasPlateauedWalshAmplitude_linearHyperplaneRestriction_of_isBent
+      - CryptBoolean.isPlateaued_linearHyperplaneRestriction_of_isBent
+      - CryptBoolean.nonlinearity_linearHyperplaneRestriction_of_isBent
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-theorem-11-hyperplane-restrictions
+      - carlet-6-def-plateaued
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-6-maiorana-mcfarland-count
+    kind: theorem
+    location: >-
+      Number of Maiorana--McFarland functions (Carlet, p. 97)
+    statement: |-
+      In dimension
+      n=2m, the original Maiorana--McFarland class contains exactly
+
+      (2^m)!\,2^{2^m}
+
+      distinct bent functions.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.MaioranaMcFarlandParameters
+      - CryptBoolean.booleanMaioranaMcFarlandPermutation
+      - CryptBoolean.booleanMaioranaMcFarlandPermutation_joinF₂CubeBlocks
+      - CryptBoolean.booleanMaioranaMcFarlandOfParameters
+      - CryptBoolean.booleanMaioranaMcFarlandOfParameters_injective
+      - CryptBoolean.card_maioranaMcFarlandParameters
+      - CryptBoolean.originalMaioranaMcFarlandClass
+      - CryptBoolean.card_originalMaioranaMcFarlandClass
+      - CryptBoolean.isBent_booleanMaioranaMcFarlandPermutation
+      - CryptBoolean.originalMaioranaMcFarlandClass_subset_bentFunctionFamily
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
+
+  - id: carlet-6-naive-bent-count-bound
+    kind: theorem
+    location: >-
+      Naive upper bound for the number of bent functions (Carlet, p. 97)
+    statement: |-
+      If
+      n\ge4 is even, then the number B_n of bent functions on V_n
+      satisfies
+
+      B_n\le 2^{\sum_{i=0}^{n/2}\binom ni}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.bentFunctionFamily
+      - CryptBoolean.mem_bentFunctionFamily_iff
+      - CryptBoolean.card_bentFunctionFamily_le_naiveBound
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-prop-18-rothaus-degree-bound
+      - carlet-3-reed-muller-dimension
+
+  - id: carlet-6-prop-23-nnf-characterization
+    kind: proposition
+    location: >-
+      Proposition 23 (Carlet, p. 98)
+    statement: |-
+      Let n\ge2 be even, and let
+      f:V_n\to\mathbb F_2 have numerical normal form
+
+      f(x)=\sum_{I\subseteq[n]}\lambda_Ix^I.
+
+      Then f is bent if and only if both of the following conditions hold:
+
+      1. for every I\subseteq[n] with n/2<|I|<n,
+
+         2^{|I|-n/2}\mid\lambda_I;
+
+      2. for N=[n],
+
+         \lambda_N\equiv2^{n/2-1}\pmod {2^{n/2}}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanNNFFourierCoeffInt
+      - CryptBoolean.booleanNNFFourierCoeffInt_cast
+      - CryptBoolean.walshTransform_eq_indicator_sub_two_mul_booleanNNFFourierCoeffInt
+      - CryptBoolean.isBent_iff_forall_booleanNNFFourierCoeffInt_modeq
+      - CryptBoolean.SatisfiesBentNNFCoefficientConditions
+      - CryptBoolean.isBent_iff_nnfCoefficientConditions
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-lemma-2-walsh-congruence
+      - carlet-2-rel-30-nnf-fourier
+      - carlet-2-prop-4-nnf-mobius
+      - carlet-2-prop-5-nnf-integrality
+
+  - id: carlet-6-lemma-3-subspace-indicators
+    kind: lemma
+    location: >-
+      Lemma 3 (Carlet, p. 99)
+    statement: |-
+      Let n be even and let F\le V_n have
+      dimension d. There are n/2-dimensional subspaces
+      E_1,\ldots,E_k, integers m_1,\ldots,m_k, and an integer m such
+      that, pointwise on V_n,
+
+      2^{n/2-d}1_F\equiv m+\sum_{i=1}^k m_i1_{E_i}
+        \pmod {2^{n/2}}
+      \qquad(d<n/2),
+
+      and there are n/2-dimensional subspaces E_1,\ldots,E_k and integers
+      m_1,\ldots,m_k such that
+
+      1_F\equiv\sum_{i=1}^k m_i1_{E_i}
+        \pmod {2^{n/2}}
+      \qquad(d>n/2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.linearSubspaceIndicatorInt
+      - CryptBoolean.halfSubspaceCombination
+      - CryptBoolean.ambientFunctionalKernel
+      - CryptBoolean.mem_ambientFunctionalKernel_iff
+      - CryptBoolean.finrank_ambientFunctionalKernel
+      - CryptBoolean.nonzeroDualFinset
+      - CryptBoolean.mem_nonzeroDualFinset
+      - CryptBoolean.card_nonzeroDualFinset
+      - CryptBoolean.functionalKernelCombination_modeq
+      - CryptBoolean.HasHalfSubspaceRepresentation
+      - CryptBoolean.hasHalfSubspaceRepresentation_indicator_of_finrank_eq
+      - CryptBoolean.hasHalfSubspaceRepresentation_indicator_of_half_le_finrank
+      - CryptBoolean.rankTwoIntermediateSubspace
+      - CryptBoolean.mem_rankTwoIntermediateSubspace_iff
+      - CryptBoolean.finrank_rankTwoIntermediateSubspace
+      - CryptBoolean.rankTwoSubspaceDiamond
+      - CryptBoolean.hasHalfSubspaceRepresentation_scaledIndicator_of_finrank_le_half
+      - CryptBoolean.carletLemma3
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      This independent source lemma uses the existing finite-dimensional linear-subspace and indicator surfaces and introduces no parallel mathematical representation.
+    dependencies: []
+
+  - id: carlet-6-theorem-12-geometric-characterization
+    kind: theorem
+    location: >-
+      Theorem 12 (Carlet, Relation (51), p. 99)
+    statement: |-
+      Let n\ge2 be even. A
+      Boolean function f:V_n\to\mathbb F_2 is bent if and only if there are
+      n/2-dimensional subspaces E_1,\ldots,E_k\le V_n and integers
+      m_1,\ldots,m_k such that, for every x\in V_n,
+
+      f(x)\equiv\sum_{i=1}^k m_i1_{E_i}(x)-2^{n/2-1}\delta_0(x)
+        \pmod {2^{n/2}}.
+
+      If this congruence is an equality over the integers, then f belongs to
+      the generalized partial-spread class and its dual is
+
+      \widetilde f(x)=
+      \sum_{i=1}^k m_i1_{E_i^\perp}(x)-2^{n/2-1}\delta_0(x).
+
+      In particular, the dual also belongs to the generalized partial-spread
+      class.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.originIndicatorInt
+      - CryptBoolean.geometricBentExpression
+      - CryptBoolean.perpendicularGeometricBentExpression
+      - CryptBoolean.integerWalshTransform_linearSubspaceIndicatorInt
+      - CryptBoolean.integerWalshTransform_originIndicatorInt
+      - CryptBoolean.integerWalshTransform_bitValueInt_eq_booleanNNFFourierCoeffInt
+      - CryptBoolean.integerWalshTransform_halfSubspaceCombination
+      - CryptBoolean.integerWalshTransform_geometricBentExpression
+      - CryptBoolean.HasGeometricBentCongruence
+      - CryptBoolean.isBent_of_hasGeometricBentCongruence
+      - CryptBoolean.HasExactGPSRepresentation
+      - CryptBoolean.isBent_and_bitValueInt_bentDual_of_exactGPSRepresentation
+      - CryptBoolean.numericalMonomialInt
+      - CryptBoolean.numericalMonomialInt_cast
+      - CryptBoolean.numericalMonomialInt_eq_sum_coordinateZeroIndicators
+      - CryptBoolean.finrank_coordinateZeroSubspace
+      - CryptBoolean.linearSubspaceIndicatorInt_coordinateZeroSubspace_univ
+      - CryptBoolean.bitValueInt_eq_sum_booleanNumericalCoeffInt_mul_numericalMonomialInt
+      - CryptBoolean.hasGeometricBentCongruence_of_isBent
+      - CryptBoolean.isBent_iff_hasGeometricBentCongruence
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-prop-23-nnf-characterization
+      - carlet-6-lemma-3-subspace-indicators
+      - carlet-6-lemma-2-walsh-congruence
+      - carlet-2-prop-7-subspace-indicator
+      - carlet-6-dual
+
+  - id: carlet-6-prop-24-second-order-characterization
+    kind: proposition
+    location: >-
+      Proposition 24 (Carlet, Relation (52), p. 100)
+    statement: |-
+      A Boolean function
+      f:V_n\to\mathbb F_2 is bent if and only if, for every x\in V_n,
+
+      \sum_{a,b\in V_n}(-1)^{D_aD_bf(x)}=2^n.
+
+      Equivalently, for the sign function f_\chi=(-1)^f,
+
+      f_\chi\otimes f_\chi\otimes f_\chi=2^nf_\chi,
+
+      or, at every u\in V_n,
+
+      W_f(u)^3=2^nW_f(u).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.secondDerivativeDoubleSum
+      - CryptBoolean.rawTripleConvolution
+      - CryptBoolean.secondDerivativeDoubleSum_eq_mul_rawTripleConvolution
+      - CryptBoolean.rawFourierTransform_rawTripleConvolution
+      - CryptBoolean.rawFourierTransform_const_mul_realSignView
+      - CryptBoolean.eq_of_rawFourierTransform_eq
+      - CryptBoolean.isBent_iff_forall_secondDerivativeDoubleSum_eq_two_pow
+      - CryptBoolean.secondDerivativeDoubleSum_eq_two_pow_iff_rawTripleConvolution_eq
+      - CryptBoolean.isBent_iff_rawTripleConvolution_realSignView_eq
+      - CryptBoolean.isBent_iff_forall_walshTransform_cube_eq
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-theorem-8-perfect-nonlinearity
+      - carlet-4-autocorrelation-indicator-bounds
+      - carlet-4-second-derivative-sum
+      - carlet-2-def-convolution
+      - carlet-2-prop-8-convolution
+      - carlet-2-fourier-inversion
+
+  - id: carlet-6-def-hyper-bent
+    kind: definition
+    location: >-
+      Hyper-bent functions (Carlet, pp. 100--101)
+    statement: |-
+      Let n be even and
+      f:\operatorname{GF}(2^n)\to\mathbb F_2. The function f is hyper-bent
+      when, for every integer i coprime to 2^n-1, every a in the field,
+      and both \varepsilon\in\mathbb F_2, its distance to
+      x\mapsto\operatorname{Tr}_n(ax^i)+\varepsilon is
+      2^{n-1}\pm2^{n/2-1}. Equivalently, every function x\mapsto f(x^i)
+      is bent. In particular, every hyper-bent function is bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.fieldWalshTransform
+      - CryptBoolean.IsFieldBent
+      - CryptBoolean.fieldPowerReindex
+      - CryptBoolean.fieldPowerMap_bijective
+      - CryptBoolean.fieldPowerEquiv
+      - CryptBoolean.fieldPowerEquiv_apply
+      - CryptBoolean.fieldPowerReindex_eq_comp_fieldPowerEquiv
+      - CryptBoolean.IsHyperBent
+      - CryptBoolean.exists_fieldWalshTransform_eq_walshTransform
+      - CryptBoolean.exists_walshTransform_eq_fieldWalshTransform
+      - CryptBoolean.isFieldBent_iff_isBent_comp_linearEquiv
+      - CryptBoolean.IsHyperBent.isFieldBent
+      - CryptBoolean.isHyperBent_iff_forall_isBent_powerReindex_comp_linearEquiv
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-2-absolute-trace
+      - carlet-2-trace-pairing-coordinates
+      - carlet-6-def-7-bent
+
+  - id: carlet-6-lemma-4-subfield-intersection
+    kind: lemma
+    location: >-
+      Lemma 4 (Carlet, p. 102; corrected dimension convention)
+    statement: |-
+      Let m>0,
+      let K=\operatorname{GF}(2^m) be the quadratic subfield of
+      L=\operatorname{GF}(2^{2m}), and let a,\omega\in L\setminus K. If
+      i is coprime to 2^{2m}-1, then there is a unique z\in K such that
+
+      a(z+\omega)^i\in K.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.quadraticSubfieldBasisMap_bijective
+      - CryptBoolean.quadraticSubfieldBasisEquiv
+      - CryptBoolean.quadraticSubfieldBasisEquiv_apply
+      - CryptBoolean.existsUnique_subfield_power_intersection
+    fidelity_note: >-
+      Carlet writes n/2 while calling n positive. The node reparametrizes the claim as the quadratic extension GF(2^(2m))/GF(2^m), making the required even ambient dimension explicit.
+    reuse_note: >-
+      The finite-field proof constructs the quadratic-subfield coordinate equivalence and composes it with coprime power-map bijectivity to obtain the unique intersection point.
+    dependencies:
+      - carlet-6-def-hyper-bent
+      - carlet-2-absolute-trace
+
+  - id: carlet-6-prop-25-psap-hyper-bent
+    kind: proposition
+    location: >-
+      Proposition 25 (Carlet, pp. 101--102)
+    statement: |-
+      Let m\ge2, put
+      K=\operatorname{GF}(2^m) and L=\operatorname{GF}(2^{2m}), choose
+      \omega\in L\setminus K, and write every x\in L uniquely as
+      x=y'+\omega y with y',y\in K. If g:K\to\mathbb F_2 is balanced
+      and g(0)=0, define
+
+      f(y'+\omega y)=g(y'/y),
+
+      with y'/y=0 when y=0. Then f is hyper-bent. Equivalently, every
+      function in Dillon's class PS_{ap} is hyper-bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.quadraticSubfield_powerMap_bijective
+      - CryptBoolean.pow_mem_quadraticSubfield_iff
+      - CryptBoolean.relativeTrace_eq_zero_iff_mem_quadraticSubfield
+      - CryptBoolean.absoluteTrace_mul_quadraticSubfield
+      - CryptBoolean.sum_bitSignInt_absoluteTrace_mul_eq_zero
+      - CryptBoolean.sum_quadraticSubfieldTraceCharacter_of_mem
+      - CryptBoolean.sum_quadraticSubfieldTraceCharacter_of_not_mem
+      - CryptBoolean.psapFunction
+      - CryptBoolean.psapFunction_coordinate
+      - CryptBoolean.sum_bitSignInt_field_eq_zero_of_balanced
+      - CryptBoolean.fieldPowerTraceTransform
+      - CryptBoolean.fieldPowerTraceTransform_psap_eq
+      - CryptBoolean.fieldPowerTraceTransform_psap_natAbs
+      - CryptBoolean.isHyperBent_of_forall_fieldPowerTraceTransform
+      - CryptBoolean.isHyperBent_psapFunction
+    fidelity_note: >-
+      The statement makes the positive, nondegenerate half-dimension and the quotient-at-zero convention explicit while preserving Dillon's PS_ap construction.
+    reuse_note: >-
+      The construction composes quadratic-subfield coordinates, the unique power-map intersection, relative and absolute trace identities, balanced character sums, and the finite-field Walsh criterion for hyper-bentness.
+    dependencies:
+      - carlet-6-def-hyper-bent
+      - carlet-6-lemma-4-subfield-intersection
+      - carlet-6-partial-spread-construction
+      - carlet-5-quadratic-trace-representation
+
+  - id: carlet-6-prop-26-partially-bent
+    kind: proposition
+    location: >-
+      Proposition 26 (Carlet, Relation (53), pp. 103--104)
+    statement: |-
+      For a Boolean
+      function f:V_n\to\mathbb F_2, let
+
+      N_{\Delta_f}=|\{b:\Delta_f(b)\ne0\}|,
+      \qquad
+      N_{W_f}=|\{u:W_f(u)\ne0\}|.
+
+      Then N_{\Delta_f}N_{W_f}\ge2^n. Equality holds if and only if every
+      derivative D_bf is balanced or constant. Equivalently, there are
+      complementary subspaces E,E' and functions g,h, with g bent on
+      E and h affine on E', such that
+
+      f(x+y)=g(x)+h(y)
+      \qquad(x\in E,\ y\in E').
+
+      Such functions are called partially bent. Every quadratic function is
+      partially bent, and every partially bent function is plateaued.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.autocorrelationSupport
+      - CryptBoolean.mem_autocorrelationSupport
+      - CryptBoolean.nonzeroAutocorrelationCount
+      - CryptBoolean.rawFourierSupport_autocorrelation
+      - CryptBoolean.two_pow_le_nonzeroAutocorrelationCount_mul_card_walshSupport
+      - CryptBoolean.IsPartiallyBent
+      - CryptBoolean.isPartiallyBent_of_functionAlgebraicDegree_le_two
+      - CryptBoolean.HasBentAffineComplementDecomposition
+      - CryptBoolean.HasBentAffineComplementDecomposition.isPartiallyBent
+      - CryptBoolean.HasBentAffineComplementDecomposition.linearKernel_eq_affineSubspace
+      - CryptBoolean.HasBentAffineComplementDecomposition.dimensions_add
+      - CryptBoolean.HasBentAffineComplementDecomposition.even_bentDimension
+      - CryptBoolean.exists_hasBentAffineComplementDecomposition_of_isPartiallyBent
+      - CryptBoolean.isPartiallyBent_iff_exists_bentAffineComplementDecomposition
+      - CryptBoolean.isLinearStructure_iff_abs_autocorrelation_eq_two_pow
+      - CryptBoolean.isPartiallyBent_of_nonzeroAutocorrelationCount_mul_card_walshSupport_eq
+      - CryptBoolean.nonzeroAutocorrelationCount_mul_card_walshSupport_eq_of_isPartiallyBent
+      - CryptBoolean.nonzeroAutocorrelationCount_mul_card_walshSupport_eq_two_pow_iff
+      - CryptBoolean.HasBentAffineComplementDecomposition.nonzeroAutocorrelationCount_eq
+      - CryptBoolean.hasPlateauedWalshSpectrum_of_isPartiallyBent
+      - CryptBoolean.IsPartiallyBent.isPlateaued
+      - CryptBoolean.isPlateaued_of_functionAlgebraicDegree_le_two
+      - CryptBoolean.HasBentAffineComplementDecomposition.hasPlateauedWalshAmplitude
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-2-rel-25-wiener-khinchin
+      - carlet-2-parseval
+      - carlet-4-def-linear-kernel
+      - carlet-6-def-plateaued
+
+  - id: carlet-6-prop-27-fourier-uncertainty
+    kind: proposition
+    location: >-
+      Proposition 27 (Carlet, pp. 104--105)
+    statement: |-
+      Let
+      \varphi:V_n\to\mathbb R be nonzero, and write
+
+      N_\varphi=|\{x:\varphi(x)\ne0\}|,
+      \qquad
+      N_{\widehat\varphi}=|\{u:\widehat\varphi(u)\ne0\}|.
+
+      Then N_\varphi N_{\widehat\varphi}\ge2^n. Equality holds if and only if
+      there are a nonzero real number \lambda, a frequency u, and an affine
+      flat F such that
+
+      \varphi(x)=
+      \begin{cases}
+      \lambda(-1)^{u\mathbin\cdot x},&x\in F,\\
+      0,&x\notin F.
+      \end{cases}
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.pseudoBooleanSupport
+      - CryptBoolean.mem_pseudoBooleanSupport
+      - CryptBoolean.two_pow_le_card_pseudoBooleanSupport_mul_card_rawFourierSupport
+      - CryptBoolean.IsModulatedAffineFlatIndicator
+      - CryptBoolean.IsModulatedAffineFlatIndicator.card_support_mul_card_rawFourierSupport_eq
+      - CryptBoolean.isModulatedAffineFlatIndicator_of_card_support_mul_card_rawFourierSupport_eq
+      - CryptBoolean.card_support_mul_card_rawFourierSupport_eq_two_pow_iff
+    fidelity_note: >-
+      Because the pseudo-Boolean input is nonzero, the equality-case modulation scalar must be nonzero; the reviewed statement records this necessary condition explicitly.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+      - carlet-2-parseval
+      - carlet-2-cor-1-poisson-summation
+
+  - id: carlet-6-def-partial-bent
+    kind: definition
+    location: >-
+      Partial bent functions (Carlet, p. 105)
+    statement: |-
+      Let n be even. A Boolean
+      function f:V_n\to\mathbb F_2 is partial bent if there is an integer
+      \lambda such that, on V_n\setminus\{0\}, its raw Fourier transform as
+      a \{0,1\}-valued function takes exactly the two values \lambda and
+      \lambda+2^{n/2}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.HasPartialBentFourierLevels
+      - CryptBoolean.IsPartialBent
+      - CryptBoolean.partialBentIntegerFourier
+      - CryptBoolean.partialBentIntegerFourier_cast
+    fidelity_note: >-
+      The level is integral because the raw Fourier transform of a zero-one-valued Boolean function is integer-valued; equality of the punctured spectral range records that both displayed values occur.
+    reuse_note: >-
+      The definition is expressed directly through the canonical raw pseudo-Boolean Fourier transform and remains distinct from the derivative-based IsPartiallyBent predicate.
+    dependencies:
+      - carlet-2-pseudoboolean-fourier
+
+  - id: carlet-6-partial-bent-duality
+    kind: theorem
+    location: >-
+      Duality for partial bent functions (Carlet, p. 105)
+    statement: |-
+      Let f be partial
+      bent with Fourier levels \lambda and \lambda+2^{n/2}. Define its dual
+      at zero by \widetilde f(0)=f(0) and, for every nonzero u, by
+
+      \widetilde f(u)=
+      \begin{cases}
+      0,&\widehat f(u)=\lambda,\\
+      1,&\widehat f(u)=\lambda+2^{n/2}.
+      \end{cases}
+
+      Then \widetilde f is partial bent and \widetilde{\widetilde f}=f.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.partialBentDual
+      - CryptBoolean.partialBentDual_zero
+      - CryptBoolean.exists_partialBentDual_fourierLevels
+      - CryptBoolean.partialBentDual_involution
+      - CryptBoolean.exists_isPartialBent_partialBentDual_and_involution
+    fidelity_note: >-
+      Carlet gives the two branches on the punctured frequency space. The statement adopts the formal convention \widetilde f(0)=f(0), verified to make the dual a total Boolean function and the involution claim well-formed.
+    reuse_note: >-
+      The integral transform adapter composes raw Fourier involution with the punctured spectral branch definition; the resulting dual-level theorem proves both closure and involution without reusing the differently normalized bent dual.
+    dependencies:
+      - carlet-6-def-partial-bent
+      - carlet-2-cor-2-fourier-involution
+
+  - id: carlet-6-partial-bent-degree-bound
+    kind: theorem
+    location: >-
+      Counterexample to the printed partial-bent degree bound (Carlet, p. 105)
+    statement: |-
+      On V_2, let f be the indicator of the point (1,0). Then f is
+      partial bent, but
+
+      \deg_{\mathrm{alg}}(f)=2>2/2.
+
+      Thus the printed half-dimension bound requires additional regularity
+      hypotheses beyond the exact punctured two-level definition.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.partialBentDegreeCounterexample
+      - CryptBoolean.partialBentDegreeCounterexample_refutes_bound
+    fidelity_note: >-
+      This is a formal counterexample to the literal printed assertion under the exact-two-level definition. The singleton indicator on V_2 has punctured levels -1 and 1 but algebraic degree two; the footnote identifying partial bent functions with partial difference sets indicates an omitted nontriviality or regularity convention.
+    reuse_note: >-
+      The explicit two-variable indicator composes the canonical partial-bent predicate with FABL's top-degree support-parity characterization to certify the strict failure of the printed bound.
+    dependencies:
+      - carlet-6-def-partial-bent
+      - carlet-6-prop-18-rothaus-degree-bound
+
+  - id: carlet-6-partial-bent-types
+    kind: theorem
+    location: >-
+      The two types of partial bent functions (Carlet, p. 105)
+    statement: |-
+      Let n>0 be even, put q=2^{n/2} and e=f(0), and let f be partial
+      bent with Fourier levels \lambda and \lambda+q. Exactly one of the
+      two identities
+
+      \widehat f(0)-e=-(\lambda-e)(q-1)
+
+      and
+
+      \widehat f(0)-e=(q+\lambda-e)(q+1)
+
+      holds; these alternatives define the two types.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.partialBent_fourier_level_types
+    fidelity_note: >-
+      This deliberately corrects the printed type formulas. For the punctured spectrum and e=f(0), Parseval gives -(\lambda-e)(q-1) or (q+\lambda-e)(q+1); Carlet's second displayed factor q-\lambda fails even for f(0)=0, while omitting e fails when f(0)=1.
+    reuse_note: >-
+      Parseval and the integral Fourier adapter reduce the punctured two-level multiplicities to the corrected mutually exclusive integer dichotomy.
+    dependencies:
+      - carlet-6-def-partial-bent
+      - carlet-2-parseval
+
+  - id: carlet-6-partial-bent-disjoint-support-sum
+    kind: theorem
+    location: >-
+      Counterexample to the printed partial-bent sum assertion (Carlet, p. 105)
+    statement: |-
+      On V_2, let f be the indicator of \{(1,0)\} and let g(x)=x_2,
+      the indicator of \{(0,1),(1,1)\}. Their punctured Fourier levels are
+      \{-1,1\} and \{-2,0\}, respectively. Both functions are partial bent
+      of the corrected first type, and
+
+      \operatorname{supp}(f)\cap\operatorname{supp}(g)\subseteq\{0\}.
+
+      Nevertheless, f+g is not partial bent. Hence the printed closure assertion
+      also requires an additional regularity convention.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.partialBentSumCounterexampleCompanion
+      - CryptBoolean.partialBentCounterexamples_refute_disjoint_support_sum
+    fidelity_note: >-
+      This is a formal counterexample to the literal printed assertion under the exact-two-level definition. The two functions have disjoint supports and both satisfy the corrected first-type identity, but their sum has only one punctured Fourier level. The partial-difference-set reading therefore needs an omitted regularity convention.
+    reuse_note: >-
+      The two explicit functions compose the integral Fourier adapter, the corrected first-type identity, exact support computation, and the canonical partial-bent predicate to certify failure of closure.
+    dependencies:
+      - carlet-6-def-partial-bent
+      - carlet-6-partial-bent-types
+      - carlet-2-pseudoboolean-fourier
+
+  - id: carlet-6-def-plateaued
+    kind: definition
+    location: >-
+      Plateaued functions (Carlet, pp. 105--106)
+    statement: |-
+      A Boolean function is
+      plateaued with amplitude \lambda>0 when every Walsh coefficient belongs
+      to \{0,\lambda,-\lambda\}. A plateaued function is bent exactly when
+      its Walsh transform has full support. Parseval's identity forces
+      \lambda=2^r with 2r\ge n; consequently every Walsh coefficient is
+      divisible by 2^{\lceil n/2\rceil}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.HasPlateauedWalshAmplitude
+      - CryptBoolean.IsPlateaued
+      - CryptBoolean.isPlateaued_iff_hasPlateauedWalshSpectrum
+      - CryptBoolean.isBent_iff_isPlateaued_and_forall_walshTransform_ne_zero
+      - CryptBoolean.card_walshSupport_mul_amplitude_sq_eq_two_pow_two_mul
+      - CryptBoolean.exists_plateauedAmplitudeExponent
+      - CryptBoolean.two_pow_add_one_div_two_dvd_walshTransform_of_hasPlateauedWalshAmplitude
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-2-def-walsh-transform
+      - carlet-2-parseval
+      - carlet-6-def-7-bent
+
+  - id: carlet-6-plateaued-support-nonlinearity
+    kind: theorem
+    location: >-
+      Walsh-support bound (Carlet, p. 106)
+    statement: |-
+      If N_{W_f} is the cardinality
+      of the Walsh support of f:V_n\to\mathbb F_2, then
+
+      \operatorname{nl}(f)
+      \le 2^{n-1}\left(1-\frac1{\sqrt{N_{W_f}}}\right).
+
+      Equality holds if and only if f is plateaued.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maxWalshMagnitude_eq_of_hasPlateauedWalshAmplitude
+      - CryptBoolean.sum_walshTransform_sq_walshSupport
+      - CryptBoolean.two_pow_sq_le_card_walshSupport_mul_maxWalshMagnitude_sq
+      - CryptBoolean.two_pow_sq_eq_card_walshSupport_mul_maxWalshMagnitude_sq_iff_plateaued
+      - CryptBoolean.nonlinearity_cast_le_walshSupport_bound
+      - CryptBoolean.nonlinearity_cast_eq_walshSupport_bound_iff_plateaued
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-plateaued
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-2-parseval
+
+  - id: carlet-6-prop-28-second-order-plateaued
+    kind: proposition
+    location: >-
+      Proposition 28 (Carlet, Relation (55), p. 106)
+    statement: |-
+      A Boolean function
+      f:V_n\to\mathbb F_2 is plateaued if and only if there is a positive
+      integer \lambda such that, for every x\in V_n,
+
+      \sum_{a,b\in V_n}(-1)^{D_aD_bf(x)}=\lambda^2.
+
+      The integer \lambda is the Walsh amplitude.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hasPlateauedWalshAmplitude_iff_forall_walshTransform_cube_eq
+      - CryptBoolean.isPlateaued_iff_exists_forall_secondDerivativeDoubleSum_eq_sq
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-plateaued
+      - carlet-6-prop-24-second-order-characterization
+
+  - id: carlet-6-plateaued-coset-orphan
+    kind: theorem
+    location: >-
+      Langevin's orphan theorem (Carlet, p. 106)
+    statement: |-
+      Order the cosets of
+      R(1,n) as follows: g+R(1,n) is below f+R(1,n) when there are
+      minimum-weight representatives g_1 and f_1 of the respective cosets
+      such that \operatorname{supp}(g_1)\subseteq\operatorname{supp}(f_1).
+      A maximal coset for this order is called an orphan. If f is plateaued and
+      f\notin R(1,n), then f+R(1,n) is an orphan. The non-affine hypothesis
+      is necessary: affine functions are plateaued, while R(1,n) is the least
+      coset in this order.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsFirstOrderCosetLeader
+      - CryptBoolean.FirstOrderCosetBelow
+      - CryptBoolean.IsFirstOrderOrphan
+      - CryptBoolean.IsPlateaued.add_affineFunction
+      - CryptBoolean.eq_of_plateaued_cosetLeaders_of_support_subset
+      - CryptBoolean.isFirstOrderOrphan_of_isPlateaued
+    fidelity_note: >-
+      This deliberately corrects the source's missing non-affine hypothesis: an affine function is plateaued, but its first-order Reed--Muller coset has the empty minimum-weight support and is least rather than maximal.
+    reuse_note: >-
+      The support order is represented directly on first-order Reed--Muller cosets, and the maximality theorem composes affine invariance, coset-leader normalization, Parseval, and the plateaued Walsh-support identity.
+    dependencies:
+      - carlet-6-def-plateaued
+      - carlet-6-plateaued-support-nonlinearity
+      - carlet-3-reed-muller-code
+      - carlet-4-def-nonlinearity
+      - carlet-2-parseval
+
+  - id: carlet-6-def-8-normal-extension
+    kind: definition
+    location: >-
+      Normal extension (Carlet, Definition 8, pp. 107--108)
+    statement: |-
+      Let
+      \beta:V_k\to\mathbb F_2 and f:V_n\to\mathbb F_2 be bent. Write
+      \beta\preccurlyeq f when there are a nonnegative integer m and a
+      linear isomorphism
+
+      L:V_k\times V_m\times V_m\longrightarrow V_n
+
+      such that
+
+      f\bigl(L(u,w,0)\bigr)=\beta(u)
+      \qquad(u\in V_k,\ w\in V_m).
+
+      Equivalently, V_n=U\oplus W_1\oplus W_2 with
+      \dim W_1=\dim W_2, and the restriction of f to
+      U\oplus W_1 is \beta pulled back from U. Every bent function is
+      a normal extension of itself.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsNormalExtension
+      - CryptBoolean.IsNormalExtension.isBent_left
+      - CryptBoolean.IsNormalExtension.isBent_right
+      - CryptBoolean.isNormalExtension_refl
+    fidelity_note: >-
+      The coordinate-invariant linear-isomorphism form is equivalent to Carlet's direct decomposition V=U+W_1+W_2 with equal complementary dimensions.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-7-bent
+
+  - id: carlet-6-normal-extension-composition-duality
+    kind: theorem
+    location: >-
+      Composition and duality of normal extensions (Carlet, p. 108)
+    statement: |-
+      The
+      relation \preccurlyeq is transitive. Moreover, if
+      \beta\preccurlyeq f, then
+
+      \widetilde\beta\preccurlyeq\widetilde f.
+
+      In standard coordinates, duality exchanges the two equal complementary
+      summands.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshAdjointLinearEquiv
+      - CryptBoolean.walshTransform_comp_linearEquiv
+      - CryptBoolean.bentDual_comp_linearEquiv
+      - CryptBoolean.bentDual_canonical_normalExtension
+      - CryptBoolean.IsNormalExtension.trans
+      - CryptBoolean.IsNormalExtension.bentDual
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-8-normal-extension
+      - carlet-6-dual
+      - carlet-6-rel-46-dual-poisson
+
+  - id: carlet-6-normal-zero-dimensional-characterization
+    kind: theorem
+    location: >-
+      Zero-dimensional normal extensions (Carlet, p. 108; corrected normality convention)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be bent. If normality means that
+      f is constant on an n/2-dimensional linear subspace, then
+
+      f\text{ is normal}
+      \quad\Longleftrightarrow\quad
+      \varepsilon\preccurlyeq f
+      \text{ for some }\varepsilon\in\mathbb F_2.
+
+      For the affine-flat convention of Definition 4, the exact statement is
+      instead
+
+      f\text{ is }(n/2)\text{-normal}
+      \quad\Longleftrightarrow\quad
+      \varepsilon\preccurlyeq(f\circ A)
+
+      for some \varepsilon\in\mathbb F_2 and some affine automorphism A
+      of V_n.
+
+      The affine automorphism cannot in general be omitted. The two-variable
+      function
+
+      f(x_1,x_2)=(x_1+1)(x_2+1)
+
+      is bent and constant on a one-dimensional affine flat, but it is not
+      constant on any one-dimensional linear subspace.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.zeroDimensionalBooleanFunction
+      - CryptBoolean.zeroDimensionalBooleanFunction_apply
+      - CryptBoolean.isBent_zeroDimensionalBooleanFunction
+      - CryptBoolean.IsSubspaceNormal
+      - CryptBoolean.IsAffineNormalExtension
+      - CryptBoolean.isKNormal_comp_affineEquiv_iff
+      - CryptBoolean.exists_isNormalExtension_zeroDimensional_iff_isSubspaceNormal
+      - CryptBoolean.exists_isAffineNormalExtension_zeroDimensional_iff_isKNormal
+      - CryptBoolean.exists_isKNormal_not_isNormalExtension_zeroDimensional
+    fidelity_note: >-
+      Carlet's zero-dimensional sentence is exact for constancy on a linear half-dimensional subspace. Under Chapter 5's affine-flat definition of normality an affine automorphism is necessary; the two-variable counterexample records the correction.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-8-normal-extension
+      - carlet-5-def-4-normality
+      - carlet-2-affine-invariance
+
+  - id: carlet-6-prop-29-direct-sum-normality
+    kind: proposition
+    location: >-
+      Proposition 29 (Carlet, p. 108)
+    statement: |-
+      Let
+      f_i:V_i\to\mathbb F_2 be bent for i=1,2. The direct sum
+      f_1\oplus f_2 is normal if and only if there are bent functions
+      \beta_i such that \beta_i\preccurlyeq f_i for i=1,2 and either
+      \beta_1 is linearly equivalent to \beta_2, or \beta_1 is linearly
+      equivalent to \beta_2+1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.AreLinearlyEquivalentOrComplementary
+      - CryptBoolean.isSubspaceNormal_booleanDirectSum_iff
+    fidelity_note: >-
+      The statement follows Carlet's linear-subspace normality convention and does not silently replace linear equivalence by affine equivalence.
+    reuse_note: >-
+      The classification composes the canonical direct-sum construction, normal-extension coordinates, and the affine-flat restriction equality case; the paired linear-equivalence-or-complement relation records precisely the two constant values.
+    dependencies:
+      - carlet-6-direct-sum
+      - carlet-6-def-8-normal-extension
+      - carlet-6-normal-zero-dimensional-characterization
+      - carlet-5-affine-flat-restriction-bound
+
+  - id: carlet-6-prop-30-normality-descends
+    kind: proposition
+    location: >-
+      Proposition 30 (Carlet, p. 108)
+    statement: |-
+      If \beta\preccurlyeq f and the bent
+      function f is normal, then the bent function \beta is normal.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isSubspaceNormal_comp_linearEquiv_iff
+      - CryptBoolean.IsNormalExtension.isSubspaceNormal_left
+    fidelity_note: >-
+      The statement follows Carlet's linear-subspace normality convention and retains descent from a genuine normal extension.
+    reuse_note: >-
+      The production proof transports normality across a linear equivalence and then descends it through the normal-extension relation.
+    dependencies:
+      - carlet-6-def-8-normal-extension
+      - carlet-6-normal-zero-dimensional-characterization
+      - carlet-6-prop-31-normal-extension-replacement
+      - carlet-5-affine-flat-restriction-bound
+
+  - id: carlet-6-prop-31-normal-extension-replacement
+    kind: proposition
+    location: >-
+      Proposition 31 (Carlet, p. 108)
+    statement: |-
+      Let \beta be bent on U, let
+      f be bent on U\times W\times W, and suppose
+      \beta\preccurlyeq f through
+
+      f(x,y,0)=\beta(x).
+
+      For any bent \beta':U\to\mathbb F_2, define
+
+      f'(x,y,z)=
+      \begin{cases}
+      \beta'(x),&z=0,\\
+      f(x,y,z),&z\ne0.
+      \end{cases}
+
+      Then f' is bent and \beta'\preccurlyeq f'.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.canonicalNormalExtensionReplacement
+      - CryptBoolean.canonicalNormalExtensionReplacement_apply_append
+      - CryptBoolean.isBent_canonicalNormalExtensionReplacement
+      - CryptBoolean.normalExtensionReplacement
+      - CryptBoolean.normalExtensionReplacement_apply
+      - CryptBoolean.normalExtensionReplacement_isNormalExtension
+    fidelity_note: >-
+      The coordinate presentation is equivalent to Carlet's direct-sum formulation and preserves both bentness and the normal-extension relation.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-def-8-normal-extension
+      - carlet-6-normal-extension-composition-duality
+      - carlet-6-rel-46-dual-poisson
+
+  - id: carlet-6-rel-56-complete-quadratic
+    kind: theorem
+    location: >-
+      Relation (56) (Carlet, pp. 109--110)
+    statement: |-
+      Define the complete quadratic
+      function on V_n by
+
+      q_n(x)=\sum_{1\le i<j\le n}x_ix_j.
+
+      For every x\in V_n, its value is the parity of
+      \binom{w_H(x)}2. If n is even, the polar form of q_n has trivial
+      radical and q_n is bent.
+    formal_status: formalized
+    declarations:
+      - FABL.completeQuadraticBit
+      - CryptBoolean.functionAlgebraicDegree_completeQuadraticBit_le_two
+      - CryptBoolean.completeQuadraticBit_eq_choose_support_card
+      - CryptBoolean.completeQuadraticPolarFrequency
+      - CryptBoolean.quadraticPolarKernel_completeQuadraticBit_eq_crossSum
+      - CryptBoolean.quadraticPolarKernel_completeQuadraticBit_eq_dotProduct
+      - CryptBoolean.completeQuadraticPolarFrequency_eq_zero_of_even
+      - CryptBoolean.quadraticRadical_completeQuadraticBit_eq_bot
+      - CryptBoolean.isBent_completeQuadraticBit
+      - CryptBoolean.completeQuadraticBit_zero_dimension
+      - CryptBoolean.isBent_completeQuadraticBit_zero_dimension
+      - CryptBoolean.completeQuadraticBit_two_dimension
+      - CryptBoolean.isBent_completeQuadraticBit_two_dimension
+    fidelity_note: >-
+      The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
+    reuse_note: >-
+      The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
+    dependencies:
+      - carlet-6-quadratic-bent-characterization
+      - carlet-2-def-support-weight
+
+  - id: carlet-6-kerdock-parameters
+    kind: theorem
+    location: >-
+      Kerdock parameters (Carlet, pp. 109--110)
+    statement: |-
+      Let n\ge2 be even and
+      let F be a family of 2^{n-1} Boolean functions on V_n containing
+      zero. Suppose that every nonzero member of F has algebraic degree two
+      and that f+g is bent whenever f,g\in F are distinct. Then
+
+      K(F)=\bigcup_{f\in F}\bigl(f+R(1,n)\bigr)
+
+      contains R(1,n), is contained in R(2,n), has 2^{2n} words, and
+      has minimum distance
+      2^{n-1}-2^{n/2-1}. The first-order Reed--Muller cosets in this union
+      are pairwise distinct.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsKerdockRepresentativeFamily
+      - CryptBoolean.kerdockCodeOfRepresentatives
+      - CryptBoolean.functionAlgebraicDegree_le_two_of_mem_kerdockRepresentatives
+      - CryptBoolean.reedMuller_one_subset_kerdockCodeOfRepresentatives
+      - CryptBoolean.kerdockCodeOfRepresentatives_subset_reedMuller_two
+      - CryptBoolean.nonlinearity_add_eq_kerdockDistance_of_mem
+      - CryptBoolean.hasDistinctFirstOrderCosets_of_isKerdockRepresentativeFamily
+      - CryptBoolean.kerdockRepresentativeFamily_offDiag_nonempty
+      - CryptBoolean.card_kerdockCodeOfRepresentatives
+      - CryptBoolean.minimumPairNonlinearity_eq_kerdockDistance
+      - CryptBoolean.minimumHammingDistance_kerdockCodeOfRepresentatives
+      - CryptBoolean.kerdockCodeOfRepresentatives_parameters
+    fidelity_note: >-
+      This is a conditional reduction: a representative family F is an input hypothesis. It proves the code parameters from that hypothesis and does not assert that such a family exists; existence belongs only to the separate field-construction node.
+    reuse_note: >-
+      The proof composes bent pairwise differences with the existing Reed--Muller code and coset-distance results while leaving representative-family construction external.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-3-reed-muller-code
+      - carlet-4-reed-muller-coset-distance
+
+  - id: carlet-6-kerdock-field-trace-identity
+    kind: theorem
+    location: >-
+      Self-dual normal-basis trace identity (Carlet, pp. 109--110)
+    statement: |-
+      Let
+      m=2t+1 and identify V_m with \mathbb F_{2^m} through a self-dual
+      normal basis. Explicitly, assume that the coordinate equivalence
+      intertwines Frobenius squaring with cyclic rotation, identifies the
+      absolute trace with the coordinate sum, and identifies the trace pairing
+      with the standard binary dot product. Under the induced identification
+      V_{m+1}\simeq\mathbb F_{2^m}\times\mathbb F_2, the complete quadratic
+      function of Relation (56) is
+
+      q(x,z)=\operatorname{Tr}_m\!\left(\sum_{j=1}^{t}x^{2^j+1}\right)
+            +z\operatorname{Tr}_m(x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.completeQuadraticBit_eq_kerdockFieldRepresentative_one_of_selfDualNormalCoordinates
+    fidelity_note: >-
+      The formal theorem unpacks the self-dual normal-basis condition into its
+      cyclic Frobenius, coordinate-trace, and self-dual trace-pairing equations;
+      under these explicit hypotheses its domain and conclusion match Carlet's
+      conditional coordinate identity.
+    reuse_note: >-
+      The proof composes the canonical complete quadratic polar form, the
+      finite-field Kerdock trace quadratic, and the existing affine-difference
+      criterion without introducing a second normalization.
+    dependencies:
+      - carlet-6-rel-56-complete-quadratic
+      - carlet-2-absolute-trace
+      - carlet-6-kerdock-field-construction
+
+  - id: carlet-6-kerdock-field-construction
+    kind: theorem
+    location: >-
+      Finite-field construction of the Kerdock code (Carlet, pp. 109--110)
+    statement: |-
+      Let m=2t+1, set n=m+1, and define
+
+      q(x,z)=\operatorname{Tr}_m\!\left(\sum_{j=1}^{t}x^{2^j+1}\right)
+            +z\operatorname{Tr}_m(x)
+
+      on \mathbb F_{2^m}\times\mathbb F_2. For
+      u\in\mathbb F_{2^m}, set q_u(x,z)=q(ux,z) and transport these
+      functions to V_n along an \mathbb F_2-linear coordinate
+      identification. The representative q_0 is zero, every q_u with
+      u\ne0 has algebraic degree two, and q_u+q_v is bent whenever
+      u\ne v. Thus the 2^m representatives form a Kerdock representative
+      family. Consequently the union of the cosets q_u+R(1,n) is a Kerdock
+      code with 2^{2n} words and minimum distance
+      2^{n-1}-2^{n/2-1}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.kerdockTraceQuadratic
+      - CryptBoolean.kerdockFieldQuadratic
+      - CryptBoolean.absoluteTrace_algebraMap_odd
+      - CryptBoolean.kerdockTraceCube
+      - CryptBoolean.kerdockTraceLinearCube
+      - CryptBoolean.functionAlgebraicDegree_kerdockTraceCube_le_two
+      - CryptBoolean.functionAlgebraicDegree_kerdockTraceLinearCube_le_one
+      - CryptBoolean.kerdockFieldCoordinateEquiv
+      - CryptBoolean.kerdockFieldRepresentative
+      - CryptBoolean.kerdockFieldRepresentative_coordinate
+      - CryptBoolean.kerdockFieldRepresentative_zero
+      - CryptBoolean.functionAlgebraicDegree_kerdockFieldRepresentative_le_two
+      - CryptBoolean.quadraticPolarKernel_kerdockFieldRepresentative
+      - CryptBoolean.quadraticPolarKernel_kerdockFieldRepresentative_add
+      - CryptBoolean.eq_zero_of_forall_quadraticPolarKernel_kerdockFieldRepresentative_add
+      - CryptBoolean.isBent_kerdockFieldRepresentative_add
+      - CryptBoolean.functionAlgebraicDegree_kerdockFieldRepresentative_eq_two
+      - CryptBoolean.kerdockFieldRepresentative_injective
+      - CryptBoolean.kerdockFieldRepresentativeFamily
+      - CryptBoolean.card_kerdockFieldRepresentativeFamily
+      - CryptBoolean.isKerdockRepresentativeFamily_kerdockField
+      - CryptBoolean.kerdockFieldConstruction_parameters
+    fidelity_note: >-
+      The construction defines Carlet's footnote-44 trace formula directly and transports it through an arbitrary binary linear coordinate equivalence. The separate self-dual-normal-basis identity remains open, and the conditional parameter theorem is used only after the representative family has been constructed.
+    reuse_note: >-
+      The proof composes absolute-trace algebra, the quadratic polar-form criterion, trace-pairing coordinates, and the conditional Kerdock parameter reduction without postulating a representative family.
+    dependencies:
+      - carlet-5-quadratic-trace-representation
+      - carlet-6-quadratic-bent-characterization
+      - carlet-6-kerdock-parameters
+      - carlet-2-absolute-trace
+      - carlet-2-trace-pairing-coordinates
+
+source_recovery:
+  - id: carlet-6-hadamard-difference-set-cayley
+    kind: characterization-family
+    location: >-
+      Carlet, Section 6 opening discussion and Section 6.6.3, pp. 78 and 100
+    source_claim: >-
+      For f : V_n -> F_2, bentness is equivalent to the matrix
+      H[x,y] = (-1)^(f(x+y)) being Hadamard and to supp(f) being a difference
+      set in the elementary Abelian 2-group V_n. The difference-set condition
+      implies that the Boolean Cayley graph G_f is strongly regular. Carlet later
+      reports a further characterization of bent functions through Cayley graphs.
+    statement_status: mixed-complete-equivalences-and-incomplete-cayley-reference
+    formal_status: open
+    declarations: []
+    references: [18, 134, 202]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The two equivalences are complete in the survey. The strongly regular
+      graph sentence omits its parameters, and the later Cayley-graph
+      characterization is only a citation. Neither is strengthened to an unstated
+      parameter theorem here.
+    reuse_note: >-
+      The Walsh and derivative characterizations already provide the scalar
+      spectral content. Promotion should add explicit Hadamard-matrix,
+      difference-set, and strongly-regular-graph layers rather than encode those
+      objects as Boolean-function aliases.
+    blocker: >-
+      The repository has no reviewed design or graph API for these objects, and
+      reference [18] must be recovered for the exact Cayley parameters and the
+      later iff characterization.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-6-theorem-8-perfect-nonlinearity
+      - carlet-2-def-support-weight
+
+  - id: carlet-6-restricted-derivative-and-moment-families
+    kind: theorem-family
+    location: >-
+      Carlet, discussion after Theorem 8, p. 78
+    source_claim: >-
+      Carlet reports classifications of functions whose derivatives are
+      balanced in every nonzero direction of a fixed hyperplane, and likewise
+      of a fixed codimension-two subspace; in even dimension the first family
+      consists of bent functions. He also reports that every positive even Walsh
+      moment sum_a W_f(a)^w is minimized by bent functions and relates small
+      low-order moments to fast-correlation resistance.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [39, 40, 41, 46]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey states the scope and consequences but gives neither
+      classification formula nor the value and equality case of the moment
+      minimum.
+    reuse_note: >-
+      The derivative, propagation, Walsh, and autocorrelation APIs are already
+      canonical. Exact classification and moment statements should be recovered
+      before adding new nodes.
+    blocker: >-
+      References [39--41,46] are needed for the omitted parameterizations,
+      quantifiers, minimum value, and equality conditions.
+    dependencies:
+      - carlet-6-theorem-8-perfect-nonlinearity
+      - carlet-4-def-propagation-criteria
+      - carlet-2-parseval
+
+  - id: carlet-6-support-code-alternate-characterizations
+    kind: theorem-family
+    location: >-
+      Carlet, alternatives following Proposition 16, p. 79
+    source_claim: >-
+      For the support code C_f, Carlet reports two further iff
+      characterizations of bentness: C_f has dimension n and exactly two
+      weights whose sum is w_H(f); and the length w_H(f) is even, C_f has
+      exactly two weights, and one of them is 2^(n-2).
+    statement_status: complete-source-statements
+    formal_status: open
+    declarations: []
+    references: [348]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The displayed alternatives are complete, but their small-dimension
+      conventions must be reconciled with the corrected n >= 4 range of the
+      existing Proposition 16 node.
+    reuse_note: >-
+      Both alternatives should reuse the existing support-code map, dimension,
+      and weight declarations rather than define a second code.
+    blocker: >-
+      No production declaration currently proves either alternative, including
+      the occurrence and zero-weight edge cases.
+    dependencies:
+      - carlet-6-prop-16-support-code
+
+  - id: carlet-6-quadratic-trace-families
+    kind: construction-family
+    location: >-
+      Carlet, Section 6.2, pp. 81--82
+    source_claim: >-
+      In even dimension n with gcd(i,n)=1,
+      Tr_n(v x^(2^i+1)) is bent exactly when v is not a cube. Carlet says the
+      analogous calculation applies to the Kasami exponent
+      2^(2i)-2^i+1. He also gives the quadratic bent function
+      Tr_n(sum_(i=1)^(n/2-1) x^(2^i+1)) +
+      Tr_(n/2)(x^(2^(n/2)+1)), and, when gcd(n,3)=gcd(i,n)=1, the bent
+      two-variable function
+      Tr_(n/2)(x^(2^i+1)+y^(2^i+1)+xy).
+    statement_status: mixed-complete-examples-and-abbreviated-kasami-analogue
+    formal_status: open
+    declarations: []
+    references: []
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The Gold criterion and the last two displayed examples are explicit.
+      The Kasami sentence says only that the same result is proved similarly,
+      so its coefficient convention must not be guessed.
+    reuse_note: >-
+      Promotion should specialize the quadratic polar-form and trace-pairing
+      nodes and prove triviality of the resulting radicals.
+    blocker: >-
+      The finite-field Frobenius equations and the abbreviated Kasami
+      coefficient statement are not yet represented by reviewed declarations.
+    dependencies:
+      - carlet-6-quadratic-bent-characterization
+      - carlet-5-quadratic-trace-representation
+      - carlet-2-absolute-trace
+
+  - id: carlet-6-low-degree-classification-and-z-bent
+    kind: classification-family
+    location: >-
+      Carlet, end of Section 6.2, p. 82
+    source_claim: >-
+      Carlet reports affine classifications for all bent functions through
+      six variables, for degree-at-most-three bent functions in eight variables,
+      and a completed enumeration of all eight-variable bent functions. Every
+      listed degree-at-most-three eight-variable function has a nonzero affine
+      derivative. He also cites a recursive construction by gluing Z-bent
+      functions.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [42, 141, 188, 231, 299, 310]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey supplies dimension and degree ranges but no orbit
+      representatives, counts, affine-equivalence certificates, or definition of
+      the Z-bent gluing operation.
+    reuse_note: >-
+      Any recovered classification should reuse affine invariance, derivative,
+      degree, and counting nodes; the Z-bent construction needs its own precise
+      semantic layer.
+    blocker: >-
+      The cited classifications and recursive construction must be recovered
+      from their primary sources before faithful statements can be written.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-6-quadratic-bent-characterization
+      - carlet-2-affine-invariance
+
+  - id: carlet-6-primary-class-structural-results
+    kind: theorem-family
+    location: >-
+      Carlet, structural consequences for primary classes, pp. 85--87
+    source_claim: >-
+      Every bent function represented as
+      f_(phi,g)(x,y)=x dot phi(y)+g(y) has balanced phi; every six-variable
+      bent function is affinely equivalent to a member of the original
+      Maiorana--McFarland class; n/2-dimensional vector spaces of n-variable
+      Boolean functions whose nonzero elements are bent exist, while no such
+      space has dimension greater than n/2. For the partial-spread classes,
+      Carlet records the exact degree of PS^- members, the explicit PS_ap
+      quotient form and self-duality, and a field-power/trace characterization
+      of its completed class, while leaving a general ANF characterization of
+      PS open.
+    statement_status: mixed-complete-consequences-vectorial-bound-and-explicit-open-problem
+    formal_status: open
+    declarations: []
+    references: [24, 81, 134, 254]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey states these as several distinct consequences. The
+      balanced-vector-map and dimension bound use vectorial Boolean-function
+      theory, and the open PS ANF problem is not replaced by the explicit
+      PS_ap subclass.
+    reuse_note: >-
+      Promotion should specialize the general Maiorana--McFarland and
+      partial-spread nodes and reuse affine equivalence, algebraic degree, and
+      the field trace layer.
+    blocker: >-
+      The six-variable affine classification, vectorial balance/dimension
+      bound, and completed-class trace characterization need independent
+      primary-source statements and proofs.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
+      - carlet-6-prop-20-general-maiorana-mcfarland
+      - carlet-6-partial-spread-construction
+      - carlet-6-dual
+
+  - id: carlet-6-primary-power-families
+    kind: construction-family
+    location: >-
+      Carlet, primary power-function constructions, pp. 88--89
+    source_claim: >-
+      For f(x)=Tr_n(a x^i), Carlet lists the known monomial bent
+      families up to Frobenius conjugacy: Gold exponents i=2^j+1 when
+      n/gcd(j,n) is even, with bentness exactly when a is not an i-th power;
+      Dillon exponents i=j(2^(n/2)-1), gcd(j,2^(n/2)+1)=1 and
+      a in GF(2^(n/2)), with bentness exactly when the stated Kloosterman sum
+      vanishes; Kasami exponents i=2^(2j)-2^j+1, gcd(j,n)=1, with bentness
+      exactly when a is not a cube; i=(2^(n/4)+1)^2 for 4 | n, for which one
+      coefficient example is known but the full coefficient set is open; and
+      i=2^(n/3)+2^(n/6)+1 for 6 | n, with the displayed relative-trace
+      criterion on a. The section also gives
+      Tr_(n/2)(x^(2^(n/2)+1)), the necessary coprimality alternative for any
+      bent power exponent, and bent restrictions of Kasami functions to the
+      trace-zero hyperplane when n+1=3k+1 or 3k-1.
+    statement_status: mixed-complete-conditional-families-and-explicit-open-coefficient-set
+    formal_status: open
+    declarations: []
+    references: [39, 43, 101, 133, 134, 137, 138, 223, 238]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The inventory retains every printed parameter condition and the
+      explicitly unknown coefficient set. It does not turn the list of exponents
+      known in 2010 into a timeless classification theorem.
+    reuse_note: >-
+      Promotion requires the absolute-trace, univariate binary-degree,
+      quadratic-radical, Kloosterman-sum, and affine-restriction surfaces already
+      owned by earlier chapters.
+    blocker: >-
+      The monomial families require several independent finite-field power-map
+      and character-sum proofs; the coefficient classification for the
+      (2^(n/4)+1)^2 family is explicitly open.
+    dependencies:
+      - carlet-2-absolute-trace
+      - carlet-2-univariate-binary-degree
+      - carlet-6-quadratic-bent-characterization
+      - carlet-6-theorem-11-hyperplane-restrictions
+
+  - id: carlet-6-power-sum-and-homogeneous-families
+    kind: construction-family
+    location: >-
+      Carlet, end of primary constructions, pp. 88--89
+    source_claim: >-
+      Carlet cites further bent functions that are sums of a few power
+      functions, bent sequences obtained from the listed primary and secondary
+      constructions, and homogeneous bent functions on at most twelve variables
+      found by invariant-theory searches.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [98, 101, 134, 137, 142, 143, 195, 237, 350, 352]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      No exponent lists, coefficient conditions, ANFs, orbit
+      representatives, or exact variable-by-variable existence statement are
+      printed in this chapter.
+    reuse_note: >-
+      Recovered scalar families should reuse the canonical trace,
+      algebraic-degree, affine-equivalence, and bentness definitions.
+    blocker: >-
+      The primary papers are required to identify the actual families and
+      quantifiers; a citation list cannot support a source-facing theorem.
+    dependencies:
+      - carlet-2-absolute-trace
+      - carlet-2-def-algebraic-degree
+      - carlet-6-def-7-bent
+
+  - id: carlet-6-classes-d-and-c
+    kind: construction-family
+    location: >-
+      Carlet, secondary classes D_0, D, and C, pp. 90--91
+    source_claim: >-
+      For a permutation pi on V_(n/2), D_0 consists of
+      x dot pi(y)+delta_0(x) and has dual y dot pi^(-1)(x)+delta_0(y).
+      Class D consists of
+      x dot pi(y)+1_(E_1)(x)1_(E_2)(y) with pi(E_2)=E_1^perp.
+      Class C consists of x dot pi(y)+1_L(x) when every
+      pi^(-1)(a+L^perp) is an affine flat; under the same condition,
+      x dot pi(y)+1_L(x)+g(y) is bent whenever g restricts affinely to every
+      such flat. Carlet also records completion and six-variable consequences
+      for D_0.
+    statement_status: complete-source-specializations-with-cited-class-separation-claims
+    formal_status: open
+    declarations: []
+    references: [44, 53]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The construction hypotheses and dual formula are explicit. Claims
+      that D_0 is outside completed M and PS classes and covers all six-variable
+      bent functions are retained as cited consequences, not inferred from the
+      generic switching theorem.
+    reuse_note: >-
+      The bentness constructions are direct specializations of the
+      Maiorana--McFarland and flat-switching nodes and should reuse their affine
+      flat indicators and dual laws.
+    blocker: >-
+      No dedicated declarations instantiate Theorem 9 with these parameters,
+      and the completed-class nonmembership claims require formal affine-class
+      predicates not currently present.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
+      - carlet-6-theorem-9-flat-switching
+      - carlet-5-flat-indicator-walsh-nonlinearity
+
+  - id: carlet-6-dobbertin-primary-class
+    kind: construction-family
+    location: >-
+      Carlet, Dobbertin construction, p. 87
+    source_claim: >-
+      Let g be balanced on GF(2^(n/2)), let T be the affine
+      subspace spanned by the support of (-1)^g, and let phi and psi be maps
+      that restrict affinely to every aT, with phi injective. Dobbertin's class
+      defines f by
+      f(x,phi(y))=g((x+psi(y))/y)
+      and contains both PS_ap and the Maiorana--McFarland class. The cited work
+      also gives two explicit examples with phi a power map.
+    statement_status: complete-general-template-with-incomplete-explicit-examples
+    formal_status: open
+    declarations: []
+    references: [139]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The general template and its hypotheses are printed, but the two
+      power-map examples are not. Division-at-zero and the precise affine-span
+      convention must be recovered before promotion.
+    reuse_note: >-
+      The construction should reuse the finite-field realization of the
+      Maiorana--McFarland and partial-spread families rather than replace their
+      Boolean-cube statements.
+    blocker: >-
+      The omitted examples and quotient conventions require reference [139];
+      the present finite-field layer has no reviewed declaration for this
+      template.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
+      - carlet-6-partial-spread-construction
+      - carlet-2-absolute-trace
+
+  - id: carlet-6-vectorial-ab-construction
+    kind: construction-family
+    location: >-
+      Carlet, vectorial almost-bent construction, p. 87
+    source_claim: >-
+      Let m=n/2 be odd and let F : V_m -> V_m be almost bent,
+      meaning that every nonzero component v dot F is plateaued with amplitude
+      2^((m+1)/2). Define gamma_F(a,b)=1 exactly when a is nonzero and
+      F(x)+F(x+a)=b has a solution, and zero otherwise. Then gamma_F is bent
+      on V_m x V_m. Carlet notes that the ANF and univariate representation are
+      open when F is a Kasami, Welch, or Niho almost-bent function.
+    statement_status: complete-scalar-consequence-with-vectorial-prerequisite
+    formal_status: open
+    declarations: []
+    references: []
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The scalar output and AB hypothesis are complete, including the
+      a != 0 convention. No scalar surrogate is substituted for the vectorial
+      AB definition.
+    reuse_note: >-
+      The conclusion can reuse scalar bentness and plateaued component
+      functions, but the input predicate belongs to the later vectorial Boolean
+      function theory.
+    blocker: >-
+      Vectorial Boolean functions and their AB spectrum are outside the first
+      scalar release, and the cited proof is delegated to the absent vectorial
+      chapter.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-6-def-plateaued
+
+  - id: carlet-6-secondary-specializations
+    kind: construction-family
+    location: >-
+      Carlet, additional secondary constructions, pp. 92--94
+    source_claim: >-
+      Carlet records the normal extension of
+      Maiorana--McFarland type obtained by adjoining a y-indexed family of bent
+      functions, three explicit four-block families derived from Theorem 10,
+      and three Hou--Langevin consequences of Proposition 21, including the
+      degree-at-most-three derivative reindexing and a quadratic-form
+      reindexing of x dot y+g(y).
+    statement_status: mixed-complete-formulas-and-cited-examples
+    formal_status: open
+    declarations: []
+    references: [56, 78, 190, 194]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The displayed construction formulas are complete, while the
+      additional examples in references [56,190,194] are only mentioned.
+      This record does not merge their distinct hypotheses into one theorem.
+    reuse_note: >-
+      The complete displayed families are specializations of the slice
+      construction or permutation reindexing and should be proved by those
+      general combinators.
+    blocker: >-
+      No public specialization declarations are associated, and the cited
+      example families require primary-source recovery.
+    dependencies:
+      - carlet-6-theorem-10-slice-construction
+      - carlet-6-prop-21-permutation-reindexing
+      - carlet-6-maiorana-mcfarland
+
+  - id: carlet-6-additional-decompositions
+    kind: theorem-family
+    location: >-
+      Carlet, Section 6.4.3, p. 97
+    source_claim: >-
+      If an odd-variable function f has every derivative D_u f
+      balanced for nonzero u in a fixed hyperplane a^perp, then the restriction
+      of f to a^perp and its complementary coset is bent. For a bent f, the
+      four restrictions to the cosets of a codimension-two subspace have the
+      same sets of Walsh magnitudes; if its orthogonal complement is spanned by
+      a,b, all four restrictions are bent exactly when D_a D_b of the dual is
+      the constant one function. Carlet cites further decomposition results.
+    statement_status: complete-two-results-with-incomplete-further-family
+    formal_status: open
+    declarations: []
+    references: [41, 42, 100]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The two displayed consequences are complete. The phrase "more on
+      decomposing bent functions" contains no additional theorem statement and
+      remains unpromoted.
+    reuse_note: >-
+      Both complete consequences should reuse the hyperplane-restriction,
+      dual, and second-derivative APIs.
+    blocker: >-
+      The codimension-two restriction spectrum and its iff criterion have no
+      associated declarations; the remaining cited family lacks statements.
+    dependencies:
+      - carlet-6-theorem-11-hyperplane-restrictions
+      - carlet-6-dual
+      - carlet-6-prop-24-second-order-characterization
+
+  - id: carlet-6-additional-counting
+    kind: counting-family
+    location: >-
+      Carlet, Section 6.5, pp. 97--98
+    source_claim: >-
+      Besides the exact Maiorana--McFarland count, Carlet gives
+      C(2^(n/2),2^(n/2-1)) for the PS_ap family, an affine-automorphism upper
+      estimate for the completed Maiorana--McFarland class, and states that an
+      efficient general lower bound remains open. He reports the approximate
+      exact counts B_6 approximately 2^32.3 and B_8 approximately 2^106.3,
+      earlier and improved upper bounds for B_8, and an exponentially improved
+      upper bound over the naive bound that divides it by approximately
+      2^(2^(n/2)-n/2-1).
+    statement_status: mixed-complete-counts-asymptotics-and-incomplete-cited-bound
+    formal_status: open
+    declarations: []
+    references: [81, 89, 125, 231, 232, 299]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The PS_ap binomial count and the reported finite values are
+      explicit. The chapter gives only an approximate description of the [89]
+      upper bound and no efficient lower-bound theorem.
+    reuse_note: >-
+      The finite family counts should reuse the partial-spread and
+      Maiorana--McFarland parameter spaces; any global bound should reuse the
+      bent-function family and Reed--Muller degree count.
+    blocker: >-
+      The exact theorem behind reference [89], the exact integer values behind
+      the logarithmic approximations, and the affine-orbit overlap count must be
+      recovered before promotion.
+    dependencies:
+      - carlet-6-maiorana-mcfarland-count
+      - carlet-6-naive-bent-count-bound
+      - carlet-6-partial-spread-construction
+
+  - id: carlet-6-alternate-geometric-and-gps-translation
+    kind: characterization-family
+    location: >-
+      Carlet, discussion following Theorem 12, pp. 99--100
+    source_claim: >-
+      Carlet cites an alternative geometric characterization
+      f=sum_i m_i 1_(E_i) plus or minus 2^(n/2-1)delta_0, where every E_i has
+      dimension n/2 or n/2+1, together with a restricted choice of such spaces
+      that makes the representation unique. He also reports Guillot's theorem
+      that every bent function becomes a member of the exact generalized
+      partial-spread class after a translation of its input.
+    statement_status: mixed-complete-shape-and-incomplete-unique-subclass
+    formal_status: open
+    declarations: []
+    references: [85, 169]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The allowed dimensions, coefficients, sign, and translation
+      conclusion are explicit. The chapter does not identify the distinguished
+      subclass that yields uniqueness, so that part remains incomplete.
+    reuse_note: >-
+      Both results should reuse the subspace-indicator lemma, Theorem 12,
+      affine translation, and the exact GPS representation predicate.
+    blocker: >-
+      The alternative representation and Guillot translation theorem have no
+      production associations, and reference [85] is required to define the
+      unique representing subclass.
+    dependencies:
+      - carlet-6-lemma-3-subspace-indicators
+      - carlet-6-theorem-12-geometric-characterization
+      - carlet-2-affine-invariance
+
+  - id: carlet-6-hyper-bent-trace-degree
+    kind: theorem
+    location: >-
+      Carlet, cyclic-code consequence, p. 102
+    source_claim: >-
+      Every hyper-bent f : GF(2^n) -> F_2 can be represented as
+      f(x)=sum_i Tr_n(a_i x^(t_i))+epsilon with every binary exponent weight
+      w_2(t_i)=n/2. Consequently every hyper-bent function has algebraic
+      degree exactly n/2.
+    statement_status: complete-source-statement
+    formal_status: open
+    declarations: []
+    references: [81]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The source states both the representation and exact degree. Promotion
+      must retain a canonical reduced univariate representation so cancellation
+      between cyclotomic orbits is not silently ignored.
+    reuse_note: >-
+      The result should reuse hyper-bentness, the Chapter 2 univariate
+      binary-degree theorem, and cyclotomic-orbit noncancellation.
+    blocker: >-
+      The required normal form for sums of trace monomials and the
+      noncancellation argument for all exponent orbits are not yet associated
+      with this Chapter 6 claim.
+    dependencies:
+      - carlet-6-def-hyper-bent
+      - carlet-2-univariate-binary-degree
+      - carlet-2-trace-monomial-degree
+
+  - id: carlet-6-reference-101-hyper-bent-family
+    kind: theorem
+    location: >-
+      Carlet, trace family from reference [101], p. 103
+    source_claim: >-
+      Let n be even, lambda in GF(2^(n/2))^*, and
+      0<r<n/2. Assume that the binary cyclotomic cosets modulo 2^(n/2)+1
+      containing 2^r-1 and 2^r+1 both have size n, and that
+      Tr_(n/2)(lambda x^(2^r+1)) is balanced on GF(2^(n/2)). Then
+      Tr_n(lambda (x^((2^r-1)(2^(n/2)-1)) +
+                   x^((2^r+1)(2^(n/2)-1))))
+      is bent, equivalently hyper-bent, if and only if
+      Tr_(n/2)(x^(-1)+lambda x^(2^r+1))
+      is balanced on GF(2^(n/2)).
+    statement_status: complete-source-statement
+    formal_status: open
+    declarations: []
+    references: [101]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The hypotheses, both exponents, the nonzero coefficient, and the iff
+      balance condition are retained. Bent and hyper-bent are equivalent only
+      for this family as stated by Carlet; no general equivalence is inferred.
+    reuse_note: >-
+      Promotion should reuse the field hyper-bent transform and balance
+      predicate, with a separate cyclotomic-coset size interface.
+    blocker: >-
+      The repository lacks cyclotomic-coset cardinality and inverse-power
+      character-sum declarations needed for this equivalence.
+    dependencies:
+      - carlet-6-def-hyper-bent
+      - carlet-2-absolute-trace
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-6-nonnormal-examples
+    kind: example-family
+    location: >-
+      Carlet, Section 6.9, p. 107
+    source_claim: >-
+      For gcd(k,n)=1, n not divisible by 3, and a not a cube,
+      the Kasami function
+      f(x)=Tr_n(a x^(2^(2k)-2^k+1))
+      is bent. For a in GF(4)\GF(2) and k=3, in dimension 10 a constant
+      translate f+Tr_n(b) is nonnormal for some b, while in dimension 14 f is
+      not weakly normal. Every cubic bent function in eight variables is
+      normal.
+    statement_status: complete-reported-examples-with-unspecified-witness-b
+    formal_status: open
+    declarations: []
+    references: [44, 100, 137]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The dimensions, exponent, coprimality, noncube condition, and
+      normality conclusions are retained. The source does not identify the
+      dimension-ten witness b, so no explicit representative is invented.
+    reuse_note: >-
+      The examples should reuse the fixed-dimensional normality predicates,
+      trace monomials, algebraic degree, and affine-flat restriction APIs.
+    blocker: >-
+      The witness b and the exhaustive eight-variable cubic classification
+      require the cited computations and certificates.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-5-def-4-normality
+      - carlet-2-trace-monomial-degree
+
+  - id: carlet-6-kerdock-additional-properties
+    kind: code-property-family
+    location: >-
+      Carlet, Kerdock open problem and remark, p. 110
+    source_claim: >-
+      Carlet reports other codes with Kerdock parameters, all affinely
+      equivalent to subcodes of R(2,n), and leaves construction with
+      nonquadratic representatives open. Kerdock codes are distance-invariant,
+      so their distance and weight enumerators agree; their weight enumerators
+      are formally dual to those of Preparata codes; and the codes admit a
+      Z/4Z-linear structure for which a MacWilliams identity holds.
+    statement_status: mixed-complete-properties-and-explicit-open-construction
+    formal_status: open
+    declarations: []
+    references: [173, 203, 324]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      These are properties of the actual Kerdock construction, not
+      consequences of an arbitrary family satisfying only the conditional
+      parameter hypotheses. The open nonquadratic construction remains an
+      open problem.
+    reuse_note: >-
+      Promotion should build on the explicit field-construction node and a
+      separate distance-enumerator, Preparata, and Z/4Z code layer.
+    blocker: >-
+      The current code API records only membership, cardinality, and minimum
+      distance. It has no distance distribution, formal duality, Preparata code,
+      or Z/4Z-linear structure.
+    dependencies:
+      - carlet-6-kerdock-field-construction
+      - carlet-6-kerdock-parameters
+      - carlet-3-reed-muller-code
