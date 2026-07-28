@@ -23,6 +23,10 @@ namespace CryptBoolean
 
 variable {n : ℕ}
 
+noncomputable local instance firstOrderReedMullerFintype :
+    Fintype (reedMuller 1 n) :=
+  Fintype.ofFinite (reedMuller 1 n)
+
 /-- The minimum Hamming distance between distinct functions in a finite code,
 with value zero for a code having fewer than two words. -/
 noncomputable def minimumHammingDistance
@@ -79,6 +83,91 @@ theorem firstOrderCosetUnion_pair
       firstOrderReedMullerCoset f ∪ firstOrderReedMullerCoset g := by
   classical
   ext c
+  simp
+
+/-- A first-order Reed--Muller coset is the translate of the Reed--Muller
+submodule by its representative. -/
+theorem firstOrderReedMullerCoset_eq_image
+    (f : BooleanFunction n) :
+    firstOrderReedMullerCoset f =
+      (Finset.univ : Finset (reedMuller 1 n)).image
+        (fun ell ↦ ell.1 + f) := by
+  classical
+  ext c
+  rw [mem_firstOrderReedMullerCoset_iff]
+  constructor
+  · intro hc
+    rw [Finset.mem_image]
+    refine ⟨⟨c + f, hc⟩, Finset.mem_univ _, ?_⟩
+    ext x
+    exact CharTwo.add_cancel_right _ _
+  · intro hc
+    rw [Finset.mem_image] at hc
+    obtain ⟨ell, _hell, rfl⟩ := hc
+    have hcancel : (ell.1 + f) + f = ell.1 := by
+      ext x
+      exact CharTwo.add_cancel_right _ _
+    rw [hcancel]
+    exact ell.2
+
+/-- Every first-order Reed--Muller coset has the cardinality of the code. -/
+theorem card_firstOrderReedMullerCoset
+    (f : BooleanFunction n) :
+    (firstOrderReedMullerCoset f).card = Nat.card (reedMuller 1 n) := by
+  classical
+  rw [firstOrderReedMullerCoset_eq_image,
+    Finset.card_image_of_injective]
+  · rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
+  · intro ell₁ ell₂ h
+    apply Subtype.ext
+    exact add_right_cancel h
+
+/-- A finite union of first-order cosets is the indexed union of its
+individual cosets. -/
+theorem firstOrderCosetUnion_eq_biUnion
+    (F : Finset (BooleanFunction n)) :
+    firstOrderCosetUnion F =
+      F.biUnion firstOrderReedMullerCoset := by
+  classical
+  ext c
+  simp
+
+/-- Distinct representatives give pairwise disjoint first-order cosets. -/
+theorem pairwiseDisjoint_firstOrderReedMullerCoset
+    {F : Finset (BooleanFunction n)}
+    (hcosets : HasDistinctFirstOrderCosets F) :
+    (F : Set (BooleanFunction n)).PairwiseDisjoint
+      firstOrderReedMullerCoset := by
+  classical
+  intro f hf g hg hfg
+  change Disjoint (firstOrderReedMullerCoset f)
+    (firstOrderReedMullerCoset g)
+  rw [Finset.disjoint_left]
+  intro c hcf hcg
+  rw [mem_firstOrderReedMullerCoset_iff] at hcf hcg
+  apply hcosets hf hg hfg
+  have hsum := (reedMuller 1 n).add_mem hcf hcg
+  have heq : (c + f) + (c + g) = f + g := by
+    ext x
+    simp only [Pi.add_apply]
+    calc
+      (c x + f x) + (c x + g x) =
+          (c x + c x) + (f x + g x) := by ac_rfl
+      _ = f x + g x := by rw [CharTwo.add_self_eq_zero, zero_add]
+  rwa [heq] at hsum
+
+/-- The size of a union of distinct first-order Reed--Muller cosets is the
+number of representatives times the size of one coset. -/
+theorem card_firstOrderCosetUnion
+    {F : Finset (BooleanFunction n)}
+    (hcosets : HasDistinctFirstOrderCosets F) :
+    (firstOrderCosetUnion F).card =
+      F.card * Nat.card (reedMuller 1 n) := by
+  classical
+  rw [firstOrderCosetUnion_eq_biUnion,
+    Finset.card_biUnion
+      (pairwiseDisjoint_firstOrderReedMullerCoset hcosets)]
+  simp_rw [card_firstOrderReedMullerCoset]
   simp
 
 theorem minimumHammingDistance_le

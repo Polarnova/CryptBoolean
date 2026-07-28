@@ -24,5 +24,5 @@ public import CryptBoolean.Carlet.Chapter05.WeilNonlinearityReduction
 /-!
 # Carlet Chapter 5
 
-Classes of Boolean functions with restricted weights, Walsh spectra, and nonlinearities.
+Classes with provable spectra and weights.
 -/

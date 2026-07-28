@@ -8,13 +8,14 @@ Plancherel, relative Hamming distance, balancedness, restrictions, ANF, algebrai
 functions, and derivatives needed by CryptBoolean. FABL is the canonical owner of those shared APIs;
 this project imports them directly and adds only source-facing or cross-representation laws.
 
-The current Blueprint baseline contains 149 source-facing statement nodes: 146 formalized nodes
-associated with 961 proved Lean declarations and 3 visibly open nodes, connected by 296 reviewed
-dependency edges. Chapter 2 contributes 38 formalized nodes, 166 declarations, and 48 incoming
+The current Blueprint baseline contains 209 source-facing statement nodes: 206 formalized nodes
+associated with 1338 proved Lean declarations and 3 visibly open nodes, connected by 467 reviewed
+dependency edges. Chapter 2 contributes 41 formalized nodes, 174 declarations, and 56 incoming
 edges. Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized nodes, 568 declarations, and 159 incoming edges. Chapter
-5 contributes 31 nodes (28 formalized and 3 open), 195 declarations, and 70 incoming edges. These
-counts are a synchronized verification contract shared by the inventories,
+5 contributes 31 nodes (28 formalized and 3 open), 203 declarations, and 70 incoming edges. Chapter
+6 contributes 57 formalized nodes, 361 declarations, and 163 incoming edges. These counts are a
+synchronized verification contract shared by the inventories,
 Verso sources, `blueprint-verso/scripts/validate_manifest.py`, and `AGENTS.md`.
 
 Automated PDF text extraction finds 93 numbered definition/theorem/proposition/lemma/corollary
@@ -76,9 +77,10 @@ tooling pipeline runs, and no local filesystem path appears in package metadata.
 
 ## Phase 1 - Complete Carlet inventory
 
-Status: in progress. Reviewed Chapter 2 and Chapter 3 items live under `.agents/inventory/`.
-Chapter 4's 73-item inventory and Chapter 5's 31 mathematical statements are
-source-reviewed and Blueprint-synchronized; Chapters 6--10 are not yet inventoried.
+Status: in progress. Chapters 2--6 are source-reviewed and Blueprint-synchronized under
+`.agents/inventory/`. Chapter 6 has 57 promoted mathematical statements and 19 additional
+source-recovery records covering cited or underspecified families that are not yet promoted to
+Blueprint nodes. Chapters 7--10 are not yet inventoried.
 
 Read Chapters 2--10 in full and create one Blueprint node per in-scope item. Record full statements,
 source locations, representation decisions, and mathematical dependencies. Mark referenced results
@@ -103,11 +105,13 @@ render, and no proof work has silently expanded or reduced scope.
 
 ## Phase 2 - Chapter 2 foundations
 
-Status: complete. All 38 source-facing nodes are formalized by 166 proved declarations with 48
+Status: complete. All 41 source-facing nodes are formalized by 174 proved declarations with 56
 reviewed dependency edges. This phase includes Proposition 5's numerical-normal-form integrality
 criterion, full raw Poisson summation, affine invariance, restriction recovery, both
 spectral-support bounds, the coordinate/univariate binary-degree formula, Carlet Proposition 3 on
-trace-monomial degree, and trace-pairing coordinates.
+trace-monomial degree, trace-pairing coordinates, Relation (30)'s NNF Fourier formula,
+Proposition 9's restriction-square identities, and Proposition 11's Walsh-divisibility degree
+bound.
 
 Proposition 3 is closed by composing the exact binary-exponent-weight/coordinate-ANF-degree formula
 with noncancellation along the trace monomial's cyclotomic orbit.
@@ -190,7 +194,7 @@ from reference [357]'s complementary convention.
 ## Phase 5 - Chapter 5 tractable classes
 
 Status: complete at the reviewed algebraic and combinatorial boundary. Twenty-eight of 31 reviewed
-nodes are formalized by 195 proved declarations.
+nodes are formalized by 203 proved declarations.
 The compiled surface includes affine spectra, quadratic polar and weight theory, the complete
 quadratic affine normal form, exact quadratic weight and nonlinearity value sets, even quadratic
 rank, quadraticization and its iterated degree-three Walsh lift, flat-indicator spectra,
@@ -209,8 +213,22 @@ bent/resilient construction phases.
 
 ## Phase 6 - Chapter 6 bent functions
 
-Order proof work by prerequisites; retain the source topic order in the public Blueprint's flat
-section structure:
+Status: complete. All 57 reviewed nodes are formalized by 361 proved declarations with 163
+reviewed dependency edges. The completed surface includes bentness and its dual, the Rothaus bound
+and Relation (47), the reusable McEliece--Ax character-sum divisibility theorem, primary and
+secondary constructions, decompositions and counting, NNF, geometric and second-order
+characterizations, the hyper-bent partial-spread family, partially bent and plateaued
+superclasses, normal extensions, and the explicit finite-field Kerdock construction and code
+parameters.
+
+The implementation composes FABL's canonical Fourier, ANF, degree, affine, and derivative APIs
+with the Chapter 2 raw Walsh and trace layers, Chapter 3 Reed--Muller theory, Chapter 4
+nonlinearity and propagation results, and Chapter 5 quadratic, restriction, trace, and normality
+theorems. Printed edge cases and false consequences remain visible through explicit hypotheses,
+corrected formulas, or formal counterexamples.
+
+The proof order followed mathematical prerequisites while the public Blueprint retains the source
+topic order in its flat section structure:
 
 - spectral and derivative characterizations of bentness;
 - dual bent function and normalization laws;
@@ -221,8 +239,8 @@ section structure:
 - hyper-bent, partially bent, partial bent, and plateaued functions;
 - normality questions and Kerdock-code results.
 
-Finite-field constructions wait for Phase 2D. Kerdock results wait for the minimal Chapter 3 code
-API. Spectral characterizations do not wait for either.
+The finite-field constructions consume the completed Phase 2D trace layer, and the Kerdock results
+consume the minimal Chapter 3 Reed--Muller API without introducing a general coding hierarchy.
 
 ## Phase 7 - Chapter 7 resilient functions
 

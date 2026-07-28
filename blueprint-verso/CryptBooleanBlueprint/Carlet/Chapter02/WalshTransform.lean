@@ -14,7 +14,7 @@ open Informal
 
 #doc (Manual) "Walsh transform" =>
 
-:::definition "carlet-2-def-walsh-transform" (parent := "carlet-chapter-2") (lean := "CryptBoolean.bitSignInt, CryptBoolean.bitSignInt_add, CryptBoolean.walshTerm, CryptBoolean.walshTransform") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, pages-22-23, fidelity-exact")
+:::definition "carlet-2-def-walsh-transform" (parent := "carlet-chapter-2") (lean := "CryptBoolean.bitSignInt, CryptBoolean.bitSignInt_add, CryptBoolean.bitSignInt_injective, CryptBoolean.walshTerm, CryptBoolean.walshTransform") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, pages-22-23, fidelity-exact")
 *Walsh transform (Carlet, pp. 22--23).* Let
 $`f:V_n\to\mathbb F_2`. The Walsh transform of $`f` is the unnormalized
 Fourier transform of its sign function:

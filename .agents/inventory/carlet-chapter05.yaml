@@ -11,7 +11,7 @@ summary:
   total_records: 35
   formalized: 28
   open: 3
-  declarations: 195
+  declarations: 203
   dependency_edges: 70
 scope_note: >-
   Thirty source items below have complete statements checked against the
@@ -310,7 +310,15 @@ items:
       relative norm and iota(N_iota(z))=z^(2^m+1).
     formal_status: formalized
     declarations:
+      - CryptBoolean.binaryFrobeniusLinear
+      - CryptBoolean.binaryFrobeniusLinear_apply
+      - CryptBoolean.absoluteTrace_mul_frobeniusPow
+      - CryptBoolean.oddQuadraticTracePart
+      - CryptBoolean.oddQuadraticTracePart_polar_eq_sum
+      - CryptBoolean.functionAlgebraicDegree_traceMonomial_two_pow_add_one_le_two
+      - CryptBoolean.two_pow_add_one_lt_odd_modulus
       - CryptBoolean.quadraticTraceMiddleNorm
+      - CryptBoolean.quadraticTraceMiddle_finrank
       - CryptBoolean.quadraticTraceMiddleNorm_map_eq_pow
       - CryptBoolean.functionAlgebraicDegree_le_two_iff_exists_odd_quadraticTraceRepresentation
       - CryptBoolean.functionAlgebraicDegree_le_two_iff_exists_even_quadraticTraceRepresentation

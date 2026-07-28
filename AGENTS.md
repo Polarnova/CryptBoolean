@@ -28,17 +28,19 @@ matching Verso entry and production declaration.
 
 ## Current verified surface
 
-The Blueprint baseline is 149 source-facing statement nodes: 146 formalized nodes associated with
-961 proved Lean declarations and 3 visibly open nodes, connected by 296 reviewed dependency edges.
+The Blueprint baseline is 209 source-facing statement nodes: 206 formalized nodes associated with
+1338 proved Lean declarations and 3 visibly open nodes, connected by 467 reviewed dependency
+edges.
 
-- Chapter 2 contributes 38 formalized nodes, 166 declarations, and 48 incoming
+- Chapter 2 contributes 41 formalized nodes, 174 declarations, and 56 incoming
   edges. It covers the scalar
   Boolean-function domain, support and weight, balancedness, raw Walsh transforms, the scaling
   identity for FABL coefficients, Walsh inversion, Parseval, algebraic and numerical normal forms, raw
   pseudo-Boolean Fourier operations, the full raw Poisson formula, derivatives, autocorrelation,
   finite-field trace and representation, distance scaling, affine invariance, restriction recovery,
-  spectral-support bounds, the coordinate/univariate binary-degree formula, trace-monomial degree,
-  and trace-pairing coordinates.
+  spectral-support bounds, the NNF Fourier formula, restriction-square identities, Walsh
+  divisibility, the coordinate/univariate binary-degree formula, trace-monomial degree, and
+  trace-pairing coordinates.
 - Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming edges. It defines
   `reedMuller r n` and proves the affine-weight theorem, general-order distance theorem,
   Proposition 12's minimum-weight affine-flat classification, dimension and cardinality formulas,
@@ -48,13 +50,19 @@ The Blueprint baseline is 149 source-facing statement nodes: 146 formalized node
   and propagation, linear structures, algebraic immunity, autocorrelation, maximum correlation,
   and related complexity criteria, including the sharp random-nonlinearity interval, the exact
   dimension-seven maximum, and the sharp fixed-order higher-order asymptotic upper bound.
-- Chapter 5 contributes 31 nodes (28 formalized and 3 open), 195 declarations, and 70 incoming
+- Chapter 5 contributes 31 nodes (28 formalized and 3 open), 203 declarations, and 70 incoming
   edges. Its statements cover
   affine spectra, quadratic polar forms, weights and affine normal forms, the exact quadratic
   weight and nonlinearity value sets, quadraticization Walsh lifts, affine-flat indicator spectra
   and nonlinearity, the full restriction bound and its equality case, exact random nonnormality,
   covering-sequence consequences, quadratic trace representation, and the conditional
   character-sum/nonlinearity reduction.
+- Chapter 6 contributes 57 formalized nodes, 361 declarations, and 163 incoming edges. It covers
+  bentness, duality, algebraic-degree bounds and Relation (47), primary and secondary
+  constructions, decompositions and counting, NNF, geometric and second-order characterizations,
+  hyper-bent functions, partially bent and plateaued superclasses, normal extensions, and the
+  Kerdock field construction and parameters. The proof of Relation (47) includes the reusable
+  McEliece--Ax character-sum divisibility theorem.
 - Chapter 2 has no open source node. Its binary-degree formula and trace-pairing coordinates,
   together with cyclotomic-orbit noncancellation, close Carlet Proposition 3 on trace-monomial
   algebraic degree.
@@ -62,6 +70,9 @@ The Blueprint baseline is 149 source-facing statement nodes: 146 formalized node
   dual-code weight decomposition, exact weight-`16` rank-seven classification, character-sum
   estimate, and finite Plotkin induction; these remain separate formalized nodes so that the proof
   structure is visible in the Blueprint.
+- Chapter 6 has no open source node. Its finite proofs reuse the canonical FABL Fourier, ANF,
+  algebraic-degree, affine, and derivative APIs together with the preceding Carlet Walsh,
+  Reed--Muller, nonlinearity, quadratic, trace, restriction, and normality layers.
 - The three open Chapter 5 nodes are the analytic Weil character-sum bound, its nonlinearity
   corollary, and the reciprocal character-sum bound.
 - Carlet's Reed--Muller coset-distance equality is formalized with the necessary pairwise-distinct-

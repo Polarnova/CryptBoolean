@@ -2,11 +2,11 @@ source: carlet-2010
 chapter: 2
 status: blueprint-synchronized
 summary:
-  statements: 38
-  formalized: 38
+  statements: 41
+  formalized: 41
   open: 0
-  declarations: 166
-  dependency_edges: 48
+  declarations: 174
+  dependency_edges: 56
 items:
   - id: carlet-2-def-boolean-function
     kind: definition
@@ -45,6 +45,7 @@ items:
     formal_status: formalized
     declarations:
       - CryptBoolean.bitSignInt
+      - CryptBoolean.bitSignInt_injective
       - CryptBoolean.bitSignInt_add
       - CryptBoolean.walshTerm
       - CryptBoolean.walshTransform
@@ -325,6 +326,24 @@ items:
     dependencies:
       - carlet-2-rel-25-wiener-khinchin
 
+  - id: carlet-2-prop-9-restriction-square
+    kind: proposition
+    location: Carlet, Proposition 9 and Relation (28), p. 28
+    statement: >-
+      Let E and E' be complementary subspaces of V_n. For every Boolean
+      function f, the sum of W_f(u)^2 over u in E^perp equals |E^perp|
+      times the sum, over a in E', of the squared sign imbalances of the
+      restrictions of f to the affine cosets a+E.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.affineSubspaceRestrictionImbalance
+      - CryptBoolean.sum_autocorrelation_submodule_eq_sum_affineSubspaceRestrictionImbalance_sq
+      - CryptBoolean.sum_walshTransform_sq_perpendicular_eq_card_mul_sum_restrictionImbalance_sq
+    dependencies:
+      - carlet-2-cor-1-poisson-summation
+      - carlet-2-rel-25-wiener-khinchin
+      - carlet-2-def-2-derivative
+
   - id: carlet-2-anf-skeleton
     kind: definition
     location: Carlet, Relation (1), pp. 9--12
@@ -390,6 +409,23 @@ items:
       - FABL.numericalCoeff_eq_value_sub_lower
     dependencies:
       - carlet-2-def-boolean-function
+
+  - id: carlet-2-rel-30-nnf-fourier
+    kind: theorem
+    location: Carlet, Relation (30), p. 32
+    statement: >-
+      If phi(x) = sum_S lambda_S product_(i in S) x_i is the numerical
+      normal form of a real-valued function on V_n, then its raw Fourier
+      coefficient at u is (-1)^wt(u) times the sum, over S containing the
+      support of u, of 2^(n-|S|) lambda_S.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform_numericalMonomial
+      - CryptBoolean.rawFourierTransform_numericalEval
+    dependencies:
+      - carlet-2-nnf-existence-uniqueness
+      - carlet-2-pseudoboolean-fourier
+      - carlet-2-prop-7-subspace-indicator
 
   - id: carlet-2-prop-4-nnf-mobius
     kind: proposition
@@ -540,6 +576,21 @@ items:
       - FABL.functionAlgebraicDegree_zero
     dependencies:
       - carlet-2-anf-existence-uniqueness
+
+  - id: carlet-2-prop-11-walsh-divisibility
+    kind: proposition
+    location: Carlet, Proposition 11, p. 34
+    statement: >-
+      Let n >= 2 and 1 <= k <= n. If every raw Walsh coefficient of a
+      Boolean function f is divisible by 2^k, then the algebraic degree of f
+      is at most n-k+1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.vectorFourierCoeff_booleanRealEmbedding_eq
+      - CryptBoolean.functionAlgebraicDegree_le_of_two_pow_dvd_walshTransform
+    dependencies:
+      - carlet-2-def-algebraic-degree
+      - carlet-2-def-walsh-transform
 
   - id: carlet-2-support-degree-addition
     kind: lemma

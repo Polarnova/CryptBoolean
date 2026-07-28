@@ -12,6 +12,7 @@ import CryptBooleanBlueprint.Carlet.Chapter02
 import CryptBooleanBlueprint.Carlet.Chapter03
 import CryptBooleanBlueprint.Carlet.Chapter04
 import CryptBooleanBlueprint.Carlet.Chapter05.Classes
+import CryptBooleanBlueprint.Carlet.Chapter06
 import CryptBooleanBlueprint.References
 
 open Verso.Genre
@@ -32,12 +33,12 @@ Reed--Muller coding, and cryptographic criteria for scalar Boolean functions. Ca
 transform and the normalized Fourier coefficient are related throughout by the identity
 $`W_f(a)=2^n\widetilde{f_\chi}(a)`.
 
-The four chapters develop, in order, representations and the Fourier--Walsh relation,
-Reed--Muller coding, scalar cryptographic criteria, and classes with constrained weights, Walsh
-spectra, and nonlinearities.
+The five chapters develop, in order, representations and the Fourier--Walsh relation,
+Reed--Muller coding, scalar cryptographic criteria, classes with constrained weights, Walsh
+spectra, and nonlinearities, and bent functions.
 
-The exposition begins with Carlet's Chapter 2. Thus Chapters 1--4 below correspond respectively
-to Carlet Chapters 2--5; source references retain Carlet's numbering.
+The exposition begins with Carlet's Chapter 2. Thus Chapters 1--5 below correspond respectively
+to Carlet Chapters 2--6; source references retain Carlet's numbering.
 
 Each entry states the mathematics with explicit domains, hypotheses, quantifiers, and conclusions.
 The graph below records the mathematical dependencies among these results.
@@ -58,6 +59,10 @@ Chapter 3: Boolean functions and cryptography
 Chapter 4: Classes with Provable Spectra and Weights
 :::
 
+:::group "carlet-chapter-6"
+Chapter 5: Bent functions
+:::
+
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02}
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter03}
@@ -65,6 +70,8 @@ Chapter 4: Classes with Provable Spectra and Weights
 {include 0 CryptBooleanBlueprint.Carlet.Chapter04}
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter05.Classes}
+
+{include 0 CryptBooleanBlueprint.Carlet.Chapter06}
 
 {references}
 
