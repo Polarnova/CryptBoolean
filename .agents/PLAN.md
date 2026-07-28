@@ -6,7 +6,7 @@ CryptBoolean pins FABL at release `v0.5.6`. Its public root exposes the binary c
 product, representation equivalence, normalized Fourier coefficients, Fourier expansion,
 Plancherel, relative Hamming distance, balancedness, restrictions, ANF, algebraic degree, affine
 functions, and derivatives needed by CryptBoolean. FABL is the canonical owner of those shared APIs;
-this project imports them directly and adds only source-facing or representation bridges.
+this project imports them directly and adds only source-facing or cross-representation laws.
 
 The current Blueprint baseline contains 149 source-facing statement nodes: 146 formalized nodes
 associated with 961 proved Lean declarations and 3 visibly open nodes, connected by 296 reviewed
@@ -31,7 +31,7 @@ statement spine even when a later chapter supplies an earlier theorem's proof.
 FABL Chapters 1--3
         |
         v
-binary/sign/Walsh bridges ---- ANF and algebraic degree
+binary/sign/Walsh identities --- ANF and algebraic degree
         |                           |
         +------------+--------------+
                      v
@@ -77,7 +77,7 @@ tooling pipeline runs, and no local filesystem path appears in package metadata.
 ## Phase 1 - Complete Carlet inventory
 
 Status: in progress. Reviewed Chapter 2 and Chapter 3 items live under `.agents/inventory/`.
-Chapter 4's 73-item inventory and Chapter 5's 30 source items plus one explicit project bridge are
+Chapter 4's 73-item inventory and Chapter 5's 31 mathematical statements are
 source-reviewed and Blueprint-synchronized; Chapters 6--10 are not yet inventoried.
 
 Read Chapters 2--10 in full and create one Blueprint node per in-scope item. Record full statements,
@@ -86,8 +86,12 @@ from the absent vectorial chapter as external dependencies instead of inventing 
 
 Each statement block contains only the source result label and rigorous mathematics: domains,
 quantifiers, hypotheses, and conclusion. Repository links, FABL or Mathlib reuse, proof narration,
-fidelity classification, and completion status belong in metadata or a separate `Formalization
-note`, never in the theorem position.
+fidelity classification, and completion status belong in internal metadata. Reader prose after a
+statement is retained only when it adds mathematical content.
+
+The public Blueprint omits Carlet Chapter 1 and numbers Carlet Chapters 2--10 as reader Chapters
+1--9. It preserves Carlet's titles, section nesting, and order; internal identifiers and citations
+retain the source numbers. Lean modules and the proof plan may follow dependency order.
 
 In parallel with manual review, produce a source crosswalk for repeated numbering and for claims
 that are stated in one section and proved later.
@@ -100,10 +104,10 @@ render, and no proof work has silently expanded or reduced scope.
 Status: complete. All 38 source-facing nodes are formalized by 166 proved declarations with 48
 reviewed dependency edges. This phase includes Proposition 5's numerical-normal-form integrality
 criterion, full raw Poisson summation, affine invariance, restriction recovery, both
-spectral-support bounds, the coordinate/univariate binary-degree bridge, Carlet Proposition 3 on
-trace-monomial degree, and the trace-pairing representation bridge.
+spectral-support bounds, the coordinate/univariate binary-degree formula, Carlet Proposition 3 on
+trace-monomial degree, and trace-pairing coordinates.
 
-Proposition 3 is closed by composing the exact binary-exponent-weight/coordinate-ANF-degree bridge
+Proposition 3 is closed by composing the exact binary-exponent-weight/coordinate-ANF-degree formula
 with noncancellation along the trace monomial's cyclotomic orbit.
 
 ### 2A. Boolean representations
@@ -122,12 +126,12 @@ with noncancellation along the trace monomial's cyclotomic orbit.
 - affine invariance and restriction laws required downstream.
 
 Pinned FABL `v0.5.6` canonically owns the ANF and algebraic-degree APIs. CryptBoolean imports that
-surface directly and keeps only the Carlet-facing statements and narrow representation bridges.
+surface directly and keeps only the Carlet-facing statements and narrow representation laws.
 
 ### 2C. Fourier and Walsh
 
 - raw integer Walsh transform;
-- normalized FABL coefficient bridge;
+- normalized FABL coefficient scaling identity;
 - inversion, Parseval/Plancherel specializations, convolution, and subspace formulas;
 - support and spectral magnitude results;
 - normal numerical form only when its first theorem is ready.
@@ -203,7 +207,7 @@ bent/resilient construction phases.
 
 ## Phase 6 - Chapter 6 bent functions
 
-Order the work by prerequisites rather than subsection number:
+Order proof work by prerequisites; retain the source subsection order in the public Blueprint:
 
 - spectral and derivative characterizations of bentness;
 - dual bent function and normalization laws;
@@ -226,8 +230,8 @@ API. Spectral characterizations do not wait for either.
 - primary and secondary constructions;
 - counting results.
 
-FABL `v0.5.6` already supplies the Siegenthaler-type degree tradeoff. Reuse the upstream theorem
-through the required Carlet representation bridge rather than create a parallel implementation.
+FABL `v0.5.6` already supplies the Siegenthaler-type degree tradeoff. Reuse it through the exact
+Carlet representation theorem.
 
 ## Phase 8 - Chapter 8 propagation criteria
 
@@ -236,8 +240,7 @@ through the required Carlet representation bridge rather than create a parallel 
 - construction theorems;
 - order-`k` propagation and extended propagation criteria.
 
-This phase should reuse the Phase 4 predicates and derivative bridge rather than introduce parallel
-definitions.
+This phase reuses the Phase 4 predicates and derivative correspondence.
 
 ## Phase 9 - Chapter 9 algebraic immunity
 
@@ -263,12 +266,15 @@ This phase reuses the general criteria and does not redefine them for symmetric 
 ## Phase 11 - Carlet closure
 
 Run a statement-to-declaration audit across Chapters 2--10. Resolve every source discrepancy,
-normalization bridge, referenced external lemma, and generalization. Then run the root build,
-forbidden-token scan, strict Blueprint build, dependency-graph validation, and visual HTML/PDF QA.
+normalization identity, referenced external lemma, and generalization. Then have GitHub Actions run
+the root build, forbidden-token scan, strict Blueprint build, dependency-graph validation, and
+rendered-artifact QA.
 
 The repository-level verification commands are `lake build CryptBoolean`,
 `./.github/scripts/forbidden_tokens.sh`, `./.github/scripts/audit_axioms.sh`, and
-`./blueprint-verso/scripts/site.sh build`.
+`./blueprint-verso/scripts/site.sh build release`; they run in GitHub Actions, not on the development
+machine. Local work uses lightweight text and manifest checks plus a known-small module build when
+needed. Never start a root, complete Blueprint, or publication build locally.
 
 Publish a Carlet coverage release only after every node is compiled and the complete dependency
 closure is green.
@@ -290,7 +296,7 @@ be encoded as informal asymptotic prose or trusted runtime annotations.
 
 - the complete Carlet inventory and Blueprint;
 - the Lean repository and pinned FABL integration;
-- bit/sign/real representation bridges;
+- bit/sign/real representation theorems;
 - raw Walsh normalization and Fourier reuse;
 - weight, distance, affine functions, balancedness, and nonlinearity;
 - ANF, algebraic degree, Reed-Muller families, and algebraic immunity;

@@ -46,8 +46,8 @@ $$`
 `
 :::
 
-:::lemma_ "carlet-4-higher-order-counting-criterion" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hammingBallVolume, CryptBoolean.exists_higherOrderNonlinearity_gt_of_counting, CryptBoolean.exists_higherOrderNonlinearity_gt_of_hammingBallVolume_lt") (uses := "carlet-4-def-higher-order-nonlinearity, carlet-3-reed-muller-dimension") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, sphere-covering, page-54, fidelity-exact-finite-core")
-*Project bridge: finite sphere-covering criterion for Carlet's p. 54 lower bound.* Put
+:::lemma_ "carlet-4-higher-order-counting-criterion" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hammingBallVolume, CryptBoolean.exists_higherOrderNonlinearity_gt_of_counting, CryptBoolean.exists_higherOrderNonlinearity_gt_of_hammingBallVolume_lt") (uses := "carlet-4-def-higher-order-nonlinearity, carlet-3-reed-muller-dimension") (tags := "carlet, chapter-4, higher-order-nonlinearity, sphere-covering, page-54, fidelity-exact-finite-core")
+*Finite sphere-covering criterion for Carlet's p. 54 lower bound.* Put
 $$`
 V(N,t)=\sum_{j=0}^{t}\binom Nj,
 \qquad
@@ -72,8 +72,8 @@ $$`
 `
 :::
 
-:::lemma_ "carlet-4-higher-order-plotkin-induction" (parent := "carlet-chapter-4") (lean := "CryptBoolean.maximumHigherOrderNonlinearity, CryptBoolean.higherOrderNonlinearity_le_maximum, CryptBoolean.exists_higherOrderNonlinearity_eq_maximum, CryptBoolean.maximumHigherOrderNonlinearity_succ_le, CryptBoolean.maximumHigherOrderNonlinearity_self, CryptBoolean.maximumHigherOrderNonlinearity_le_sum_Ico, CryptBoolean.maximumHigherOrderNonlinearity_cast_le_sum_Ico_of_le, CryptBoolean.maximumHigherOrderNonlinearity_cast_le_carlet_step") (uses := "carlet-4-def-higher-order-nonlinearity") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, plotkin-recurrence, reference-91, fidelity-exact-finite-core")
-*Project bridge: finite Plotkin induction for the cited upper bound.* Define
+:::lemma_ "carlet-4-higher-order-plotkin-induction" (parent := "carlet-chapter-4") (lean := "CryptBoolean.maximumHigherOrderNonlinearity, CryptBoolean.higherOrderNonlinearity_le_maximum, CryptBoolean.exists_higherOrderNonlinearity_eq_maximum, CryptBoolean.maximumHigherOrderNonlinearity_succ_le, CryptBoolean.maximumHigherOrderNonlinearity_self, CryptBoolean.maximumHigherOrderNonlinearity_le_sum_Ico, CryptBoolean.maximumHigherOrderNonlinearity_cast_le_sum_Ico_of_le, CryptBoolean.maximumHigherOrderNonlinearity_cast_le_carlet_step") (uses := "carlet-4-def-higher-order-nonlinearity") (tags := "carlet, chapter-4, higher-order-nonlinearity, plotkin-recurrence, reference-91, fidelity-exact-finite-core")
+*Finite Plotkin induction for the cited upper bound.* Define
 $`\rho(r,n)=\max_f\operatorname{nl}_r(f)`. For $`1\le r\le n`,
 $$`
 \rho(r,n)\le\sum_{j=r}^{n-1}\rho(r-1,j).
@@ -91,16 +91,15 @@ $$`
 `
 :::
 
-Formalization note. The proof constructs the Plotkin approximant from the two
+The proof constructs the Plotkin approximant from the two
 coordinate slices and then evaluates the two finite geometric sums exactly.
 Thus the cited sharp constant reduces to the order-two covering-radius
 theorem.
 
-*Proof architecture of the sharp upper bound.*
+*Outline of the sharp upper bound.*
 
-The argument below is organized as a chain of mathematical interfaces rather
-than as one monolithic calculation. First, the correlation-moment ratio turns
-a lower bound for two consecutive even moments into an upper bound for the
+The sharp upper bound follows from a chain of lemmas. The correlation-moment ratio turns a lower
+bound for two consecutive even moments into an upper bound for the
 order-two covering radius. Character orthogonality then rewrites those moments
 as signed counts of words in the dual Reed--Muller code, and finite Fourier
 inversion groups the counts by Hamming weight. The difference of the seventh
@@ -116,11 +115,10 @@ $`[16,8,\ge4]` code, classified into the three affine orbits $`2E_8`,
 $`D_{16}^{+}`, and $`F_{16}`, and controlled by an orbit-wise sum-of-squares
 identity. Words of affine-span rank at most six are handled by a separate
 rank-deficient affine-mask cover. Adding these two estimates supplies the
-single weight-sixteen character bound consumed by the moment argument; no
+single weight-sixteen character bound used by the moment argument; no
 later analytic step depends on the details of the finite classification.
 
-More explicitly, the exceptional branch factors through the following
-mathematical interfaces.
+More explicitly, the exceptional branch uses the following six steps.
 
 1. Orthogonality to $`R(2,n)` bounds the affine-span dimension of a
    weight-sixteen support by seven and, in dimension seven, produces an
@@ -142,11 +140,11 @@ mathematical interfaces.
    Counting maps and masks bounds both the residual family and its character
    loss.
 6. The exact rank-seven/residual partition adds the three orbit estimates and
-   the residual estimate. This is the sole weight-sixteen input to the
+   the residual estimate. This is the sole weight-sixteen ingredient in the
    seventh/eighth moment inequality.
 
-:::lemma_ "carlet-4-higher-order-order-two-moment-ratio" (parent := "carlet-chapter-4") (lean := "CryptBoolean.orderTwoCorrelation, CryptBoolean.orderTwoCorrelation_eq_two_pow_sub_two_hammingDistance, CryptBoolean.maximumOrderTwoCorrelation, CryptBoolean.maximumOrderTwoCorrelation_eq, CryptBoolean.orderTwoCorrelation_le_maximum, CryptBoolean.exists_orderTwoCorrelation_eq_maximum, CryptBoolean.maximumOrderTwoCorrelation_nonneg, CryptBoolean.abs_orderTwoCorrelation_le_maximum, CryptBoolean.orderTwoCorrelationPowerSum, CryptBoolean.orderTwoCorrelationPowerSum_nonneg, CryptBoolean.orderTwoCorrelationPowerSum_pos, CryptBoolean.orderTwoCorrelationPowerSum_succ_le, CryptBoolean.sqrt_orderTwoCorrelationPowerSum_ratio_le, CryptBoolean.minimumOrderTwoMomentRatio, CryptBoolean.maximumHigherOrderNonlinearity_two_cast_le_momentRatio") (uses := "carlet-4-def-higher-order-nonlinearity, carlet-4-rel-35-nonlinearity-walsh, carlet-2-parseval") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, moment-method, reference-91, fidelity-exact-finite-core")
-*Project bridge: second-order correlation moment ratio.* For
+:::lemma_ "carlet-4-higher-order-order-two-moment-ratio" (parent := "carlet-chapter-4") (lean := "CryptBoolean.orderTwoCorrelation, CryptBoolean.orderTwoCorrelation_eq_two_pow_sub_two_hammingDistance, CryptBoolean.maximumOrderTwoCorrelation, CryptBoolean.maximumOrderTwoCorrelation_eq, CryptBoolean.orderTwoCorrelation_le_maximum, CryptBoolean.exists_orderTwoCorrelation_eq_maximum, CryptBoolean.maximumOrderTwoCorrelation_nonneg, CryptBoolean.abs_orderTwoCorrelation_le_maximum, CryptBoolean.orderTwoCorrelationPowerSum, CryptBoolean.orderTwoCorrelationPowerSum_nonneg, CryptBoolean.orderTwoCorrelationPowerSum_pos, CryptBoolean.orderTwoCorrelationPowerSum_succ_le, CryptBoolean.sqrt_orderTwoCorrelationPowerSum_ratio_le, CryptBoolean.minimumOrderTwoMomentRatio, CryptBoolean.maximumHigherOrderNonlinearity_two_cast_le_momentRatio") (uses := "carlet-4-def-higher-order-nonlinearity, carlet-4-rel-35-nonlinearity-walsh, carlet-2-parseval") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, moment-method, reference-91, fidelity-exact-finite-core")
+*Second-order correlation moment ratio.* For
 $`f:V_n\to\mathbb F_2` and $`g\in R(2,n)`, put
 $$`
 C_f(g)=2^n-2d_H(f,g),
@@ -165,14 +163,14 @@ $$`
 `
 :::
 
-Formalization note. Relations (9.7)--(9.10) of the cited Carlet--Mesnager
+Relations (9.7)--(9.10) of the cited Carlet--Mesnager
 argument reduce the sharp order-two bound to a uniform lower estimate for
 consecutive even correlation moments. The low-weight dual Reed--Muller
 classification supplies that estimate through the subsequent weight-by-weight
 decomposition.
 
-:::lemma_ "carlet-4-higher-order-order-two-dual-moment-decomposition" (parent := "carlet-chapter-4") (lean := "CryptBoolean.tuplePointParity, CryptBoolean.booleanFunctionPairing_tuplePointParity, CryptBoolean.orderTwoAdmissibleTuples, CryptBoolean.reedMullerTwoPairingCharacterSum, CryptBoolean.reedMullerTwoPairingCharacterSum_eq_card_of_mem_dual, CryptBoolean.reedMullerTwoPairingCharacterSum_eq_zero_of_not_mem_dual, CryptBoolean.orderTwoCorrelationPowerSum_eq_admissibleTupleCharacterSum") (uses := "carlet-4-higher-order-order-two-moment-ratio, carlet-3-theorem-2") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, moment-decomposition, reference-91, fidelity-exact-finite-core")
-*Project bridge: dual-code decomposition of second-order correlation moments.*
+:::lemma_ "carlet-4-higher-order-order-two-dual-moment-decomposition" (parent := "carlet-chapter-4") (lean := "CryptBoolean.tuplePointParity, CryptBoolean.booleanFunctionPairing_tuplePointParity, CryptBoolean.orderTwoAdmissibleTuples, CryptBoolean.reedMullerTwoPairingCharacterSum, CryptBoolean.reedMullerTwoPairingCharacterSum_eq_card_of_mem_dual, CryptBoolean.reedMullerTwoPairingCharacterSum_eq_zero_of_not_mem_dual, CryptBoolean.orderTwoCorrelationPowerSum_eq_admissibleTupleCharacterSum") (uses := "carlet-4-higher-order-order-two-moment-ratio, carlet-3-theorem-2") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, moment-decomposition, reference-91, fidelity-exact-finite-core")
+*Dual-code decomposition of second-order correlation moments.*
 For an ordered $`2k`-tuple $`x=(x_i)` of points of $`V_n`, let $`p_x` be
 the Boolean function recording the parity of the multiplicity of each point,
 and let
@@ -186,13 +184,13 @@ S_k(f)=|R(2,n)|
 `
 :::
 
-Formalization note. Expanding the even power gives ordered tuples. Character
+Expanding the even power gives ordered tuples. Character
 orthogonality over $`R(2,n)` leaves exactly its dual, and Chapter 3 duality
 identifies that code with $`R(n-3,n)`. This is Carlet--Mesnager Lemma 9.2.2;
 the subsequent grouping by low dual weights remains separate.
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-grouping" (parent := "carlet-chapter-4") (lean := "CryptBoolean.orderTwoDualWords, CryptBoolean.tuplePointParityFiber, CryptBoolean.tuplePointParityMultiplicity, CryptBoolean.tuplePointParityMultiplicity_comp_perm, CryptBoolean.tuplePointParityMultiplicity_eq_of_hammingWeight_eq, CryptBoolean.tuplePointParityMultiplicityByWeight, CryptBoolean.tuplePointParityMultiplicity_eq_byWeight, CryptBoolean.tuplePointParityMultiplicityByWeight_eq_fourierSum, CryptBoolean.tuplePointParityKrawtchoukMultiplicity, CryptBoolean.tuplePointParityMultiplicityByWeight_eq_krawtchoukSum, CryptBoolean.orderTwoCorrelationPowerSum_eq_dualWeightGroupedCharacterSum, CryptBoolean.orderTwoCorrelationPowerSum_eq_dualFourierMultiplicityCharacterSum, CryptBoolean.orderTwoCorrelationPowerSum_eq_dualKrawtchoukMultiplicityCharacterSum") (uses := "carlet-4-higher-order-order-two-dual-moment-decomposition") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-grouping, krawtchouk, reference-91, fidelity-exact-finite-core")
-*Project bridge: weight grouping and finite inversion of tuple multiplicities.*
+:::lemma_ "carlet-4-higher-order-order-two-weight-grouping" (parent := "carlet-chapter-4") (lean := "CryptBoolean.orderTwoDualWords, CryptBoolean.tuplePointParityFiber, CryptBoolean.tuplePointParityMultiplicity, CryptBoolean.tuplePointParityMultiplicity_comp_perm, CryptBoolean.tuplePointParityMultiplicity_eq_of_hammingWeight_eq, CryptBoolean.tuplePointParityMultiplicityByWeight, CryptBoolean.tuplePointParityMultiplicity_eq_byWeight, CryptBoolean.tuplePointParityMultiplicityByWeight_eq_fourierSum, CryptBoolean.tuplePointParityKrawtchoukMultiplicity, CryptBoolean.tuplePointParityMultiplicityByWeight_eq_krawtchoukSum, CryptBoolean.orderTwoCorrelationPowerSum_eq_dualWeightGroupedCharacterSum, CryptBoolean.orderTwoCorrelationPowerSum_eq_dualFourierMultiplicityCharacterSum, CryptBoolean.orderTwoCorrelationPowerSum_eq_dualKrawtchoukMultiplicityCharacterSum") (uses := "carlet-4-higher-order-order-two-dual-moment-decomposition") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-grouping, krawtchouk, reference-91, fidelity-exact-finite-core")
+*Weight grouping and finite inversion of tuple multiplicities.*
 Let $`N_k(w)` be the number of ordered $`2k`-tuples whose point-parity word
 is a prescribed Boolean function of Hamming weight $`w`. This number depends
 only on $`w`, and
@@ -205,14 +203,14 @@ dual-code moment decomposition can be grouped by dual words and then by their
 Hamming weights using these exact multiplicities.
 :::
 
-Formalization note. Permuting the Boolean cube identifies all tuple-parity
+Permuting the Boolean cube identifies all tuple-parity
 fibers of equal weight. Character orthogonality on the full Boolean-function
-group gives finite Fourier inversion, and FABL's Krawtchouk API groups the
+group gives finite Fourier inversion, and the Krawtchouk expansion groups the
 Fourier sum by Hamming weight. This is the finite form of Carlet--Mesnager
 Proposition 9.2.5 and Lemma 9.2.7.
 
-:::lemma_ "carlet-4-higher-order-order-two-low-weight-support" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hasOrderTwoLowWeightSpectrum, CryptBoolean.tuplePointParityMultiplicityByWeight_eq_zero_of_lt, CryptBoolean.tuplePointParityMomentDifference_eq_zero_of_sixteen_lt, CryptBoolean.orderTwoMomentDifferenceCharacterSum_eq_lowWeights") (uses := "carlet-4-higher-order-order-two-weight-grouping, carlet-3-theorem-1") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, low-weight-spectrum, reference-91, fidelity-exact-finite-core")
-*Project bridge: support of the seventh/eighth moment difference.* Let
+:::lemma_ "carlet-4-higher-order-order-two-low-weight-support" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hasOrderTwoLowWeightSpectrum, CryptBoolean.tuplePointParityMultiplicityByWeight_eq_zero_of_lt, CryptBoolean.tuplePointParityMomentDifference_eq_zero_of_sixteen_lt, CryptBoolean.orderTwoMomentDifferenceCharacterSum_eq_lowWeights") (uses := "carlet-4-higher-order-order-two-weight-grouping, carlet-3-theorem-1") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, low-weight-spectrum, reference-91, fidelity-exact-finite-core")
+*Support of the seventh/eighth moment difference.* Let
 $`h\in R(n-3,n)` and $`n\ge7`. Among even weights at most $`16`, the only
 possibilities are
 $$`
@@ -224,14 +222,14 @@ $`S_8(f)-15\cdot2^nS_7(f)` vanishes for $`w>16`, so this moment difference
 is supported only at the five displayed weights.
 :::
 
-Formalization note. The minimum-distance theorem excludes weights below
+The minimum-distance theorem excludes weights below
 eight and the codimension-three spectrum excludes weight ten; tuple support
 alone removes weights above sixteen. This is the finite support reduction
 used before the individual low-weight estimates in
 {Citations.citet carletMesnager2007}[].
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-eight-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.orderTwoWeightEightDualWords_eq_affineFlatIndicators, CryptBoolean.orderTwoWeightEightCharacterSum_eq_affineFlatCharacterSum, CryptBoolean.card_binaryAffineFlats_two, CryptBoolean.binaryAffineFlatCharacterSum_three_ge_neg_card, CryptBoolean.binaryAffineFlatCharacterSum_three_ge, CryptBoolean.orderTwoWeightEightCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-prop-12") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-eight, affine-flats, reference-91, fidelity-exact-finite-core")
-*Project bridge: weight-eight dual character bound.* For $`n\ge3`, the
+:::lemma_ "carlet-4-higher-order-order-two-weight-eight-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.orderTwoWeightEightDualWords_eq_affineFlatIndicators, CryptBoolean.orderTwoWeightEightCharacterSum_eq_affineFlatCharacterSum, CryptBoolean.card_binaryAffineFlats_two, CryptBoolean.binaryAffineFlatCharacterSum_three_ge_neg_card, CryptBoolean.binaryAffineFlatCharacterSum_three_ge, CryptBoolean.orderTwoWeightEightCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-prop-12") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-eight, affine-flats, reference-91, fidelity-exact-finite-core")
+*Weight-eight dual character bound.* For $`n\ge3`, the
 weight-eight words of $`R(n-3,n)` are precisely the indicators of affine
 three-flats. If
 $$`
@@ -245,14 +243,14 @@ M_8(f)\ge
 `
 :::
 
-Formalization note. Proposition 12 supplies the affine-flat normal form.
+Proposition 12 supplies the affine-flat normal form.
 The character sum over parallel affine two-flat pairs is a square; removing
 the diagonal leaves the stated lower bound. This is
 Carlet--Mesnager Proposition 9.2.10(1)
 {Citations.citep carletMesnager2007}[].
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-twelve-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hasWeightTwelveFlatPairClassification, CryptBoolean.weightTwelveRepresentationCharacterSum_ge, CryptBoolean.orderTwoWeightTwelveCharacterSum_eq_representation, CryptBoolean.orderTwoWeightTwelveCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-theorem-2") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-twelve, affine-flats, reference-91, fidelity-exact-finite-core")
-*Project bridge: weight-twelve dual character bound.* For $`n\ge5`, every
+:::lemma_ "carlet-4-higher-order-order-two-weight-twelve-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hasWeightTwelveFlatPairClassification, CryptBoolean.weightTwelveRepresentationCharacterSum_ge, CryptBoolean.orderTwoWeightTwelveCharacterSum_eq_representation, CryptBoolean.orderTwoWeightTwelveCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-theorem-2") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-twelve, affine-flats, reference-91, fidelity-exact-finite-core")
+*Weight-twelve dual character bound.* For $`n\ge5`, every
 weight-twelve word of $`R(n-3,n)` has exactly twenty ordered
 representations as the sum of two affine three-flat indicators whose
 intersection is an affine line. Consequently, with
@@ -266,15 +264,15 @@ M_{12}(f)\ge-\frac{(2^n)^5}{20}.
 `
 :::
 
-Formalization note. The exact fiber size converts the word sum into a
+The exact fiber size converts the word sum into a
 normalized affine-flat representation sum. The unrestricted sum is a sum of
 squares indexed by affine lines; the excluded nontransverse configurations
 inject into five ambient vectors. The low-weight classification follows the
 Kasami--Tokura analysis
 {Citations.citep kasamiTokura1970 kasamiTokuraAzumi1976}[].
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-fourteen-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hasWeightFourteenFlatPairClassification, CryptBoolean.weightFourteenRepresentationCharacterSum_ge, CryptBoolean.orderTwoWeightFourteenCharacterSum_eq_representation, CryptBoolean.orderTwoWeightFourteenCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-theorem-2") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-fourteen, affine-flats, reference-91, fidelity-exact-finite-core")
-*Project bridge: weight-fourteen dual character bound.* Every
+:::lemma_ "carlet-4-higher-order-order-two-weight-fourteen-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.hasWeightFourteenFlatPairClassification, CryptBoolean.weightFourteenRepresentationCharacterSum_ge, CryptBoolean.orderTwoWeightFourteenCharacterSum_eq_representation, CryptBoolean.orderTwoWeightFourteenCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-theorem-2") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-fourteen, affine-flats, reference-91, fidelity-exact-finite-core")
+*Weight-fourteen dual character bound.* Every
 weight-fourteen word of $`R(n-3,n)` is the sum of two affine three-flat
 indicators meeting in one point, with exactly the two ordered
 representations obtained by exchanging the flats. Therefore
@@ -285,14 +283,14 @@ M_{14}(f)=\sum_{\substack{h\in R(n-3,n)\\\operatorname{wt}(h)=14}}
 `
 :::
 
-Formalization note. The complete ordered-pair sum at each base point is a
+The complete ordered-pair sum at each base point is a
 square. Nontransverse pairs inject into five ambient vectors, and the exact
 two-element representation fiber transfers the resulting bound to distinct
 dual words. The classification is the relevant Kasami--Tokura low-weight
 case {Citations.citep kasamiTokura1970 kasamiTokuraAzumi1976}[].
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-rank-reduction" (parent := "carlet-chapter-4") (lean := "CryptBoolean.finrank_supportDifferenceSpan_le_seven_of_weight_sixteen, CryptBoolean.exists_supportDifferenceBasis_of_finrank_eq, CryptBoolean.augmentedSupportDifferenceCode_le_perpendicular, CryptBoolean.four_le_binaryVectorWeight_of_mem_augmentedSupportDifferenceCode, CryptBoolean.finrank_augmentedSupportDifferenceCode_eq_eight, CryptBoolean.augmentedSupportDifferenceCode_eq_perpendicular") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-theorem-2") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, self-dual-code, affine-span, reference-91, fidelity-exact-finite-core")
-*Project bridge: rank reduction and the augmented self-dual code.* Let
+:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-rank-reduction" (parent := "carlet-chapter-4") (lean := "CryptBoolean.finrank_supportDifferenceSpan_le_seven_of_weight_sixteen, CryptBoolean.exists_supportDifferenceBasis_of_finrank_eq, CryptBoolean.augmentedSupportDifferenceCode_le_perpendicular, CryptBoolean.four_le_binaryVectorWeight_of_mem_augmentedSupportDifferenceCode, CryptBoolean.finrank_augmentedSupportDifferenceCode_eq_eight, CryptBoolean.augmentedSupportDifferenceCode_eq_perpendicular") (uses := "carlet-4-higher-order-order-two-low-weight-support, carlet-3-theorem-2") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, self-dual-code, affine-span, reference-91, fidelity-exact-finite-core")
+*Rank reduction and the augmented self-dual code.* Let
 $`h\in R(n-3,n)` have weight $`16`, and choose $`p\in\operatorname{supp}(h)`.
 Then the affine span of the support differences has dimension at most seven.
 Whenever this dimension is $`r`, one can choose $`r` actual support
@@ -302,7 +300,7 @@ evaluation on the sixteen support points produces a binary self-dual code
 of length $`16`, dimension $`8`, and minimum distance at least $`4`.
 :::
 
-Formalization note. Orthogonality to $`R(2,n)` gives self-orthogonality of
+Orthogonality to $`R(2,n)` gives self-orthogonality of
 the augmented evaluation code; the full-span rank calculation upgrades this
 to self-duality. A basis is then extracted from the genuine support
 differences spanning the direction space. Thus the rank-seven branch reduces
@@ -311,8 +309,8 @@ projective binary self-dual $`[16,8,\ge4]` codes, whose three types are
 described in {Citations.citet pless1972}[] and surveyed by
 {Citations.citet rainsSloane1998}[].
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-rank-seven-classification" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rankSevenWeightSixteenPatternCertificate, CryptBoolean.hasRankSevenWeightSixteenOrbitClassification") (uses := "carlet-4-higher-order-order-two-weight-sixteen-rank-reduction") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, rank-seven, finite-classification, fidelity-exact")
-*Project bridge: rank-seven weight-sixteen classification.* A weight-sixteen
+:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-rank-seven-classification" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rankSevenWeightSixteenPatternCertificate, CryptBoolean.hasRankSevenWeightSixteenOrbitClassification") (uses := "carlet-4-higher-order-order-two-weight-sixteen-rank-reduction") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, rank-seven, finite-classification, fidelity-exact")
+*Rank-seven weight-sixteen classification.* A weight-sixteen
 word $`h\in R(n-3,n)` whose support has affine-span dimension seven is an
 injective affine image of exactly one of the three canonical sixteen-point
 patterns $`2E_8`, $`D_{16}^{+}`, and $`F_{16}`. Conversely, every such image
@@ -320,22 +318,21 @@ has weight sixteen, belongs to $`R(n-3,n)`, and has support-affine-span
 dimension seven; the three affine orbits are pairwise disjoint.
 :::
 
-Formalization note. Choosing a support point and a basis of genuine support
+Choosing a support point and a basis of support
 differences gives an affine embedding of a normalized sixteen-point set in
 $`V_7`. In these coordinates the quadratic dual-code constraints become
 systematic parity conditions on the residual columns, each an odd, non-unit
-vector of $`\mathbb F_2^8`. A finite completion lemma exhausts every strictly
-increasing, pairwise-orthogonal column system meeting these conditions; each
-such completion decodes to an explicit affine certificate that exhibits its
-support as an injective affine image of exactly one of the three canonical
-patterns $`2E_8`, $`D_{16}^{+}`, and $`F_{16}`, and pairwise orbit
-disjointness makes that pattern unique. The resulting three-orbit
+vector of $`\mathbb F_2^8`. Classifying the strictly increasing,
+pairwise-orthogonal column systems that meet these conditions shows that every
+support is an injective affine image of exactly one of the three canonical
+patterns $`2E_8`, $`D_{16}^{+}`, and $`F_{16}`. Pairwise orbit disjointness
+makes the pattern unique. The resulting three-orbit
 classification agrees with the enumeration of
 {Citations.citet mesnagerOblaukhov2022}[] and with the self-dual code types in
 {Citations.citet pless1972 rainsSloane1998}[].
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-orbit-sos" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rankSevenWeightSixteenPatternAffineProduct, CryptBoolean.rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum, CryptBoolean.rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum_nonneg, CryptBoolean.rankSevenWeightSixteenInjectiveAffineMapData, CryptBoolean.rankSevenWeightSixteenInjectiveAffineMapCharacterSum_ge, CryptBoolean.rankSevenWeightSixteenPatternOrbitWords, CryptBoolean.rankSevenWeightSixteenPatternOrbitCharacterSum, CryptBoolean.rankSevenWeightSixteenPatternOrbitCharacterSum_ge") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, orbit-sum, sum-of-squares, fidelity-exact-finite-core")
-*Project bridge: nonnegative affine-map sums for rank-seven patterns.* Let
+:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-orbit-sos" (parent := "carlet-chapter-4") (lean := "CryptBoolean.rankSevenWeightSixteenPatternAffineProduct, CryptBoolean.rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum, CryptBoolean.rankSevenWeightSixteenPatternCompleteAffineMapCharacterSum_nonneg, CryptBoolean.rankSevenWeightSixteenInjectiveAffineMapData, CryptBoolean.rankSevenWeightSixteenInjectiveAffineMapCharacterSum_ge, CryptBoolean.rankSevenWeightSixteenPatternOrbitWords, CryptBoolean.rankSevenWeightSixteenPatternOrbitCharacterSum, CryptBoolean.rankSevenWeightSixteenPatternOrbitCharacterSum_ge") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, orbit-sum, sum-of-squares, fidelity-exact-finite-core")
+*Nonnegative affine-map sums for rank-seven patterns.* Let
 $`\sigma:V_n\to\{-1,1\}`. For each
 $`c\in\{2E_8,D_{16}^{+},F_{16}\}`, the sum over all affine maps
 $`A:V_7\to V_n` of
@@ -350,7 +347,7 @@ $$`
 `
 :::
 
-Formalization note. The $`2E_8` sum is a square, the $`D_{16}^{+}` sum is a
+The $`2E_8` sum is a square, the $`D_{16}^{+}` sum is a
 sum of squares after a fourfold convolution, and the $`F_{16}` sum is a
 nonnegative four-cycle trace. Splitting the complete sum into injective and
 rank-deficient maps loses at most $`127(2^n)^7`, since every character product
@@ -360,8 +357,8 @@ division by this cardinality yields the orbit bound. This is the repaired
 orbit-level substitute for the overextended disjoint-three-flat step in
 {Citations.citet carletMesnager2007}[].
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-residual-cover" (parent := "carlet-chapter-4") (lean := "CryptBoolean.sevenVariableAffineMaskWord, CryptBoolean.rankDeficientSevenVariableAffineMaskImageWords, CryptBoolean.card_rankDeficientSevenVariableAffineMaskImageWords_le, CryptBoolean.HasRankAtMostSixWeightSixteenDeficientAffineMaskCover, CryptBoolean.hasRankAtMostSixWeightSixteenDeficientAffineMaskCover, CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualWords_subset_affineMaskImage_of_cover, CryptBoolean.card_orderTwoWeightSixteenRankAtMostSixResidualWords_le, CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualCharacterSum, CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-weight-sixteen-rank-reduction") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, low-rank, residual-cover, fidelity-exact-finite-core")
-*Project bridge: rank-at-most-six residual cover.* For $`n\ge3`, every
+:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-residual-cover" (parent := "carlet-chapter-4") (lean := "CryptBoolean.sevenVariableAffineMaskWord, CryptBoolean.rankDeficientSevenVariableAffineMaskImageWords, CryptBoolean.card_rankDeficientSevenVariableAffineMaskImageWords_le, CryptBoolean.HasRankAtMostSixWeightSixteenDeficientAffineMaskCover, CryptBoolean.hasRankAtMostSixWeightSixteenDeficientAffineMaskCover, CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualWords_subset_affineMaskImage_of_cover, CryptBoolean.card_orderTwoWeightSixteenRankAtMostSixResidualWords_le, CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualCharacterSum, CryptBoolean.orderTwoWeightSixteenRankAtMostSixResidualCharacterSum_ge") (uses := "carlet-4-higher-order-order-two-weight-sixteen-rank-reduction") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, low-rank, residual-cover, fidelity-exact-finite-core")
+*Rank-at-most-six residual cover.* For $`n\ge3`, every
 weight-sixteen word of $`R(n-3,n)` whose support-affine-span dimension is at
 most six is the image of an arbitrary mask on $`V_7` under a rank-deficient
 affine map $`V_7\to V_n`. Hence the residual family has cardinality at most
@@ -371,7 +368,7 @@ $$`
 and its character sum is at least the negative of this quantity.
 :::
 
-Formalization note. A padded basis of the support-difference span supplies
+A padded basis of the support-difference span supplies
 the rank-deficient affine map, while the inverse image of the support supplies
 the mask. There are at most $`127(2^n)^7` such affine maps and exactly
 $`2^{128}` masks; taking images cannot increase cardinality, and a sum of
@@ -381,8 +378,8 @@ non-minimal disjoint-flat classification of
 {Citations.citet borissovManevNikova2003}[]; the existence of minimal
 weight-sixteen words is documented by {Citations.citet borissovManev2004}[].
 
-:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-character-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.orderTwoWeightSixteenCharacterSum_ge_rankSevenClassification") (uses := "carlet-4-higher-order-order-two-weight-sixteen-rank-seven-classification, carlet-4-higher-order-order-two-weight-sixteen-orbit-sos, carlet-4-higher-order-order-two-weight-sixteen-residual-cover") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, character-sum, fidelity-exact")
-*Project bridge: aggregate weight-sixteen character bound.* For $`n\ge3`
+:::lemma_ "carlet-4-higher-order-order-two-weight-sixteen-character-bound" (parent := "carlet-chapter-4") (lean := "CryptBoolean.orderTwoWeightSixteenCharacterSum_ge_rankSevenClassification") (uses := "carlet-4-higher-order-order-two-weight-sixteen-rank-seven-classification, carlet-4-higher-order-order-two-weight-sixteen-orbit-sos, carlet-4-higher-order-order-two-weight-sixteen-residual-cover") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, dual-code, weight-sixteen, character-sum, fidelity-exact")
+*Aggregate weight-sixteen character bound.* For $`n\ge3`
 and every $`f:V_n\to\mathbb F_2`,
 $$`
 M_{16}(f)=
@@ -392,14 +389,14 @@ M_{16}(f)=
 `
 :::
 
-Formalization note. The rank-seven classification and the low-rank cover
+The rank-seven classification and the low-rank cover
 partition the weight-sixteen words into the three canonical affine orbits and
 the rank-at-most-six residual family. The orbit estimates and the residual
 cardinality estimate then add without requiring a universal disjoint-flat
 representation.
 
-:::lemma_ "carlet-4-higher-order-order-two-moment-difference" (parent := "carlet-chapter-4") (lean := "CryptBoolean.tuplePointParityMomentDifference_zero_ge, CryptBoolean.tuplePointParityMomentDifference_eight_bounds, CryptBoolean.tuplePointParityMomentDifference_twelve_bounds, CryptBoolean.tuplePointParityMomentDifference_fourteen_bounds, CryptBoolean.tuplePointParityMomentDifference_sixteen_bounds, CryptBoolean.orderTwoCorrelationPowerSum_difference_eq_lowWeights, CryptBoolean.orderTwoCorrelationPowerSum_difference_ge_of_weightSixteenCharacterSum") (uses := "carlet-4-higher-order-order-two-weight-eight-bound, carlet-4-higher-order-order-two-weight-twelve-bound, carlet-4-higher-order-order-two-weight-fourteen-bound, carlet-4-higher-order-order-two-weight-sixteen-character-bound") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, moment-difference, low-weight-spectrum, reference-91, fidelity-exact-conditional-core")
-*Project bridge: seventh/eighth moment-difference estimate.* Put $`q=2^n`.
+:::lemma_ "carlet-4-higher-order-order-two-moment-difference" (parent := "carlet-chapter-4") (lean := "CryptBoolean.tuplePointParityMomentDifference_zero_ge, CryptBoolean.tuplePointParityMomentDifference_eight_bounds, CryptBoolean.tuplePointParityMomentDifference_twelve_bounds, CryptBoolean.tuplePointParityMomentDifference_fourteen_bounds, CryptBoolean.tuplePointParityMomentDifference_sixteen_bounds, CryptBoolean.orderTwoCorrelationPowerSum_difference_eq_lowWeights, CryptBoolean.orderTwoCorrelationPowerSum_difference_ge_of_weightSixteenCharacterSum") (uses := "carlet-4-higher-order-order-two-weight-eight-bound, carlet-4-higher-order-order-two-weight-twelve-bound, carlet-4-higher-order-order-two-weight-fourteen-bound, carlet-4-higher-order-order-two-weight-sixteen-character-bound") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, moment-difference, low-weight-spectrum, reference-91, fidelity-exact-conditional-core")
+*Seventh/eighth moment-difference estimate.* Put $`q=2^n`.
 For $`n\ge7`, the exact dual-weight decomposition gives
 $$`
 S_8(f)-15qS_7(f)
@@ -415,14 +412,14 @@ S_8(f)-15qS_7(f)
 `
 :::
 
-Formalization note. Exact tuple-count polynomials provide one-sided bounds
+Exact tuple-count polynomials provide one-sided bounds
 for the five coefficients $`\Delta_w`; the weight-eight, twelve, and fourteen
 sum estimates control the corresponding terms, leaving only the parameter
 $`B` for weight sixteen. This is the quantitative meeting point of
 the finite classification and moment branches.
 
-:::lemma_ "carlet-4-higher-order-order-two-asymptotic-upper" (parent := "carlet-chapter-4") (lean := "CryptBoolean.reedMuller_card_mul_two_pow_seven_le_orderTwoCorrelationPowerSum_seven, CryptBoolean.orderTwoCorrelationPowerSum_eight_div_seven_ge_of_card_scaled, CryptBoolean.sqrt_fifteen_mul_sqrtTwo_pow_sub_sqrt_le_momentRatio, CryptBoolean.maximumHigherOrderNonlinearity_two_cast_le_of_card_scaled_moment_difference, CryptBoolean.eventually_maximumHigherOrderNonlinearity_two_cast_le_of_card_scaled_moment_difference") (uses := "carlet-4-higher-order-order-two-moment-ratio, carlet-4-higher-order-order-two-moment-difference") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, order-two, asymptotic-upper-bound, reference-91, fidelity-exact-conditional-core")
-*Project bridge: order-two asymptotic extraction.* If some $`K\ge0`
+:::lemma_ "carlet-4-higher-order-order-two-asymptotic-upper" (parent := "carlet-chapter-4") (lean := "CryptBoolean.reedMuller_card_mul_two_pow_seven_le_orderTwoCorrelationPowerSum_seven, CryptBoolean.orderTwoCorrelationPowerSum_eight_div_seven_ge_of_card_scaled, CryptBoolean.sqrt_fifteen_mul_sqrtTwo_pow_sub_sqrt_le_momentRatio, CryptBoolean.maximumHigherOrderNonlinearity_two_cast_le_of_card_scaled_moment_difference, CryptBoolean.eventually_maximumHigherOrderNonlinearity_two_cast_le_of_card_scaled_moment_difference") (uses := "carlet-4-higher-order-order-two-moment-ratio, carlet-4-higher-order-order-two-moment-difference") (tags := "carlet, chapter-4, higher-order-nonlinearity, order-two, asymptotic-upper-bound, reference-91, fidelity-exact-conditional-core")
+*Order-two asymptotic extraction.* If some $`K\ge0`
 satisfies, for every $`f:V_n\to\mathbb F_2`,
 $$`
 15\cdot2^nS_7(f)-K|R(2,n)|(2^n)^7\le S_8(f),
@@ -436,13 +433,13 @@ The same implication holds eventually when the moment hypothesis holds
 eventually and uniformly in $`f`.
 :::
 
-Formalization note. Jensen's inequality and the exact second moment give
+Jensen's inequality and the exact second moment give
 $`S_7(f)\ge|R(2,n)|(2^n)^7`. Division by this denominator, the consecutive
 moment-ratio inequality, and one square-root estimate expose the sharp
 $`\sqrt{15}/2` coefficient.
 
-:::lemma_ "carlet-4-higher-order-general-r-propagation" (parent := "carlet-chapter-4") (lean := "CryptBoolean.exists_maximumHigherOrderNonlinearity_cast_le_of_card_scaled_moment_difference") (uses := "carlet-4-higher-order-plotkin-induction, carlet-4-higher-order-order-two-asymptotic-upper") (tags := "project-bridge, carlet, chapter-4, higher-order-nonlinearity, fixed-order, asymptotic-upper-bound, reference-91, fidelity-exact-conditional-core")
-*Project bridge: propagation from order two to fixed order.* Suppose there is
+:::lemma_ "carlet-4-higher-order-general-r-propagation" (parent := "carlet-chapter-4") (lean := "CryptBoolean.exists_maximumHigherOrderNonlinearity_cast_le_of_card_scaled_moment_difference") (uses := "carlet-4-higher-order-plotkin-induction, carlet-4-higher-order-order-two-asymptotic-upper") (tags := "carlet, chapter-4, higher-order-nonlinearity, fixed-order, asymptotic-upper-bound, reference-91, fidelity-exact-conditional-core")
+*Propagation from order two to fixed order.* Suppose there is
 $`K\ge0` such that eventually, uniformly in $`f:V_n\to\mathbb F_2`,
 $$`
 15\cdot2^nS_7(f)-K|R(2,n)|(2^n)^7\le S_8(f).
@@ -455,7 +452,7 @@ $$`
 `
 :::
 
-Formalization note. The preceding order-two estimate supplies the base case.
+The preceding order-two estimate supplies the base case.
 Iterating the Plotkin recurrence multiplies the square-root coefficient by
 $`1+\sqrt2` at each order and turns the bounded base remainder into a
 polynomial error of degree $`r-2`.
@@ -472,14 +469,14 @@ $$`
 `
 :::
 
-Formalization note. The upper constant comes from the Carlet--Mesnager
+The upper constant comes from the Carlet--Mesnager
 order-two covering-radius theorem {Citations.citep carletMesnager2007}[]. The
 moment ratio reduces the order-two estimate to the seventh/eighth moment
 difference; dual-code orthogonality and Krawtchouk inversion reduce that
 difference to weights $`0,8,12,14,16`. At weight sixteen, the
 disjoint-three-flat description of
-{Citations.citet borissovManevNikova2003}[] covers the non-minimal case but
-not the minimal words exhibited by {Citations.citet borissovManev2004}[]. The
+{Citations.citet borissovManevNikova2003}[] covers the non-minimal case. The
+minimal words are those exhibited by {Citations.citet borissovManev2004}[]. A
 complete alternative is the rank-seven three-orbit classification of
 {Citations.citet mesnagerOblaukhov2022}[] together with the rank-at-most-six
 affine-mask cover above. Their character estimates feed the moment inequality,

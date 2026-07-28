@@ -44,10 +44,6 @@ $$`
 `
 :::
 
-*Formalization note.* The field, finite-field trace, trace nondegeneracy, and Frobenius-sum theorem
-are provided by [Mathlib](https://github.com/leanprover-community/mathlib4). The Blueprint statement
-records the resulting mathematics rather than those implementation choices.
-
 :::theorem "carlet-2-univariate-representation" (parent := "carlet-chapter-2") (lean := "CryptBoolean.univariateRepresentation, CryptBoolean.eval_univariateRepresentation, CryptBoolean.degree_univariateRepresentation_lt_card, CryptBoolean.existsUnique_univariateRepresentation") (tags := "carlet, chapter-2, relation-4, page-15, fidelity-exact")
 *Univariate representation (Carlet, Relation (4), p. 15).* Let $`n>0` and
 $`K_n=\operatorname{GF}(2^n)`. For every function $`F:K_n\to K_n`, there
@@ -64,11 +60,10 @@ P_F(X)=\sum_{i=0}^{2^n-1}\delta_iX^i
 for uniquely determined coefficients $`\delta_i\in K_n`.
 :::
 
-*Formalization note.* The canonical witness is finite Lagrange interpolation. This theorem has no
-mathematical dependency on the absolute trace, so no such edge is recorded in the Blueprint graph.
+The polynomial $`P_F` is obtained by finite Lagrange interpolation.
 
-:::theorem "carlet-2-trace-pairing-coordinates" (parent := "carlet-chapter-2") (lean := "CryptBoolean.existsUnique_tracePairingCoefficient") (uses := "carlet-2-absolute-trace") (tags := "project-bridge, carlet, chapter-2, finite-field-coordinates, trace-pairing, fidelity-explicit-representation-bridge")
-*Binary trace-pairing coordinate bridge.* Let $`n\ge0` and choose an
+:::theorem "carlet-2-trace-pairing-coordinates" (parent := "carlet-chapter-2") (lean := "CryptBoolean.existsUnique_tracePairingCoefficient") (uses := "carlet-2-absolute-trace") (tags := "carlet, chapter-2, finite-field-coordinates, trace-pairing, fidelity-explicit-coordinate-representation")
+*Coordinates from the trace pairing.* Let $`n\ge0` and choose an
 $`\mathbb F_2`-linear isomorphism $`\theta:V_n\xrightarrow{\sim}K_n`. For every
 $`u\in V_n` there is a unique $`b\in K_n` such that
 $$`
@@ -77,9 +72,7 @@ u\mathbin\cdot x=\operatorname{Tr}_n\!\left(b\theta(x)\right)
 `
 :::
 
-*Formalization note.* This bridge makes Carlet's implicit coordinate identification explicit. It
-is the single shared trace-pairing interface used by the quadratic trace representation and the
-complete character-sum reduction.
+This coordinate formula follows from the nondegeneracy of the trace pairing.
 
 :::theorem "carlet-2-univariate-binary-degree" (parent := "carlet-chapter-2") (lean := "CryptBoolean.binaryWeight, CryptBoolean.univariateBinaryDegree, CryptBoolean.functionAlgebraicDegree_eq_univariateBinaryDegree") (uses := "carlet-2-univariate-representation, carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, univariate-representation, algebraic-degree, page-17, fidelity-exact")
 *Univariate binary-degree formula (Carlet, p. 17).* Let $`n>0`, choose an
@@ -92,9 +85,8 @@ $$`
 where the maximum is zero when $`P_f=0`.
 :::
 
-*Formalization note.* The coordinate isomorphism and prime-field embedding are explicit. A private
-$`K_n`-valued ANF layer proves the coefficient bridge while leaving FABL's canonical public
-$`\mathbb F_2`-valued ANF API unchanged.
+Expanding the prime-field embedding in a $`K_n`-valued ANF identifies its largest square-free
+monomial degree with the largest binary weight of an exponent carrying a nonzero coefficient.
 
 :::proposition "carlet-2-trace-monomial-degree" (parent := "carlet-chapter-2") (lean := "CryptBoolean.functionAlgebraicDegree_traceMonomial") (uses := "carlet-2-absolute-trace, carlet-2-univariate-binary-degree") (tags := "carlet, chapter-2, proposition-3, pages-17-18, fidelity-exact")
 *Proposition 3 (Carlet, pp. 17--18).* Let $`n>0`, let $`a\in K_n`, choose an
@@ -111,7 +103,6 @@ where $`w_2(k)` is the number of nonzero digits in the binary expansion of
 $`k`.
 :::
 
-*Formalization note.* The explicit Frobenius-orbit polynomial is identified with the canonical
-bounded univariate representation. Function nonzeroness makes that polynomial's support nonempty,
-and every surviving orbit exponent is a cyclic binary shift of $`k`, so no additional
-noncancellation hypothesis is assumed.
+The Frobenius-orbit polynomial agrees with the bounded univariate representation. Function
+nonzeroness makes its support nonempty, and every surviving orbit exponent is a cyclic binary shift
+of $`k`.

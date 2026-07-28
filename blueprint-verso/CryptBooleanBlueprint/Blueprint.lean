@@ -28,37 +28,34 @@ Claude Carlet's *Boolean Functions for Cryptography and Error-Correcting Codes*
 {Citations.citep carlet2010}[].
 
 The library develops algebraic representations, Walsh analysis, finite-field representations,
-Reed--Muller coding, and cryptographic criteria for scalar Boolean functions. It uses
-[FABL](https://github.com/Polarnova/FABL) for Boolean Fourier analysis and records explicit bridges
-between FABL's normalized Fourier coefficients and Carlet's raw Walsh transform.
+Reed--Muller coding, and cryptographic criteria for scalar Boolean functions. Carlet's raw Walsh
+transform and the normalized Fourier coefficient are related throughout by the identity
+$`W_f(a)=2^n\widetilde{f_\chi}(a)`.
 
-This volume contains 149 source-facing mathematical statements: 146 are associated with 961 proved
-Lean declarations, while three remain visibly open. The dependency graph records 296 reviewed
-mathematical edges. Chapter 2 develops representations and the Fourier--Walsh interface; Chapter 3
-develops Reed--Muller coding; Chapter 4 develops the scalar criteria used in cryptography; Chapter 5
-develops classes with constrained weights, Walsh spectra, and nonlinearities.
+The four chapters develop, in order, representations and the Fourier--Walsh relation,
+Reed--Muller coding, scalar cryptographic criteria, and classes with constrained weights, Walsh
+spectra, and nonlinearities.
+
+The exposition begins with Carlet's Chapter 2. Thus Chapters 1--4 below correspond respectively
+to Carlet Chapters 2--5; source references retain Carlet's numbering.
 
 Each entry states the mathematics with explicit domains, hypotheses, quantifiers, and conclusions.
-Implementation and normalization notes sit outside statement blocks. A source theorem without an
-associated declaration is intentionally open rather than hidden or attached to a placeholder. The
-graph below records the reviewed mathematical dependencies among these results. The site is
-generated with [Verso Blueprint](https://github.com/leanprover/verso-blueprint), and the checked
-artifact from `main` is published automatically through GitHub Pages.
+The graph below records the mathematical dependencies among these results.
 
 :::group "carlet-chapter-2"
-Chapter 2: Generalities on Boolean functions
+Chapter 1: Generalities on Boolean functions
 :::
 
 :::group "carlet-chapter-3"
-Chapter 3: Boolean functions and coding
+Chapter 2: Boolean functions and coding
 :::
 
 :::group "carlet-chapter-4"
-Chapter 4: Boolean functions and cryptography
+Chapter 3: Boolean functions and cryptography
 :::
 
 :::group "carlet-chapter-5"
-Chapter 5: Classes of functions with restricted weights and spectra
+Chapter 4: Classes of functions for which restrictions on the possible values of the weights, Walsh spectra and nonlinearities can be proved
 :::
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02}

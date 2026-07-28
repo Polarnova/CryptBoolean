@@ -11,7 +11,7 @@ public import CryptBoolean.Carlet.Chapter03.ReedMullerDuality
 public import FABL.Chapter05.KrawtchoukPolynomials
 
 /-!
-# Carlet--Mesnager's second-order power-sum bridge
+# Carlet--Mesnager second-order power sums
 
 The finite moment argument reducing the covering radius of `RM(2,n)` to a
 uniform lower bound for consecutive correlation power sums.
@@ -805,8 +805,8 @@ theorem tuplePointParityMultiplicityByWeight_eq_fourierSum
     two_pow_mul_tuplePointParityMultiplicity_eq_fourierSum k h
 
 /-- The finite Krawtchouk sum equal to Mesnager's exponential-generating
-coefficient `[z^(2k)] sinh(z)^w cosh(z)^(2^n-w)`. Here `w` is the actual
-Hamming weight, rather than Mesnager's half-weight parameter. -/
+coefficient `[z^(2k)] sinh(z)^w cosh(z)^(2^n-w)`. Here `w` is the full
+Hamming weight; Mesnager's parameter is half this value. -/
 noncomputable def tuplePointParityKrawtchoukMultiplicity
     (k n w : ℕ) : ℝ :=
   (∑ j ∈ Finset.range (2 ^ n + 1),

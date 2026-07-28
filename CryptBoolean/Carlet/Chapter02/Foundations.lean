@@ -5,7 +5,7 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Bridge.FABL
+public import CryptBoolean.BooleanFunction
 public import FABL.Chapter06.F₂Polynomials.ANF
 
 /-!

@@ -5,7 +5,7 @@
 The `uses :=` relation in the Verso Blueprint records mathematical statement dependencies. It does
 not record Lean imports, file inclusion, library provenance, presentation order, or the tactics used
 by a proof. A declaration may reuse Mathlib or FABL internally without creating a Blueprint edge
-unless a separate source-facing bridge statement is mathematically required.
+unless a separate source-facing mathematical statement is required.
 
 The generated manifest is the machine-checked graph. This audit is its reviewed, human-readable
 spine. The current baseline is:
@@ -44,20 +44,19 @@ carlet-2-balanced-zero-walsh
   <- carlet-2-def-support-weight, carlet-2-def-walsh-transform
 carlet-2-def-hamming-distance
   <- carlet-2-def-support-weight
-carlet-2-bridge-relative-hamming-distance
+carlet-2-relative-hamming-normalization
   <- carlet-2-def-hamming-distance
 
-carlet-2-bridge-walsh-normalization
+carlet-2-walsh-normalization
   <- carlet-2-def-walsh-transform
 carlet-2-fourier-inversion
-  <- carlet-2-bridge-walsh-normalization
+  <- carlet-2-walsh-normalization
 carlet-2-parseval
-  <- carlet-2-bridge-walsh-normalization
+  <- carlet-2-walsh-normalization
 ```
 
-This branch keeps raw Hamming distance and raw Walsh sums canonical on the Carlet side. FABL's
-relative distance and normalized Fourier coefficients enter only through the two explicit bridge
-nodes.
+This branch keeps raw Hamming distance and raw Walsh sums canonical on the Carlet side. Two scaling
+theorems relate them to FABL's relative distance and normalized Fourier coefficients.
 
 ### Algebraic and numerical representations
 
@@ -114,8 +113,8 @@ carlet-2-spectral-support-bounds
 The normalized Poisson theorem and Carlet's full Corollary 1 are separate consumers of the same two
 prerequisites. The normalized identity is associated directly with FABL's theorem; the full raw
 identity retains both modulation parameters and is proved locally. Relation (22) is the bilinear
-Plancherel identity and depends on convolution plus Fourier involution. The spectral node composes
-the raw/normalized support bridge, restriction monotonicity, the ANF lower bound, and the NNF upper
+Plancherel identity and depends on convolution plus Fourier involution. The spectral theorem composes
+the raw/normalized support identity, restriction monotonicity, the ANF lower bound, and the NNF upper
 bound; its zero-function conventions are explicit in the source-facing statement.
 
 ### Derivatives and autocorrelation
@@ -149,9 +148,9 @@ is finite interpolation on `GF(2^n)` and has no mathematical edge from absolute 
 Lagrange interpolation and finite-field trace implementation are perimeter provenance, not graph
 nodes. The unnumbered p. 17 binary-degree formula is a separate source-facing consumer of the
 canonical representation and coordinate ANF degree; Proposition 3 then specializes it through the
-explicit Frobenius orbit of a trace monomial. The trace-pairing coordinate bridge is the shared
-finite-field interface used by both the Chapter 5 quadratic representation and its character-sum
-reduction. Proposition 3 is closed by the binary-degree bridge and cyclic-orbit weight invariance.
+explicit Frobenius orbit of a trace monomial. The trace-pairing coordinate theorem is used by both
+the Chapter 5 quadratic representation and its character-sum reduction. Proposition 3 follows from
+the binary-degree formula and cyclic-orbit weight invariance.
 
 The Chapter 2 groups above contain exactly 48 incoming statement edges.
 
@@ -416,8 +415,8 @@ carlet-4-fast-algebraic-optimality
 ```
 
 This branch has 12 incoming edges. The upper bound composes the low-degree relation equivalence,
-the ANF evaluation system, and Proposition 14's coordinate separation rather than treating its
-dimension count as an isolated root.
+the ANF evaluation system, and Proposition 14's coordinate separation; its dimension count is one
+part of that argument.
 
 ### Autocorrelation indicators and fourth Walsh moments
 
@@ -481,16 +480,15 @@ eight Chapter 4 families, the reviewed counts are
 
 ## Chapter 5: restricted-weight and restricted-spectrum classes
 
-Chapter 5 has 31 reviewed nodes: 28 formalized and 3 open. Its 30 source statements and one
-explicit project bridge keep affine, quadratic, restriction, normality, covering-sequence, and
-character-sum arguments compositional.
+Chapter 5 has 31 reviewed statements: 28 formalized and 3 open. Its affine, quadratic,
+restriction, normality, covering-sequence, and character-sum arguments remain compositional.
 
 ### Affine and quadratic functions
 
 ```text
 carlet-5-affine-walsh-spectrum
   <- carlet-2-def-walsh-transform, carlet-3-affine-weight
-carlet-5-def-maiorana-mcfarland-affine-slices
+carlet-5-def-maiorana-mcfarland
   <- carlet-2-def-affine-functions
 carlet-5-def-quadratic-symplectic-form
   <- carlet-3-reed-muller-code, carlet-2-def-2-derivative,
@@ -529,9 +527,9 @@ spectrum compose the proved weight, balancedness, derivative, and even-rank rest
 displayed half-power formula in Theorem 4 explicitly assumes `n > 0`; its balancedness and
 even-rank consequences are compiled in their valid assumption-free forms. The odd/even quadratic
 trace representation composes the quadratic symplectic classification, Theorem 5 normal form,
-absolute trace, Proposition 3, and the shared trace-pairing coordinate bridge. The quadratic
-semi-bent node is an exact predicate and does not claim that arbitrary coefficients in the cited
-trace family satisfy it.
+absolute trace, Proposition 3, and the shared trace-pairing coordinate theorem. The quadratic
+semi-bent predicate includes the required nonlinearity condition on the coefficients of the cited
+trace family.
 
 ### Flat indicators, affine restrictions, and normality
 
@@ -595,32 +593,32 @@ undefined.
 
 ```text
 carlet-5-theorem-7-weil-bound [open]
-carlet-5-bridge-trace-character-sum-walsh
+carlet-5-trace-character-sum-walsh
   <- carlet-2-def-walsh-transform, carlet-2-trace-pairing-coordinates,
      carlet-4-rel-35-nonlinearity-walsh
 carlet-5-weil-nonlinearity-bound [open]
-  <- carlet-5-theorem-7-weil-bound, carlet-5-bridge-trace-character-sum-walsh
+  <- carlet-5-theorem-7-weil-bound, carlet-5-trace-character-sum-walsh
 carlet-5-reciprocal-character-sum-bound [open]
   <- carlet-2-absolute-trace
 ```
 
-This branch contributes 6 incoming edges. The shared Chapter 2 trace-pairing bridge identifies
-every cube Walsh character with a unique finite-field trace character, and the Chapter 5 bridge
-derives the exact nonlinearity reduction from a uniform complete-sum bound. The Weil theorem is an
+This branch contributes 6 incoming edges. The Chapter 2 trace-pairing theorem identifies every
+cube Walsh character with a unique finite-field trace character, and the Chapter 5 theorem derives
+the exact nonlinearity reduction from a uniform complete-sum bound. The Weil theorem is an
 independent open source root; its binary nonlinearity consequence and the reciprocal-polynomial
-bound remain separate so that an additive-character theorem is never conflated with a
-multiplicative-character result. Across the four Chapter 5 families, the reviewed counts are
+bound remain separate because the former is an additive-character theorem and the latter is a
+rational-function estimate. Across the four Chapter 5 families, the reviewed counts are
 `34 + 11 + 19 + 6 = 70` incoming edges.
 
 ## Remaining proof frontier
 
-Three source nodes remain open, all in the analytic Chapter 5 character-sum branch. Their complete
+Three source statements remain open, all in the analytic Chapter 5 character-sum branch. Their complete
 statements remain visible without placeholder associations:
 
 - `carlet-5-theorem-7-weil-bound` and `carlet-5-weil-nonlinearity-bound` require the analytic
   additive-character Weil estimate. The trace-pairing coordinate identification and the
   Walsh/nonlinearity reduction are already closed by `carlet-2-trace-pairing-coordinates` and
-  `carlet-5-bridge-trace-character-sum-walsh`.
+  `carlet-5-trace-character-sum-walsh`.
 - `carlet-5-reciprocal-character-sum-bound` requires the separate rational-function
   additive-character estimate.
 

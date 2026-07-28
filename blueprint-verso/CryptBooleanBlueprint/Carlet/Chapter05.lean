@@ -12,14 +12,9 @@ open Verso.Genre
 open Verso.Genre.Manual
 open Informal
 
-#doc (Manual) "Classes of functions with restricted weights and spectra" =>
+#doc (Manual) "Classes of functions for which restrictions on the possible values of the weights, Walsh spectra and nonlinearities can be proved" =>
 
 Chapter 5 studies affine and quadratic functions, affine-flat indicators, normality, covering
-sequences, and character-sum bounds. Thirty source statements plus one explicit trace-character
-representation bridge form its 31 reviewed nodes. Twenty-eight nodes are associated with 195
-proved Lean declarations, including the odd- and even-dimensional quadratic trace representations,
-while three analytic source statements remain open. Cited claims whose parameters still require
-recovery from the original papers remain in the internal inventory rather than appearing as
-weakened Blueprint statements.
+sequences, and character-sum bounds.
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter05.Classes}

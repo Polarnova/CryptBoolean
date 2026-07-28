@@ -65,8 +65,8 @@ d_H(f,g)=w_H(f+g),
 where addition is pointwise in $`\mathbb F_2`.
 :::
 
-:::theorem "carlet-2-bridge-relative-hamming-distance" (parent := "carlet-chapter-2") (lean := "CryptBoolean.hammingDistance_eq_two_pow_mul_relativeHammingDist") (uses := "carlet-2-def-hamming-distance") (tags := "carlet, chapter-2, hamming-distance, normalization-bridge, fidelity-explicit-bridge")
-*Relative-distance normalization bridge.* Define
+:::theorem "carlet-2-relative-hamming-normalization" (parent := "carlet-chapter-2") (lean := "CryptBoolean.hammingDistance_eq_two_pow_mul_relativeHammingDist") (uses := "carlet-2-def-hamming-distance") (tags := "carlet, chapter-2, hamming-distance, normalization, fidelity-exact")
+*Normalization of relative Hamming distance.* Define
 $$`
 d_{\mathrm{rel}}(f,g)
 =2^{-n}\bigl|\{x\in V_n:f(x)\ne g(x)\}\bigr|.
@@ -76,11 +76,6 @@ $$`
 d_H(f,g)=2^n d_{\mathrm{rel}}(f,g).
 `
 :::
-
-*Formalization note.* The raw distance is implemented by
-[Mathlib](https://github.com/leanprover-community/mathlib4)'s `hammingDist`, while
-$`d_{\mathrm{rel}}` is [FABL](https://github.com/Polarnova/FABL)'s
-`relativeHammingDist`. Neither implementation choice is part of Carlet's definition.
 
 :::definition "carlet-2-def-affine-functions" (parent := "carlet-chapter-2") (lean := "FABL.affineFunction, FABL.affineCoefficients, FABL.anfEval_affineCoefficients, FABL.anfCoeff_affineFunction, FABL.functionAlgebraicDegree_affineFunction_le_one, FABL.exists_affineFunction_of_functionAlgebraicDegree_le_one") (uses := "carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, affine-functions, page-14, fidelity-exact")
 *Affine Boolean functions (Carlet, p. 14).* For $`a\in V_n` and
@@ -115,7 +110,7 @@ $$`
 `
 :::
 
-*Formalization note.* The proof first establishes nonincrease under an arbitrary affine map by
+The proof first establishes nonincrease under an arbitrary affine map by
 substituting affine coordinate functions into the unique square-free ANF, then applies the same
 bound to $`L^{-1}`.
 

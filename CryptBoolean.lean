@@ -5,7 +5,7 @@ Authors: Asher Yan with Codex
 -/
 module
 
-public import CryptBoolean.Bridge.FABL
+public import CryptBoolean.BooleanFunction
 public import CryptBoolean.Carlet.Chapter02
 public import CryptBoolean.Carlet.Chapter03
 public import CryptBoolean.Carlet.Chapter04

@@ -193,7 +193,7 @@ items:
 
   - id: carlet-4-rodier-upper-endpoint-reduction
     kind: lemma
-    location: Project bridge for Rodier Theorem 3.1; Carlet, p. 51
+    location: Rodier Theorem 3.1; Carlet, p. 51
     statement: >-
       Let tau_n=sqrt(n)*(sqrt(2*ln(2))-5*ln(n)/n)*2^(-n/2). If the uniform
       probability of tau_n being smaller than the normalized Fourier infinity
@@ -215,7 +215,7 @@ items:
 
   - id: carlet-4-rodier-pair-characteristic-moments
     kind: lemma
-    location: Project bridge for Rodier Lemma 6.4
+    location: Rodier Lemma 6.4
     statement: >-
       For distinct Walsh characters chi_S and chi_T and real t,r, the joint
       characteristic function of the corresponding raw Walsh coefficients is
@@ -271,7 +271,7 @@ items:
 
   - id: carlet-4-six-variable-covering-coset-coordinate
     kind: lemma
-    location: Project bridge for Hou 1996, Theorem 2.3, Case 2a
+    location: Hou 1996, Theorem 2.3, Case 2a
     statement: >-
       If a six-variable Boolean function f has nonlinearity 28, then for
       every x in V_6 there is an affine function ell at Hamming distance 28
@@ -285,7 +285,7 @@ items:
 
   - id: carlet-4-six-variable-degree-four-coset-coordinate
     kind: lemma
-    location: Project bridge for Hou 1996, Theorem 2.3, Case 2b, and Hou 1997, Theorem 2.2
+    location: Hou 1996, Theorem 2.3, Case 2b, and Hou 1997, Theorem 2.2
     statement: >-
       If a six-variable Boolean function f has algebraic degree at most four
       and nonlinearity 26, then for every x in V_6 there is an affine function
@@ -400,7 +400,7 @@ items:
       - CryptBoolean.exists_isBalanced_nonlinearity_gt_quadraticBound_of_odd
     references: [139, 259]
     fidelity_note: >-
-      The compiled family starts from the balanced thirteen-variable
+      The construction starts from the balanced thirteen-variable
       Maitra--Kavut--Yucel function of nonlinearity 4036 and extends it by
       complete bent direct sums. It therefore proves the stronger range of
       every odd n>=13 while retaining the source claim for n>=15.
@@ -431,9 +431,9 @@ items:
       - CryptBoolean.exists_pc_one_nonlinearity_gt_quadraticBound_of_odd
     references: [264]
     fidelity_note: >-
-      The compiled construction linearly reindexes the thirteen-variable
-      Maitra--Kavut--Yucel function along a certified basis of zero-
-      autocorrelation directions and then applies complete bent extensions.
+      The construction linearly reindexes the thirteen-variable
+      Maitra--Kavut--Yucel function along a basis of zero-autocorrelation
+      directions and then applies complete bent extensions.
       It proves the stronger range of every odd n>=13 while retaining the
       source claim for n>=15.
     dependencies:
@@ -454,7 +454,7 @@ items:
       - CryptBoolean.exists_isBalanced_degree_pred_nonlinearity_gt_quadraticBound_of_odd
     references: [214, 264]
     fidelity_note: >-
-      The compiled construction is stronger because its degree-(n-1)
+      The theorem is stronger because its degree-(n-1)
       witnesses are also balanced. A two-point affine-line repair loses at
       most two units of nonlinearity, and the balanced family has enough
       strict margin in every odd dimension at least fifteen.
@@ -584,7 +584,7 @@ items:
 
   - id: carlet-4-higher-order-counting-criterion
     kind: lemma
-    location: Project bridge for Carlet, p. 54
+    location: Carlet, p. 54
     statement: >-
       Let V(N,t)=sum_{j=0}^t C(N,j). If
       |R(r,n)| V(2^n,t) < 2^(2^n), then some n-variable Boolean function
@@ -632,7 +632,7 @@ items:
 
   - id: carlet-4-higher-order-plotkin-induction
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       Let rho(r,n)=max_f nl_r(f). For 1<=r<=n,
       rho(r,n)<=sum_{j=r}^{n-1} rho(r-1,j). If on that range
@@ -655,7 +655,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-moment-ratio
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91], Relations (9.7)--(9.10)
+    location: Carlet, p. 53 and reference [91], Relations (9.7)--(9.10)
     statement: >-
       For f : V_n -> F_2 and g in R(2,n), let
       C_f(g)=2^n-2*d_H(f,g) and
@@ -687,7 +687,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-dual-moment-decomposition
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91], Lemma 9.2.2
+    location: Carlet, p. 53 and reference [91], Lemma 9.2.2
     statement: >-
       For an ordered 2k-tuple x of points of V_n, let p_x record the parity of
       the multiplicity of each point, and let U_{k,n} be the tuples for which
@@ -709,7 +709,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-grouping
     kind: lemma
-    location: Project bridge for reference [91], Proposition 9.2.5 and Lemma 9.2.7
+    location: Reference [91], Proposition 9.2.5 and Lemma 9.2.7
     statement: >-
       The ordered 2k-tuple multiplicity of a point-parity word depends only
       on its Hamming weight w and equals the inverse finite Fourier sum
@@ -737,7 +737,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-low-weight-support
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       For n>=7, the coefficient of a dual word in
       S_8(f)-15*2^n*S_7(f) vanishes above weight sixteen, and the only even
@@ -755,7 +755,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-eight-bound
     kind: lemma
-    location: Project bridge for reference [91], Proposition 9.2.10(1)
+    location: Reference [91], Proposition 9.2.10(1)
     statement: >-
       Weight-eight words in R(n-3,n) are affine three-flat indicators, and
       their character sum is at least
@@ -775,7 +775,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-twelve-bound
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       For n>=5, every weight-twelve word of R(n-3,n) has exactly twenty
       ordered affine-three-flat representations meeting in an affine line,
@@ -793,7 +793,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-fourteen-bound
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       Every weight-fourteen word of R(n-3,n) is the sum of two affine
       three-flat indicators meeting at one point, with exactly two ordered
@@ -811,7 +811,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-sixteen-rank-reduction
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       A weight-sixteen word of R(n-3,n) has support-affine-span dimension at
       most seven. In the rank-seven case its augmented affine-evaluation code
@@ -831,7 +831,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-sixteen-rank-seven-classification
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       The rank-seven weight-sixteen dual words are exactly the pairwise
       disjoint affine orbits of the canonical 2E8, D16+, and F16 patterns.
@@ -845,7 +845,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-sixteen-orbit-sos
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       Each of the 2E8, D16+, and F16 complete affine-map character sums is
       nonnegative, and each distinct injective-image orbit character sum is
@@ -864,7 +864,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-sixteen-residual-cover
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       Rank-at-most-six weight-sixteen dual words are covered by arbitrary
       masks on V_7 under rank-deficient affine maps, giving cardinality and
@@ -886,7 +886,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-weight-sixteen-character-bound
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       For n >= 3, the full weight-sixteen character sum is at least
       -(3*127+127*2^128)*(2^n)^7.
@@ -901,7 +901,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-moment-difference
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       If the weight-sixteen character sum is at least -B*(2^n)^7, then
       S_8(f)-15*2^n*S_7(f) is bounded below by
@@ -924,7 +924,7 @@ items:
 
   - id: carlet-4-higher-order-order-two-asymptotic-upper
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       A uniform code-cardinality-scaled seventh/eighth moment remainder K
       implies rho(2,n)<=2^(n-1)-(sqrt(15)/2)*2^(n/2)+sqrt(K)/2.
@@ -942,7 +942,7 @@ items:
 
   - id: carlet-4-higher-order-general-r-propagation
     kind: lemma
-    location: Project bridge for Carlet, p. 53 and reference [91]
+    location: Carlet, p. 53 and reference [91]
     statement: >-
       An eventual uniform order-two moment remainder propagates, for each
       fixed r>=2, to the sqrt(15)/2*(1+sqrt(2))^(r-2) leading coefficient
@@ -1581,7 +1581,7 @@ items:
       - CryptBoolean.kthNonhomomorphicity_cast_eq_min_iff_isBent
       - CryptBoolean.carlet_kthNonhomomorphicity_cast_eq_min_iff_isBent
     fidelity_note: >-
-      The implementation follows Carlet's name for the zero-sum/even-output
+      The terminology follows Carlet's name for the zero-sum/even-output
       tuple count. Reference [357] calls that same count homomorphicity and
       reserves nonhomomorphicity for the complementary odd-output count.
     references: [357]

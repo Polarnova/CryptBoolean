@@ -51,9 +51,9 @@ items:
     dependencies:
       - carlet-2-def-boolean-function
 
-  - id: carlet-2-bridge-walsh-normalization
+  - id: carlet-2-walsh-normalization
     kind: theorem
-    location: Project normalization bridge for Carlet's raw Walsh transform
+    location: Scaling identity for Carlet's raw Walsh transform
     statement: >-
       If f̃_χ(a) = 2^(-n) ∑_{x ∈ V_n} f_χ(x)(-1)^(a·x), then the
       real image of W_f(a) satisfies W_f(a) = 2^n f̃_χ(a).
@@ -97,7 +97,7 @@ items:
       - CryptBoolean.two_pow_mul_realSignView_eq_sum_walshTransform_mul_character
       - CryptBoolean.realSignView_eq_inv_two_pow_mul_sum_walshTransform_mul_character
     dependencies:
-      - carlet-2-bridge-walsh-normalization
+      - carlet-2-walsh-normalization
 
   - id: carlet-2-parseval
     kind: theorem
@@ -111,7 +111,7 @@ items:
       - CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq
       - CryptBoolean.exists_walshTransform_ne_zero
     dependencies:
-      - carlet-2-bridge-walsh-normalization
+      - carlet-2-walsh-normalization
 
   - id: carlet-2-pseudoboolean-fourier
     kind: definition
@@ -465,7 +465,7 @@ items:
 
   - id: carlet-2-trace-pairing-coordinates
     kind: theorem
-    location: Project coordinate bridge for Carlet, pp. 15, 70--71, and 76
+    location: Trace-pairing coordinate theorem for Carlet, pp. 15, 70--71, and 76
     statement: >-
       Let n >= 0 and let theta : V_n ~= GF(2^n) be F_2-linear. For every
       u in V_n there is a unique b in GF(2^n) such that
@@ -474,9 +474,9 @@ items:
     declarations:
       - CryptBoolean.existsUnique_tracePairingCoefficient
     fidelity_note: >-
-      This project bridge makes the coordinate identification used implicitly
-      by Carlet explicit. It is the unique shared trace-pairing API used by the
-      quadratic trace representation and the character-sum Walsh reduction.
+      This theorem states the coordinate identification used implicitly by
+      Carlet. The quadratic trace representation and the character-sum Walsh
+      reduction both use it.
     dependencies:
       - carlet-2-absolute-trace
 
@@ -496,8 +496,8 @@ items:
       - CryptBoolean.functionAlgebraicDegree_eq_univariateBinaryDegree
     fidelity_note: >-
       The coordinate isomorphism and prime-field embedding are explicit. The
-      private proof bridge generalizes the cube ANF coefficients to K_n-values;
-      no second public ANF representation is introduced.
+      proof uses K_n-valued cube ANF coefficients to establish the formula;
+      the public ANF representation remains F_2-valued.
     dependencies:
       - carlet-2-univariate-representation
       - carlet-2-def-algebraic-degree
@@ -569,9 +569,9 @@ items:
     dependencies:
       - carlet-2-def-support-weight
 
-  - id: carlet-2-bridge-relative-hamming-distance
+  - id: carlet-2-relative-hamming-normalization
     kind: theorem
-    location: Project relative-distance normalization bridge
+    location: Scaling identity for relative Hamming distance
     statement: >-
       If d_rel(f,g) = 2^(-n)|{x ∈ V_n | f(x) ≠ g(x)}|, then
       d_H(f,g) = 2^n d_rel(f,g) for all f,g : V_n → 𝔽₂.

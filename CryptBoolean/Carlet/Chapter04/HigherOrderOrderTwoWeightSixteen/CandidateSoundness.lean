@@ -440,8 +440,8 @@ theorem linearIndependent_of_systematicFixedPoints_subset_patternImage
   rw [linearIndependent_iff_injective_fintypeLinearCombination]
   exact LinearMap.injective_iff_surjective.mpr hsurjective
 
-/-- A valid compact mask certificate implies semantic candidate soundness once
-the two generic mask cardinality bridges are supplied. -/
+/-- A valid compact mask certificate and the two mask-cardinality identities imply semantic
+candidate soundness. -/
 theorem NormalizedWeightSixteenCandidate.IsCompactMaskSound.isSound
     {candidate : NormalizedWeightSixteenCandidate}
     (hsound : candidate.IsCompactMaskSound)

@@ -12,7 +12,7 @@ open Verso.Genre
 open Verso.Genre.Manual
 open Informal
 
-#doc (Manual) "Resiliency and propagation" =>
+#doc (Manual) "Balancedness and resiliency" =>
 
 :::definition "carlet-4-def-resiliency-correlation-immunity" (parent := "carlet-chapter-4") (lean := "CryptBoolean.signCubeView, CryptBoolean.signCubeView_toReal, CryptBoolean.IsCorrelationImmune, CryptBoolean.IsResilient, CryptBoolean.isCorrelationImmune_iff_fabl, CryptBoolean.isBalanced_iff_fabl, CryptBoolean.isResilient_iff_fabl, CryptBoolean.isResilient_iff_forall_coordinateRestriction_balanced, CryptBoolean.isCorrelationImmune_iff_fixing_exactly, CryptBoolean.isResilient_iff_fixing_exactly") (uses := "carlet-2-balanced-zero-walsh") (tags := "carlet, chapter-4, definition-3, resiliency, correlation-immunity, pages-55-56, fidelity-exact")
 *Definition 3 (Carlet, pp. 55--56).* Let $`n>0` and $`0\le m<n`. A
@@ -44,9 +44,8 @@ correlation immune of order $`m` if and only if the dual-distance condition
 alone holds.
 :::
 
-Formalization note. `HasDualDistanceAtLeast` uses Carlet's character-sum
-definition for an arbitrary finite binary code, so the result is not encoded as
-a restatement of Walsh-transform vanishing.
+Here dual distance is understood through Carlet's character-sum definition for
+an arbitrary finite binary code.
 
 :::theorem "carlet-4-code-generator-resilient" (parent := "carlet-chapter-4") (lean := "CryptBoolean.binaryGeneratorCodeword, CryptBoolean.IsBinaryCodeGenerator, CryptBoolean.binaryGeneratorPullback, CryptBoolean.isBalanced_binaryGeneratorPullback, CryptBoolean.binaryGeneratorPullback_isResilient") (uses := "carlet-4-def-resiliency-correlation-immunity") (tags := "carlet, chapter-4, resilient-construction, pages-57-58, fidelity-exact-generator-matrix")
 *Code-generator construction (Carlet, pp. 57--58).* Let $`G` generate a
@@ -65,19 +64,4 @@ $$`
 x\longmapsto f(x+b)
 `
 is $`m`-resilient.
-:::
-
-:::definition "carlet-4-def-propagation-criteria" (parent := "carlet-chapter-4") (lean := "CryptBoolean.lowWeightNonzeroDirections, CryptBoolean.SatisfiesPropagationCriterionOn, CryptBoolean.SatisfiesPropagationCriterion, CryptBoolean.satisfiesPropagationCriterion_iff_on_lowWeightNonzeroDirections, CryptBoolean.isBalanced_booleanDerivative_iff_autocorrelation_eq_zero, CryptBoolean.satisfiesPropagationCriterion_iff_autocorrelation_eq_zero, CryptBoolean.SatisfiesStrictAvalancheCriterion, CryptBoolean.satisfiesStrictAvalancheCriterion_iff_pc_one, CryptBoolean.SatisfiesPropagationCriterion.mono, CryptBoolean.coordinateRestriction, CryptBoolean.SatisfiesPropagationCriterionOfOrder, CryptBoolean.SatisfiesPropagationCriterionOfOrder.mono_order, CryptBoolean.SatisfiesPropagationCriterionOfOrder.mono_level, CryptBoolean.SatisfiesStrictAvalancheCriterionOfOrder, CryptBoolean.satisfiesStrictAvalancheCriterionOfOrder_iff_pc_one, CryptBoolean.SatisfiesExtendedPropagationCriterion, CryptBoolean.SatisfiesExtendedPropagationCriterion.toPropagationCriterionOfOrder") (uses := "carlet-2-def-2-derivative, carlet-2-def-autocorrelation, carlet-2-balanced-zero-walsh, carlet-4-def-resiliency-correlation-immunity") (tags := "carlet, chapter-4, propagation-criterion, sac, epc, pages-58-59, fidelity-exact")
-*Propagation criteria (Carlet, pp. 58--59).* A function $`f` satisfies the
-propagation criterion with respect to $`E\subseteq V_n` if $`D_af` is
-balanced for every $`a\in E`. It satisfies $`\mathrm{PC}(\ell)` if
-$$`
-\Delta_f(a)=0
-\quad\text{whenever}\quad 0<w_H(a)\le\ell;
-`
-$`\mathrm{SAC}` is $`\mathrm{PC}(1)`. The order-$`k` form requires every
-restriction obtained by fixing $`k` coordinates to satisfy the criterion.
-Finally, $`\mathrm{EPC}(\ell)` of order $`k` requires every such nonzero
-$`D_af` to be $`k`-resilient; it implies the corresponding propagation
-criterion.
 :::

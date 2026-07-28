@@ -148,8 +148,8 @@ theorem card_indexedRawFourierSupport_signRestriction_le
   rw [← Fintype.card_coe, ← Fintype.card_coe]
   exact Fintype.card_le_of_injective extension extension_injective
 
-/-- The vector-indexed raw support and the finite-subset-indexed raw support have the same
-cardinality under the canonical binary/sign representation bridge. -/
+/-- The vector-indexed and finite-subset-indexed raw supports have the same cardinality under the
+canonical binary/sign correspondence. -/
 theorem card_indexedRawFourierSupport_binaryFunctionOnSignCube
     (φ : PseudoBooleanFunction n) :
     #(indexedRawFourierSupport (FABL.binaryFunctionOnSignCube φ)) =
@@ -175,7 +175,7 @@ theorem card_indexedRawFourierSupport_binaryFunctionOnSignCube
       exact (mem_indexedRawFourierSupport_iff_indexedFourierCoeff_ne_zero _ S).mp hS
     · exact (FABL.f₂CubeEquivFinset n).right_inv S
 
-/-- Carlet's coordinate-restriction bound, stated through the canonical binary/sign bridge:
+/-- Carlet's coordinate-restriction bound under the canonical binary/sign correspondence:
 the restricted raw spectrum has no more nonzero coefficients than the ambient raw spectrum. -/
 theorem card_rawFourierSupport_coordinateRestriction_le
     (φ : PseudoBooleanFunction n) (J : Finset (Fin n)) (z : FABL.FixedSignCube J) :

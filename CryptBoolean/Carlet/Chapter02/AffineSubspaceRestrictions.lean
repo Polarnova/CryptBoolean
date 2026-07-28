@@ -13,7 +13,7 @@ import Mathlib.LinearAlgebra.Matrix.Dual
 /-!
 # Coordinate models of affine-subspace restrictions
 
-Pure coordinate and affine-frequency bridges for restrictions to binary
+Pure coordinate and affine-frequency formulas for restrictions to binary
 affine subspaces.
 -/
 

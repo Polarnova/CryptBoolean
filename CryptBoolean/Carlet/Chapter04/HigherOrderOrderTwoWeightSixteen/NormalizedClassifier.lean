@@ -226,8 +226,7 @@ private theorem exists_candidate_of_tree_containsSystematicCode
       · obtain ⟨candidate, hmember, hcode⟩ := ihRight hright
         exact ⟨candidate, .right hmember, hcode⟩
 
-/-- A successful generated-code test carries an actual class and affine-map
-certificate leaf, rather than only a Boolean membership result. -/
+/-- A successful generated-code test produces a class and its affine-map certificate. -/
 theorem exists_normalizedWeightSixteenCandidate_of_generated
     (code : BitVec 64)
     (hgenerated : isGeneratedSystematicWeightSixteenCode code = true) :

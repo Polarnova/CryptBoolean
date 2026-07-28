@@ -11,7 +11,7 @@ cross-checking shared material.
 module and namespace `CryptBoolean`.
 
 The project optimizes for a small, compositional theorem API. A declaration is introduced only for
-a source item, a representation bridge required by a source item, or a proof lemma used by a
+a source item, a cross-representation law required by a source item, or a proof lemma used by a
 production theorem.
 
 ## Sources of truth
@@ -38,12 +38,12 @@ edges. Chapter 2 contributes 38 formalized statements, 166 declarations, and 48
 incoming edges. Chapter 3 contributes 7 formalized statements, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized statements, 568 declarations, and 159 incoming edges.
 Chapter 5 contributes 31 statements (28 formalized and 3 open), 195 declarations, and 70 incoming
-edges; these are 30 source statements plus one explicit trace-character representation bridge.
+edges.
 
 The completed Chapter 2 frontier includes Proposition 5's numerical-normal-form integrality
 criterion, the full raw Poisson formula, affine invariance, restriction recovery, the
-spectral-support bounds, the coordinate/univariate binary-degree bridge, Proposition 3 on trace
-monomials, and the trace-pairing representation bridge. The completed Chapter 3 frontier includes
+spectral-support bounds, the coordinate/univariate binary-degree formula, Proposition 3 on trace
+monomials, and trace-pairing coordinates. The completed Chapter 3 frontier includes
 the general Reed--Muller distance theorem, Proposition 12's minimum-weight affine-flat
 classification, dimension and cardinality formulas, and duality.
 
@@ -54,7 +54,7 @@ remaining complexity criteria. Rodier's sharp random-nonlinearity interval, the 
 dimension-seven maximum, and the sharp fixed-order higher-order asymptotic upper bound are now
 closed as independent source-facing nodes. The higher-order proof exposes its moment-ratio,
 dual-code, low-weight, weight-`16` rank-seven classification, character-sum, and finite Plotkin
-components separately rather than hiding them inside the final asymptotic statement.
+components as separate mathematical statements in the final asymptotic argument.
 
 The Chapter 5 inventory is source-reviewed and Blueprint-synchronized. Its compiled nodes cover
 affine Walsh spectra, quadratic polar forms, kernel sums, exact weight and nonlinearity value sets,
@@ -67,12 +67,12 @@ Weil character-sum bound, its nonlinearity corollary, and the reciprocal charact
 
 Chapter 2 has no open node: the finite-field coordinate theorem identifies ANF degree with the
 maximum binary weight in the univariate support, cyclotomic-orbit noncancellation closes Carlet
-Proposition 3, and the trace-pairing bridge is compiled. Chapter 3 likewise has no open node: the
+Proposition 3, and the trace-pairing coordinate theorem is compiled. Chapter 3 likewise has no open node: the
 affine-flat normal form, codimension--degree theorem, and equality-case slice infrastructure compose
 into the exact Proposition 12 classification.
 
 Source-facing splits remain explicit in Chapter 4. Rodier's one-sided lower endpoint and sharp
-interval have distinct nodes, as do the finite Hamming-ball and Plotkin bridges and the resulting
+interval have distinct nodes, as do the finite Hamming-ball and Plotkin lemmas and the resulting
 higher-order asymptotic estimate. The Reed--Muller coset-distance theorem
 adds the mathematically necessary distinct-coset hypothesis omitted from the printed sentence. The
 `k`th nonhomomorphicity declarations follow Carlet's name for the even-output tuple count while
@@ -123,8 +123,7 @@ The production tree is chapter-aligned:
 
 ```text
 CryptBoolean/
-  Bridge/
-    FABL.lean
+  BooleanFunction.lean
   Carlet/
     Chapter02/
     Chapter03/
@@ -139,8 +138,8 @@ CryptBoolean/
 ```
 
 Each chapter exposes a stable aggregate import. A large chapter is split only at a mathematical or
-representation boundary. `Bridge/FABL.lean` contains only cross-representation and normalization
-laws used by production Carlet modules. It must not become a second Boolean-function library.
+representation boundary. `BooleanFunction.lean` defines the canonical scalar function type and its
+sign representation by direct reuse of FABL.
 
 The root module imports every completed production module. A file unreachable from the root is not
 part of the verified library.
@@ -169,7 +168,7 @@ The following are views, not alternative global definitions:
 ### Walsh normalization
 
 Carlet's Walsh transform is an integer-valued unnormalized sum. Its primary API therefore retains
-integrality. FABL's vector Fourier coefficient is normalized over the same cube. The bridge must
+integrality. FABL's vector Fourier coefficient is normalized over the same cube. Their relation must
 prove, with the project's chosen sign convention,
 
 ```text
@@ -183,7 +182,7 @@ normalized coefficient as a Walsh value.
 
 Algebraic normal form reuses FABL's coefficients indexed by finite coordinate subsets, with
 coefficients in `𝔽₂`, together with its evaluation, support, uniqueness, and algebraic-degree APIs.
-CryptBoolean adds only the Carlet-facing statements and representation bridges that consume this
+CryptBoolean adds only the Carlet-facing statements and cross-representation laws that consume this
 canonical surface.
 
 Algebraic degree and FABL's real Fourier degree remain distinct types of information with distinct
@@ -191,7 +190,7 @@ names. Any inequality between them is a theorem, not a definitional equality.
 
 Univariate representation over `𝔽₂ⁿ`, trace representations, and normal numerical form are separate
 adapters added only when a Carlet statement needs them. They must reuse Mathlib finite-field and
-polynomial infrastructure rather than encode finite fields as tables.
+polynomial infrastructure; finite fields are not encoded as tables.
 
 ### Distances and criteria
 
@@ -206,7 +205,7 @@ structures, bentness, plateauedness, normality, and algebraic immunity are total
 their parameters. Maximum orders or minima over finite families use finite extrema with explicit
 empty-family behavior where the source permits an empty case.
 
-## Required foundational bridges
+## Required foundational identities and correspondences
 
 The first dependency layer must prove and then reuse:
 
@@ -217,10 +216,10 @@ The first dependency layer must prove and then reuse:
 5. weight to the Walsh value at zero;
 6. balancedness to vanishing zero-frequency Walsh value;
 7. affine characters to FABL's vector Walsh characters;
-8. direct reuse of FABL's binary derivatives, with sign-cube or restriction bridges only where a
+8. direct reuse of FABL's binary derivatives, with sign-cube or restriction identities only where a
    Carlet statement changes representation.
 
-These are bridges between domains, not duplicate proof stacks.
+Together these laws relate the domains through a single proof stack.
 
 ## FABL dependency policy
 
@@ -228,14 +227,14 @@ The Lean package pins FABL at release `v0.5.6`. Repository documentation and CI 
 dependency and its verified Lake release archive, never a developer's local absolute path.
 
 Before adding a declaration, contributors search the pinned FABL public surface and pinned Mathlib.
-A stronger existing theorem is specialized or bridged. A new local declaration is permitted only
+A stronger existing theorem is specialized through an explicit conversion theorem. A new local declaration is permitted only
 for a genuine cryptographic concept or a demonstrated gap.
 
 Pinned FABL APIs and later FABL chapters create only targeted convergence gates:
 
 | FABL area | CryptBooleanFunction policy |
 |---|---|
-| Pinned `v0.5.6` Boolean-function APIs | Canonical owner of ANF, degree, affine, and derivative operations; import directly and add only representation bridges |
+| Pinned `v0.5.6` Boolean-function APIs | Canonical owner of ANF, degree, affine, and derivative operations; import directly and add only required conversion laws |
 | Chapter 8 generalized domains | Reuse when generalized Abelian or product-domain results are needed |
 | Chapters 9--10 hypercontractivity | Wait only for nodes whose proofs genuinely require these bounds |
 | Chapter 11 Gaussian/invariance theory | No first-release dependency identified |
@@ -256,12 +255,18 @@ not a reason to pre-build an unused hierarchy.
 
 1. Inventory the complete Carlet Chapters 2--10 statement set before claiming chapter coverage.
 2. Record full source-facing statements and reviewed dependency edges in Verso.
-3. Classify each item as direct FABL reuse, direct Mathlib reuse, specialization, representation
-   bridge, or genuine local theorem.
+3. Classify each item as direct FABL reuse, direct Mathlib reuse, specialization,
+   cross-representation law, or genuine local theorem.
 4. Formalize signatures without changing domains, hypotheses, normalization, or quantifiers.
-5. Close dependency-ready leaves and run the narrowest module build.
-6. Close a chapter only after statement-fidelity, root-build, forbidden-token, Blueprint, and
-   rendered-artifact checks pass.
+5. Close dependency-ready leaves and run a narrow module build locally only when it is known to be
+   small; send every heavy or transitive rebuild to GitHub Actions.
+6. Close a chapter only after the GitHub Actions statement-fidelity, root-build, forbidden-token,
+   Blueprint, and rendered-artifact checks pass.
+
+The development machine is not a full-build runner. Never run the root CryptBoolean build, complete
+Verso compilation, or site/publication build locally. Local checks are limited to source inspection,
+text and manifest validators, and demonstrably small affected modules. GitHub Actions owns all heavy
+verification and retains build caches keyed by the relevant sources.
 
 Production and completion branches contain no `sorry`, `admit`, project-defined `axiom`, `unsafe`,
 or `native_decide`. A missing declaration association is the honest representation of an unfinished
@@ -270,15 +275,26 @@ Blueprint node. No placeholder declaration may manufacture completion.
 ### Blueprint statement contract
 
 Every reviewed item has one complete human-readable mathematical statement. The statement begins
-with its source result name or an explicit project-bridge label and gives the domains, hypotheses,
+with its source result name or a descriptive mathematical title and gives the domains, hypotheses,
 quantifiers, and conclusion needed to read it independently of the implementation.
 
 A statement block never contains repository links, library provenance, implementation summaries,
-proof narration, or completion status. Direct FABL or Mathlib reuse, representation choices,
-specialization or generalization boundaries, and proof-engineering context belong in metadata or a
-separate `Formalization note`. Formalized nodes associate genuine compiled declarations; open nodes
-remain visible without a declaration association. The site build runs
-`blueprint-verso/scripts/check_statement_style.py` to enforce this boundary.
+proof narration, or completion status. Direct FABL or Mathlib reuse, representation choices, and
+specialization or generalization boundaries belong in metadata or concise mathematical prose after
+the block. API provenance and proof-engineering narration are omitted from reader text. Formalized
+entries associate genuine compiled declarations; open entries remain visible without a declaration
+association.
+
+Public theorem titles and exposition use standard source terminology. Implementation nouns do not
+serve as mathematical names. Use the precise relation being stated: scaling identity, coordinate
+representation, equivalence, reduction, specialization, or corollary. Negation and contrast are
+retained only for a mathematical hypothesis, conclusion, source correction, or genuine distinction.
+
+The public Blueprint omits Carlet's introductory Chapter 1 and numbers Carlet Chapters 2--10 as
+reader Chapters 1--9 while preserving the source titles, section nesting, and order. Internal module
+names, statement identifiers, inventories, tags, and citations retain Carlet's original numbers.
+Lean modules may follow proof dependencies. The site build runs
+`blueprint-verso/scripts/check_statement_style.py` to enforce the public language and structure.
 
 ## Cusick--Stănică integration
 
@@ -286,7 +302,7 @@ After Carlet is closed, build a source crosswalk:
 
 | Cusick--Stănică area | Canonical destination |
 |---|---|
-| Chapter 2 Fourier analysis | Carlet Chapters 2--4 bridge and Fourier API |
+| Chapter 2 Fourier analysis | Carlet Chapters 2--4 normalization and Fourier API |
 | Chapter 3 avalanche and propagation | Carlet Chapters 4 and 8 |
 | Chapter 4 correlation immunity and resiliency | Carlet Chapters 4 and 7 |
 | Chapter 5 bent functions | Carlet Chapter 6 |

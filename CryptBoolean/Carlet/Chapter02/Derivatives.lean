@@ -12,7 +12,7 @@ public import FABL.Chapter06.FoolingF₂Polynomials.DirectionalDerivatives
 # Carlet Chapter 2 derivatives and autocorrelation
 
 The shared binary directional derivative comes from FABL Chapter 6. This module retains Carlet's
-sign bridge, raw autocorrelation, and Wiener--Khintchine identities.
+sign identity, raw autocorrelation, and Wiener--Khintchine identities.
 -/
 
 open Finset

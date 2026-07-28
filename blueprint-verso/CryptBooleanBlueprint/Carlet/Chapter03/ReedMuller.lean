@@ -87,7 +87,7 @@ if and only if $`f` is the indicator of an $`(n-r)`-dimensional affine
 subspace of $`V_n`.
 :::
 
-Formalization note. The forward proof makes Carlet's equality case explicit through
+The forward proof makes Carlet's equality case explicit through
 first-coordinate slices: equality forces the nonzero slices, and when necessary their
 difference, to attain the lower bound recursively; their supports then assemble into a
 ternary-closed affine set. The reverse proof represents a flat by a basis of its perpendicular

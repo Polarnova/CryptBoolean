@@ -43,10 +43,10 @@ Its maximum $`2^{(k-1)n}` is attained exactly by affine functions, and its
 minimum $`2^{(k-1)n-1}+2^{nk/2-1}` exactly by bent functions.
 :::
 
-Formalization note. Carlet calls the zero-sum/even-output count
+Carlet calls the zero-sum/even-output count
 $`\mathrm{NH}_k`. Reference 357 calls that same quantity homomorphicity and
-reserves nonhomomorphicity for the complementary odd-output count; the Lean
-declarations follow Carlet's convention.
+reserves nonhomomorphicity for the complementary odd-output count. Throughout,
+$`\mathrm{NH}_k` denotes Carlet's even-output count.
 
 :::theorem "carlet-4-affine-reindex-first-resilient" (parent := "carlet-chapter-4") (lean := "CryptBoolean.walshCoordinateLinearMap, CryptBoolean.walshCoordinateLinearMap_injective, CryptBoolean.walshReindexLinearEquiv, CryptBoolean.bentDualFrequency_walshReindexLinearEquiv_single, CryptBoolean.walshTransform_linearReindex_cast, CryptBoolean.bentDualFrequency_zero, CryptBoolean.isBalanced_linearReindex, CryptBoolean.exists_linearEquiv_isResilient_one") (uses := "carlet-4-theorem-3, carlet-4-resiliency-translation-invariance, carlet-2-def-affine-functions") (tags := "carlet, chapter-4, resiliency, affine-reindexing, page-68, fidelity-exact")
 *Affine reindexing to first-order resiliency (Carlet, p. 68).* Suppose $`f`

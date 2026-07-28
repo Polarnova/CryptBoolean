@@ -22,8 +22,9 @@ namespace CryptBoolean
 
 variable {n : ℕ}
 
-/-- The preliminary Maiorana--McFarland class whose slices in the first block are affine. -/
-def IsMaioranaMcFarlandAffineSlices {r s : ℕ}
+/-- Carlet's Chapter 5 Maiorana--McFarland functions: each restriction to the first block is
+affine. -/
+def IsMaioranaMcFarland {r s : ℕ}
     (f : BooleanFunction (r + s)) : Prop :=
   ∀ y : FABL.F₂Cube s, ∃ b : FABL.𝔽₂, ∃ a : FABL.F₂Cube r,
     ∀ x : FABL.F₂Cube r, f (Fin.append x y) = FABL.affineFunction b a x

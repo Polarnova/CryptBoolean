@@ -12,7 +12,7 @@ public import CryptBoolean.Carlet.Chapter02.Foundations
 
 Walsh inversion and the Parseval identity for Carlet's unnormalized Walsh transform,
 obtained by composition over FABL's normalized vector-Fourier API through the
-`walshTransform_eq_two_pow_mul_vectorFourierCoeff` normalization bridge.
+`walshTransform_eq_two_pow_mul_vectorFourierCoeff` scaling identity.
 -/
 
 open Finset

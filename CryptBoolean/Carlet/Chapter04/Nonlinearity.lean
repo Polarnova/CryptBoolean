@@ -11,7 +11,7 @@ public import FABL.Chapter06.LearningAndTesting.DerandomizedBLR
 /-!
 # Carlet Chapter 4 nonlinearity
 
-Raw Hamming nonlinearity, its exact normalized FABL bridge, and Carlet's
+Raw Hamming nonlinearity, its exact scaling law for normalized FABL distance, and Carlet's
 Walsh-spectrum formula.
 -/
 
@@ -596,8 +596,8 @@ theorem not_isBalanced_of_isBent
     Real.sqrt_pos.2 (by positivity)
   linarith
 
-/-- In even dimension, FABL's bent-distance theorem is exactly Carlet
-Relation (36) after the raw-distance normalization bridge. -/
+/-- In even dimension, FABL's bent-distance theorem gives Carlet Relation (36) after raw-distance
+normalization. -/
 theorem isBent_iff_nonlinearity_cast_eq_relation_36_of_even
     (f : BooleanFunction n) (hn : Even n) :
     IsBent f ↔

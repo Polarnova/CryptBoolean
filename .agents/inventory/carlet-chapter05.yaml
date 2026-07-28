@@ -4,7 +4,7 @@ status: source-reviewed
 summary:
   statements: 31
   source_statements: 30
-  bridge_items: 1
+  derived_statements: 1
   core_items: 31
   blueprint_ready_statements: 31
   source_recovery_items: 4
@@ -14,9 +14,9 @@ summary:
   declarations: 195
   dependency_edges: 70
 scope_note: >-
-  Thirty source items below have complete source-facing statements checked
-  against the rendered pages 68--76. One explicit project bridge records the
-  trace-pairing identification suppressed by the source. Four further cited
+  Thirty source items below have complete statements checked against the
+  rendered pages 68--76. One derived theorem states the trace-character
+  expression for Walsh coefficients. Four further cited
   claims are recorded separately under source_recovery because Carlet's survey
   sentences omit parameters needed for faithful theorem statements. Forward
   references to later construction sections and results requiring the absent
@@ -40,22 +40,22 @@ items:
       - carlet-2-def-walsh-transform
       - carlet-3-affine-weight
 
-  - id: carlet-5-def-maiorana-mcfarland-affine-slices
+  - id: carlet-5-def-maiorana-mcfarland
     kind: definition
     location: Carlet, Section 5.1, p. 68
     statement: >-
       Fix a decomposition V_(r+s) = V_r x V_s. A Boolean function
-      f : V_r x V_s -> F_2 is a Maiorana--McFarland affine-slice function for
-      this decomposition when, for every y in V_s, the slice x |-> f(x,y) is
+      f : V_r x V_s -> F_2 is a Maiorana--McFarland function when, for every
+      y in V_s, the restriction x |-> f(x,y) is
       affine; equivalently, its truth table is the concatenation, indexed by
       y, of affine truth tables on V_r.
     formal_status: formalized
     declarations:
-      - CryptBoolean.IsMaioranaMcFarlandAffineSlices
+      - CryptBoolean.IsMaioranaMcFarland
     fidelity_note: >-
-      This is the preliminary affine-slice schema stated in Chapter 5. It does
-      not conflate the original bent class of Section 6.4 with the more general
-      resilient construction of Section 7.5.
+      This is Carlet's Chapter 5 terminology for concatenations of affine
+      restrictions. Section 6.4 later specializes the construction to bent
+      functions.
     dependencies:
       - carlet-2-def-affine-functions
 
@@ -90,7 +90,7 @@ items:
       - CryptBoolean.quadraticRadical_eq_linearKernel
     reuse_note: >-
       Reuse R(2,n), FABL's algebraic degree and derivative, and the existing
-      linear-kernel predicate. Only the quadratic polar-form bridge is new.
+      linear-kernel predicate. Only the quadratic polar form is new.
     dependencies:
       - carlet-3-reed-muller-code
       - carlet-2-def-2-derivative
@@ -722,9 +722,8 @@ items:
     declarations: []
     references: [245]
     fidelity_note: >-
-      The word additive is implicit in Carlet's notation and in the binary
-      trace specialization; it is made explicit to avoid confusing this with
-      a multiplicative-character Weil bound.
+      The word additive is implicit in Carlet's notation; the binary trace
+      specialization fixes this interpretation.
     blocker: >-
       Pinned Mathlib and FABL expose non-trivial additive-character
       orthogonality, finite-field Gauss and Jacobi sum identities, and linear
@@ -736,9 +735,9 @@ items:
       its degree and coprimality hypotheses.
     dependencies: []
 
-  - id: carlet-5-bridge-trace-character-sum-walsh
+  - id: carlet-5-trace-character-sum-walsh
     kind: theorem
-    location: Project representation bridge for Carlet, p. 76
+    location: Trace-character expression for Walsh coefficients, Carlet, p. 76
     statement: >-
       Let theta : V_n ~= GF(2^n) be F_2-linear, let a in GF(2^n) be
       nonzero, and let P in GF(2^n)[X]. For the unique trace-pairing
@@ -756,10 +755,9 @@ items:
       - CryptBoolean.two_pow_le_two_mul_nonlinearity_add_of_tracePolynomialCharacterSum_le
       - CryptBoolean.tracePolynomialCharacterSum_nonlinearity_lower_bound
     fidelity_note: >-
-      This node isolates the finite-field representation and normalization
-      step that Carlet suppresses when identifying V_n with GF(2^n). The
-      analytic character-sum estimate remains an explicit hypothesis, so the
-      open Weil theorem and its source corollary are not weakened or claimed.
+      The trace-pairing coefficient states Carlet's identification of V_n with
+      GF(2^n). The analytic character-sum estimate is an explicit hypothesis;
+      the open Weil theorem supplies that estimate.
     dependencies:
       - carlet-2-def-walsh-transform
       - carlet-2-trace-pairing-coordinates
@@ -780,12 +778,12 @@ items:
     reuse_note: >-
       The field/cube identification, nondegenerate trace pairing, exact Walsh
       identity, and conditional nonlinearity reduction are compiled in the
-      project bridge. Once the analytic theorem above is available, only the
+      conditional reduction above. Once the analytic theorem is available, the
       routine verification that every linear perturbation preserves odd
       degree and coprimality remains.
     dependencies:
       - carlet-5-theorem-7-weil-bound
-      - carlet-5-bridge-trace-character-sum-walsh
+      - carlet-5-trace-character-sum-walsh
 
   - id: carlet-5-reciprocal-character-sum-bound
     kind: theorem
@@ -869,8 +867,8 @@ source_recovery:
       Theorem 2 on p. 5, independently confirms the forms, ranges, and weight
       set. OpenAlex records the 1970 paper as closed with no repository full
       text. Carlet's sentence about precisely computable Walsh spectra follows
-      the citation as a separate consequence, and should be proved from the
-      normal forms rather than reported as a theorem visibly stated in [205].
+      the citation as a separate consequence. It should be proved from the
+      normal forms and is not attributed to [205].
     source_urls:
       - https://doi.org/10.1109/TIT.1970.1054545
       - https://ieeexplore.ieee.org/document/1054545/
@@ -941,7 +939,7 @@ source_recovery:
     first_release_scope: required-after-source-recovery
     blocker: >-
       The survey omits the quantifier order, thresholds, rounding, concrete
-      scalar function, and extractor-to-nonnormality bridge. Reference [14]
+      scalar function, and extractor-to-nonnormality implication. Reference [14]
       must be checked before formalization.
     source_recovery_note: >-
       The primary Barak--Kindler--Shaltiel--Sudakov--Wigderson statement defines
@@ -966,9 +964,9 @@ excluded_source_mentions:
     references: [63, 67]
     reason: >-
       Claims that affine, quadratic, or flat-indicator concatenations are
-      studied later are forward references. Chapter 5 contributes only the
-      affine-slice schema above; precise bent and resilient constructions
-      belong to Chapters 6 and 7.
+      studied later are forward references. Chapter 5 contributes the
+      Maiorana--McFarland definition above; precise bent and resilient
+      constructions belong to Chapters 6 and 7.
 
   - location: Carlet, Section 5.2, p. 70
     references: [255]
@@ -989,4 +987,4 @@ excluded_source_mentions:
     reason: >-
       Statements that further examples were given or studied do not specify
       a construction, hypotheses, or conclusion and therefore remain
-      bibliographic prose rather than source-facing nodes.
+      bibliographic prose.

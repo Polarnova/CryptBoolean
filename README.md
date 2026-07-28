@@ -32,10 +32,14 @@ The current library covers Carlet Chapters 2--5:
   affine-flat indicators, restriction nonlinearity, normality, covering sequences, and
   trace-character reductions for finite-field character-sum bounds.
 
-Chapters 2--4 are source-complete. Chapter 2 includes the exact univariate binary-degree bridge,
-Carlet Proposition 3 on trace-monomial degree, and the trace-pairing bridge. Chapter 5 has three
-visible analytic open statements: the Weil character-sum bound, its nonlinearity corollary, and the
-reciprocal character-sum bound. Every associated Lean declaration is proved and kernel-checked.
+The Blueprint presents these as reader Chapters 1--4 because Carlet's introductory Chapter 1 is
+outside the formalization scope; citations and internal identifiers retain Carlet's numbering.
+
+Carlet Chapters 2--4 have no remaining open statements. Chapter 2 includes the exact univariate
+binary-degree formula, Proposition 3 on trace-monomial degree, and the trace-pairing coordinate
+theorem. Chapter 5 retains three analytic open statements: the Weil character-sum bound, its
+nonlinearity corollary, and the reciprocal character-sum bound. Every linked Lean declaration is
+proved and kernel-checked.
 
 Carlet's Walsh transform is an unnormalized integer sum, whereas FABL uses normalized Fourier
 coefficients. CryptBoolean provides explicit scaling theorems between these conventions. Its

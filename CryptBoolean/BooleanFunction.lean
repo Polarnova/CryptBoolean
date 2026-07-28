@@ -11,9 +11,9 @@ public import FABL.Chapter03
 public import FABL.Chapter04
 
 /-!
-# FABL bridge
+# Boolean functions and their sign representation
 
-Representation and normalization bridges from FABL to cryptographic Boolean functions.
+The canonical scalar Boolean-function type and its real sign representation.
 -/
 
 open scoped BigOperators BooleanCube

@@ -10,8 +10,7 @@ public import CryptBoolean.Carlet.Chapter04.RodierGaussianMainTerm
 /-!
 # Rodier's sharp random-nonlinearity interval
 
-Finite second-moment and no-hit bridges from the smoothed cutoff estimates to
-Rodier's lower spectral-amplitude probability.
+Finite second-moment and no-hit estimates for Rodier's lower spectral-amplitude probability.
 -/
 
 @[expose] public section
