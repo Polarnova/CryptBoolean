@@ -5,6 +5,7 @@ Authors: Asher Yan with Codex
 -/
 module
 
+public import CryptBoolean.Carlet.Chapter02.AffineSubspaceRestrictions
 public import CryptBoolean.Carlet.Chapter04.Nonlinearity
 
 import Mathlib.LinearAlgebra.Dimension.Free
@@ -110,67 +111,24 @@ private noncomputable def subspaceCoordinateEquiv
     rw [Module.finrank_fintype_fun_eq_card]
     simp)
 
-private noncomputable def restrictedAffineFrequency
-    (E : Submodule FABL.𝔽₂ (FABL.F₂Cube n)) (c : FABL.F₂Cube n) :
-    FABL.F₂Cube (Module.finrank FABL.𝔽₂ E) :=
-  (dotProductEquiv FABL.𝔽₂ (Fin (Module.finrank FABL.𝔽₂ E))).symm
-    (((dotProductEquiv FABL.𝔽₂ (Fin n)) c).comp
-      (E.subtype.comp (subspaceCoordinateEquiv E).toLinearMap))
-
-private theorem f₂DotProduct_restrictedAffineFrequency
-    (E : Submodule FABL.𝔽₂ (FABL.F₂Cube n)) (c : FABL.F₂Cube n)
-    (y : FABL.F₂Cube (Module.finrank FABL.𝔽₂ E)) :
-    FABL.f₂DotProduct (restrictedAffineFrequency E c) y =
-      FABL.f₂DotProduct c ((subspaceCoordinateEquiv E y).1) := by
-  change
-    dotProduct (restrictedAffineFrequency E c) y =
-      dotProduct c ((subspaceCoordinateEquiv E y).1)
-  calc
-    dotProduct (restrictedAffineFrequency E c) y =
-        ((dotProductEquiv FABL.𝔽₂
-          (Fin (Module.finrank FABL.𝔽₂ E)))
-            (restrictedAffineFrequency E c)) y :=
-      (dotProductEquiv_apply_apply FABL.𝔽₂ _ _ _).symm
-    _ = (((dotProductEquiv FABL.𝔽₂ (Fin n)) c).comp
-          (E.subtype.comp (subspaceCoordinateEquiv E).toLinearMap)) y := by
-      exact DFunLike.congr_fun
-        ((dotProductEquiv FABL.𝔽₂
-          (Fin (Module.finrank FABL.𝔽₂ E))).apply_symm_apply _) y
-    _ = ((dotProductEquiv FABL.𝔽₂ (Fin n)) c)
-        ((subspaceCoordinateEquiv E y).1) := rfl
-    _ = dotProduct c ((subspaceCoordinateEquiv E y).1) :=
-      dotProductEquiv_apply_apply FABL.𝔽₂ _ _ _
-
-private theorem affineFunction_subspaceCoordinate
-    (E : Submodule FABL.𝔽₂ (FABL.F₂Cube n))
-    (a c : FABL.F₂Cube n) (b : FABL.𝔽₂)
-    (y : FABL.F₂Cube (Module.finrank FABL.𝔽₂ E)) :
-    FABL.affineFunction b c (a + (subspaceCoordinateEquiv E y).1) =
-      FABL.affineFunction (FABL.affineFunction b c a)
-        (restrictedAffineFrequency E c) y := by
-  rw [FABL.affineFunction, FABL.affineFunction,
-    FABL.affineFunction, f₂DotProduct_restrictedAffineFrequency]
-  change b + dotProduct c (a + (subspaceCoordinateEquiv E y).1) =
-    (b + dotProduct c a) + dotProduct c (subspaceCoordinateEquiv E y).1
-  rw [dotProduct_add]
-  ac_rfl
-
 private theorem subspaceCosetWeight_affineFunction_eq_hammingWeight
     (E : Submodule FABL.𝔽₂ (FABL.F₂Cube n))
     (a c : FABL.F₂Cube n) (b : FABL.𝔽₂) :
     subspaceCosetWeight (FABL.affineFunction b c) E a =
       hammingWeight
         (FABL.affineFunction (FABL.affineFunction b c a)
-          (restrictedAffineFrequency E c)) := by
+          (coordinateRestrictedAffineFrequency E
+            (subspaceCoordinateEquiv E) c)) := by
   classical
   let q : BooleanFunction (Module.finrank FABL.𝔽₂ E) :=
     FABL.affineFunction (FABL.affineFunction b c a)
-      (restrictedAffineFrequency E c)
+      (coordinateRestrictedAffineFrequency E (subspaceCoordinateEquiv E) c)
   let e :
       {x : E // FABL.affineFunction b c (a + x.1) = 1} ≃
         {y : FABL.F₂Cube (Module.finrank FABL.𝔽₂ E) // q y = 1} :=
     Equiv.subtypeEquiv (subspaceCoordinateEquiv E).symm.toEquiv fun x ↦ by
-      have h := affineFunction_subspaceCoordinate E a c b
+      have h := affineFunction_coordinateAffineSubspaceRestriction
+        E (subspaceCoordinateEquiv E) a c b
         ((subspaceCoordinateEquiv E).symm x)
       rw [LinearEquiv.apply_symm_apply] at h
       simpa [q] using congrArg (fun z ↦ z = 1) h

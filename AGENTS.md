@@ -28,16 +28,17 @@ node and production declaration.
 
 ## Current verified surface
 
-The Blueprint baseline is 116 source-facing statement nodes: 115 formalized nodes associated with
-759 proved Lean declarations and 1 visibly open node, connected by 223 reviewed dependency edges.
+The Blueprint baseline is 149 source-facing statement nodes: 146 formalized nodes associated with
+961 proved Lean declarations and 3 visibly open nodes, connected by 296 reviewed dependency edges.
 
-- Chapter 2 contributes 36 nodes (35 formalized and 1 open), 159 declarations, and 45 incoming
+- Chapter 2 contributes 38 formalized nodes, 166 declarations, and 48 incoming
   edges. It covers the scalar
   Boolean-function domain, support and weight, balancedness, raw Walsh transforms, the scaling
   bridge to FABL, Walsh inversion, Parseval, algebraic and numerical normal forms, raw
   pseudo-Boolean Fourier operations, the full raw Poisson formula, derivatives, autocorrelation,
   finite-field trace and representation, distance scaling, affine invariance, restriction recovery,
-  and spectral-support bounds.
+  spectral-support bounds, the coordinate/univariate binary-degree bridge, trace-monomial degree,
+  and the trace-pairing representation bridge.
 - Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming edges. It defines
   `reedMuller r n` and proves the affine-weight theorem, general-order distance theorem,
   Proposition 12's minimum-weight affine-flat classification, dimension and cardinality formulas,
@@ -47,13 +48,22 @@ The Blueprint baseline is 116 source-facing statement nodes: 115 formalized node
   and propagation, linear structures, algebraic immunity, autocorrelation, maximum correlation,
   and related complexity criteria, including the sharp random-nonlinearity interval, the exact
   dimension-seven maximum, and the sharp fixed-order higher-order asymptotic upper bound.
-- The sole open Chapter 2 node is Carlet Proposition 3 on the algebraic degree of trace monomials.
-  It requires a finite-field coordinate bridge identifying coordinate ANF degree with maximum
-  binary exponent weight and a cyclotomic-orbit noncancellation theorem.
+- Chapter 5 contributes 31 nodes (28 formalized and 3 open), 195 declarations, and 70 incoming
+  edges. Its 30 source statements and one explicit trace-character representation bridge cover
+  affine spectra, quadratic polar forms, weights and affine normal forms, the exact quadratic
+  weight and nonlinearity value sets, quadraticization Walsh lifts, affine-flat indicator spectra
+  and nonlinearity, the full restriction bound and its equality case, exact random nonnormality,
+  covering-sequence consequences, quadratic trace representation, and the conditional
+  character-sum/nonlinearity reduction.
+- Chapter 2 has no open source node. Its binary-degree and trace-pairing representation bridges,
+  together with cyclotomic-orbit noncancellation, close Carlet Proposition 3 on trace-monomial
+  algebraic degree.
 - Chapter 4 has no open source node. Its higher-order closure composes the moment-ratio reduction,
   dual-code weight decomposition, exact weight-`16` rank-seven classification, character-sum
   estimate, and finite Plotkin induction; these remain separate formalized nodes so that the proof
   structure is visible in the Blueprint.
+- The three open Chapter 5 nodes are the analytic Weil character-sum bound, its nonlinearity
+  corollary, and the reciprocal character-sum bound.
 - Carlet's Reed--Muller coset-distance equality is formalized with the necessary pairwise-distinct-
   coset hypothesis; the two-coset corollary assumes a non-affine representative. The formalized
   `k`th nonhomomorphicity count follows Carlet's even-output naming while recording reference

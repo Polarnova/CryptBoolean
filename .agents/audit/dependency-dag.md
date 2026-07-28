@@ -12,10 +12,11 @@ spine. The current baseline is:
 
 | Chapter | Nodes | Formalized | Open | Associated declarations | Incoming edges |
 |---|---:|---:|---:|---:|---:|
-| Carlet Chapter 2 | 36 | 35 | 1 | 159 | 45 |
+| Carlet Chapter 2 | 38 | 38 | 0 | 166 | 48 |
 | Carlet Chapter 3 | 7 | 7 | 0 | 32 | 19 |
 | Carlet Chapter 4 | 73 | 73 | 0 | 568 | 159 |
-| **Total** | **116** | **115** | **1** | **759** | **223** |
+| Carlet Chapter 5 | 31 | 28 | 3 | 195 | 70 |
+| **Total** | **149** | **146** | **3** | **961** | **296** |
 
 An item marked `[open]` has a complete mathematical statement but no Lean association. In the
 tables below, `consumer <- prerequisite-1, prerequisite-2` denotes one incoming edge from each
@@ -135,16 +136,24 @@ Wiener--Khinchin identity before summing it to obtain Relation (26).
 ### Finite-field branch
 
 ```text
-carlet-2-trace-monomial-degree [open]
-  <- carlet-2-absolute-trace, carlet-2-def-algebraic-degree
+carlet-2-trace-pairing-coordinates
+  <- carlet-2-absolute-trace
+carlet-2-univariate-binary-degree
+  <- carlet-2-univariate-representation, carlet-2-def-algebraic-degree
+carlet-2-trace-monomial-degree
+  <- carlet-2-absolute-trace, carlet-2-univariate-binary-degree
 ```
 
 `carlet-2-univariate-representation` is an independent formalized source root: Carlet Relation (4)
 is finite interpolation on `GF(2^n)` and has no mathematical edge from absolute trace. Mathlib's
 Lagrange interpolation and finite-field trace implementation are perimeter provenance, not graph
-nodes.
+nodes. The unnumbered p. 17 binary-degree formula is a separate source-facing consumer of the
+canonical representation and coordinate ANF degree; Proposition 3 then specializes it through the
+explicit Frobenius orbit of a trace monomial. The trace-pairing coordinate bridge is the shared
+finite-field interface used by both the Chapter 5 quadratic representation and its character-sum
+reduction. Proposition 3 is closed by the binary-degree bridge and cyclic-orbit weight invariance.
 
-The Chapter 2 groups above contain exactly 45 incoming statement edges.
+The Chapter 2 groups above contain exactly 48 incoming statement edges.
 
 ## Chapter 3: Reed--Muller coding
 
@@ -470,21 +479,162 @@ homomorphicity and reserves nonhomomorphicity for the complementary odd-output c
 eight Chapter 4 families, the reviewed counts are
 `46 + 41 + 14 + 14 + 12 + 14 + 9 + 9 = 159` incoming edges.
 
+## Chapter 5: restricted-weight and restricted-spectrum classes
+
+Chapter 5 has 31 reviewed nodes: 28 formalized and 3 open. Its 30 source statements and one
+explicit project bridge keep affine, quadratic, restriction, normality, covering-sequence, and
+character-sum arguments compositional.
+
+### Affine and quadratic functions
+
+```text
+carlet-5-affine-walsh-spectrum
+  <- carlet-2-def-walsh-transform, carlet-3-affine-weight
+carlet-5-def-maiorana-mcfarland-affine-slices
+  <- carlet-2-def-affine-functions
+carlet-5-def-quadratic-symplectic-form
+  <- carlet-3-reed-muller-code, carlet-2-def-2-derivative,
+     carlet-4-def-linear-kernel
+carlet-5-rel-41-quadratic-kernel-sum
+  <- carlet-5-def-quadratic-symplectic-form,
+     carlet-2-rel-26-total-autocorrelation, carlet-3-affine-weight
+carlet-5-theorem-4
+  <- carlet-5-rel-41-quadratic-kernel-sum, carlet-2-balanced-zero-walsh
+carlet-5-quadratic-balanced-iff-derivative-one
+  <- carlet-5-theorem-4, carlet-5-def-quadratic-symplectic-form
+carlet-5-quadratic-symplectic-rank-even
+  <- carlet-5-theorem-4, carlet-5-affine-walsh-spectrum, carlet-2-parseval
+carlet-5-quadratic-weight-nonlinearity-values
+  <- carlet-5-theorem-4, carlet-5-quadratic-symplectic-rank-even,
+     carlet-5-affine-walsh-spectrum, carlet-4-rel-35-nonlinearity-walsh
+carlet-5-theorem-5
+  <- carlet-5-def-quadratic-symplectic-form, carlet-5-theorem-4,
+     carlet-2-affine-invariance
+carlet-5-quadraticization-step
+  <- carlet-2-def-walsh-transform
+carlet-5-degree-three-walsh-lift
+  <- carlet-5-quadraticization-step, carlet-2-anf-existence-uniqueness,
+     carlet-2-def-algebraic-degree
+carlet-5-quadratic-trace-representation
+  <- carlet-5-def-quadratic-symplectic-form, carlet-5-theorem-5,
+     carlet-2-absolute-trace, carlet-2-trace-monomial-degree,
+     carlet-2-trace-pairing-coordinates
+carlet-5-def-quadratic-semi-bent
+  <- carlet-5-quadratic-weight-nonlinearity-values,
+     carlet-5-quadratic-trace-representation
+```
+
+These nodes contribute 34 incoming edges. Relation (41), raw Parseval, and the affine Walsh
+spectrum compose the proved weight, balancedness, derivative, and even-rank restrictions. The
+displayed half-power formula in Theorem 4 explicitly assumes `n > 0`; its balancedness and
+even-rank consequences are compiled in their valid assumption-free forms. The odd/even quadratic
+trace representation composes the quadratic symplectic classification, Theorem 5 normal form,
+absolute trace, Proposition 3, and the shared trace-pairing coordinate bridge. The quadratic
+semi-bent node is an exact predicate and does not claim that arbitrary coefficients in the cited
+trace family satisfy it.
+
+### Flat indicators, affine restrictions, and normality
+
+```text
+carlet-5-flat-indicator-walsh-nonlinearity
+  <- carlet-3-prop-12, carlet-2-def-walsh-transform,
+     carlet-4-rel-35-nonlinearity-walsh
+carlet-5-rel-42-restriction-nonlinearity
+  <- carlet-2-cor-1-poisson-summation, carlet-4-rel-35-nonlinearity-walsh
+carlet-5-affine-flat-restriction-bound
+  <- carlet-5-rel-42-restriction-nonlinearity, carlet-2-def-affine-functions,
+     carlet-2-balanced-zero-walsh
+carlet-5-def-4-normality
+  <- carlet-4-other-complexity-definitions
+carlet-5-random-nonnormality
+  <- carlet-5-def-4-normality, carlet-4-degree-count
+```
+
+This family contributes 11 incoming edges. The flat-indicator node corrects the printed
+nonlinearity conclusion in codimension one, where the indicator is affine and has nonlinearity
+zero; the printed value `2^(n-r)` is retained for `r >= 2`. Relation (42) is proved from the full
+Poisson formula using a coordinate equivalence onto the direction subspace; a complementary-
+subspace wrapper recovers Carlet's `E,E'` presentation. Its natural-number half-power form assumes
+`1 <= k`, while the division-free and real-cast forms are total for every `k`. Equality composes
+with affine extension and Walsh cancellation to give balancedness on every other coset.
+
+### Covering and partial covering sequences
+
+```text
+carlet-5-def-5-covering-sequence
+  <- carlet-2-def-2-derivative
+carlet-5-covering-sequence-balancedness
+  <- carlet-5-def-5-covering-sequence, carlet-2-balanced-zero-walsh
+carlet-5-covering-sequence-walsh-characterization
+  <- carlet-5-def-5-covering-sequence, carlet-2-pseudoboolean-fourier,
+     carlet-2-def-walsh-transform
+carlet-5-covering-sequence-resiliency
+  <- carlet-5-covering-sequence-walsh-characterization,
+     carlet-5-covering-sequence-balancedness, carlet-4-theorem-3
+carlet-5-def-regular-function
+  <- carlet-5-def-5-covering-sequence, carlet-5-covering-sequence-resiliency
+carlet-5-def-6-partial-covering-sequence
+  <- carlet-5-def-5-covering-sequence
+carlet-5-derivative-space-partial-covering-sequence
+  <- carlet-5-def-6-partial-covering-sequence, carlet-2-def-2-derivative
+carlet-5-theorem-6
+  <- carlet-5-def-6-partial-covering-sequence, carlet-2-prop-6-fourier-shifts,
+     carlet-2-def-walsh-transform
+carlet-5-theorem-6-weight-corollary
+  <- carlet-5-theorem-6, carlet-2-balanced-zero-walsh
+```
+
+These nodes contribute 19 incoming edges. The canonical interface keeps Carlet's printed
+integer-valued sequences and unnormalized integer Walsh transform. The Walsh characterization,
+balancedness equivalence, feasible-order resiliency consequences, regular-family generalization,
+the derivative-space representative construction, and Theorem 6 are compiled separately. The
+weight corollary is proved first in a division-free form valid even when the displayed quotient is
+undefined.
+
+### Character-sum bounds
+
+```text
+carlet-5-theorem-7-weil-bound [open]
+carlet-5-bridge-trace-character-sum-walsh
+  <- carlet-2-def-walsh-transform, carlet-2-trace-pairing-coordinates,
+     carlet-4-rel-35-nonlinearity-walsh
+carlet-5-weil-nonlinearity-bound [open]
+  <- carlet-5-theorem-7-weil-bound, carlet-5-bridge-trace-character-sum-walsh
+carlet-5-reciprocal-character-sum-bound [open]
+  <- carlet-2-absolute-trace
+```
+
+This branch contributes 6 incoming edges. The shared Chapter 2 trace-pairing bridge identifies
+every cube Walsh character with a unique finite-field trace character, and the Chapter 5 bridge
+derives the exact nonlinearity reduction from a uniform complete-sum bound. The Weil theorem is an
+independent open source root; its binary nonlinearity consequence and the reciprocal-polynomial
+bound remain separate so that an additive-character theorem is never conflated with a
+multiplicative-character result. Across the four Chapter 5 families, the reviewed counts are
+`34 + 11 + 19 + 6 = 70` incoming edges.
+
 ## Remaining proof frontier
 
-One source node remains open: the Chapter 2 trace-monomial proposition. Its Blueprint prerequisites
-are formalized, but it requires a genuine missing mathematical layer rather than another already
-inventoried node:
+Three source nodes remain open, all in the analytic Chapter 5 character-sum branch. Their complete
+statements remain visible without placeholder associations:
 
-- `carlet-2-trace-monomial-degree` (Carlet Proposition 3) lacks the bridge identifying coordinate
-  ANF degree on `V_n` with the maximum binary exponent weight in the univariate finite-field
-  representation. It also lacks cyclotomic-orbit noncancellation showing that nonzeroness forces an
-  orbit coefficient of binary weight `w_2(k)` to survive. The pinned FABL and Mathlib surfaces do
-  not expose either result.
+- `carlet-5-theorem-7-weil-bound` and `carlet-5-weil-nonlinearity-bound` require the analytic
+  additive-character Weil estimate. The trace-pairing coordinate identification and the
+  Walsh/nonlinearity reduction are already closed by `carlet-2-trace-pairing-coordinates` and
+  `carlet-5-bridge-trace-character-sum-walsh`.
+- `carlet-5-reciprocal-character-sum-bound` requires the separate rational-function
+  additive-character estimate.
+
+Four further Chapter 5 citation-recovery records are intentionally outside the 31-node graph until
+their primary-source parameters support complete statements; they do not affect the manifest
+counts or edges.
+
 Proposition 12 is closed: Chapter 3's affine-flat and equality-case slice layer proves the exact
 source classification. Chapter 4 is closed: Rodier's interval, the exact dimension-seven maximum,
 and the sharp higher-order upper bound are associated with their complete production proofs, while
-their mathematical ingredients remain separately visible in the graph.
+their mathematical ingredients remain separately visible in the graph. Chapter 5's quadratic
+normal form, quadratic trace representation, Relation (42), random-nonnormality limit, and
+trace-character reduction are closed; the three analytic open nodes above define the remaining
+reviewed frontier.
 
 ## Machine verification
 

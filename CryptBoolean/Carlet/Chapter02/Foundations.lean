@@ -71,6 +71,13 @@ theorem bitSignInt_eq_if_one (b : FABL.𝔽₂) :
       exact hb (Fin.eq_one_of_ne_zero b hzero)
     simp [bitSignInt, hb_zero]
 
+/-- The integer sign encoding sends binary addition to multiplication. -/
+theorem bitSignInt_add (a b : FABL.𝔽₂) :
+    bitSignInt (a + b) = bitSignInt a * bitSignInt b := by
+  unfold bitSignInt
+  rw [FABL.signEncode_add]
+  rfl
+
 /-- At zero frequency the Walsh summand is just the sign of the function value. -/
 theorem walshTerm_zero (f : BooleanFunction n) (x : FABL.F₂Cube n) :
     walshTerm f 0 x = bitSignInt (f x) := by

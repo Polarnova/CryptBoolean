@@ -66,6 +66,31 @@ theorem rawFourierTransform_setIndicator_submodule
   · rw [if_neg hu, FABL.vectorFourierCoeff_setIndicator_submodule_of_not_mem E u hu,
       mul_zero]
 
+/-- The raw transform of an affine-subspace indicator is the direction's
+cardinality on its perpendicular, modulated by the translation character. -/
+theorem rawFourierTransform_setIndicator_binaryAffineSubspace
+    (H : Submodule FABL.𝔽₂ (FABL.F₂Cube n))
+    (u a : FABL.F₂Cube n) :
+    rawFourierTransform
+        (FABL.setIndicator (FABL.binaryAffineSubspace H u :
+          Set (FABL.F₂Cube n))) a =
+      FABL.vectorWalshCharacter a u *
+        if a ∈ FABL.perpendicularSubspace H then (Nat.card H : ℝ) else 0 := by
+  classical
+  by_cases ha : a ∈ FABL.perpendicularSubspace H
+  · rw [if_pos ha, rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff,
+      FABL.vectorFourierCoeff_setIndicator_binaryAffineSubspace_of_mem H u a ha]
+    calc
+      (2 ^ n : ℝ) *
+          (FABL.vectorWalshCharacter a u * FABL.inversePerpendicularCard H) =
+          FABL.vectorWalshCharacter a u *
+            ((2 ^ n : ℝ) * FABL.inversePerpendicularCard H) := by ring
+      _ = FABL.vectorWalshCharacter a u * (Nat.card H : ℝ) := by
+        rw [two_pow_mul_inversePerpendicularCard_eq_card]
+  · rw [if_neg ha, rawFourierTransform_eq_two_pow_mul_vectorFourierCoeff,
+      FABL.vectorFourierCoeff_setIndicator_binaryAffineSubspace_of_not_mem
+        H u a ha, mul_zero, mul_zero]
+
 /-- Carlet Corollary 1, Relation (17): the full raw Poisson summation formula
 on affine cosets, with both modulation parameters explicit. -/
 theorem rawPoissonSummationFormula

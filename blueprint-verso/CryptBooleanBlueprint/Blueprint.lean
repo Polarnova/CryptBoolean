@@ -11,6 +11,7 @@ import CryptBooleanBlueprint.Citations
 import CryptBooleanBlueprint.Carlet.Chapter02
 import CryptBooleanBlueprint.Carlet.Chapter03
 import CryptBooleanBlueprint.Carlet.Chapter04
+import CryptBooleanBlueprint.Carlet.Chapter05
 import CryptBooleanBlueprint.References
 
 open Verso.Genre
@@ -31,10 +32,11 @@ Reed--Muller coding, and cryptographic criteria for scalar Boolean functions. It
 [FABL](https://github.com/Polarnova/FABL) for Boolean Fourier analysis and records explicit bridges
 between FABL's normalized Fourier coefficients and Carlet's raw Walsh transform.
 
-This volume contains 116 source-facing mathematical statements: 115 are associated with 759 proved
-Lean declarations, while one remains visibly open. The dependency graph records 223 reviewed
+This volume contains 149 source-facing mathematical statements: 146 are associated with 961 proved
+Lean declarations, while three remain visibly open. The dependency graph records 296 reviewed
 mathematical edges. Chapter 2 develops representations and the Fourier--Walsh interface; Chapter 3
-develops Reed--Muller coding; Chapter 4 develops the scalar criteria used in cryptography.
+develops Reed--Muller coding; Chapter 4 develops the scalar criteria used in cryptography; Chapter 5
+develops classes with constrained weights, Walsh spectra, and nonlinearities.
 
 Each entry states the mathematics with explicit domains, hypotheses, quantifiers, and conclusions.
 Implementation and normalization notes sit outside statement blocks. A source theorem without an
@@ -55,11 +57,17 @@ Chapter 3: Boolean functions and coding
 Chapter 4: Boolean functions and cryptography
 :::
 
+:::group "carlet-chapter-5"
+Chapter 5: Classes of functions with restricted weights and spectra
+:::
+
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02}
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter03}
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter04}
+
+{include 0 CryptBooleanBlueprint.Carlet.Chapter05}
 
 {references}
 

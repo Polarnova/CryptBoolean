@@ -16,13 +16,14 @@ The generated manifest currently verifies the following baseline:
 
 | Chapter | Statements | Formalized | Open | Associated declarations | Incoming statement edges |
 |---|---:|---:|---:|---:|---:|
-| Carlet Chapter 2 | 36 | 35 | 1 | 159 | 45 |
+| Carlet Chapter 2 | 38 | 38 | 0 | 166 | 48 |
 | Carlet Chapter 3 | 7 | 7 | 0 | 32 | 19 |
 | Carlet Chapter 4 | 73 | 73 | 0 | 568 | 159 |
-| **Total** | **116** | **115** | **1** | **759** | **223** |
+| Carlet Chapter 5 | 31 | 28 | 3 | 195 | 70 |
+| **Total** | **149** | **146** | **3** | **961** | **296** |
 
 The manifest count is an association count, not a claim that every printed result in Carlet
-Chapters 2--4 is complete. Coverage outside these 116 reviewed nodes remains governed by the
+Chapters 2--5 is complete. Coverage outside these 149 reviewed nodes remains governed by the
 inventories under `.agents/inventory/`.
 
 ## Corrected source mappings
@@ -66,6 +67,14 @@ inventories under `.agents/inventory/`.
 | `carlet-4-higher-order-order-two-dual-moment-decomposition` | Project bridge for Carlet--Mesnager Lemma 9.2.2: the even correlation moment is a character sum over ordered tuples whose point-parity word lies in `R(n-3,n)`. | Seven declarations expand powers into tuples, prove character orthogonality over `R(2,n)`, and invoke Chapter 3 duality. The subsequent grouping and low-weight classification remain separate. |
 | `carlet-4-prop-13` | Carlet Proposition 13, pp. 54--55: for `1 <= r < n`, `nl_r(f)` is at least one half of the maximum `nl_(r-1)(D_a f)` and at least `2^(n-1)-(1/2)sqrt(2^(2n)-2 sum_a nl_(r-1)(D_a f))`. | The source-facing second-bound declaration carries both hypotheses `1 <= r` and `r < n` and uses exactly the printed `2^(n-1)` and `2^(2n)` normalization. The first bound and the squared-gap inequality are proved in stronger assumption-free forms where their statements remain valid; they do not weaken the associated source result. The finite sum and maximum range over every `a in V_n`, including `a=0`, exactly as printed. |
 | `carlet-4-kth-nonhomomorphicity` | Carlet p. 67: for even `k`, the displayed Walsh-moment formula counts tuples whose output sum is zero and gives the affine maximum and bent minimum characterizations. | The declarations follow Carlet's name `k`th nonhomomorphicity for this even-output count. Reference [357] calls that same count homomorphicity and reserves nonhomomorphicity for the complementary odd-output count; the inventory and Blueprint record the terminology discrepancy. |
+| `carlet-5-theorem-4` | Carlet Theorem 4, p. 69: a quadratic function is balanced exactly when its restriction to the linear kernel is nonconstant; otherwise `n+k` is even and its weight is `2^(n-1) plus or minus 2^((n+k)/2-1)`. | The displayed half-power theorem explicitly assumes `n>0`, the implicit domain in which the natural exponent is total. Balancedness and the even-rank consequence are compiled separately without that restriction where their statements remain valid. |
+| `carlet-5-flat-indicator-walsh-nonlinearity` | Carlet p. 71 gives the exact Walsh spectrum of a codimension-`r` affine-flat indicator and concludes `nl(f)=2^(n-r)`. | The source's own spectrum makes the unqualified conclusion false for `r=1`, when the indicator is affine. The formal statement records `nl(f)=0` for `r=1` and retains `nl(f)=2^(n-r)` for `r>=2`; its support, weight, and raw spectrum still agree with the printed formulas. |
+| `carlet-5-rel-42-restriction-nonlinearity` | Carlet Relation (42), pp. 71--72: for a restriction `h_a` to a `k`-dimensional affine coset, `nl(f) <= 2^(n-1)-2^(k-1)+nl(h_a)`. | The natural-number form makes the implicit hypothesis `1<=k` explicit. Division-free and real-cast inequalities cover every `k`, including zero. A coordinate equivalence onto the direction subspace supplies the reusable theorem, and a complementary-subspace wrapper recovers Carlet's `E,E'` and coset presentation without changing the mathematical bound. |
+| `carlet-5-affine-flat-restriction-bound` | Carlet p. 72: an affine restriction gives `nl(f) <= 2^(n-1)-2^(k-1)`, and equality forces every other coset to be balanced after adding any ambient affine extension. | Eight declarations prove the affine-extension bridge, the zero restricted nonlinearity, the bound, affine Walsh modulation, perpendicular-character cancellation, and the full equality case. The positive-dimensional domain of the natural exponent and the condition identifying every coset other than the original one are explicit. |
+| `carlet-5-covering-sequence-walsh-characterization` | Carlet pp. 73--74 defines integer covering sequences and characterizes them by the integer Walsh transform of their coefficient sequence on the raw Walsh support of `f`. | The interface stays integer-valued, as in the printed definition, and uses the unnormalized integer transform. Explicit cast and involution bridges connect it to the already compiled raw pseudo-Boolean Fourier API; no normalized FABL coefficient is substituted for Carlet's transform. |
+| `carlet-5-covering-sequence-resiliency` | Carlet p. 74 derives correlation-immunity and resiliency orders from the minimum nonzero transform-fiber weight and gives converses at the first failed order. | The forward and converse declarations retain the stated minimum and nontrivial-level conditions on every feasible order. The Walsh-zero coefficient sequence is constructed rather than represented by a finite fixture. |
+| `carlet-5-derivative-space-partial-covering-sequence` | Carlet p. 74: a nonzero binary space of derivatives has pointwise integer sum zero or half its cardinality, and a minimal representative direction set gives a nontrivial partial covering sequence. | Ten declarations model the finite Boolean-function subspace, prove the half-cardinality dichotomy, choose one direction per derivative, prove the resulting derivative map is bijective and the representative set has cardinality `|D|`, and establish the two-level partial-covering property with nonzero upper level. |
+| `carlet-5-theorem-6-weight-corollary` | Carlet p. 76 divides by a nonzero level `rho` to write `W_f(0)=(1-rho'/rho) sum_(x in A)(-1)^f(x)`. | The associated theorem proves the equivalent integer identity `rho W_f(0)=(rho-rho') sum_(x in A)(-1)^f(x)`, valid even at `rho=0`; the printed quotient follows under its stated nonzero hypothesis. |
 
 **Formalization note (Proposition 13).** Carlet refers the omitted proof to reference [72]. The
 formal proof follows that source's two arguments: differentiating a closest order-`r` Reed--Muller
@@ -74,15 +83,36 @@ the zero-frequency correlation of a closest approximant and summing the derivati
 gives the second recursive bound. The production declarations expose the derivative, weight,
 autocorrelation, and square-root steps used by this composition rather than assuming either bound.
 
+### Chapter 5 source-recovery boundary
+
+Four cited Chapter 5 claims remain inventory records rather than Blueprint statements because the
+survey does not supply theorem-complete parameters or because the cited source boundary still
+needs an explicit fidelity decision:
+
+- The Kasami--Tokura classification is now recovered with complete parameter inequalities and
+  weights from Borissov--Manev--Nikova, ISIT 2001, Theorem 4, and independently cross-checked
+  against Carlet--Sole, arXiv:2301.13497v3. The original IEEE paper remains closed with no
+  repository full text. Promotion must separate that input-affine classification from the Walsh
+  spectra that Carlet says can subsequently be computed from the normal forms; visible source
+  material does not attribute a Walsh theorem to Kasami--Tokura.
+- The Alon--Goldreich--Hastad--Peralta citation requires recovery of the explicit family, its
+  dimension range, and the affine-automorphism passage from coordinate flats.
+- Bourgain's abstract states an affine extractor for arbitrary fixed positive entropy ratio,
+  stronger than Carlet's preliminary displayed range, but its exact binary-output specialization
+  still needs recovery.
+- Barak--Kindler--Shaltiel--Sudakov--Wigderson define an affine `delta`-source by dimension at least
+  `delta*n`; this is not Carlet's printed `n^delta` claim. That mismatch must be resolved against
+  the primary journal theorem or recorded as a source correction before promotion.
+
 ## Reviewed formalized surface
 
-The 115 formalized statement nodes are split by mathematical result rather than by implementation
+The 146 formalized statement nodes are split by mathematical result rather than by implementation
 module summaries. The fidelity column records how the compiled declarations meet the displayed
 source mathematics.
 
 | Family | Formalized Blueprint items | Fidelity | Lean declarations |
 |---|---|---|---:|
-| Boolean foundations and raw Walsh transform | `carlet-2-def-boolean-function`, `carlet-2-def-support-weight`, `carlet-2-def-walsh-transform`, `carlet-2-bridge-walsh-normalization`, `carlet-2-balanced-zero-walsh` | Exact definitions/results plus explicit Walsh and Mathlib-Hamming bridges | 19 |
+| Boolean foundations and raw Walsh transform | `carlet-2-def-boolean-function`, `carlet-2-def-support-weight`, `carlet-2-def-walsh-transform`, `carlet-2-bridge-walsh-normalization`, `carlet-2-balanced-zero-walsh` | Exact definitions/results plus explicit Walsh and Mathlib-Hamming bridges | 20 |
 | Algebraic normal form | `carlet-2-anf-skeleton`, `carlet-2-anf-existence-uniqueness` | Exact, with the explicit zero-degree convention | 18 |
 | Numerical normal form | `carlet-2-nnf-existence-uniqueness`, `carlet-2-prop-4-nnf-mobius`, `carlet-2-prop-5-nnf-integrality` | Exact | 19 |
 | Algebraic degree, distance, and affine functions | `carlet-2-def-algebraic-degree`, `carlet-2-support-degree-addition`, `carlet-2-def-hamming-distance`, `carlet-2-bridge-relative-hamming-distance`, `carlet-2-def-affine-functions` | Exact source items plus explicit relative-distance bridge and derived addition law | 18 |
@@ -90,9 +120,9 @@ source mathematics.
 | Restriction recovery | `carlet-2-restriction-recovery` | Exact formula and affine-automorphism consequence | 10 |
 | Raw pseudo-Boolean Fourier operations | `carlet-2-pseudoboolean-fourier`, `carlet-2-prop-6-fourier-shifts`, `carlet-2-cor-2-fourier-involution`, `carlet-2-prop-7-subspace-indicator`, `carlet-2-poisson-normalized-specialization`, `carlet-2-cor-1-poisson-summation`, `carlet-2-def-convolution`, `carlet-2-prop-8-convolution`, `carlet-2-rel-22-plancherel` | Exact raw results plus one explicitly labelled direct-FABL normalized specialization | 13 |
 | Spectral-support bounds | `carlet-2-spectral-support-bounds` | Exact with explicit zero-function conventions and raw/normalized bridges | 24 |
-| Walsh inversion and Parseval for sign views | `carlet-2-fourier-inversion`, `carlet-2-parseval` | Exact sign-function specializations | 5 |
+| Walsh inversion and Parseval for sign views | `carlet-2-fourier-inversion`, `carlet-2-parseval` | Exact sign-function specializations | 6 |
 | Derivatives and autocorrelation | `carlet-2-def-2-derivative`, `carlet-2-def-autocorrelation`, `carlet-2-rel-25-wiener-khinchin`, `carlet-2-rel-26-total-autocorrelation` | Exact | 6 |
-| Finite-field representation | `carlet-2-absolute-trace`, `carlet-2-univariate-representation` | Exact, with direct Mathlib trace reuse and interpolation provenance | 14 |
+| Finite-field representation | 5 formalized nodes from `carlet-2-absolute-trace` through `carlet-2-trace-monomial-degree` | Exact absolute trace and interpolation results, an explicit shared trace-pairing coordinate bridge, the binary-degree formula for canonical univariate representations, and Proposition 3's exact nonzero trace-monomial degree | 19 |
 | Reed--Muller foundations | `carlet-3-affine-weight`, `carlet-3-reed-muller-code`, `carlet-3-theorem-1-order-one` | Exact source items plus explicitly derived order-one specialization | 11 |
 | General Reed--Muller distance | `carlet-3-theorem-1` | Exact all-orders theorem | 2 |
 | Minimum-weight Reed--Muller classification | `carlet-3-prop-12` | Exact affine-flat indicator equivalence | 11 |
@@ -106,7 +136,11 @@ source mathematics.
 | Autocorrelation indicators | 5 formalized nodes from `carlet-4-def-autocorrelation-indicators` through `carlet-4-indicator-nonlinearity-spectral-support` | Exact indicators, moment identities, and spectral/nonlinearity consequences | 36 |
 | Maximum correlation and generalized distance | 3 formalized nodes from `carlet-4-def-maximum-correlation` through `carlet-4-generalized-linear-structure-distance` | Exact coordinate-restriction and linear-structure distances | 38 |
 | Other complexity criteria | `carlet-4-other-complexity-definitions`, `carlet-4-kth-nonhomomorphicity`, `carlet-4-affine-reindex-first-resilient` | Exact criteria with the recorded tuple-count terminology discrepancy | 36 |
-| **Total** | **115 items** |  | **759** |
+| Chapter 5 affine and quadratic classes | 13 formalized nodes from `carlet-5-affine-walsh-spectrum` through `carlet-5-def-quadratic-semi-bent` | Exact affine spectra, quadratic polar/radical structure, Relation (41), Theorems 4 and 5, derivative and even-rank consequences, exact weight and nonlinearity value sets with realizations, the complete affine normal-form trichotomy, the odd/even finite-field quadratic trace representation, the quadraticization step and its degree-three iteration, and an exact semi-bent predicate | 89 |
+| Chapter 5 flat restrictions and normality | `carlet-5-flat-indicator-walsh-nonlinearity`, `carlet-5-rel-42-restriction-nonlinearity`, `carlet-5-affine-flat-restriction-bound`, `carlet-5-def-4-normality`, `carlet-5-random-nonnormality` | Corrected codimension-one flat value, total restriction bridges, the full equality case, exact fixed-dimension normality predicates, the finite certificate bound, and the exact floored logarithmic random-nonnormality limit | 44 |
+| Chapter 5 covering sequences | 9 formalized nodes from `carlet-5-def-5-covering-sequence` through `carlet-5-theorem-6-weight-corollary` | Exact integer covering and partial-covering definitions, Walsh characterization, balancedness/resiliency consequences, regular families, the derivative-space representative construction, Theorem 6, and its division-free weight identity | 56 |
+| Chapter 5 trace-character reduction | `carlet-5-bridge-trace-character-sum-walsh` | Reuse of the shared Chapter 2 trace-pairing coordinate bridge, the exact complete-sum Walsh identity, and the conditional maximum-Walsh/nonlinearity reduction | 6 |
+| **Total** | **146 items** |  | **961** |
 
 The following distinctions are part of the fidelity boundary:
 
@@ -158,21 +192,41 @@ The following distinctions are part of the fidelity boundary:
   reduction and normal-form lemmas to prove the dimension-seven equality.
 - First-order Reed--Muller coset distance uses the necessary distinct-coset hypothesis, and `k`th
   nonhomomorphicity retains Carlet's terminology while recording reference [357]'s convention.
+- Chapter 5's quadratic weight formula exposes its implicit `n>0` domain; the balancedness,
+  derivative-one, and even-symplectic-rank statements remain assumption-free where valid.
+- An affine-flat indicator has nonlinearity zero in codimension one. The formal case split corrects
+  Carlet's unqualified conclusion while preserving the printed Walsh spectrum and every
+  codimension-at-least-two value.
+- Relation (42) separates its `1<=k` natural-number display from division-free and real-cast forms
+  valid for all `k`. Coordinate-equivalence and complementary-subspace presentations are explicit
+  representation bridges, and the equality corollary quantifies over every ambient affine
+  extension and every other coset.
+- Covering sequences use integer coefficients and an unnormalized integer Walsh transform. Their
+  resiliency consequences are restricted to feasible orders, and Theorem 6's weight consequence
+  is compiled first without division.
+- The four Chapter 5 citation-recovery records are not weakened into Blueprint statements. In
+  particular, the BKSSW primary formulation uses affine dimension at least `delta*n`, whereas
+  Carlet prints `n^delta`.
 - Definitions, bridge laws, source propositions, and derived consequences have separate Blueprint
   nodes when their quantifiers or conclusions differ.
 
 ## Open source statements
 
-One open node states the complete reviewed mathematics and intentionally has no Lean declaration
-association. Chapter 2 contributes the sole foundational blocker:
+Three open nodes state complete reviewed analytic mathematics and intentionally have no Lean
+declaration association. All three are in the Chapter 5 character-sum branch.
 
 | Blueprint item | Source location | Exact blocker |
 |---|---|---|
-| `carlet-2-trace-monomial-degree` | Carlet Proposition 3, pp. 17--18 | Missing the bridge between coordinate ANF degree on `V_n` and maximum binary exponent weight in the univariate finite-field representation, together with cyclotomic-orbit noncancellation proving that a surviving nonzero orbit coefficient has weight `w_2(k)`. Pinned FABL and Mathlib expose neither result. |
+| `carlet-5-theorem-7-weil-bound` | Carlet Theorem 7, p. 76 | Pinned Mathlib and FABL stop at additive-character orthogonality and Gauss/Jacobi identities. They have no arbitrary polynomial-phase bound and no Artin--Schreier, genus, Riemann--Roch, or Hasse--Weil point-count layer from which the stated degree-sensitive square-root estimate could be derived. |
+| `carlet-5-weil-nonlinearity-bound` | Carlet p. 76 | The shared trace-pairing coordinate identification is compiled in `carlet-2-trace-pairing-coordinates`, and the Walsh/nonlinearity reduction is compiled in `carlet-5-bridge-trace-character-sum-walsh`; only the analytic Weil estimate needed to discharge its uniform character-sum hypothesis remains open. |
+| `carlet-5-reciprocal-character-sum-bound` | Carlet p. 76; Shanbhag--Kumar--Helleseth [325, Theorem 1] | Carlet's printed whole-field one-sided inequality is corrected to the primary sharp absolute-value bound over the nonzero field elements; the whole-field convention has the resulting bound with an added `1`. Proving the sharp theorem requires an independent rational-phase estimate with pole-order control. Encoding inversion as a high power loses the degree bound, and the available Gauss/Jacobi identities do not supply the needed conductor/genus and Hasse--Weil layers. |
 
 Chapter 3 has no open node: Proposition 12's affine-flat and equality-case slice layer is
-formalized. Chapter 4 has no open node: its three former frontier statements are associated with
-complete declarations while their principal mathematical ingredients retain independent nodes.
+formalized. Chapter 4 has no open node: its former frontier statements are associated with complete
+declarations while their principal mathematical ingredients retain independent nodes. Chapter 2
+has no open node: the binary-degree bridge and Proposition 3 are formalized. The four Chapter 5
+citation-recovery records remain outside the 31-node Chapter 5 graph until their source statements
+are complete.
 
 ## Verification perimeter
 

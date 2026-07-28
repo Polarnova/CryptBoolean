@@ -143,18 +143,6 @@ theorem orderTwoCorrelationPowerSum_nonneg
   rw [orderTwoCorrelationPowerSum]
   exact Finset.sum_nonneg fun g _hg ↦ evenPower_nonneg _ _
 
-private theorem exists_walshTransform_ne_zero
-    (f : BooleanFunction n) :
-    ∃ a : FABL.F₂Cube n, walshTransform f a ≠ 0 := by
-  by_contra h
-  push Not at h
-  have hsum : ∑ a : FABL.F₂Cube n, (walshTransform f a : ℝ) ^ 2 = 0 := by
-    simp [h]
-  have hparseval := sum_walshTransform_sq_eq_two_pow_sq f
-  rw [hsum] at hparseval
-  have hpow : (0 : ℝ) < (2 : ℝ) ^ n := by positivity
-  nlinarith
-
 private theorem orderTwoCorrelation_affine_zero
     (f : BooleanFunction n) (a : FABL.F₂Cube n) :
     orderTwoCorrelation f (FABL.affineFunction 0 a) =

@@ -2,11 +2,11 @@ source: carlet-2010
 chapter: 2
 status: blueprint-synchronized
 summary:
-  statements: 36
-  formalized: 35
-  open: 1
-  declarations: 159
-  dependency_edges: 45
+  statements: 38
+  formalized: 38
+  open: 0
+  declarations: 166
+  dependency_edges: 48
 items:
   - id: carlet-2-def-boolean-function
     kind: definition
@@ -45,6 +45,7 @@ items:
     formal_status: formalized
     declarations:
       - CryptBoolean.bitSignInt
+      - CryptBoolean.bitSignInt_add
       - CryptBoolean.walshTerm
       - CryptBoolean.walshTransform
     dependencies:
@@ -108,6 +109,7 @@ items:
       - CryptBoolean.realSignView_mul_self
       - CryptBoolean.sum_vectorFourierCoeff_realSignView_sq
       - CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq
+      - CryptBoolean.exists_walshTransform_ne_zero
     dependencies:
       - carlet-2-bridge-walsh-normalization
 
@@ -461,6 +463,45 @@ items:
       - CryptBoolean.existsUnique_univariateRepresentation
     dependencies: []
 
+  - id: carlet-2-trace-pairing-coordinates
+    kind: theorem
+    location: Project coordinate bridge for Carlet, pp. 15, 70--71, and 76
+    statement: >-
+      Let n >= 0 and let theta : V_n ~= GF(2^n) be F_2-linear. For every
+      u in V_n there is a unique b in GF(2^n) such that
+      u dot x = Tr_n(b theta(x)) for every x in V_n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.existsUnique_tracePairingCoefficient
+    fidelity_note: >-
+      This project bridge makes the coordinate identification used implicitly
+      by Carlet explicit. It is the unique shared trace-pairing API used by the
+      quadratic trace representation and the character-sum Walsh reduction.
+    dependencies:
+      - carlet-2-absolute-trace
+
+  - id: carlet-2-univariate-binary-degree
+    kind: theorem
+    location: Carlet, unnumbered algebraic-degree formula, p. 17
+    statement: >-
+      Let n > 0, identify V_n with K_n = GF(2^n) by an F_2-linear
+      isomorphism theta, and let P_f(X) = sum_(j=0)^(2^n-1) delta_j X^j
+      be the unique bounded univariate representation of the embedded Boolean
+      function f. Then deg_alg(f) = max_(delta_j != 0) w_2(j), with maximum
+      zero for the zero polynomial.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.binaryWeight
+      - CryptBoolean.univariateBinaryDegree
+      - CryptBoolean.functionAlgebraicDegree_eq_univariateBinaryDegree
+    fidelity_note: >-
+      The coordinate isomorphism and prime-field embedding are explicit. The
+      private proof bridge generalizes the cube ANF coefficients to K_n-values;
+      no second public ANF representation is introduced.
+    dependencies:
+      - carlet-2-univariate-representation
+      - carlet-2-def-algebraic-degree
+
   - id: carlet-2-trace-monomial-degree
     kind: proposition
     location: Carlet, Proposition 3, pp. 17--18
@@ -469,16 +510,17 @@ items:
       θ : V_n ≃ K_n, and represent k modulo 2^n-1 by 0 ≤ k < 2^n-1. If
       f_θ(x) = Tr_n(aθ(x)^k) is not identically zero, then
       deg_alg(f_θ) = w_2(k), the binary Hamming weight of k.
-    formal_status: open
-    declarations: []
-    blocker: >-
-      Missing a finite-field coordinate-ANF-degree versus univariate-binary-weight
-      bridge and the cyclotomic-orbit noncancellation theorem needed to show that
-      a nonzero orbit coefficient contributes binary weight w_2(k). No matching
-      result is exposed by the pinned FABL or Mathlib surface.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.functionAlgebraicDegree_traceMonomial
+    fidelity_note: >-
+      The proof identifies the explicit Frobenius-orbit polynomial with the
+      canonical bounded univariate representation. Nonzeroness of the function
+      makes its support nonempty, and cyclic binary shifts preserve w_2(k), so
+      no separate noncancellation assumption is added.
     dependencies:
       - carlet-2-absolute-trace
-      - carlet-2-def-algebraic-degree
+      - carlet-2-univariate-binary-degree
 
   - id: carlet-2-def-algebraic-degree
     kind: definition

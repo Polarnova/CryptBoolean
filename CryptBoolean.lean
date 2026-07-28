@@ -9,6 +9,7 @@ public import CryptBoolean.Bridge.FABL
 public import CryptBoolean.Carlet.Chapter02
 public import CryptBoolean.Carlet.Chapter03
 public import CryptBoolean.Carlet.Chapter04
+public import CryptBoolean.Carlet.Chapter05
 
 /-!
 # CryptBoolean

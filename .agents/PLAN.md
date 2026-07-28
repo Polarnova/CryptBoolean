@@ -8,11 +8,12 @@ Plancherel, relative Hamming distance, balancedness, restrictions, ANF, algebrai
 functions, and derivatives needed by CryptBoolean. FABL is the canonical owner of those shared APIs;
 this project imports them directly and adds only source-facing or representation bridges.
 
-The current Blueprint baseline contains 116 source-facing statement nodes: 115 formalized nodes
-associated with 759 proved Lean declarations and 1 visibly open node, connected by 223 reviewed
-dependency edges. Chapter 2 contributes 36 nodes (35 formalized and 1 open), 159 declarations, and
-45 incoming edges. Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming
-edges. Chapter 4 contributes 73 formalized nodes, 568 declarations, and 159 incoming edges. These
+The current Blueprint baseline contains 149 source-facing statement nodes: 146 formalized nodes
+associated with 961 proved Lean declarations and 3 visibly open nodes, connected by 296 reviewed
+dependency edges. Chapter 2 contributes 38 formalized nodes, 166 declarations, and 48 incoming
+edges. Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming
+edges. Chapter 4 contributes 73 formalized nodes, 568 declarations, and 159 incoming edges. Chapter
+5 contributes 31 nodes (28 formalized and 3 open), 195 declarations, and 70 incoming edges. These
 counts are a synchronized verification contract shared by the inventories,
 Verso sources, `blueprint-verso/scripts/validate_manifest.py`, and `AGENTS.md`.
 
@@ -76,8 +77,8 @@ tooling pipeline runs, and no local filesystem path appears in package metadata.
 ## Phase 1 - Complete Carlet inventory
 
 Status: in progress. Reviewed Chapter 2 and Chapter 3 items live under `.agents/inventory/`.
-Chapter 4's 73-item inventory is source-reviewed and Blueprint-synchronized; Chapters 5--10 are not
-yet inventoried.
+Chapter 4's 73-item inventory and Chapter 5's 30 source items plus one explicit project bridge are
+source-reviewed and Blueprint-synchronized; Chapters 6--10 are not yet inventoried.
 
 Read Chapters 2--10 in full and create one Blueprint node per in-scope item. Record full statements,
 source locations, representation decisions, and mathematical dependencies. Mark referenced results
@@ -96,14 +97,14 @@ render, and no proof work has silently expanded or reduced scope.
 
 ## Phase 2 - Chapter 2 foundations
 
-Status: 35 of 36 source-facing nodes are formalized. This phase now includes Proposition 5's
-numerical-normal-form integrality criterion, full raw Poisson summation, affine invariance,
-restriction recovery, and both spectral-support bounds. The only open node is Carlet Proposition 3
-on the algebraic degree of trace monomials.
+Status: complete. All 38 source-facing nodes are formalized by 166 proved declarations with 48
+reviewed dependency edges. This phase includes Proposition 5's numerical-normal-form integrality
+criterion, full raw Poisson summation, affine invariance, restriction recovery, both
+spectral-support bounds, the coordinate/univariate binary-degree bridge, Carlet Proposition 3 on
+trace-monomial degree, and the trace-pairing representation bridge.
 
-The precise Proposition 3 frontier is a bridge from univariate finite-field exponents to coordinate
-ANF degree: coordinate algebraic degree must equal the maximum binary weight in the univariate
-support, and the coefficients along the relevant cyclotomic orbit must be shown not to cancel.
+Proposition 3 is closed by composing the exact binary-exponent-weight/coordinate-ANF-degree bridge
+with noncancellation along the trace monomial's cyclotomic orbit.
 
 ### 2A. Boolean representations
 
@@ -182,12 +183,23 @@ from reference [357]'s complementary convention.
 
 ## Phase 5 - Chapter 5 tractable classes
 
+Status: complete at the reviewed algebraic and combinatorial boundary. Twenty-eight of 31 reviewed
+nodes are formalized by 195 proved declarations.
+The compiled surface includes affine spectra, quadratic polar and weight theory, the complete
+quadratic affine normal form, exact quadratic weight and nonlinearity value sets, even quadratic
+rank, quadraticization and its iterated degree-three Walsh lift, flat-indicator spectra,
+restriction nonlinearity with its equality case, exact random nonnormality, covering-sequence
+consequences, the odd- and even-dimensional quadratic trace representations, and the
+trace-character/nonlinearity reduction. Three analytic nodes remain open: the Weil character-sum
+bound, its nonlinearity corollary, and the reciprocal character-sum bound.
+
 Formalize affine and quadratic functions first, then indicators of flats, normal functions, partial
 covering sequences, and low-univariate-degree functions. Reuse Mathlib quadratic-form and finite-
 field results where they match the source domain.
 
-Exit gate: all weight, Walsh-spectrum, and nonlinearity restrictions claimed in Chapter 5 are
-compiled and available to the bent/resilient construction phases.
+Exit gate: achieved for every dependency-ready Chapter 5 statement. The three explicitly open
+analytic nodes form a separate Artin--Schreier/Hasse--Weil frontier and do not block the
+bent/resilient construction phases.
 
 ## Phase 6 - Chapter 6 bent functions
 

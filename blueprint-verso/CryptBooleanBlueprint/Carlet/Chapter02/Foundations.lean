@@ -37,7 +37,7 @@ w_H(f)=|\operatorname{supp}(f)|.
 *Formalization note.* The source-facing weight name is a reducible alias of Mathlib's
 `hammingNorm`; the associated bridge proves that it is exactly the cardinality displayed above.
 
-:::definition "carlet-2-def-walsh-transform" (parent := "carlet-chapter-2") (lean := "CryptBoolean.bitSignInt, CryptBoolean.walshTerm, CryptBoolean.walshTransform") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, pages-22-23, fidelity-exact")
+:::definition "carlet-2-def-walsh-transform" (parent := "carlet-chapter-2") (lean := "CryptBoolean.bitSignInt, CryptBoolean.bitSignInt_add, CryptBoolean.walshTerm, CryptBoolean.walshTransform") (uses := "carlet-2-def-boolean-function") (tags := "carlet, chapter-2, pages-22-23, fidelity-exact")
 *Walsh transform (Carlet, pp. 22--23).* Let
 $`f:V_n\to\mathbb F_2`. The Walsh transform of $`f` is the unnormalized
 Fourier transform of its sign function:

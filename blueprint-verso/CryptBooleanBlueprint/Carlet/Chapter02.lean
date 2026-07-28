@@ -27,16 +27,15 @@ page and result references in this chapter point to Claude Carlet's *Boolean Fun
 Cryptography and Error Correcting Codes*. Write $`V_n=\mathbb F_2^n`,
 $`f_\chi(x)=(-1)^{f(x)}`, and $`\chi_a(x)=(-1)^{a\mathbin\cdot x}` throughout.
 
-The chapter contains 36 source-facing nodes. Thirty-five are formalized by 159 proved Lean
-declarations; one displays an exact open source statement. Fourier-analytic proofs reuse
+The chapter contains 38 source-facing nodes, all formalized by 166 proved Lean declarations.
+Fourier-analytic proofs reuse
 [FABL](https://github.com/Polarnova/FABL) only through explicit normalization bridges.
 
 The formalized surface includes Proposition 5's numerical-normal-form integrality criterion,
 Carlet's full raw Poisson summation formula, affine invariance, recovery from restrictions, and the
-spectral-support bounds. The sole open node is Proposition 3 on trace monomials. Its proof requires
-a finite-field coordinate bridge between univariate binary exponent weight and ANF degree, together
-with noncancellation along the relevant cyclotomic orbit. The complete proposition remains visible
-in the graph without a placeholder declaration.
+spectral-support bounds. It also includes the exact coordinate/univariate binary-degree bridge,
+Proposition 3 on trace-monomial degree through cyclotomic-orbit noncancellation, and the
+trace-pairing representation bridge. Chapter 2 has no open node.
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02.Foundations}
 

@@ -6,7 +6,8 @@ Authors: Asher Yan with Codex
 import Verso
 import VersoManual
 import VersoBlueprint
-import CryptBoolean.Carlet.Chapter02.FiniteField
+import CryptBoolean.Carlet.Chapter02.TraceMonomialDegree
+import CryptBoolean.Carlet.Chapter02.TracePairing
 
 open Verso.Genre
 open Verso.Genre.Manual
@@ -66,7 +67,36 @@ for uniquely determined coefficients $`\delta_i\in K_n`.
 *Formalization note.* The canonical witness is finite Lagrange interpolation. This theorem has no
 mathematical dependency on the absolute trace, so no such edge is recorded in the Blueprint graph.
 
-:::proposition "carlet-2-trace-monomial-degree" (parent := "carlet-chapter-2") (uses := "carlet-2-absolute-trace, carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, proposition-3, pages-17-18, source-open")
+:::theorem "carlet-2-trace-pairing-coordinates" (parent := "carlet-chapter-2") (lean := "CryptBoolean.existsUnique_tracePairingCoefficient") (uses := "carlet-2-absolute-trace") (tags := "project-bridge, carlet, chapter-2, finite-field-coordinates, trace-pairing, fidelity-explicit-representation-bridge")
+*Binary trace-pairing coordinate bridge.* Let $`n\ge0` and choose an
+$`\mathbb F_2`-linear isomorphism $`\theta:V_n\xrightarrow{\sim}K_n`. For every
+$`u\in V_n` there is a unique $`b\in K_n` such that
+$$`
+u\mathbin\cdot x=\operatorname{Tr}_n\!\left(b\theta(x)\right)
+\qquad(x\in V_n).
+`
+:::
+
+*Formalization note.* This bridge makes Carlet's implicit coordinate identification explicit. It
+is the single shared trace-pairing interface used by the quadratic trace representation and the
+complete character-sum reduction.
+
+:::theorem "carlet-2-univariate-binary-degree" (parent := "carlet-chapter-2") (lean := "CryptBoolean.binaryWeight, CryptBoolean.univariateBinaryDegree, CryptBoolean.functionAlgebraicDegree_eq_univariateBinaryDegree") (uses := "carlet-2-univariate-representation, carlet-2-def-algebraic-degree") (tags := "carlet, chapter-2, univariate-representation, algebraic-degree, page-17, fidelity-exact")
+*Univariate binary-degree formula (Carlet, p. 17).* Let $`n>0`, choose an
+$`\mathbb F_2`-linear isomorphism $`\theta:V_n\xrightarrow{\sim}K_n`, and let
+$`P_f(X)=\sum_{j=0}^{2^n-1}\delta_jX^j` be the unique polynomial of degree less than $`2^n`
+representing the prime-field embedding of $`f\circ\theta^{-1}`. Then
+$$`
+\deg_{\mathrm{alg}}(f)=\max_{\delta_j\ne0}w_2(j),
+`
+where the maximum is zero when $`P_f=0`.
+:::
+
+*Formalization note.* The coordinate isomorphism and prime-field embedding are explicit. A private
+$`K_n`-valued ANF layer proves the coefficient bridge while leaving FABL's canonical public
+$`\mathbb F_2`-valued ANF API unchanged.
+
+:::proposition "carlet-2-trace-monomial-degree" (parent := "carlet-chapter-2") (lean := "CryptBoolean.functionAlgebraicDegree_traceMonomial") (uses := "carlet-2-absolute-trace, carlet-2-univariate-binary-degree") (tags := "carlet, chapter-2, proposition-3, pages-17-18, fidelity-exact")
 *Proposition 3 (Carlet, pp. 17--18).* Let $`n>0`, let $`a\in K_n`, choose an
 $`\mathbb F_2`-linear isomorphism $`\theta:V_n\xrightarrow{\sim}K_n`, and let $`k` be represented
 by an integer $`0\le k<2^n-1` modulo $`2^n-1`. If the Boolean function
@@ -81,7 +111,7 @@ where $`w_2(k)` is the number of nonzero digits in the binary expansion of
 $`k`.
 :::
 
-*Formalization note.* Carlet identifies $`K_n` with $`V_n` after fixing a basis. Making the
-coordinate isomorphism explicit is necessary to apply the cube-based definition of algebraic
-degree; changing the basis composes $`f_\theta` with a linear automorphism, so affine invariance
-makes the displayed degree basis-independent.
+*Formalization note.* The explicit Frobenius-orbit polynomial is identified with the canonical
+bounded univariate representation. Function nonzeroness makes that polynomial's support nonempty,
+and every surviving orbit exponent is a cyclic binary shift of $`k`, so no additional
+noncancellation hypothesis is assumed.

@@ -32,17 +32,20 @@ PDFs, manifests, graphs, and caches are not sources of truth.
 
 ## Current verified baseline
 
-The reviewed Blueprint contains 116 source-facing statements, of which 115 are associated with 759
-proved Lean declarations and 1 remains visibly open, connected by 223 mathematical dependency
-edges. Chapter 2 contributes 36 statements (35 formalized and 1 open), 159 declarations, and 45
+The reviewed Blueprint contains 149 source-facing statements, of which 146 are associated with 961
+proved Lean declarations and 3 remain visibly open, connected by 296 mathematical dependency
+edges. Chapter 2 contributes 38 formalized statements, 166 declarations, and 48
 incoming edges. Chapter 3 contributes 7 formalized statements, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized statements, 568 declarations, and 159 incoming edges.
+Chapter 5 contributes 31 statements (28 formalized and 3 open), 195 declarations, and 70 incoming
+edges; these are 30 source statements plus one explicit trace-character representation bridge.
 
 The completed Chapter 2 frontier includes Proposition 5's numerical-normal-form integrality
-criterion, the full raw Poisson formula, affine invariance, restriction recovery, and the
-spectral-support bounds. The completed Chapter 3 frontier includes the general Reed--Muller distance
-theorem, Proposition 12's minimum-weight affine-flat classification, dimension and cardinality
-formulas, and duality.
+criterion, the full raw Poisson formula, affine invariance, restriction recovery, the
+spectral-support bounds, the coordinate/univariate binary-degree bridge, Proposition 3 on trace
+monomials, and the trace-pairing representation bridge. The completed Chapter 3 frontier includes
+the general Reed--Muller distance theorem, Proposition 12's minimum-weight affine-flat
+classification, dimension and cardinality formulas, and duality.
 
 The Chapter 4 inventory is source-reviewed and Blueprint-synchronized. Its 73 formalized nodes
 cover the reviewed finite theory of nonlinearity, higher-order nonlinearity, resiliency and
@@ -53,11 +56,20 @@ closed as independent source-facing nodes. The higher-order proof exposes its mo
 dual-code, low-weight, weight-`16` rank-seven classification, character-sum, and finite Plotkin
 components separately rather than hiding them inside the final asymptotic statement.
 
-The only open Chapter 2 item is Carlet Proposition 3. Its smallest missing layer is a finite-field
-coordinate theorem identifying ANF degree with the maximum binary weight in the univariate support,
-together with noncancellation along the cyclotomic orbit of a trace monomial. Chapter 3 has no open
-node: the affine-flat normal form, codimension--degree theorem, and equality-case slice
-infrastructure now compose into the exact Proposition 12 classification.
+The Chapter 5 inventory is source-reviewed and Blueprint-synchronized. Its compiled nodes cover
+affine Walsh spectra, quadratic polar forms, kernel sums, exact weight and nonlinearity value sets,
+even rank, the complete quadratic affine normal form, quadraticization, affine-flat indicator
+spectra, restriction nonlinearity including the equality case, fixed-dimension normality, the exact
+random-nonnormality limit, covering-sequence definitions and consequences, and the conditional
+trace-character/nonlinearity reduction. The quadratic trace representation is closed for both odd
+and even dimensions. The three open nodes preserve the complete analytic source statements for the
+Weil character-sum bound, its nonlinearity corollary, and the reciprocal character-sum bound.
+
+Chapter 2 has no open node: the finite-field coordinate theorem identifies ANF degree with the
+maximum binary weight in the univariate support, cyclotomic-orbit noncancellation closes Carlet
+Proposition 3, and the trace-pairing bridge is compiled. Chapter 3 likewise has no open node: the
+affine-flat normal form, codimension--degree theorem, and equality-case slice infrastructure compose
+into the exact Proposition 12 classification.
 
 Source-facing splits remain explicit in Chapter 4. Rodier's one-sided lower endpoint and sharp
 interval have distinct nodes, as do the finite Hamming-ball and Plotkin bridges and the resulting

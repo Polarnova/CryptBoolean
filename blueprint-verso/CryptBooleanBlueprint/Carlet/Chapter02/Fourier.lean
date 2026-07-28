@@ -27,7 +27,7 @@ $$`
 `
 :::
 
-:::theorem "carlet-2-parseval" (parent := "carlet-chapter-2") (lean := "CryptBoolean.realSignView_mul_self, CryptBoolean.sum_vectorFourierCoeff_realSignView_sq, CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq") (uses := "carlet-2-bridge-walsh-normalization") (tags := "carlet, chapter-2, corollary-3, relation-23, page-27, fidelity-exact")
+:::theorem "carlet-2-parseval" (parent := "carlet-chapter-2") (lean := "CryptBoolean.realSignView_mul_self, CryptBoolean.sum_vectorFourierCoeff_realSignView_sq, CryptBoolean.sum_walshTransform_sq_eq_two_pow_sq, CryptBoolean.exists_walshTransform_ne_zero") (uses := "carlet-2-bridge-walsh-normalization") (tags := "carlet, chapter-2, corollary-3, relation-23, page-27, fidelity-exact")
 *Parseval for Boolean sign functions (Carlet, Corollary 3, Relation (23), p. 27).*
 For every $`f:V_n\to\mathbb F_2`,
 $$`

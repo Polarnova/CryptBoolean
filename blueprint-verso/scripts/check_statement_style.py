@@ -94,9 +94,9 @@ def main() -> None:
             errors.append(f"{location}: {block.identifier} must have {expected}, but not both")
     formalized = sum("(lean :=" in block.header for block in blocks)
     open_count = sum("source-open" in block.header for block in blocks)
-    if (len(blocks), formalized, open_count) != (116, 115, 1):
+    if (len(blocks), formalized, open_count) != (149, 146, 3):
         errors.append(
-            "expected 116 statements split into 115 formalized and 1 open; "
+            "expected 149 statements split into 146 formalized and 3 open; "
             f"found {len(blocks)}, {formalized}, and {open_count}"
         )
     if errors:

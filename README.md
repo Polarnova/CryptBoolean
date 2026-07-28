@@ -17,7 +17,7 @@ statements, Lean declarations, references, and proof-dependency graph.
 
 ## Mathematical scope
 
-The current library covers Carlet Chapters 2--4:
+The current library covers Carlet Chapters 2--5:
 
 - **Representations and transforms:** support and weight, algebraic and numerical normal forms,
   Walsh and pseudo-Boolean Fourier transforms, inversion, Parseval and Poisson formulas,
@@ -28,10 +28,14 @@ The current library covers Carlet Chapters 2--4:
   resiliency, propagation criteria, linear structures, algebraic immunity, autocorrelation
   indicators, and maximum correlation. This includes the exact seven-variable maximum and sharp
   fixed-order asymptotic bounds for higher-order nonlinearity.
+- **Function classes:** affine and quadratic spectra, quadratic trace representations,
+  affine-flat indicators, restriction nonlinearity, normality, covering sequences, and
+  trace-character reductions for finite-field character-sum bounds.
 
-Chapters 3 and 4 are complete. One Chapter 2 statement remains open: Carlet Proposition 3 on the
-algebraic degree of trace monomials. Open statements remain visible in the Blueprint; every
-associated Lean declaration is proved and kernel-checked.
+Chapters 2--4 are source-complete. Chapter 2 includes the exact univariate binary-degree bridge,
+Carlet Proposition 3 on trace-monomial degree, and the trace-pairing bridge. Chapter 5 has three
+visible analytic open statements: the Weil character-sum bound, its nonlinearity corollary, and the
+reciprocal character-sum bound. Every associated Lean declaration is proved and kernel-checked.
 
 Carlet's Walsh transform is an unnormalized integer sum, whereas FABL uses normalized Fourier
 coefficients. CryptBoolean provides explicit scaling theorems between these conventions. Its
@@ -39,14 +43,14 @@ canonical scalar Boolean functions have type `FABL.F₂Cube n → FABL.𝔽₂`.
 
 ## Using CryptBoolean
 
-Release `v0.3.5` uses Lean and Mathlib `v4.32.0` and pins FABL `v0.5.6`. Add the package to a
+Release `v0.4.0` uses Lean and Mathlib `v4.32.0` and pins FABL `v0.5.6`. Add the package to a
 downstream `lakefile.toml`:
 
 ```toml
 [[require]]
 name = "CryptBooleanFunction"
 git = "https://github.com/Polarnova/CryptBoolean.git"
-rev = "v0.3.5"
+rev = "v0.4.0"
 ```
 
 On Linux x86-64 and macOS arm64, obtain the verified release archive with:
@@ -75,8 +79,8 @@ lake exe cache get
 lake build CryptBoolean
 ```
 
-Production modules follow Carlet's chapters under `CryptBoolean/Carlet`; representation bridges
-are under `CryptBoolean/Bridge`.
+Production modules follow Carlet's chapters and mathematical representation boundaries under
+`CryptBoolean/Carlet`.
 
 ## Blueprint
 

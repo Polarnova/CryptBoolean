@@ -21,6 +21,7 @@ public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwo
 public import CryptBoolean.Carlet.Chapter04.HigherOrderTupleCounts
 public import CryptBoolean.Carlet.Chapter04.HigherOrderTupleCountDifferences
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightEight
+public import CryptBoolean.Carlet.Chapter04.QuadraticPolar
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightTwelveClassification
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightFourteenClassification
 public import CryptBoolean.Carlet.Chapter04.HigherOrderOrderTwoWeightSixteen

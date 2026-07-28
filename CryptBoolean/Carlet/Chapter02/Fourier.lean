@@ -83,4 +83,16 @@ theorem sum_walshTransform_sq_eq_two_pow_sq (f : BooleanFunction n) :
           rw [sum_vectorFourierCoeff_realSignView_sq]
           ring
 
+/-- Every Boolean function has a nonzero raw Walsh coefficient. -/
+theorem exists_walshTransform_ne_zero (f : BooleanFunction n) :
+    ∃ a : FABL.F₂Cube n, walshTransform f a ≠ 0 := by
+  by_contra h
+  push Not at h
+  have hsum : ∑ a : FABL.F₂Cube n, (walshTransform f a : ℝ) ^ 2 = 0 := by
+    simp [h]
+  have hparseval := sum_walshTransform_sq_eq_two_pow_sq f
+  rw [hsum] at hparseval
+  have hpow : (0 : ℝ) < (2 : ℝ) ^ n := by positivity
+  nlinarith
+
 end CryptBoolean

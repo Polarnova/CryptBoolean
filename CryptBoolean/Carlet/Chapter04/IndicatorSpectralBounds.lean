@@ -44,17 +44,6 @@ theorem abs_walshTransform_le_maxWalshMagnitude
       (maxWalshMagnitude f : ℝ) := by exact_mod_cast hnat
   simpa only [Nat.cast_natAbs, Int.cast_abs] using hreal
 
-private theorem exists_walshTransform_ne_zero (f : BooleanFunction n) :
-    ∃ a, walshTransform f a ≠ 0 := by
-  by_contra h
-  push Not at h
-  have hparseval := sum_walshTransform_sq_eq_two_pow_sq f
-  have hsum : (∑ a, (walshTransform f a : ℝ) ^ 2) = 0 := by
-    simp [h]
-  rw [hsum] at hparseval
-  have hpos : 0 < ((2 : ℝ) ^ n) ^ 2 := by positivity
-  linarith
-
 private theorem maxWalshMagnitude_pos (f : BooleanFunction n) :
     0 < (maxWalshMagnitude f : ℝ) := by
   obtain ⟨a, ha⟩ := exists_walshTransform_ne_zero f

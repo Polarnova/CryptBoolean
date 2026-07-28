@@ -1,0 +1,992 @@
+source: carlet-2010
+chapter: 5
+status: source-reviewed
+summary:
+  statements: 31
+  source_statements: 30
+  bridge_items: 1
+  core_items: 31
+  blueprint_ready_statements: 31
+  source_recovery_items: 4
+  total_records: 35
+  formalized: 28
+  open: 3
+  declarations: 195
+  dependency_edges: 70
+scope_note: >-
+  Thirty source items below have complete source-facing statements checked
+  against the rendered pages 68--76. One explicit project bridge records the
+  trace-pairing identification suppressed by the source. Four further cited
+  claims are recorded separately under source_recovery because Carlet's survey
+  sentences omit parameters needed for faithful theorem statements. Forward
+  references to later construction sections and results requiring the absent
+  vectorial chapter are not promoted to Chapter 5 statements.
+items:
+  - id: carlet-5-affine-walsh-spectrum
+    kind: theorem
+    location: Carlet, Section 5.1, p. 68
+    statement: >-
+      Let n >= 0, a,u in V_n, and epsilon in F_2. For the affine Boolean
+      function ell(x) = a dot x + epsilon, its unnormalized Walsh transform is
+      W_ell(u) = 0 when u != a and W_ell(a) = 2^n (-1)^epsilon.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_affineFunction
+    reuse_note: >-
+      Reuse the canonical affine-function and raw-Walsh APIs; the sign view of
+      an affine function and its balancedness are already compiled in the
+      Chapter 3 affine-weight node.
+    dependencies:
+      - carlet-2-def-walsh-transform
+      - carlet-3-affine-weight
+
+  - id: carlet-5-def-maiorana-mcfarland-affine-slices
+    kind: definition
+    location: Carlet, Section 5.1, p. 68
+    statement: >-
+      Fix a decomposition V_(r+s) = V_r x V_s. A Boolean function
+      f : V_r x V_s -> F_2 is a Maiorana--McFarland affine-slice function for
+      this decomposition when, for every y in V_s, the slice x |-> f(x,y) is
+      affine; equivalently, its truth table is the concatenation, indexed by
+      y, of affine truth tables on V_r.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsMaioranaMcFarlandAffineSlices
+    fidelity_note: >-
+      This is the preliminary affine-slice schema stated in Chapter 5. It does
+      not conflate the original bent class of Section 6.4 with the more general
+      resilient construction of Section 7.5.
+    dependencies:
+      - carlet-2-def-affine-functions
+
+  - id: carlet-5-def-quadratic-symplectic-form
+    kind: definition
+    location: Carlet, Section 5.2, pp. 68--69
+    statement: >-
+      A quadratic Boolean function is an element f of R(2,n), equivalently a
+      function of algebraic degree at most two. Define
+      phi_f(x,y) = f(0) + f(x) + f(y) + f(x+y). For quadratic f, phi_f is a
+      bilinear, symmetric, alternating form. Its kernel is exactly the linear
+      kernel E_f = {b in V_n | D_b f is constant}, and the map
+      b |-> D_b f(0) = f(b)+f(0) is linear on E_f.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.quadraticPolarKernel
+      - CryptBoolean.quadraticPolarKernel_eq
+      - CryptBoolean.quadraticPolarKernel_comm
+      - CryptBoolean.quadraticPolarKernel_eq_dotProduct_of_derivative_eq_affine
+      - CryptBoolean.quadraticPolarKernel_add_right
+      - CryptBoolean.quadraticPolarKernel_smul_right
+      - CryptBoolean.quadraticPolarKernel_add_left
+      - CryptBoolean.quadraticPolarKernel_smul_left
+      - CryptBoolean.quadraticPolar
+      - CryptBoolean.quadraticPolar_apply
+      - CryptBoolean.quadraticPolar_isSymm
+      - CryptBoolean.quadraticPolar_isAlt
+      - CryptBoolean.quadraticRadical
+      - CryptBoolean.mem_quadraticRadical_iff
+      - CryptBoolean.booleanDerivative_eq_const_of_mem_quadraticRadical
+      - CryptBoolean.quadraticRadicalSignCharacter
+      - CryptBoolean.quadraticRadical_eq_linearKernel
+    reuse_note: >-
+      Reuse R(2,n), FABL's algebraic degree and derivative, and the existing
+      linear-kernel predicate. Only the quadratic polar-form bridge is new.
+    dependencies:
+      - carlet-3-reed-muller-code
+      - carlet-2-def-2-derivative
+      - carlet-4-def-linear-kernel
+
+  - id: carlet-5-rel-41-quadratic-kernel-sum
+    kind: theorem
+    location: Carlet, Relation (41), p. 69
+    statement: >-
+      For every quadratic f : V_n -> F_2 with linear kernel E_f,
+      W_f(0)^2 = 2^n sum_(b in E_f) (-1)^(D_b f(0)). Consequently this square
+      is 2^n |E_f| when f is constant on E_f and is zero otherwise.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_zero_sq_eq_two_pow_mul_sum_quadraticRadical
+      - CryptBoolean.walshTransform_zero_sq_eq_two_pow_mul_sum_linearKernel
+      - CryptBoolean.quadraticRadicalSignCharacter_eq_zero_iff
+      - CryptBoolean.walshTransform_zero_sq_eq_if_constant_on_quadraticRadical
+      - CryptBoolean.walshTransform_zero_sq_eq_if_constant_on_linearKernel
+    dependencies:
+      - carlet-5-def-quadratic-symplectic-form
+      - carlet-2-rel-26-total-autocorrelation
+      - carlet-3-affine-weight
+
+  - id: carlet-5-theorem-4
+    kind: theorem
+    location: Carlet, Theorem 4, p. 69
+    statement: >-
+      Let n > 0, let f : V_n -> F_2 be quadratic, and let k = dim(E_f), where
+      E_f is its linear kernel, equivalently the kernel of phi_f. Then f is
+      balanced if and only if f restricted to E_f is not constant. If f is
+      not balanced, then n+k is even and
+      w_H(f) = 2^(n-1) + 2^((n+k)/2-1) or
+      w_H(f) = 2^(n-1) - 2^((n+k)/2-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBalanced_iff_not_constant_on_linearKernel_of_degree_le_two
+      - CryptBoolean.even_exponent_of_int_sq_eq_two_pow
+      - CryptBoolean.walshTransform_zero_sq_eq_two_pow_add_finrank_of_not_balanced
+      - CryptBoolean.even_dimension_add_finrank_linearKernel_of_not_balanced
+      - CryptBoolean.quadratic_weight_eq_two_pow_sub_or_add
+      - CryptBoolean.theorem_4_quadratic_weight
+    fidelity_note: >-
+      The positive-dimension domain makes the displayed half-power formula
+      total; its balancedness clause and the even-rank corollary are compiled
+      without this restriction.
+    dependencies:
+      - carlet-5-rel-41-quadratic-kernel-sum
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-5-quadratic-balanced-iff-derivative-one
+    kind: corollary
+    location: Carlet, consequence after Theorem 4, p. 69
+    statement: >-
+      A quadratic Boolean function f is balanced if and only if there exists
+      b in V_n such that D_b f is the constant function one. Such a direction
+      necessarily belongs to E_f and satisfies f(b) != f(0).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBalanced_iff_quadraticRadicalSignCharacter_ne_zero
+      - CryptBoolean.quadraticRadicalSignCharacter_ne_zero_iff_exists_derivative_one
+      - CryptBoolean.isBalanced_iff_exists_booleanDerivative_eq_one_of_degree_le_two
+      - CryptBoolean.mem_linearKernel_and_ne_zero_value_of_booleanDerivative_eq_one
+    dependencies:
+      - carlet-5-theorem-4
+      - carlet-5-def-quadratic-symplectic-form
+
+  - id: carlet-5-quadratic-symplectic-rank-even
+    kind: corollary
+    location: Carlet, consequence after Theorem 4, p. 69
+    statement: >-
+      For every quadratic Boolean function f, the codimension of its linear
+      kernel E_f is even. Equivalently, the alternating bilinear form phi_f has
+      even rank.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanDerivative_add_affineFunction
+      - CryptBoolean.linearKernel_add_affineFunction
+      - CryptBoolean.walshTransform_add_linearFunction_zero
+      - CryptBoolean.even_dimension_add_finrank_linearKernel_of_degree_le_two
+      - CryptBoolean.even_codimension_linearKernel_of_degree_le_two
+    dependencies:
+      - carlet-5-theorem-4
+      - carlet-5-affine-walsh-spectrum
+      - carlet-2-parseval
+
+  - id: carlet-5-quadratic-weight-nonlinearity-values
+    kind: theorem
+    location: Carlet, unnumbered value restrictions, p. 69
+    statement: >-
+      Let n >= 1 and I_n = {i in N | ceil(n/2)-1 <= i <= n-1}. The set of
+      weights of quadratic n-variable Boolean functions is exactly
+      {2^(n-1)} union {2^(n-1)-2^i, 2^(n-1)+2^i | i in I_n}, and the set of
+      their nonlinearities is exactly {2^(n-1)-2^i | i in I_n}. Moreover, if
+      a quadratic f has weight 2^(n-1) plus or minus 2^i, then for every
+      affine ell the weight of f+ell belongs to
+      {2^(n-1)-2^i, 2^(n-1), 2^(n-1)+2^i}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsQuadraticOffsetExponent
+      - CryptBoolean.isQuadraticOffsetExponent_iff_ceilingHalf
+      - CryptBoolean.isQuadraticOffsetExponent_iff_ceilDiv
+      - CryptBoolean.isQuadraticOffsetExponent_iff_exists_parameters
+      - CryptBoolean.hammingWeight_eq_two_pow_pred_of_isBalanced
+      - CryptBoolean.isBalanced_iff_hammingWeight_eq_two_pow_pred
+      - CryptBoolean.nonlinearity_affineFunction
+      - CryptBoolean.maxWalshMagnitude_affineFunction
+      - CryptBoolean.nonlinearity_add_affineFunction
+      - CryptBoolean.hammingWeight_add_constant_one
+      - CryptBoolean.quadraticOffsetWitness
+      - CryptBoolean.functionAlgebraicDegree_quadraticOffsetWitness_le_two
+      - CryptBoolean.walshTransform_innerProductModTwoBit_zero
+      - CryptBoolean.walshTransform_quadraticOffsetWitness_zero
+      - CryptBoolean.hammingWeight_quadraticOffsetWitness
+      - CryptBoolean.quadraticOffsetWitnessComplement
+      - CryptBoolean.functionAlgebraicDegree_quadraticOffsetWitnessComplement_le_two
+      - CryptBoolean.hammingWeight_quadraticOffsetWitnessComplement
+      - CryptBoolean.maxWalshMagnitude_quadraticOffsetWitness
+      - CryptBoolean.nonlinearity_quadraticOffsetWitness
+      - CryptBoolean.exists_quadratic_hammingWeight_eq_two_pow_pred
+      - CryptBoolean.exists_quadratic_hammingWeight_eq_sub
+      - CryptBoolean.exists_quadratic_hammingWeight_eq_add
+      - CryptBoolean.exists_quadratic_nonlinearity_eq_sub
+      - CryptBoolean.quadratic_hammingWeight_value_restriction
+      - CryptBoolean.not_isBalanced_of_hammingWeight_eq_quadraticOffset
+      - CryptBoolean.quadratic_affine_shift_hammingWeight_trichotomy
+      - CryptBoolean.maxWalshMagnitude_eq_natAbs_walshTransform_zero_of_quadratic_notBalanced
+      - CryptBoolean.natAbs_walshTransform_zero_eq_two_pow_succ_of_quadratic_weight
+      - CryptBoolean.maxWalshMagnitude_eq_two_pow_succ_of_quadratic_weight
+      - CryptBoolean.quadratic_nonlinearity_eq_sub_of_hammingWeight_offset
+      - CryptBoolean.quadratic_nonlinearity_value_restriction
+      - CryptBoolean.exists_quadratic_hammingWeight_eq_iff
+      - CryptBoolean.exists_quadratic_nonlinearity_eq_iff
+    fidelity_note: >-
+      The exact-set biconditionals include every affine-degenerate endpoint.
+      Existence is proved directly from complete inner-product bent blocks
+      with dummy coordinates, so this node does not depend on Theorem 5's
+      still-open affine normal-form classification.
+    dependencies:
+      - carlet-5-theorem-4
+      - carlet-5-quadratic-symplectic-rank-even
+      - carlet-5-affine-walsh-spectrum
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-5-theorem-5
+    kind: theorem
+    location: Carlet, Theorem 5, p. 70
+    statement: >-
+      Every non-affine quadratic f : V_n -> F_2 is affinely equivalent to
+      Q_l + x_(2l+1), where Q_l = x_1 x_2 + ... + x_(2l-1) x_(2l) and
+      1 <= l <= (n-1)/2, when f is balanced; to Q_l with
+      1 <= l <= n/2 when w_H(f) < 2^(n-1); and to Q_l+1 with
+      1 <= l <= n/2 when w_H(f) > 2^(n-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_affineFunction_of_quadraticPolarKernel_eq_zero
+      - CryptBoolean.quadraticNormalFormSplitLinearEquiv
+      - CryptBoolean.quadraticNormalFormDimension
+      - CryptBoolean.quadraticNormalFormDimension_eq
+      - CryptBoolean.quadraticNormalForm
+      - CryptBoolean.quadraticNormalFormFirstFreeCoordinate
+      - CryptBoolean.quadratic_affine_normal_form
+    dependencies:
+      - carlet-5-def-quadratic-symplectic-form
+      - carlet-5-theorem-4
+      - carlet-2-affine-invariance
+
+  - id: carlet-5-quadraticization-step
+    kind: lemma
+    location: Carlet, Remark after Theorem 5, p. 70
+    statement: >-
+      Let f_1,f_2,f_3 : V_n -> F_2, set g(x)=f_1(x)f_2(x)+f_3(x), and define
+      F(x,y_1,y_2)=y_1y_2+y_1f_1(x)+y_2f_2(x)+f_3(x). Then
+      W_F(0)=2 W_g(0). Thus one product f_1f_2 can be replaced by a quadratic
+      term in two fresh variables together with terms linear in those fresh
+      variables while scaling the zero-frequency Walsh value by two.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.quadraticizationLift
+      - CryptBoolean.quadraticizationLift_append
+      - CryptBoolean.walshTransform_quadraticizationLift_zero
+    dependencies:
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-5-degree-three-walsh-lift
+    kind: corollary
+    location: Carlet, iterated consequence of the Remark, p. 70
+    statement: >-
+      For every Boolean function g : V_n -> F_2 there exist m in N and a
+      Boolean function F : V_(n+2m) -> F_2 of algebraic degree at most three
+      such that W_F(0)=2^m W_g(0).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_degree_le_three_walshTransform_zero_lift
+    references: [51]
+    fidelity_note: >-
+      The proof iterates the compiled one-product lift over the canonical ANF
+      support. A natural-valued cubic-excess measure strictly decreases at
+      every step, and the terminal ANF has algebraic degree at most three.
+    dependencies:
+      - carlet-5-quadraticization-step
+      - carlet-2-anf-existence-uniqueness
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-5-quadratic-trace-representation
+    kind: theorem
+    location: Carlet, unnumbered trace representation, pp. 70--71
+    statement: >-
+      Let theta identify V_n with K_n = GF(2^n). If n=2m+1, a Boolean
+      function f is quadratic if and only if there exist beta_empty,beta_i in
+      K_n such that f(x)=Tr_n(beta_empty + sum_(i=0)^m beta_i
+      theta(x)^(2^i+1)). If n=2m with m>0, f is quadratic if and only if
+      there exist an F_2-algebra embedding iota : K_m -> K_n,
+      beta_empty,beta_i in K_n, and gamma in K_m such that
+      f(x)=Tr_n(beta_empty + sum_(i=0)^(m-1) beta_i
+      theta(x)^(2^i+1)) + Tr_m(gamma N_iota(theta(x))), where N_iota is the
+      relative norm and iota(N_iota(z))=z^(2^m+1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.quadraticTraceMiddleNorm
+      - CryptBoolean.quadraticTraceMiddleNorm_map_eq_pow
+      - CryptBoolean.functionAlgebraicDegree_le_two_iff_exists_odd_quadraticTraceRepresentation
+      - CryptBoolean.functionAlgebraicDegree_le_two_iff_exists_even_quadraticTraceRepresentation
+    fidelity_note: >-
+      The source suppresses both the cube coordinate map and the inclusion of
+      GF(2^m) in GF(2^(2m)). The explicit embedding and relative norm make the
+      middle term type-correct, and the norm-to-power theorem recovers the
+      printed exponent. Both degree directions reuse Chapter 2 Proposition 3.
+    dependencies:
+      - carlet-5-def-quadratic-symplectic-form
+      - carlet-5-theorem-5
+      - carlet-2-absolute-trace
+      - carlet-2-trace-monomial-degree
+      - carlet-2-trace-pairing-coordinates
+
+  - id: carlet-5-def-quadratic-semi-bent
+    kind: definition
+    location: Carlet, Section 5.2, p. 71
+    statement: >-
+      For odd n, a quadratic Boolean function is called semi-bent in this
+      section when its nonlinearity is
+      2^(n-1)-2^((n-1)/2). The cited trace-form studies concern functions
+      Tr_n(sum_(i=1)^((n-1)/2) c_i x^(2^i+1)) satisfying this condition.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsQuadraticSemiBent
+    references: [104, 195, 215]
+    fidelity_note: >-
+      Carlet does not state that arbitrary coefficients c_i give a semi-bent
+      function; the trace family is therefore recorded only as the studied
+      representation of functions already assumed to have the displayed
+      nonlinearity.
+    dependencies:
+      - carlet-5-quadratic-weight-nonlinearity-values
+      - carlet-5-quadratic-trace-representation
+
+  - id: carlet-5-flat-indicator-walsh-nonlinearity
+    kind: theorem
+    location: Carlet, Section 5.3, p. 71
+    statement: >-
+      Let 1 <= r <= n, let a_1,...,a_r in V_n be linearly independent, let
+      epsilon_1,...,epsilon_r in F_2, and let A be the codimension-r affine
+      flat defined by a_i dot x = epsilon_i+1 for all i. Its indicator is
+      f(x)=product_(i=1)^r (a_i dot x + epsilon_i), and w_H(f)=2^(n-r).
+      If u is outside span{a_i}, then W_f(u)=0. If
+      0 != u=sum_i eta_i a_i, then
+      W_f(u)=-2^(n-r+1)(-1)^(sum_i eta_i(epsilon_i+1)), while
+      W_f(0)=2^n-2^(n-r+1). Consequently nl(f)=0 for r=1 and
+      nl(f)=2^(n-r) for r>=2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.rawFourierTransform_setIndicator_binaryAffineSubspace
+      - CryptBoolean.realSignView_affineFlatIndicator
+      - CryptBoolean.walshTransform_affineFlatIndicator
+      - CryptBoolean.maxWalshMagnitude_affineFlatIndicator_of_two_le_codimension
+      - CryptBoolean.nonlinearity_affineFlatIndicator_of_two_le_codimension
+      - CryptBoolean.nonlinearity_affineFlatIndicator_of_codimension_le_one
+      - CryptBoolean.nonlinearity_affineFlatIndicator
+      - CryptBoolean.nonlinearity_affineFlatIndicator_of_codimension_one
+      - CryptBoolean.nonlinearity_affineFlatIndicator_of_finrank_eq
+    fidelity_note: >-
+      The printed sentence says without qualification that nl(f)=2^(n-r),
+      but its own Walsh formula gives nl(f)=0 in codimension one because the
+      indicator is affine. The corrected case split is explicit and preserves
+      the printed r>=2 conclusion.
+    reuse_note: >-
+      Reuse the Chapter 3 affine-flat indicator, support and weight theorems;
+      only the raw-Walsh spectrum and corrected nonlinearity consequence are
+      new.
+    dependencies:
+      - carlet-3-prop-12
+      - carlet-2-def-walsh-transform
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-5-rel-42-restriction-nonlinearity
+    kind: theorem
+    location: Carlet, Relation (42), pp. 71--72
+    statement: >-
+      Let E,E' be complementary subspaces of V_n, let dim(E)=k, and for each
+      a in E' let h_a be the Boolean function on E obtained by restricting f
+      to a+E. Then, for every a in E',
+      nl(f) <= 2^(n-1)-2^(k-1)+nl(h_a).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.coordinateAffineSubspaceRestriction
+      - CryptBoolean.coordinateAffineSubspaceDimension_le
+      - CryptBoolean.exists_ambientFrequency_restricts_to_subspace
+      - CryptBoolean.sum_walshTransform_perpendicularCoset_eq_restriction
+      - CryptBoolean.abs_walshTransform_coordinateAffineSubspaceRestriction_le
+      - CryptBoolean.maxWalshMagnitude_coordinateAffineSubspaceRestriction_le
+      - CryptBoolean.two_mul_nonlinearity_add_two_pow_le_restriction
+      - CryptBoolean.nonlinearity_cast_le_restriction_relation_42
+      - CryptBoolean.nonlinearity_le_restriction_relation_42
+      - CryptBoolean.nonlinearity_le_restriction_relation_42_of_isCompl
+    fidelity_note: >-
+      Carlet first derives this from Proposition 9, Relation (28), which is
+      not represented by the current Chapter 2 inventory. The alternative
+      proof printed immediately afterward derives it from the full Poisson
+      formula, so the reviewed DAG uses that existing node.
+    references: [41, 359]
+    dependencies:
+      - carlet-2-cor-1-poisson-summation
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-5-affine-flat-restriction-bound
+    kind: corollary
+    location: Carlet, consequence of Relation (42), p. 72
+    statement: >-
+      If the restriction of f : V_n -> F_2 to a k-dimensional affine flat A
+      is affine, then nl(f) <= 2^(n-1)-2^(k-1). If equality holds and ell is
+      any ambient affine extension of that restriction, then f+ell is balanced
+      on every other coset of the direction space of A.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_add_affineFunction
+      - CryptBoolean.walshTransform_add_affineFunction_natAbs
+      - CryptBoolean.maxWalshMagnitude_add_affineFunction
+      - CryptBoolean.sum_vectorWalshCharacter_perpendicular_eq_zero_of_not_mem
+      - CryptBoolean.exists_affineFunction_eq_coordinateAffineSubspaceRestriction_of_isAffineOnAffineFlat
+      - CryptBoolean.nonlinearity_coordinateAffineSubspaceRestriction_eq_zero_of_isAffineOnAffineFlat
+      - CryptBoolean.nonlinearity_le_of_isAffineOnAffineFlat
+      - CryptBoolean.isBalanced_coordinateAffineSubspaceRestriction_add_affineFunction_of_eq_bound
+    fidelity_note: >-
+      The natural-exponent bound and equality clause make the source's implicit
+      positive-flat-dimension condition 1 <= k explicit. The division-free and
+      real-valued forms of Relation (42) remain total at k = 0. The coordinate
+      model replaces a chosen complement by a linear equivalence onto the
+      direction space; z+a notin E is exactly the condition that z+E is a
+      different coset from a+E.
+    dependencies:
+      - carlet-5-rel-42-restriction-nonlinearity
+      - carlet-2-def-affine-functions
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-5-def-4-normality
+    kind: definition
+    location: Carlet, Definition 4, p. 72
+    statement: >-
+      A Boolean function is k-weakly-normal when its restriction to some
+      k-dimensional affine flat is affine, and is k-normal when its
+      restriction to some k-dimensional affine flat is constant. For even n,
+      the unqualified term normal means (n/2)-normal.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsKNormal
+      - CryptBoolean.IsKWeaklyNormal
+      - CryptBoolean.IsKNormal.isKWeaklyNormal
+      - CryptBoolean.IsKNormal.le_normality
+      - CryptBoolean.IsKWeaklyNormal.le_weakNormality
+    reuse_note: >-
+      The predicates on affine-flat restrictions and the maximum normality and
+      weak-normality parameters already exist under the Chapter 4
+      other-complexity node. Chapter 5 should reuse those declarations and add
+      only the exact fixed-k source-facing equivalence if needed.
+    dependencies:
+      - carlet-4-other-complexity-definitions
+
+  - id: carlet-5-random-nonnormality
+    kind: theorem
+    location: Carlet, unnumbered asymptotic result, p. 72
+    statement: >-
+      For every real alpha > 1, as n tends to infinity the uniform
+      probability that an n-variable Boolean function is not
+      floor(alpha log_2 n)-normal tends to one.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.weakNormalityProbability
+      - CryptBoolean.weakNormalityProbability_le_of_le
+      - CryptBoolean.weakNormalityProbability_le
+      - CryptBoolean.normalityProbability
+      - CryptBoolean.normalityProbability_le_weakNormalityProbability
+      - CryptBoolean.tendsto_weakNormalityProbability_zero_of_ratio
+      - CryptBoolean.nonWeakNormalityProbability
+      - CryptBoolean.tendsto_nonWeakNormalityProbability_one_of_ratio
+      - CryptBoolean.nonnormalityProbability
+      - CryptBoolean.tendsto_nonnormalityProbability_one_of_ratio
+      - CryptBoolean.carletNonnormalityDimension
+      - CryptBoolean.tendsto_carletNonnormalityProbability
+    references: [65]
+    fidelity_note: >-
+      The proof first counts certificates for affine restrictions to
+      k-dimensional flats and derives a finite weak-normality union bound. It
+      then proves the cited general ratio criterion and specializes it to the
+      exact natural floor of alpha log base two of n for every real alpha > 1.
+    dependencies:
+      - carlet-5-def-4-normality
+      - carlet-4-degree-count
+
+  - id: carlet-5-def-5-covering-sequence
+    kind: definition
+    location: Carlet, Definition 5, p. 73
+    statement: >-
+      Let f : V_n -> F_2 and let lambda=(lambda_a)_(a in V_n) be
+      integer-valued. It is a covering sequence of f with level rho in Z when
+      the integer-valued function
+      x |-> sum_(a in V_n) lambda_a (D_a f(x) viewed in Z)
+      is constantly rho. It is non-trivial when rho != 0.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.bitValueInt
+      - CryptBoolean.integerWalshTransform
+      - CryptBoolean.weightedDerivativeSum
+      - CryptBoolean.IsCoveringSequence
+    fidelity_note: >-
+      Footnote 31 observes that real- or complex-valued sequences can be used,
+      but the printed definition and the canonical first-release interface are
+      integer-valued.
+    dependencies:
+      - carlet-2-def-2-derivative
+
+  - id: carlet-5-covering-sequence-balancedness
+    kind: theorem
+    location: Carlet, unnumbered results after Definition 5, p. 73
+    statement: >-
+      Every Boolean function admitting a non-trivial covering sequence is
+      balanced. Conversely, every balanced n-variable Boolean function admits
+      the constant sequence lambda_a=1 as a covering sequence of level
+      2^(n-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.integerWalshTransform_one
+      - CryptBoolean.isBalanced_of_isCoveringSequence_of_ne_zero
+      - CryptBoolean.isCoveringSequence_one_of_isBalanced
+      - CryptBoolean.isBalanced_iff_exists_nontrivialCoveringSequence
+    references: [94]
+    dependencies:
+      - carlet-5-def-5-covering-sequence
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-5-covering-sequence-walsh-characterization
+    kind: theorem
+    location: Carlet, Walsh characterization after Definition 5, pp. 73--74
+    statement: >-
+      For an integer sequence lambda on V_n define
+      lambda_hat(b)=sum_a lambda_a (-1)^(a dot b). Then lambda is a covering
+      sequence of f with level rho if and only if
+      lambda_hat(b)=lambda_hat(0)-2rho for every b with W_f(b) != 0;
+      equivalently, lambda_hat is constant with that value on the Walsh
+      support of f.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.weightedTranslatedSignSum
+      - CryptBoolean.bitSignInt_eq_one_sub_two_mul_bitValueInt
+      - CryptBoolean.bitSignInt_booleanDerivative_mul_left
+      - CryptBoolean.weightedTranslatedSignSum_eq
+      - CryptBoolean.integerWalshTransform_mul_bitSignInt
+      - CryptBoolean.integerWalshTransform_weightedTranslatedSignSum
+      - CryptBoolean.integerWalshTransform_const_mul_bitSignInt
+      - CryptBoolean.integerWalshTransform_cast_eq_rawFourierTransform
+      - CryptBoolean.integerWalshTransform_involution
+      - CryptBoolean.integerWalshTransform_injective
+      - CryptBoolean.isCoveringSequence_iff_integerWalshTransform
+      - CryptBoolean.isCoveringSequence_iff_transform_eq_on_walshSupport
+    references: [94]
+    dependencies:
+      - carlet-5-def-5-covering-sequence
+      - carlet-2-pseudoboolean-fourier
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-5-covering-sequence-resiliency
+    kind: theorem
+    location: Carlet, consequences of the Walsh characterization, p. 74
+    statement: >-
+      Suppose lambda is a covering sequence of f with level rho, put
+      mu=lambda_hat(0)-2rho, and suppose k+1 is the minimum Hamming weight of
+      a nonzero b satisfying lambda_hat(b)=mu. Then f is k-th order
+      correlation immune, and if rho != 0 it is k-resilient. Conversely, if f
+      is k-th order correlation immune but not (k+1)-th order correlation
+      immune, there is a covering sequence with this minimum equal to k+1;
+      if f is k-resilient but not (k+1)-resilient, such a sequence can be
+      chosen non-trivial.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsMinimumNonzeroTransformFiberWeight
+      - CryptBoolean.isCorrelationImmune_of_coveringSequence_of_minimumTransformFiberWeight
+      - CryptBoolean.isResilient_of_coveringSequence_of_minimumTransformFiberWeight
+      - CryptBoolean.walshZeroIndicator
+      - CryptBoolean.walshZeroCoveringSequence
+      - CryptBoolean.walshZeroCoveringLevel
+      - CryptBoolean.integerWalshTransform_walshZeroCoveringSequence
+      - CryptBoolean.integerWalshTransform_walshZeroCoveringSequence_eq_zero_iff
+      - CryptBoolean.walshZeroCoveringSequence_transformTarget_eq_zero
+      - CryptBoolean.isCoveringSequence_walshZeroCoveringSequence
+      - CryptBoolean.exists_coveringSequence_of_correlationImmune_not_succ
+      - CryptBoolean.exists_nontrivialCoveringSequence_of_resilient_not_succ
+    references: [94]
+    dependencies:
+      - carlet-5-covering-sequence-walsh-characterization
+      - carlet-5-covering-sequence-balancedness
+      - carlet-4-theorem-3
+
+  - id: carlet-5-def-regular-function
+    kind: definition
+    location: Carlet, regular covering sequences, p. 74
+    statement: >-
+      A Boolean function is regular when the indicator of the set of
+      weight-one directions is a covering sequence. If its level is rho >= 1,
+      then it is (rho-1)-resilient. More generally, the same conclusion holds
+      when the covering sequence is the indicator of a set of directions with
+      pairwise disjoint supports.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.weightOneDirectionIndicator
+      - CryptBoolean.IsRegularAtLevel
+      - CryptBoolean.IsRegular
+      - CryptBoolean.integerWalshTransform_weightOneDirectionIndicator
+      - CryptBoolean.isResilient_natPred_of_isRegularAtLevel
+      - CryptBoolean.directionFamilyIndicator
+      - CryptBoolean.HasPairwiseDisjointSupports
+      - CryptBoolean.integerWalshTransform_directionFamilyIndicator
+      - CryptBoolean.integerWalshTransform_directionFamilyIndicator_zero
+      - CryptBoolean.isResilient_natPred_of_pairwiseDisjointSupportCoveringSequence
+    references: [94]
+    dependencies:
+      - carlet-5-def-5-covering-sequence
+      - carlet-5-covering-sequence-resiliency
+
+  - id: carlet-5-def-6-partial-covering-sequence
+    kind: definition
+    location: Carlet, Definition 6, p. 74
+    statement: >-
+      An integer sequence lambda=(lambda_a)_(a in V_n) is a partial covering
+      sequence of f with levels rho,rho' in Z when, for every x, the integer
+      sum sum_a lambda_a D_a f(x) belongs to {rho,rho'}. The levels may
+      coincide. The sequence is non-trivial when at least one level is
+      nonzero.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsPartialCoveringSequence
+      - CryptBoolean.partialCoveringExceptionalSet
+    references: [68]
+    dependencies:
+      - carlet-5-def-5-covering-sequence
+
+  - id: carlet-5-derivative-space-partial-covering-sequence
+    kind: construction
+    location: Carlet, example after Definition 6, p. 74
+    statement: >-
+      Let D be a nonzero finite F_2-vector space of Boolean functions, every
+      element of which is a derivative D_a f. Then the integer sum
+      sum_(g in D) g(x) takes only the values 0 and |D|/2. If E is a set of
+      directions chosen minimally so that a |-> D_a f is a bijection from E
+      to D, then the indicator of E is a non-trivial partial covering sequence
+      of f with levels 0 and |D|/2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.IsDerivativeSpace
+      - CryptBoolean.sum_bitValueInt_submodule_eq_zero_or_half
+      - CryptBoolean.derivativeDirectionRepresentative
+      - CryptBoolean.booleanDerivative_derivativeDirectionRepresentative
+      - CryptBoolean.derivativeDirectionRepresentative_injective
+      - CryptBoolean.derivativeRepresentativeDirections
+      - CryptBoolean.card_derivativeRepresentativeDirections
+      - CryptBoolean.bijOn_booleanDerivative_derivativeRepresentativeDirections
+      - CryptBoolean.sum_derivativeRepresentativeDirections
+      - CryptBoolean.isPartialCoveringSequence_derivativeRepresentativeDirections
+    fidelity_note: >-
+      The finite subspace model makes closure under Boolean-function addition
+      explicit. A chosen representative direction for each derivative gives a
+      bijection onto D and therefore a minimal-cardinality direction set. The
+      final theorem also proves that |D|/2 is nonzero when D is nonzero.
+    dependencies:
+      - carlet-5-def-6-partial-covering-sequence
+      - carlet-2-def-2-derivative
+
+  - id: carlet-5-theorem-6
+    kind: theorem
+    location: Carlet, Theorem 6 and Relation (43), pp. 75--76
+    statement: >-
+      Let lambda be a partial covering sequence of f with levels rho,rho'. If
+      rho' != rho, set
+      A={x in V_n | sum_a lambda_a D_a f(x)=rho'}; if rho'=rho, set A to the
+      empty set. Then, for every b in V_n,
+      (lambda_hat(b)-lambda_hat(0)+2rho) W_f(b)
+      = 2(rho-rho') sum_(x in A) (-1)^(f(x)+b dot x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.theorem_6_partialCoveringSequence
+    references: [68]
+    dependencies:
+      - carlet-5-def-6-partial-covering-sequence
+      - carlet-2-prop-6-fourier-shifts
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-5-theorem-6-weight-corollary
+    kind: corollary
+    location: Carlet, consequence of Theorem 6, p. 76
+    statement: >-
+      Under the hypotheses and notation of Theorem 6, if rho != 0, then
+      2^n-2w_H(f) = W_f(0)
+      = (1-rho'/rho) sum_(x in A) (-1)^f(x).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.theorem_6_weight_identity
+    references: [68]
+    dependencies:
+      - carlet-5-theorem-6
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-5-theorem-7-weil-bound
+    kind: theorem
+    location: Carlet, Theorem 7, p. 76
+    statement: >-
+      Let q be a prime power, let P in F_q[X] have degree d >= 1 with
+      gcd(d,q)=1, and let chi be a non-trivial additive character of F_q.
+      Then the complete additive character sum satisfies
+      |sum_(x in F_q) chi(P(x))| <= (d-1) sqrt(q).
+    formal_status: open
+    declarations: []
+    references: [245]
+    fidelity_note: >-
+      The word additive is implicit in Carlet's notation and in the binary
+      trace specialization; it is made explicit to avoid confusing this with
+      a multiplicative-character Weil bound.
+    blocker: >-
+      Pinned Mathlib and FABL expose non-trivial additive-character
+      orthogonality, finite-field Gauss and Jacobi sum identities, and linear
+      phase sums, but no bound for an arbitrary polynomial phase. In
+      particular they contain no Artin--Schreier curve, genus, Riemann--Roch,
+      or finite-field Hasse--Weil point-count layer from which the displayed
+      square-root estimate could be derived. The smallest missing result is
+      precisely the complete additive-character polynomial Weil bound with
+      its degree and coprimality hypotheses.
+    dependencies: []
+
+  - id: carlet-5-bridge-trace-character-sum-walsh
+    kind: theorem
+    location: Project representation bridge for Carlet, p. 76
+    statement: >-
+      Let theta : V_n ~= GF(2^n) be F_2-linear, let a in GF(2^n) be
+      nonzero, and let P in GF(2^n)[X]. For the unique trace-pairing
+      coefficient b satisfying u dot x = Tr_n(b theta(x)), the raw Walsh
+      coefficient at u of x |-> Tr_n(a P(theta(x))) is the complete
+      trace-character sum of a(P+(b/a)X). Hence any uniform real bound B
+      for these sums bounds the maximum Walsh magnitude by B and implies
+      2^n/2-B/2 <= nl(Tr_n(a P(theta(-)))).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.tracePolynomialBooleanFunction
+      - CryptBoolean.tracePolynomialCharacterSum
+      - CryptBoolean.exists_tracePolynomialCharacterSum_eq_walshTransform
+      - CryptBoolean.maxWalshMagnitude_tracePolynomialBooleanFunction_le
+      - CryptBoolean.two_pow_le_two_mul_nonlinearity_add_of_tracePolynomialCharacterSum_le
+      - CryptBoolean.tracePolynomialCharacterSum_nonlinearity_lower_bound
+    fidelity_note: >-
+      This node isolates the finite-field representation and normalization
+      step that Carlet suppresses when identifying V_n with GF(2^n). The
+      analytic character-sum estimate remains an explicit hypothesis, so the
+      open Weil theorem and its source corollary are not weakened or claimed.
+    dependencies:
+      - carlet-2-def-walsh-transform
+      - carlet-2-trace-pairing-coordinates
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-5-weil-nonlinearity-bound
+    kind: corollary
+    location: Carlet, binary consequence of Theorem 7, p. 76
+    statement: >-
+      Let n > 0, let P in GF(2^n)[X] have odd degree d > 1, and let
+      a in GF(2^n) be nonzero. For every F_2-linear equivalence
+      theta : V_n ~= GF(2^n), define h_theta(x)=Tr_n(a P(theta(x))). Then
+      every Walsh coefficient of h_theta has magnitude at most
+      (d-1)sqrt(2^n), and
+      nl(h_theta) >= 2^(n-1)-(d-1)sqrt(2^n)/2.
+    formal_status: open
+    declarations: []
+    reuse_note: >-
+      The field/cube identification, nondegenerate trace pairing, exact Walsh
+      identity, and conditional nonlinearity reduction are compiled in the
+      project bridge. Once the analytic theorem above is available, only the
+      routine verification that every linear perturbation preserves odd
+      degree and coprimality remains.
+    dependencies:
+      - carlet-5-theorem-7-weil-bound
+      - carlet-5-bridge-trace-character-sum-walsh
+
+  - id: carlet-5-reciprocal-character-sum-bound
+    kind: theorem
+    location: Carlet, extended Weil bound and Kloosterman example, p. 76
+    statement: >-
+      Let n > 0 and let P,Q in GF(2^n)[X] have odd degrees. Then
+      |sum_(x in GF(2^n)^*) (-1)^Tr_n(P(x^(-1))+Q(x))|
+      <= (deg(P)+deg(Q))sqrt(2^n). Consequently, if inv(0)=0 and
+      inv(x)=x^(-1) for x != 0, the corresponding sum over GF(2^n) has
+      absolute value at most 1+(deg(P)+deg(Q))sqrt(2^n). With P(X)=X and
+      Q(X)=aX, the punctured sums are the Kloosterman sums.
+    formal_status: open
+    declarations: []
+    references: [96, 325]
+    fidelity_note: >-
+      Carlet prints a one-sided inequality over the whole field after setting
+      inv(0)=0. Reference [325, Theorem 1] states the sharp absolute-value
+      bound over the nonzero Teichmuller units, which specialize to
+      GF(2^n)^*. The omitted x=0 summand has modulus one, so the sharp bound
+      transfers to the whole-field convention only with an added 1. This node
+      records the primary theorem and its correct whole-field consequence.
+    blocker: >-
+      This requires a rational-function additive-character estimate with
+      controlled pole orders. Replacing inversion by x^(2^n-2) destroys the
+      sharp degree bound and generally the coprimality hypothesis, while the
+      available Gauss and Jacobi identities do not imply even the stated
+      Kloosterman specialization. Pinned dependencies contain neither the
+      required conductor/genus calculation nor a Hasse--Weil point-count
+      theorem for the corresponding Artin--Schreier curve.
+    dependencies:
+      - carlet-2-absolute-trace
+
+source_recovery:
+  - id: carlet-5-kasami-tokura-low-weight-reed-muller
+    kind: theorem
+    location: Carlet, Note in Section 5.3, p. 71
+    source_claim: >-
+      Carlet reports a Kasami--Tokura characterization of the words
+      f in R(r,n) with 2^(n-r) <= w_H(f) < 2^(n-r+1): they arise from a
+      product of a flat indicator and a quadratic function or from a sum of
+      two flat indicators, and their Walsh spectra can be computed exactly.
+    statement_status: classification-recovered-primary-fulltext-closed
+    formal_status: open
+    declarations: []
+    references: [205]
+    first_release_scope: required-after-source-recovery
+    recovered_classification: >-
+      Let f : F_2^m -> F_2 be nonzero with degree at most r, where r >= 2,
+      and suppose w_H(f) < 2^(m-r+1). Up to an invertible affine change of
+      input variables, f is exactly one of the following two forms. First,
+      x_1...x_(r-2) times the sum
+      x_(r-1)x_r + x_(r+1)x_(r+2) + ... +
+      x_(r+2mu-3)x_(r+2mu-2), where 1 <= mu and
+      2mu <= m-r+2. Second, x_1...x_(r-mu) times the sum of the two disjoint
+      products x_(r-mu+1)...x_r and x_(r+1)...x_(r+mu), where
+      3 <= mu <= r and mu <= m-r. Both forms have weight
+      2^(m-r+1)-2^(m-r+1-mu). Consequently the weights strictly below twice
+      the minimum distance are exactly those values for
+      1 <= mu <= max(min(r,m-r), floor((m-r+2)/2)).
+    blocker: >-
+      The exact classification and parameter ranges are now recovered, but
+      the original IEEE full text is closed and has no repository copy, so
+      its internal theorem/page number and any discussion beyond the visible
+      publisher abstract cannot be checked directly. Promotion should split
+      the recovered input-affine normal-form classification from the Walsh
+      spectra derived separately using the existing flat-indicator and
+      quadratic-spectrum nodes; no visible source attributes those spectra
+      to reference [205]. The formal proof additionally lacks the general
+      low-weight geometric dichotomy: either the support factors through a
+      codimension-(r-2) flat and a quadratic function, or the word is a sum
+      of two minimum-weight Reed--Muller words. Proposition 12 and the new
+      quadratic normal form close the two terminal branches once that
+      structure theorem is available, but the existing weight-8/12/14
+      classifications do not generalize the missing induction.
+    source_recovery_note: >-
+      The publisher abstract for Kasami--Tokura, IEEE TIT 16(6), 752--759,
+      DOI 10.1109/TIT.1970.1054545, supplies the hypothesis and both families
+      but not every parameter line. Borissov--Manev--Nikova, ISIT 2001,
+      proceedings p. 39, Theorem 4, DOI 10.1109/ISIT.2001.935902, gives the
+      complete statement above; Carlet--Sole, arXiv:2301.13497v3, p. 2 and
+      Theorem 2 on p. 5, independently confirms the forms, ranges, and weight
+      set. OpenAlex records the 1970 paper as closed with no repository full
+      text. Carlet's sentence about precisely computable Walsh spectra follows
+      the citation as a separate consequence, and should be proved from the
+      normal forms rather than reported as a theorem visibly stated in [205].
+    source_urls:
+      - https://doi.org/10.1109/TIT.1970.1054545
+      - https://ieeexplore.ieee.org/document/1054545/
+      - https://citeseerx.ist.psu.edu/document?doi=fbfce4685203780c0a4b1724c1aa7b8a3027ac62&repid=rep1&type=pdf
+      - https://arxiv.org/abs/2301.13497
+    dependencies:
+      - carlet-3-reed-muller-code
+      - carlet-3-prop-12
+      - carlet-5-theorem-5
+      - carlet-5-flat-indicator-walsh-nonlinearity
+
+  - id: carlet-5-explicit-half-dimensional-nonnormal-functions
+    kind: theorem
+    location: Carlet, Section 5.4, p. 73
+    source_claim: >-
+      Carlet reports that the constructions of Alon, Goldreich, Hastad and
+      Peralta yield Boolean functions nonconstant on every affine flat of
+      dimension n/2, after transporting their coordinate-flat argument by
+      affine automorphisms.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [2]
+    first_release_scope: required-after-source-recovery
+    blocker: >-
+      Carlet gives neither the construction nor its dimension range and output
+      convention. Reference [2] must be checked to state the exact family and
+      to validate Carlet's affine-automorphism inference without replacing an
+      explicit construction by a bare existential assertion.
+    dependencies:
+      - carlet-5-def-4-normality
+
+  - id: carlet-5-bourgain-affine-extractor-nonnormality
+    kind: theorem
+    location: Carlet, Section 5.4, p. 73
+    source_claim: >-
+      Carlet reports Bourgain's explicit constructions that are nonconstant on
+      affine flats of dimension (1/2-epsilon)n for some fixed epsilon > 0.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [23]
+    first_release_scope: required-after-source-recovery
+    blocker: >-
+      The survey does not specify epsilon, rounding, admissible dimensions,
+      the extractor output, or the exact nonconstancy theorem. These data must
+      be recovered from reference [23] before a source-facing statement is
+      written.
+    source_recovery_note: >-
+      Bourgain's primary abstract states an affine extractor for arbitrary
+      fixed positive entropy ratio, which is stronger than Carlet's displayed
+      preliminary (1/2-epsilon)n range. The exact construction theorem and its
+      binary one-bit specialization still need to be recovered from the paper.
+    dependencies:
+      - carlet-5-def-4-normality
+
+  - id: carlet-5-polynomial-dimensional-nonnormal-functions
+    kind: theorem
+    location: Carlet, Section 5.4, p. 73
+    source_claim: >-
+      Carlet reports constructions from Barak, Kindler, Shaltiel, Sudakov and
+      Wigderson that are nonconstant on affine flats of dimension n^delta for
+      every fixed delta > 0.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [14]
+    first_release_scope: required-after-source-recovery
+    blocker: >-
+      The survey omits the quantifier order, thresholds, rounding, concrete
+      scalar function, and extractor-to-nonnormality bridge. Reference [14]
+      must be checked before formalization.
+    source_recovery_note: >-
+      The primary Barak--Kindler--Shaltiel--Sudakov--Wigderson statement defines
+      an affine-delta-source to have dimension at least delta*n and proves a
+      disperser for every fixed delta > 0. It does not state Carlet's n^delta
+      dimension claim. This discrepancy must be resolved against the full
+      journal version or recorded as a source correction before promotion.
+    dependencies:
+      - carlet-5-def-4-normality
+
+excluded_source_mentions:
+  - location: Carlet, Section 5.2, pp. 69--70
+    references: [162, 224]
+    reason: >-
+      The sign theorem assumes that x |-> x^d is an AB power function and
+      that every subfield restriction is AB. AB is a vectorial notion supplied
+      only by the absent vectorial chapter, so this result is outside the
+      scalar first-release boundary unless a later scalar theorem needs it as
+      an explicit external dependency.
+
+  - location: Carlet, Sections 5.1--5.3, pp. 68, 71
+    references: [63, 67]
+    reason: >-
+      Claims that affine, quadratic, or flat-indicator concatenations are
+      studied later are forward references. Chapter 5 contributes only the
+      affine-slice schema above; precise bent and resilient constructions
+      belong to Chapters 6 and 7.
+
+  - location: Carlet, Section 5.2, p. 70
+    references: [255]
+    reason: >-
+      The sentence that Theorem 5 permits the precise weight distribution of
+      R(2,n) states no enumerator or coefficient formula. It is proof-context
+      prose, not a complete additional theorem statement.
+
+  - location: Carlet, Section 5.4, p. 72
+    references: [65]
+    reason: >-
+      The two necessary conditions for equality in Relation (42) are merely
+      referenced and not stated. They require source recovery before they can
+      become inventory items.
+
+  - location: Carlet, Sections 5.2 and 5.5, pp. 71, 76
+    references: [68, 195, 215]
+    reason: >-
+      Statements that further examples were given or studied do not specify
+      a construction, hypotheses, or conclusion and therefore remain
+      bibliographic prose rather than source-facing nodes.
