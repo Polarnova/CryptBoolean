@@ -29,13 +29,12 @@ private abbrev OneCoordinates {ι : Type*} (x : ι → FABL.𝔽₂) :=
 private abbrev ZeroCoordinates {ι : Type*} (x : ι → FABL.𝔽₂) :=
   {i : ι // x i = 0}
 
-private def bitWeight (b : FABL.𝔽₂) : ℕ :=
-  if b ≠ 0 then 1 else 0
+private abbrev bitWeight := f₂BitWeight
 
 private theorem hammingNorm_eq_sum_bitWeight
     {ι : Type*} [Fintype ι] (x : ι → FABL.𝔽₂) :
     hammingNorm x = ∑ i, bitWeight (x i) := by
-  simp [hammingNorm, bitWeight, Finset.card_filter]
+  exact hammingNorm_eq_sum_f₂BitWeight x
 
 private theorem card_oneCoordinates
     {ι : Type*} [Fintype ι] (x : ι → FABL.𝔽₂) :
@@ -51,38 +50,12 @@ private theorem card_zeroCoordinates
   simp only [Finset.card_univ, not_ne_iff] at hpartition
   omega
 
-private theorem bitWeight_add_intersection_identity (x y : FABL.𝔽₂) :
-    bitWeight (x + y) + 2 * (if x ≠ 0 then bitWeight y else 0) =
-      bitWeight x + bitWeight y := by
-  fin_cases x <;> fin_cases y <;> decide
-
-private theorem sum_ite_nonzero_eq_sum_oneCoordinates
-    {ι : Type*} [Fintype ι] (x y : ι → FABL.𝔽₂) :
-    (∑ i, if x i ≠ 0 then bitWeight (y i) else 0) =
-      ∑ j : OneCoordinates x, bitWeight (y j.1) := by
-  classical
-  rw [← Finset.sum_filter]
-  exact Finset.sum_subtype (Finset.univ.filter fun i ↦ x i ≠ 0)
-    (by simp) (fun i ↦ bitWeight (y i))
-
 private theorem hammingNorm_add_restrictOne_identity
     {ι : Type*} [Fintype ι] (x y : ι → FABL.𝔽₂) :
     hammingNorm (x + y) +
         2 * hammingNorm (fun j : OneCoordinates x ↦ y j.1) =
       hammingNorm x + hammingNorm y := by
-  rw [hammingNorm_eq_sum_bitWeight, hammingNorm_eq_sum_bitWeight,
-    hammingNorm_eq_sum_bitWeight, hammingNorm_eq_sum_bitWeight,
-    ← sum_ite_nonzero_eq_sum_oneCoordinates x y, Finset.mul_sum,
-    ← Finset.sum_add_distrib]
-  calc
-    ∑ i, (bitWeight ((x + y) i) +
-        2 * (if x i ≠ 0 then bitWeight (y i) else 0)) =
-        ∑ i, (bitWeight (x i) + bitWeight (y i)) := by
-      apply Finset.sum_congr rfl
-      intro i _hi
-      simpa using bitWeight_add_intersection_identity (x i) (y i)
-    _ = (∑ i, bitWeight (x i)) + ∑ i, bitWeight (y i) :=
-      Finset.sum_add_distrib
+  exact hammingNorm_add_restrictSupport_identity x y
 
 private theorem bitWeight_add_one (x : FABL.𝔽₂) :
     bitWeight (x + 1) + bitWeight x = 1 := by

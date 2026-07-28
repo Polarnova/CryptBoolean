@@ -74,7 +74,8 @@ noncomputable def affineFlatWalshSum
     (b a : FABL.F₂Cube n) : ℤ :=
   ∑ x : E, walshTerm f a (x.1 + b)
 
-private noncomputable def affineFlatSubtypeEquiv
+/-- Translation identifies a subspace with each of its affine cosets. -/
+noncomputable def affineFlatSubtypeEquiv
     (E : Submodule FABL.𝔽₂ (FABL.F₂Cube n))
     (b : FABL.F₂Cube n) :
     E ≃ {x : FABL.F₂Cube n // x ∈ FABL.binaryAffineSubspace E b} where
@@ -696,7 +697,8 @@ theorem derivative_balanced_on_affineFlat_iff_bentDual_add_linear_constant_or_ba
   (isBent_flatSwitch_iff_derivative_balanced_on_affineFlat f hf E b).symm.trans
     (isBent_flatSwitch_iff_bentDual_add_linear_constant_or_balanced f hf E b)
 
-private theorem bitSignInt_mul_self_flatSwitching (z : FABL.𝔽₂) :
+/-- A binary sign squares to one. -/
+theorem bitSignInt_mul_self (z : FABL.𝔽₂) :
     bitSignInt z * bitSignInt z = 1 := by
   fin_cases z <;> rfl
 
@@ -739,7 +741,7 @@ theorem two_pow_half_dvd_walshTransform_affineFlatRestriction
         (bitSignInt (FABL.f₂DotProduct a b) *
           bitSignInt (FABL.f₂DotProduct a b)) *
             walshTransform (coordinateAffineSubspaceRestriction f E b e) c := by
-      rw [bitSignInt_mul_self_flatSwitching, one_mul]
+      rw [bitSignInt_mul_self, one_mul]
     _ = bitSignInt (FABL.f₂DotProduct a b) *
           (bitSignInt (FABL.f₂DotProduct a b) *
             walshTransform (coordinateAffineSubspaceRestriction f E b e) c) := by

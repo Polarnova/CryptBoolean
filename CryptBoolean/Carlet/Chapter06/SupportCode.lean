@@ -131,7 +131,9 @@ def SupportCodeHasExactlyTwoNonzeroWeights (f : BooleanFunction n) : Prop :=
     (∃ c : supportCode f, c ≠ 0 ∧ hammingNorm c.1 = first) ∧
     (∃ c : supportCode f, c ≠ 0 ∧ hammingNorm c.1 = second)
 
-private theorem finrank_supportCode_eq_n_iff_injective
+/-- The support code has full ambient dimension exactly when its defining
+linear map is injective. -/
+theorem finrank_supportCode_eq_n_iff_injective
     (f : BooleanFunction n) :
     Module.finrank FABL.𝔽₂ (supportCode f) = n ↔
       Function.Injective (supportCodeMap f) := by

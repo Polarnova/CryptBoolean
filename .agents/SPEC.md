@@ -32,13 +32,13 @@ PDFs, manifests, graphs, and caches are not sources of truth.
 
 ## Current verified baseline
 
-The reviewed Blueprint contains 209 source-facing statements, of which 206 are associated with
-1338 proved Lean declarations and 3 remain visibly open, connected by 467 mathematical dependency
+The reviewed Blueprint contains 222 source-facing statements, of which 219 are associated with
+1418 proved Lean declarations and 3 remain visibly open, connected by 493 mathematical dependency
 edges. Chapter 2 contributes 41 formalized statements, 174 declarations, and 56
 incoming edges. Chapter 3 contributes 7 formalized statements, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized statements, 568 declarations, and 159 incoming edges.
 Chapter 5 contributes 31 statements (28 formalized and 3 open), 203 declarations, and 70 incoming
-edges. Chapter 6 contributes 57 formalized statements, 361 declarations, and 163 incoming edges.
+edges. Chapter 6 contributes 70 formalized statements, 441 declarations, and 189 incoming edges.
 
 The completed Chapter 2 frontier includes Proposition 5's numerical-normal-form integrality
 criterion, the full raw Poisson formula, affine invariance, restriction recovery, the
@@ -67,10 +67,13 @@ trace-character/nonlinearity reduction. The quadratic trace representation is cl
 and even dimensions. The three open nodes preserve the complete analytic source statements for the
 Weil character-sum bound, its nonlinearity corollary, and the reciprocal character-sum bound.
 
-The Chapter 6 inventory is source-reviewed and Blueprint-synchronized. Its 57 formalized nodes
-cover the spectral and derivative characterizations of bentness, duality, the Rothaus and
-McEliece--Ax algebraic-degree bounds, primary and secondary constructions, decompositions and
-counting, NNF, geometric and second-order characterizations, hyper-bent functions, partially bent
+The Chapter 6 inventory is source-reviewed and Blueprint-synchronized. Its 70 formalized nodes
+cover the spectral, derivative, Hadamard-matrix, difference-set, and strongly regular Cayley-graph characterizations of bentness,
+duality, the balanced-hyperplane and codimension-two decomposition theorems, the Rothaus and
+McEliece--Ax algebraic-degree bounds, primary and secondary constructions including Classes D₀,
+D, and C and the two promoted Theorem 10 specializations, decompositions, the exact `PS_ap`
+count, NNF,
+geometric and second-order characterizations, hyper-bent functions, partially bent
 and plateaued superclasses, normal extensions, and the explicit finite-field Kerdock family and
 code parameters. The proofs reuse FABL's canonical Fourier, ANF, degree, affine, and derivative
 interfaces and the Chapter 2--5 Walsh, Reed--Muller, nonlinearity, quadratic, trace, restriction,

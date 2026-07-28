@@ -2,20 +2,20 @@ source: carlet-2010
 chapter: 6
 status: source-reviewed
 summary:
-  statements: 57
-  source_statements: 57
-  core_items: 57
-  blueprint_ready_statements: 57
-  source_recovery_items: 19
-  total_records: 76
-  formalized: 57
+  statements: 70
+  source_statements: 70
+  core_items: 70
+  blueprint_ready_statements: 70
+  source_recovery_items: 18
+  total_records: 88
+  formalized: 70
   open: 0
-  declarations: 361
-  dependency_edges: 163
+  declarations: 441
+  dependency_edges: 189
 scope_note: >-
-  The 57 source-facing items below have complete statements checked
+  The 70 source-facing items below have complete statements checked
   against Carlet pages 77--110 and are synchronized with the current Chapter 6
-  Blueprint. The 19 records under source_recovery retain complete
+  Blueprint. The 18 records under source_recovery retain complete
   and incomplete cited families that have not been promoted to nodes. In
   particular, the Kerdock parameter theorem is conditional on a given
   representative family; only the separate finite-field construction states
@@ -102,6 +102,78 @@ items:
       - carlet-2-rel-25-wiener-khinchin
       - carlet-4-def-propagation-criteria
 
+  - id: carlet-6-hadamard-difference-set-characterizations
+    kind: theorem-family
+    location: >-
+      Carlet, Section 6 opening discussion, p. 78
+    statement: |-
+      Let n\ge2 be even and let f:V_n\to\mathbb F_2. The matrix
+
+      H_f(x,y)=(-1)^{f(x+y)}
+
+      is Hadamard if and only if f is bent. If S_f is the support of f and
+
+      N_{S_f}(a)=|\{x\in S_f:x+a\in S_f\}|,
+
+      then f is bent if and only if
+
+      |S_f|\ge2^{n-2}\quad\text{and}\quad
+      N_{S_f}(a)=|S_f|-2^{n-2}\quad(a\ne0).
+
+      Thus S_f is a Hadamard difference set in the additive group V_n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.f₂BitWeight
+      - CryptBoolean.hammingNorm_eq_sum_f₂BitWeight
+      - CryptBoolean.hammingNorm_add_restrictSupport_identity
+      - CryptBoolean.bentSignMatrix
+      - CryptBoolean.bentSignMatrix_mul_conjTranspose_apply
+      - CryptBoolean.isBent_iff_bentSignMatrix_isHadamard
+      - CryptBoolean.differenceMultiplicity
+      - CryptBoolean.IsHadamardDifferenceSet
+      - CryptBoolean.differenceMultiplicity_support_eq_hammingNorm_restriction
+      - CryptBoolean.hammingWeight_booleanDerivative_add_two_mul_differenceMultiplicity
+      - CryptBoolean.isBent_iff_support_isHadamardDifferenceSet
+    fidelity_note: >-
+      The Hadamard-matrix equivalence is proved without extra dimension
+      assumptions. The difference-set equivalence retains the source's positive
+      even-dimensional domain and states the difference multiplicity and
+      parameters explicitly; the lower cardinality bound makes natural-number
+      subtraction faithful to the integer parameter formula.
+    reuse_note: >-
+      The proof composes the existing derivative characterization, the Chapter 4
+      autocorrelation identity, and the Chapter 2 Hamming-weight API. The generic
+      support-restriction identity is also reused by the existing dimension-seven
+      nonlinearity proof.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-6-theorem-8-perfect-nonlinearity
+      - carlet-2-def-support-weight
+
+  - id: carlet-6-bent-cayley-strongly-regular
+    kind: theorem
+    location: >-
+      Strong regularity of the Boolean Cayley graph (Carlet, p. 78)
+    statement: |-
+      Let n\ge2 be even, let f:V_n\to\mathbb F_2 be bent with f(0)=0, and
+      join distinct x,y\in V_n exactly when f(x+y)=1. If S_f is the support
+      of f, the resulting graph is strongly regular with parameters
+
+      \left(2^n,\ |S_f|,\ |S_f|-2^{n-2},\ |S_f|-2^{n-2}\right).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanCayleyGraph
+      - CryptBoolean.booleanCayleyGraph_adj
+      - CryptBoolean.card_commonNeighbors_booleanCayleyGraph
+      - CryptBoolean.degree_booleanCayleyGraph
+      - CryptBoolean.isSRGWith_booleanCayleyGraph_of_isBent
+    fidelity_note: >-
+      The source's strong-regularity sentence is made precise with the standard f(0)=0 Boolean-Cayley convention and the exact parameters forced by the preceding Hadamard difference-set identity.
+    reuse_note: >-
+      Common-neighbor counts are identified directly with the existing support difference multiplicity, and the graph itself is Mathlib's additive Cayley graph.
+    dependencies:
+      - carlet-6-hadamard-difference-set-characterizations
+
   - id: carlet-6-prop-16-support-code
     kind: proposition
     location: >-
@@ -139,6 +211,47 @@ items:
       - carlet-4-resiliency-support-dual-distance
       - carlet-2-balanced-zero-walsh
       - carlet-2-parseval
+
+  - id: carlet-6-support-code-alternate-characterizations
+    kind: theorem-family
+    location: >-
+      Carlet, alternatives following Proposition 16, p. 79; corrected by
+      four-variable counterexamples
+    statement: |-
+      For the support code C_f, the following two reported converses are false
+      without additional hypotheses absent from the printed statements.
+
+      First, let f_1:V_4\to\mathbb F_2 vanish at (1,0,0,0) and equal one
+      elsewhere. Then \dim C_{f_1}=4, its two nonzero weights are 7 and 8,
+      and 7+8=w_H(f_1)=15, but f_1 is not bent.
+
+      Second, let f_2(x)=x_2+x_3 on V_4. Then w_H(f_2)=8 is even, the two
+      nonzero weights of C_{f_2} are 4 and 8, and 4=2^{4-2}, but f_2 is not
+      bent.
+    formal_status: formalized
+    references: [348]
+    declarations:
+      - CryptBoolean.finrank_supportCode_eq_n_iff_injective
+      - CryptBoolean.SupportCodeHasExactlyTwoNonzeroWeightValues
+      - CryptBoolean.HasSupportCodeWeightSumAlternative
+      - CryptBoolean.HasSupportCodeEvenLengthQuarterWeightAlternative
+      - CryptBoolean.supportCodeWeightSumCounterexample
+      - CryptBoolean.supportCodeQuarterWeightCounterexample
+      - CryptBoolean.supportCodeWeightSumAlternative_not_characterize_bent
+      - CryptBoolean.supportCodeEvenLengthQuarterWeightAlternative_not_characterize_bent
+    fidelity_note: >-
+      The survey prints both conditions as iff characterizations. Direct finite
+      verification in the same support-code model gives counterexamples to both
+      converses already in dimension four, so no strengthened theorem is
+      substituted. The exact two-nonzero-weight predicate requires distinct
+      positive occurring values and ignores the zero word, matching coding-theory
+      terminology.
+    reuse_note: >-
+      Both counterexamples reuse the existing support-code map, code dimension,
+      and word-weight declarations. The full-dimension/injectivity lemma was
+      exposed from the proof of Proposition 16 rather than duplicated.
+    dependencies:
+      - carlet-6-prop-16-support-code
 
   - id: carlet-6-dual
     kind: definition
@@ -225,6 +338,7 @@ items:
       - CryptBoolean.isBent_domainTranslate
       - CryptBoolean.isBent_domainTranslate_add_linear
       - CryptBoolean.bentDual_domainTranslate_add_linear
+      - CryptBoolean.bentDual_add_constant
       - CryptBoolean.walshTransform_zero_bentDual_derivative_add_linear
     fidelity_note: >-
       The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
@@ -449,9 +563,12 @@ items:
       \widetilde f(a,b)=b\mathbin\cdot\pi^{-1}(a)+g(\pi^{-1}(a)).
     formal_status: formalized
     declarations:
+      - CryptBoolean.booleanMaioranaMcFarlandPermutation
+      - CryptBoolean.booleanMaioranaMcFarlandPermutation_joinF₂CubeBlocks
       - CryptBoolean.isMaioranaMcFarland_of_eq_permutation
       - CryptBoolean.walshTransform_maioranaMcFarlandPermutation
       - CryptBoolean.isBent_of_maioranaMcFarlandPermutation
+      - CryptBoolean.isBent_booleanMaioranaMcFarlandPermutation
       - CryptBoolean.bentDual_maioranaMcFarlandPermutation
       - CryptBoolean.isBent_iff_bijective_maioranaMcFarland
     fidelity_note: >-
@@ -495,6 +612,68 @@ items:
       - carlet-6-maiorana-mcfarland
       - carlet-5-affine-flat-restriction-bound
       - carlet-6-def-7-bent
+
+  - id: carlet-6-maiorana-mcfarland-balanced-map
+    kind: theorem
+    location: >-
+      Carlet, structural consequence after Proposition 20, p. 85
+    statement: |-
+      Let n=r+s be even and suppose
+
+      f_{\varphi,g}(x,y)=x\mathbin\cdot\varphi(y)+g(y)
+
+      is bent on V_r\times V_s. Then r\le s and \varphi:V_s\to V_r is
+      balanced: for every a\in V_r,
+
+      |\varphi^{-1}(a)|=2^{s-r}.
+    formal_status: formalized
+    references: [254]
+    declarations:
+      - CryptBoolean.IsBalancedCubeMap
+      - CryptBoolean.isBalancedCubeMap_of_isBent_maioranaMcFarlandGeneral
+    fidelity_note: >-
+      The predicate states Carlet's parenthetical meaning of balanced as uniform
+      distribution, including the exact fiber size. The dimension inequality is
+      derived from the bent fiber-character criterion rather than assumed.
+    reuse_note: >-
+      Relation (49) supplies the raw character sums on each fiber, and the
+      Chapter 2 raw Plancherel theorem forces every fiber to have cardinality
+      2^{s-r}. No parallel vectorial Fourier normalization is introduced.
+    dependencies:
+      - carlet-6-prop-20-general-maiorana-mcfarland
+
+  - id: carlet-6-half-dimensional-bent-subspace
+    kind: theorem
+    location: >-
+      Carlet, remark on linear spaces of bent functions, p. 86
+    statement: |-
+      For every m>0, there exists an m-dimensional \mathbb F_2-linear
+      subspace B of the Boolean functions on V_{2m} such that every nonzero
+      member of B is bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.binaryGaloisFieldCoordinateEquiv
+      - CryptBoolean.fieldMultiplicationCubeMap
+      - CryptBoolean.fieldMaioranaMcFarlandFunction
+      - CryptBoolean.fieldMaioranaMcFarlandFunction_joinF₂CubeBlocks
+      - CryptBoolean.fieldMaioranaMcFarlandLinearMap
+      - CryptBoolean.fieldMultiplicationCubeMap_bijective
+      - CryptBoolean.isBent_fieldMaioranaMcFarlandFunction
+      - CryptBoolean.fieldMaioranaMcFarlandLinearMap_injective
+      - CryptBoolean.maioranaMcFarlandBentSubspace
+      - CryptBoolean.finrank_maioranaMcFarlandBentSubspace
+      - CryptBoolean.isBent_of_mem_maioranaMcFarlandBentSubspace
+      - CryptBoolean.exists_halfDimensionalBentSubspace
+    fidelity_note: >-
+      The theorem states existence in every positive even dimension and the
+      exact half-dimension, with nonzero membership quantified over a genuine
+      function submodule.
+    reuse_note: >-
+      Binary coordinates transport multiplication in GF(2^m) to an m-dimensional
+      linear family. Every nonzero multiplier is a permutation, so the existing
+      Maiorana--McFarland iff proves bentness of every nonzero member.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
 
   - id: carlet-6-partial-spread-construction
     kind: theorem
@@ -606,6 +785,7 @@ items:
       - CryptBoolean.IsBalancedOnAffineFlat
       - CryptBoolean.IsConstantOrBalancedOnAffineFlat
       - CryptBoolean.affineFlatWalshSum
+      - CryptBoolean.affineFlatSubtypeEquiv
       - CryptBoolean.walshTransform_sub_flatSwitch
       - CryptBoolean.affineFlatWalshSum_eq_bitSignInt_mul_walshTransform_restriction
       - CryptBoolean.affineSubspaceRestrictionImbalance_bentDual_add_linear
@@ -614,6 +794,7 @@ items:
       - CryptBoolean.isBent_flatSwitch_iff_derivative_balanced_on_affineFlat
       - CryptBoolean.isBent_flatSwitch_iff_bentDual_add_linear_constant_or_balanced
       - CryptBoolean.derivative_balanced_on_affineFlat_iff_bentDual_add_linear_constant_or_balanced
+      - CryptBoolean.bitSignInt_mul_self
       - CryptBoolean.two_pow_half_dvd_walshTransform_affineFlatRestriction
       - CryptBoolean.half_dimension_le_finrank_of_isBent_flatSwitch
       - CryptBoolean.functionAlgebraicDegree_affineFlatRestriction_le_of_isBent_flatSwitch
@@ -628,6 +809,91 @@ items:
       - carlet-2-prop-11-walsh-divisibility
       - carlet-3-prop-12
 
+  - id: carlet-6-class-d-zero
+    kind: theorem
+    location: >-
+      Class D_0 (Carlet, pp. 90--91)
+    statement: |-
+      Let \pi be a permutation of V_m. The function
+
+      f(x,y)=x\mathbin\cdot\pi(y)+\delta_0(x)
+
+      is bent on V_m\times V_m, and its dual is
+
+      \widetilde f(a,b)=b\mathbin\cdot\pi^{-1}(a)+\delta_0(b).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.classDZero
+      - CryptBoolean.classDZero_append
+      - CryptBoolean.walshTransform_classDZero
+      - CryptBoolean.isBent_classDZero
+      - CryptBoolean.bentDual_classDZero_append
+    fidelity_note: >-
+      The permutation domain, zero-point correction, bentness, and inverse-permutation dual formula match the reviewed source passage.
+    reuse_note: >-
+      The proof reuses the canonical Boolean Maiorana--McFarland function, its exact Walsh spectrum, and affine-flat switching on the zero first-block flat.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
+      - carlet-6-theorem-9-flat-switching
+
+  - id: carlet-6-class-d
+    kind: theorem
+    location: >-
+      Class D (Carlet, pp. 90--91)
+    statement: |-
+      Let E_1,E_2 be subspaces of V_m and let \pi be a permutation such
+      that \pi(E_2)=E_1^\perp. Then
+
+      f(x,y)=x\mathbin\cdot\pi(y)+
+        \mathbf1_{E_1}(x)\mathbf1_{E_2}(y)
+
+      is bent on V_m\times V_m.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.classD
+      - CryptBoolean.classD_append
+      - CryptBoolean.isBent_classD
+    fidelity_note: >-
+      The two subspaces, permutation-image condition, product indicator, and bentness conclusion match the reviewed source passage.
+    reuse_note: >-
+      The product indicator is the indicator of a half-dimensional product subspace, so the proof composes the canonical Maiorana--McFarland construction with the converse direction of affine-flat switching.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
+      - carlet-6-theorem-9-flat-switching
+
+  - id: carlet-6-class-c
+    kind: theorem
+    location: >-
+      Class C (Carlet, pp. 90--91)
+    statement: |-
+      Let L be a subspace of V_m and let \pi be a permutation such that
+      every inverse image \pi^{-1}(a+L^\perp) is an affine flat. Then
+
+      f(x,y)=x\mathbin\cdot\pi(y)+\mathbf1_L(x)
+
+      is bent. More generally,
+
+      f_g(x,y)=x\mathbin\cdot\pi(y)+\mathbf1_L(x)+g(y)
+
+      is bent whenever g restricts affinely to every
+      \pi^{-1}(a+L^\perp).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.HasAffinePerpendicularCosetPreimages
+      - CryptBoolean.IsAffineOnPerpendicularCosetPreimages
+      - CryptBoolean.isAffineOnPerpendicularCosetPreimages_zero
+      - CryptBoolean.classC
+      - CryptBoolean.classC_append
+      - CryptBoolean.isBent_classC
+      - CryptBoolean.isBent_classC_zero
+    fidelity_note: >-
+      The affine-preimage hypothesis, optional affine offset restrictions, and both bentness conclusions match the reviewed source passage.
+    reuse_note: >-
+      The proof uses the exact Maiorana--McFarland dual and Theorem 9's constant-or-balanced dual-coset criterion; arbitrary permutation reindexing is handled by genuine finite equivalences.
+    dependencies:
+      - carlet-6-maiorana-mcfarland
+      - carlet-6-theorem-9-flat-switching
+
   - id: carlet-6-theorem-10-slice-construction
     kind: theorem
     location: >-
@@ -641,7 +907,10 @@ items:
       \widetilde f(s,t)=\widetilde{\varphi_s}(t).
     formal_status: formalized
     declarations:
+      - CryptBoolean.finAppend_add
       - CryptBoolean.firstBlockSlice
+      - CryptBoolean.secondBlockSlice
+      - CryptBoolean.walshTransform_append_cast_eq_rawFourierTransform_sliceWalsh
       - CryptBoolean.dualSliceFunction
       - CryptBoolean.walshTransform_eq_two_pow_half_mul_walshTransform_dualSliceFunction
       - CryptBoolean.isBent_iff_forall_isBent_dualSliceFunction
@@ -678,6 +947,56 @@ items:
       The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
     dependencies:
       - carlet-6-theorem-10-slice-construction
+
+  - id: carlet-6-maiorana-mcfarland-bent-family-extension
+    kind: theorem
+    location: >-
+      Maiorana--McFarland bent-family extension (Carlet, p. 93)
+    statement: |-
+      Let \pi be a permutation of V_r, let g:V_r\to\mathbb F_2, and let
+      (h_y)_{y\in V_r} be a family of bent functions on V_m, where m is even.
+      Then
+
+      F(x,y,z)=h_y(z)+x\mathbin\cdot\pi(y)+g(y)
+
+      is bent on V_r\times V_r\times V_m.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maioranaMcFarlandBentFamilyExtension
+      - CryptBoolean.maioranaMcFarlandBentFamilyExtension_append
+      - CryptBoolean.isBent_maioranaMcFarlandBentFamilyExtension
+    fidelity_note: >-
+      The indexed bent-family hypothesis and displayed formula match the reviewed source statement exactly.
+    reuse_note: >-
+      The proof specializes Theorem 10 and the exact Maiorana--McFarland dual formula; no second slice or spectral normalization is introduced.
+    dependencies:
+      - carlet-6-theorem-10-slice-construction
+      - carlet-6-maiorana-mcfarland
+
+  - id: carlet-6-class-d-zero-four-block
+    kind: theorem
+    location: >-
+      Four-block class-D_0 construction (Carlet, p. 93)
+    statement: |-
+      Let r,s be positive, let \pi and \pi' be permutations of V_r and V_s,
+      respectively, and let h:V_s\to\mathbb F_2 be arbitrary. Then
+
+      F(x,y,z,t)=x\mathbin\cdot\pi(y)+z\mathbin\cdot\pi'(t)+\delta_0(x)h(t)
+
+      is bent on V_r\times V_r\times V_s\times V_s.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.classDZeroFourBlock
+      - CryptBoolean.classDZeroFourBlock_append
+      - CryptBoolean.isBent_classDZeroFourBlock
+    fidelity_note: >-
+      The displayed formula and arbitrary-function hypothesis match the source. The total Lean theorem also covers zero-dimensional coordinate pairs, where the same finite identity remains valid.
+    reuse_note: >-
+      The proof uses Theorem 10 to switch each first-block slice between the canonical Maiorana--McFarland and class-D_0 families, and identifies every dual slice with a second Maiorana--McFarland function.
+    dependencies:
+      - carlet-6-theorem-10-slice-construction
+      - carlet-6-maiorana-mcfarland
+      - carlet-6-class-d-zero
 
   - id: carlet-6-prop-21-permutation-reindexing
     kind: proposition
@@ -785,6 +1104,8 @@ items:
     declarations:
       - CryptBoolean.singletonF₂Cube
       - CryptBoolean.singletonF₂Cube_apply
+      - CryptBoolean.singletonF₂CubeLinearEquiv
+      - CryptBoolean.sum_singletonF₂Cube
       - CryptBoolean.walshTransform_append_singletonF₂Cube
       - CryptBoolean.linearHyperplaneRestriction
       - CryptBoolean.HasComplementaryHyperplaneRestrictionSpectra
@@ -828,6 +1149,60 @@ items:
       - carlet-6-def-plateaued
       - carlet-4-rel-35-nonlinearity-walsh
 
+  - id: carlet-6-balanced-hyperplane-derivative-restrictions
+    kind: theorem
+    location: >-
+      Balanced-derivative decomposition consequence (Carlet, p. 97)
+    statement: |-
+      Let f:V_{2k+1}\to\mathbb F_2, and let E be a linear hyperplane. If
+      D_u f is balanced for every nonzero u\in E, then the restrictions of
+      f to E and to its complementary coset are bent.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBent_linearHyperplaneRestriction_of_balanced_derivatives
+    fidelity_note: >-
+      A linear equivalence identifies an arbitrary hyperplane and its
+      complementary coset with the two coordinate slices. The compiled theorem
+      quantifies over that equivalence and proves both restrictions at once.
+    reuse_note: >-
+      The proof reuses the existing hyperplane slice, autocorrelation, balanced
+      derivative, raw Fourier, and bent-spectrum APIs.
+    dependencies:
+      - carlet-6-theorem-11-hyperplane-restrictions
+      - carlet-6-theorem-8-perfect-nonlinearity
+
+  - id: carlet-6-codimension-two-restrictions
+    kind: theorem
+    location: >-
+      Codimension-two decomposition consequences (Carlet, p. 97)
+    statement: |-
+      Let f be bent on V_N, with N even, and let E\le V_N have codimension
+      two. The four restrictions of f to the cosets of E, under any fixed
+      linear coordinate identification with V_{N-2}, have the same set of
+      Walsh magnitudes. If E^\perp=\langle a,b\rangle, all four restrictions
+      are bent if and only if D_aD_b\widetilde f is the constant one function.
+    formal_status: formalized
+    references: [41]
+    declarations:
+      - CryptBoolean.four_mul_walshTransform_firstBlockSlice_eq
+      - CryptBoolean.walshMagnitudeSet
+      - CryptBoolean.walshMagnitudeSet_firstBlockSlice_eq
+      - CryptBoolean.isBent_firstBlockSlices_iff_bentDual_secondDerivative_eq_one
+    fidelity_note: >-
+      The declarations choose coordinates in which E is the first block and
+      E^\perp is represented by the last two coordinate directions. This is
+      exactly the source statement after the stated linear identification;
+      raw and normalized Walsh transforms are not conflated.
+    reuse_note: >-
+      The exact scaling identity composes Fourier involution with bent duality.
+      The magnitude-set theorem uses the complete two-variable Walsh profiles,
+      and the iff uses the existing quadratic-radical and second-derivative APIs.
+    dependencies:
+      - carlet-6-theorem-10-slice-construction
+      - carlet-6-dual
+      - carlet-6-quadratic-bent-characterization
+      - carlet-6-prop-24-second-order-characterization
+
   - id: carlet-6-maiorana-mcfarland-count
     kind: theorem
     location: >-
@@ -842,14 +1217,11 @@ items:
     formal_status: formalized
     declarations:
       - CryptBoolean.MaioranaMcFarlandParameters
-      - CryptBoolean.booleanMaioranaMcFarlandPermutation
-      - CryptBoolean.booleanMaioranaMcFarlandPermutation_joinF₂CubeBlocks
       - CryptBoolean.booleanMaioranaMcFarlandOfParameters
       - CryptBoolean.booleanMaioranaMcFarlandOfParameters_injective
       - CryptBoolean.card_maioranaMcFarlandParameters
       - CryptBoolean.originalMaioranaMcFarlandClass
       - CryptBoolean.card_originalMaioranaMcFarlandClass
-      - CryptBoolean.isBent_booleanMaioranaMcFarlandPermutation
       - CryptBoolean.originalMaioranaMcFarlandClass_subset_bentFunctionFamily
     fidelity_note: >-
       The complete domains, hypotheses, normalization, and conclusion match the reviewed source passage.
@@ -857,6 +1229,38 @@ items:
       The associated declarations compose the canonical statements listed under dependencies and introduce no parallel definition or normalization.
     dependencies:
       - carlet-6-maiorana-mcfarland
+
+  - id: carlet-6-psap-count
+    kind: theorem
+    location: >-
+      Number of PS_ap functions (Carlet, p. 97)
+    statement: |-
+      Let m\ge2. With field division defined at zero, the functions on
+      \mathbb F_{2^m}\times\mathbb F_{2^m} of the form
+
+      f_g(x,y)=g(x/y),
+
+      where g:\mathbb F_{2^m}\to\mathbb F_2 is balanced, are distinct bent
+      functions. Their number is
+
+      \binom{2^m}{2^{m-1}}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.PSapParameters
+      - CryptBoolean.card_psapParameters
+      - CryptBoolean.psapOfParameters
+      - CryptBoolean.psapOfParameters_coordinate
+      - CryptBoolean.psapOfParameters_injective
+      - CryptBoolean.psapClass
+      - CryptBoolean.card_psapClass
+      - CryptBoolean.isBent_psapOfParameters_comp_linearEquiv
+    fidelity_note: >-
+      The quotient convention, balanced parameter set, injectivity, bentness, and exact binomial cardinality match the reviewed source count. The positive half-dimension is made explicit.
+    reuse_note: >-
+      The proof combines the existing PS_ap hyper-bent construction with the Chapter 4 support-cardinality characterization of balancedness and Mathlib's fixed-cardinality finset count.
+    dependencies:
+      - carlet-6-prop-25-psap-hyper-bent
+      - carlet-4-resiliency-support-dual-distance
 
   - id: carlet-6-naive-bent-count-bound
     kind: theorem
@@ -1864,39 +2268,31 @@ items:
       - carlet-2-trace-pairing-coordinates
 
 source_recovery:
-  - id: carlet-6-hadamard-difference-set-cayley
+  - id: carlet-6-cayley-graph-characterization-reference
     kind: characterization-family
     location: >-
-      Carlet, Section 6 opening discussion and Section 6.6.3, pp. 78 and 100
+      Carlet, Section 6.6.3, p. 100
     source_claim: >-
-      For f : V_n -> F_2, bentness is equivalent to the matrix
-      H[x,y] = (-1)^(f(x+y)) being Hadamard and to supp(f) being a difference
-      set in the elementary Abelian 2-group V_n. The difference-set condition
-      implies that the Boolean Cayley graph G_f is strongly regular. Carlet later
-      reports a further characterization of bent functions through Cayley graphs.
-    statement_status: mixed-complete-equivalences-and-incomplete-cayley-reference
+      After the separately promoted strongly regular Boolean-Cayley theorem,
+      Carlet reports a further characterization of bent functions through
+      Cayley graphs without stating it.
+    statement_status: incomplete-cayley-reference
     formal_status: open
     declarations: []
-    references: [18, 134, 202]
+    references: [18]
     first_release_scope: required-after-source-recovery
     fidelity_note: >-
-      The two equivalences are complete in the survey. The strongly regular
-      graph sentence omits its parameters, and the later Cayley-graph
-      characterization is only a citation. Neither is strengthened to an unstated
-      parameter theorem here.
+      The complete Hadamard-matrix, difference-set, and exact strongly regular
+      parameter results have been promoted separately. The later Cayley-graph
+      characterization remains only a citation.
     reuse_note: >-
-      The Walsh and derivative characterizations already provide the scalar
-      spectral content. Promotion should add explicit Hadamard-matrix,
-      difference-set, and strongly-regular-graph layers rather than encode those
-      objects as Boolean-function aliases.
+      The promoted Boolean Cayley graph and strongly regular parameter theorem
+      provide the reusable objects. Promotion should identify the exact theorem
+      direction before adding the cited characterization.
     blocker: >-
-      The repository has no reviewed design or graph API for these objects, and
-      reference [18] must be recovered for the exact Cayley parameters and the
-      later iff characterization.
+      Reference [18] must be recovered for the later iff characterization.
     dependencies:
-      - carlet-6-def-7-bent
-      - carlet-6-theorem-8-perfect-nonlinearity
-      - carlet-2-def-support-weight
+      - carlet-6-bent-cayley-strongly-regular
 
   - id: carlet-6-restricted-derivative-and-moment-families
     kind: theorem-family
@@ -1929,33 +2325,6 @@ source_recovery:
       - carlet-6-theorem-8-perfect-nonlinearity
       - carlet-4-def-propagation-criteria
       - carlet-2-parseval
-
-  - id: carlet-6-support-code-alternate-characterizations
-    kind: theorem-family
-    location: >-
-      Carlet, alternatives following Proposition 16, p. 79
-    source_claim: >-
-      For the support code C_f, Carlet reports two further iff
-      characterizations of bentness: C_f has dimension n and exactly two
-      weights whose sum is w_H(f); and the length w_H(f) is even, C_f has
-      exactly two weights, and one of them is 2^(n-2).
-    statement_status: complete-source-statements
-    formal_status: open
-    declarations: []
-    references: [348]
-    first_release_scope: required-after-source-recovery
-    fidelity_note: >-
-      The displayed alternatives are complete, but their small-dimension
-      conventions must be reconciled with the corrected n >= 4 range of the
-      existing Proposition 16 node.
-    reuse_note: >-
-      Both alternatives should reuse the existing support-code map, dimension,
-      and weight declarations rather than define a second code.
-    blocker: >-
-      No production declaration currently proves either alternative, including
-      the occurrence and zero-weight edge cases.
-    dependencies:
-      - carlet-6-prop-16-support-code
 
   - id: carlet-6-quadratic-trace-families
     kind: construction-family
@@ -2027,12 +2396,9 @@ source_recovery:
     location: >-
       Carlet, structural consequences for primary classes, pp. 85--87
     source_claim: >-
-      Every bent function represented as
-      f_(phi,g)(x,y)=x dot phi(y)+g(y) has balanced phi; every six-variable
-      bent function is affinely equivalent to a member of the original
-      Maiorana--McFarland class; n/2-dimensional vector spaces of n-variable
-      Boolean functions whose nonzero elements are bent exist, while no such
-      space has dimension greater than n/2. For the partial-spread classes,
+      Every six-variable bent function is affinely equivalent to a member of the original
+      Maiorana--McFarland class; no vector space of n-variable Boolean functions
+      whose nonzero elements are bent has dimension greater than n/2. For the partial-spread classes,
       Carlet records the exact degree of PS^- members, the explicit PS_ap
       quotient form and self-duality, and a field-power/trace characterization
       of its completed class, while leaving a general ANF characterization of
@@ -2040,24 +2406,24 @@ source_recovery:
     statement_status: mixed-complete-consequences-vectorial-bound-and-explicit-open-problem
     formal_status: open
     declarations: []
-    references: [24, 81, 134, 254]
+    references: [24, 81, 134]
     first_release_scope: required-after-source-recovery
     fidelity_note: >-
-      The survey states these as several distinct consequences. The
-      balanced-vector-map and dimension bound use vectorial Boolean-function
-      theory, and the open PS ANF problem is not replaced by the explicit
-      PS_ap subclass.
+      The survey states these as several distinct consequences. The dimension
+      bound uses vectorial Boolean-function theory, and the open PS ANF problem
+      is not replaced by the explicit PS_ap subclass. The balanced-map
+      consequence and the matching half-dimensional existence construction have
+      been promoted separately.
     reuse_note: >-
       Promotion should specialize the general Maiorana--McFarland and
       partial-spread nodes and reuse affine equivalence, algebraic degree, and
       the field trace layer.
     blocker: >-
-      The six-variable affine classification, vectorial balance/dimension
-      bound, and completed-class trace characterization need independent
-      primary-source statements and proofs.
+      The six-variable affine classification, vector-space dimension bound,
+      and completed-class trace characterization need independent primary-source
+      statements and proofs.
     dependencies:
       - carlet-6-maiorana-mcfarland
-      - carlet-6-prop-20-general-maiorana-mcfarland
       - carlet-6-partial-spread-construction
       - carlet-6-dual
 
@@ -2131,42 +2497,32 @@ source_recovery:
       - carlet-2-def-algebraic-degree
       - carlet-6-def-7-bent
 
-  - id: carlet-6-classes-d-and-c
-    kind: construction-family
+  - id: carlet-6-secondary-class-references
+    kind: citation-family
     location: >-
-      Carlet, secondary classes D_0, D, and C, pp. 90--91
+      Carlet, further class D_0 consequences, pp. 90--91
     source_claim: >-
-      For a permutation pi on V_(n/2), D_0 consists of
-      x dot pi(y)+delta_0(x) and has dual y dot pi^(-1)(x)+delta_0(y).
-      Class D consists of
-      x dot pi(y)+1_(E_1)(x)1_(E_2)(y) with pi(E_2)=E_1^perp.
-      Class C consists of x dot pi(y)+1_L(x) when every
-      pi^(-1)(a+L^perp) is an affine flat; under the same condition,
-      x dot pi(y)+1_L(x)+g(y) is bent whenever g restricts affinely to every
-      such flat. Carlet also records completion and six-variable consequences
-      for D_0.
-    statement_status: complete-source-specializations-with-cited-class-separation-claims
+      After giving the explicit D_0, D, and C constructions, Carlet records
+      cited consequences that D_0 lies outside the completed Maiorana--McFarland
+      and partial-spread classes and that its completed class covers all
+      six-variable bent functions.
+    statement_status: incomplete-cited-class-separation-claims
     formal_status: open
     declarations: []
     references: [44, 53]
     first_release_scope: required-after-source-recovery
     fidelity_note: >-
-      The construction hypotheses and dual formula are explicit. Claims
-      that D_0 is outside completed M and PS classes and covers all six-variable
-      bent functions are retained as cited consequences, not inferred from the
-      generic switching theorem.
+      The explicit D_0, D, and C constructions and the D_0 dual formula have
+      been promoted as separate formalized items. This record retains only the
+      cited completed-class nonmembership and six-variable coverage claims.
     reuse_note: >-
-      The bentness constructions are direct specializations of the
-      Maiorana--McFarland and flat-switching nodes and should reuse their affine
-      flat indicators and dual laws.
+      Any recovered class-separation theorem should reuse the formalized D_0
+      construction and future predicates for completed affine-equivalence classes.
     blocker: >-
-      No dedicated declarations instantiate Theorem 9 with these parameters,
-      and the completed-class nonmembership claims require formal affine-class
-      predicates not currently present.
+      The primary papers and formal affine-class predicates are required to
+      state the completed-class nonmembership and coverage claims faithfully.
     dependencies:
-      - carlet-6-maiorana-mcfarland
-      - carlet-6-theorem-9-flat-switching
-      - carlet-5-flat-indicator-walsh-nonlinearity
+      - carlet-6-class-d-zero
 
   - id: carlet-6-dobbertin-primary-class
     kind: construction-family
@@ -2239,10 +2595,10 @@ source_recovery:
     location: >-
       Carlet, additional secondary constructions, pp. 92--94
     source_claim: >-
-      Carlet records the normal extension of
-      Maiorana--McFarland type obtained by adjoining a y-indexed family of bent
-      functions, three explicit four-block families derived from Theorem 10,
-      and three Hou--Langevin consequences of Proposition 21, including the
+      After the separately promoted Maiorana--McFarland bent-family extension
+      and first four-block class-D_0 construction, Carlet gives two further
+      four-block quotient families derived from Theorem 10 and three
+      Hou--Langevin consequences of Proposition 21, including the
       degree-at-most-three derivative reindexing and a quadratic-form
       reindexing of x dot y+g(y).
     statement_status: mixed-complete-formulas-and-cited-examples
@@ -2251,62 +2607,58 @@ source_recovery:
     references: [56, 78, 190, 194]
     first_release_scope: required-after-source-recovery
     fidelity_note: >-
-      The displayed construction formulas are complete, while the
-      additional examples in references [56,190,194] are only mentioned.
-      This record does not merge their distinct hypotheses into one theorem.
+      The two promoted formulas are now separate formalized items. The
+      remaining displayed quotient formulas are complete, while the additional
+      examples in references [56,190,194] are only mentioned. This record does
+      not merge their distinct hypotheses into one theorem.
     reuse_note: >-
       The complete displayed families are specializations of the slice
       construction or permutation reindexing and should be proved by those
       general combinators.
     blocker: >-
-      No public specialization declarations are associated, and the cited
-      example families require primary-source recovery.
+      The remaining quotient families require a reviewed finite-field division
+      convention, and the cited example families require primary-source
+      recovery.
     dependencies:
       - carlet-6-theorem-10-slice-construction
       - carlet-6-prop-21-permutation-reindexing
       - carlet-6-maiorana-mcfarland
 
-  - id: carlet-6-additional-decompositions
-    kind: theorem-family
+  - id: carlet-6-additional-decomposition-references
+    kind: citation-family
     location: >-
       Carlet, Section 6.4.3, p. 97
     source_claim: >-
-      If an odd-variable function f has every derivative D_u f
-      balanced for nonzero u in a fixed hyperplane a^perp, then the restriction
-      of f to a^perp and its complementary coset is bent. For a bent f, the
-      four restrictions to the cosets of a codimension-two subspace have the
-      same sets of Walsh magnitudes; if its orthogonal complement is spanned by
-      a,b, all four restrictions are bent exactly when D_a D_b of the dual is
-      the constant one function. Carlet cites further decomposition results.
-    statement_status: complete-two-results-with-incomplete-further-family
+      After the two explicit decomposition consequences, Carlet cites further
+      results on decomposing bent functions without stating them.
+    statement_status: incomplete-cited-family
     formal_status: open
     declarations: []
-    references: [41, 42, 100]
+    references: [42, 100]
     first_release_scope: required-after-source-recovery
     fidelity_note: >-
-      The two displayed consequences are complete. The phrase "more on
-      decomposing bent functions" contains no additional theorem statement and
-      remains unpromoted.
+      The balanced-hyperplane and codimension-two consequences have been
+      promoted as separate source-facing items. This record retains only the
+      unstated further family.
     reuse_note: >-
-      Both complete consequences should reuse the hyperplane-restriction,
-      dual, and second-derivative APIs.
+      Any recovered theorem should compose the existing decomposition,
+      restriction-spectrum, dual, and second-derivative results.
     blocker: >-
-      The codimension-two restriction spectrum and its iff criterion have no
-      associated declarations; the remaining cited family lacks statements.
+      The survey supplies no additional theorem statement; primary-source
+      recovery is required before another item can be promoted.
     dependencies:
-      - carlet-6-theorem-11-hyperplane-restrictions
-      - carlet-6-dual
-      - carlet-6-prop-24-second-order-characterization
+      - carlet-6-balanced-hyperplane-derivative-restrictions
+      - carlet-6-codimension-two-restrictions
 
   - id: carlet-6-additional-counting
     kind: counting-family
     location: >-
       Carlet, Section 6.5, pp. 97--98
     source_claim: >-
-      Besides the exact Maiorana--McFarland count, Carlet gives
-      C(2^(n/2),2^(n/2-1)) for the PS_ap family, an affine-automorphism upper
-      estimate for the completed Maiorana--McFarland class, and states that an
-      efficient general lower bound remains open. He reports the approximate
+      Besides the separately promoted exact Maiorana--McFarland and PS_ap
+      counts, Carlet gives an affine-automorphism upper estimate for the
+      completed Maiorana--McFarland class and states that an efficient general
+      lower bound remains open. He reports the approximate
       exact counts B_6 approximately 2^32.3 and B_8 approximately 2^106.3,
       earlier and improved upper bounds for B_8, and an exponentially improved
       upper bound over the naive bound that divides it by approximately
@@ -2317,12 +2669,13 @@ source_recovery:
     references: [81, 89, 125, 231, 232, 299]
     first_release_scope: required-after-source-recovery
     fidelity_note: >-
-      The PS_ap binomial count and the reported finite values are
-      explicit. The chapter gives only an approximate description of the [89]
-      upper bound and no efficient lower-bound theorem.
+      The PS_ap binomial count has been promoted as a separate formalized item.
+      The reported finite values are explicit, but the chapter gives only an
+      approximate description of the [89] upper bound and no efficient
+      lower-bound theorem.
     reuse_note: >-
-      The finite family counts should reuse the partial-spread and
-      Maiorana--McFarland parameter spaces; any global bound should reuse the
+      The remaining affine-completion estimate should reuse the
+      Maiorana--McFarland parameter space; any global bound should reuse the
       bent-function family and Reed--Muller degree count.
     blocker: >-
       The exact theorem behind reference [89], the exact integer values behind
@@ -2331,7 +2684,6 @@ source_recovery:
     dependencies:
       - carlet-6-maiorana-mcfarland-count
       - carlet-6-naive-bent-count-bound
-      - carlet-6-partial-spread-construction
 
   - id: carlet-6-alternate-geometric-and-gps-translation
     kind: characterization-family

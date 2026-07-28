@@ -16,8 +16,8 @@ spine. The current baseline is:
 | Carlet Chapter 3 | 7 | 7 | 0 | 32 | 19 |
 | Carlet Chapter 4 | 73 | 73 | 0 | 568 | 159 |
 | Carlet Chapter 5 | 31 | 28 | 3 | 203 | 70 |
-| Carlet Chapter 6 | 57 | 57 | 0 | 361 | 163 |
-| **Total** | **209** | **206** | **3** | **1338** | **467** |
+| Carlet Chapter 6 | 70 | 70 | 0 | 441 | 189 |
+| **Total** | **222** | **219** | **3** | **1418** | **493** |
 
 An item marked `[open]` has a complete mathematical statement but no Lean association. In the
 tables below, `consumer <- prerequisite-1, prerequisite-2` denotes one incoming edge from each
@@ -621,7 +621,7 @@ rational-function estimate. Across the four Chapter 5 families, the reviewed cou
 
 ## Chapter 6: bent functions
 
-Chapter 6 has 57 reviewed statements, all formalized by 361 proved declarations with 163 incoming
+Chapter 6 has 70 reviewed statements, all formalized by 441 proved declarations with 189 incoming
 statement edges. Its graph reuses the Chapter 2 raw Walsh, Fourier, NNF, Poisson, derivative, and
 trace layers; the Chapter 3 Reed--Muller layer; the Chapter 4 nonlinearity, propagation,
 support-code, and linear-structure layers; and the Chapter 5 quadratic, restriction, trace, and
@@ -638,9 +638,16 @@ carlet-6-lemma-2-walsh-congruence
 carlet-6-theorem-8-perfect-nonlinearity
   <- carlet-6-def-7-bent, carlet-2-rel-25-wiener-khinchin,
      carlet-4-def-propagation-criteria
+carlet-6-hadamard-difference-set-characterizations
+  <- carlet-6-def-7-bent, carlet-6-theorem-8-perfect-nonlinearity,
+     carlet-2-def-support-weight
+carlet-6-bent-cayley-strongly-regular
+  <- carlet-6-hadamard-difference-set-characterizations
 carlet-6-prop-16-support-code
   <- carlet-6-def-7-bent, carlet-4-resiliency-support-dual-distance,
      carlet-2-balanced-zero-walsh, carlet-2-parseval
+carlet-6-support-code-alternate-characterizations
+  <- carlet-6-prop-16-support-code
 
 carlet-6-dual
   <- carlet-6-def-7-bent, carlet-2-def-walsh-transform, carlet-2-fourier-inversion
@@ -686,6 +693,10 @@ carlet-6-maiorana-mcfarland
 carlet-6-prop-20-general-maiorana-mcfarland
   <- carlet-6-maiorana-mcfarland, carlet-5-affine-flat-restriction-bound,
      carlet-6-def-7-bent
+carlet-6-maiorana-mcfarland-balanced-map
+  <- carlet-6-prop-20-general-maiorana-mcfarland
+carlet-6-half-dimensional-bent-subspace
+  <- carlet-6-maiorana-mcfarland
 carlet-6-partial-spread-construction
   <- carlet-6-theorem-12-geometric-characterization
 
@@ -696,10 +707,21 @@ carlet-6-rothaus-construction
 carlet-6-theorem-9-flat-switching
   <- carlet-6-theorem-8-perfect-nonlinearity, carlet-6-rel-46-dual-poisson,
      carlet-2-prop-11-walsh-divisibility, carlet-3-prop-12
+carlet-6-class-d-zero
+  <- carlet-6-maiorana-mcfarland, carlet-6-theorem-9-flat-switching
+carlet-6-class-d
+  <- carlet-6-maiorana-mcfarland, carlet-6-theorem-9-flat-switching
+carlet-6-class-c
+  <- carlet-6-maiorana-mcfarland, carlet-6-theorem-9-flat-switching
 carlet-6-theorem-10-slice-construction
   <- carlet-6-def-7-bent, carlet-6-dual
 carlet-6-indirect-sum
   <- carlet-6-theorem-10-slice-construction
+carlet-6-maiorana-mcfarland-bent-family-extension
+  <- carlet-6-theorem-10-slice-construction, carlet-6-maiorana-mcfarland
+carlet-6-class-d-zero-four-block
+  <- carlet-6-theorem-10-slice-construction, carlet-6-maiorana-mcfarland,
+     carlet-6-class-d-zero
 carlet-6-prop-21-permutation-reindexing
   <- carlet-6-def-7-bent, carlet-2-def-hamming-distance
 carlet-6-prop-22-three-function-identity
@@ -713,18 +735,30 @@ carlet-6-theorem-11-hyperplane-restrictions
 carlet-6-hyperplane-restriction-plateaued
   <- carlet-6-theorem-11-hyperplane-restrictions, carlet-6-def-plateaued,
      carlet-4-rel-35-nonlinearity-walsh
+carlet-6-balanced-hyperplane-derivative-restrictions
+  <- carlet-6-theorem-11-hyperplane-restrictions,
+     carlet-6-theorem-8-perfect-nonlinearity
+carlet-6-codimension-two-restrictions
+  <- carlet-6-theorem-10-slice-construction, carlet-6-dual,
+     carlet-6-quadratic-bent-characterization,
+     carlet-6-prop-24-second-order-characterization
 ```
 
 The flat-switching proof composes the Chapter 2 Walsh-divisibility theorem with the Chapter 3
-minimum-weight affine-flat classification. The general slice construction owns the indirect-sum
-and Rothaus specializations. The hyperplane decomposition uses the exact restriction-square
-identity rather than introducing a second spectral normalization.
+minimum-weight affine-flat classification. Classes D₀, D, and C combine its converse with the
+canonical Maiorana--McFarland family. The general slice construction owns the indirect-sum,
+Maiorana--McFarland bent-family, four-block class-D₀, and Rothaus specializations. The hyperplane decomposition uses the exact restriction-square
+identity. The codimension-two result composes raw Fourier involution, bent duality, Parseval, and
+the two-variable quadratic radical criterion without introducing a second spectral normalization.
 
 ### Counting and three characterizations
 
 ```text
 carlet-6-maiorana-mcfarland-count
   <- carlet-6-maiorana-mcfarland
+carlet-6-psap-count
+  <- carlet-6-prop-25-psap-hyper-bent,
+     carlet-4-resiliency-support-dual-distance
 carlet-6-naive-bent-count-bound
   <- carlet-6-prop-18-rothaus-degree-bound, carlet-3-reed-muller-dimension
 
@@ -840,7 +874,7 @@ constructs such a family and proves its parameters; the separate coordinate theo
 self-dual-normal-basis identity under its explicit Frobenius, trace, and trace-pairing hypotheses
 without conflating it with the coordinate-invariant construction.
 
-These Chapter 6 families contain exactly 163 incoming statement edges.
+These Chapter 6 families contain exactly 189 incoming statement edges.
 
 ## Remaining proof frontier
 
@@ -864,7 +898,7 @@ and the sharp higher-order upper bound are associated with their complete produc
 their mathematical ingredients remain separately visible in the graph. Chapter 5's quadratic
 normal form, quadratic trace representation, Relation (42), random-nonnormality limit, and
 trace-character reduction are closed; the three analytic open nodes above define the remaining
-reviewed frontier. Chapter 6 is closed: all 57 nodes have proved associations, while its nineteen
+reviewed frontier. Chapter 6 is closed: all 61 nodes have proved associations, while its eighteen
 source-recovery records remain outside the graph until their cited statements or certificates can
 be recovered faithfully.
 

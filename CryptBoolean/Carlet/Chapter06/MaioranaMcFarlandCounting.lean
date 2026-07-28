@@ -33,25 +33,6 @@ Maiorana--McFarland construction. -/
 abbrev MaioranaMcFarlandParameters (m : ℕ) :=
   Equiv.Perm (FABL.F₂Cube m) × BooleanFunction m
 
-/-- The Boolean-valued original Maiorana--McFarland function associated to a
-permutation and an arbitrary Boolean offset. -/
-def booleanMaioranaMcFarlandPermutation
-    (π : Equiv.Perm (FABL.F₂Cube m)) (g : BooleanFunction m) :
-    BooleanFunction (m + m) :=
-  fun z ↦
-    let blocks := FABL.f₂CubeBlockEquiv m z
-    FABL.f₂DotProduct blocks.1 (π blocks.2) + g blocks.2
-
-/-- Evaluation of the Boolean Maiorana--McFarland function on its two
-coordinate blocks. -/
-@[simp] theorem booleanMaioranaMcFarlandPermutation_joinF₂CubeBlocks
-    (π : Equiv.Perm (FABL.F₂Cube m)) (g : BooleanFunction m)
-    (x y : FABL.F₂Cube m) :
-    booleanMaioranaMcFarlandPermutation π g
-        (FABL.joinF₂CubeBlocks x y) =
-      FABL.f₂DotProduct x (π y) + g y := by
-  simp [booleanMaioranaMcFarlandPermutation]
-
 /-- The Boolean function determined by a Maiorana--McFarland parameter
 pair. -/
 def booleanMaioranaMcFarlandOfParameters
@@ -110,15 +91,6 @@ theorem card_originalMaioranaMcFarlandClass (m : ℕ) :
     Finset.card_image_of_injective]
   · rw [Finset.card_univ, card_maioranaMcFarlandParameters]
   · exact booleanMaioranaMcFarlandOfParameters_injective
-
-/-- Every Boolean-valued original Maiorana--McFarland function is bent. -/
-theorem isBent_booleanMaioranaMcFarlandPermutation
-    (π : Equiv.Perm (FABL.F₂Cube m)) (g : BooleanFunction m) :
-    IsBent (booleanMaioranaMcFarlandPermutation π g) := by
-  apply isBent_of_maioranaMcFarlandPermutation
-    (booleanMaioranaMcFarlandPermutation π g) g π
-  intro x y
-  exact booleanMaioranaMcFarlandPermutation_joinF₂CubeBlocks π g x y
 
 /-- The finite family of all `n`-variable bent Boolean functions. -/
 noncomputable def bentFunctionFamily (n : ℕ) :

@@ -11,6 +11,8 @@ import CryptBoolean.Carlet.Chapter06.FlatSwitching
 import CryptBoolean.Carlet.Chapter06.IndirectSum
 import CryptBoolean.Carlet.Chapter06.PermutationReindex
 import CryptBoolean.Carlet.Chapter06.Rothaus
+import CryptBoolean.Carlet.Chapter06.SecondaryClasses
+import CryptBoolean.Carlet.Chapter06.SecondarySpecializations
 
 open Verso.Genre
 open Verso.Genre.Manual
@@ -39,7 +41,7 @@ gh+gk+hk+(g+h)x_1+(g+k)x_2+x_1x_2
 is bent.
 :::
 
-:::theorem "carlet-6-theorem-9-flat-switching" (parent := "carlet-chapter-6") (lean := "CryptBoolean.flatSwitch, CryptBoolean.IsBalancedOnAffineFlat, CryptBoolean.IsConstantOrBalancedOnAffineFlat, CryptBoolean.affineFlatWalshSum, CryptBoolean.walshTransform_sub_flatSwitch, CryptBoolean.affineFlatWalshSum_eq_bitSignInt_mul_walshTransform_restriction, CryptBoolean.affineSubspaceRestrictionImbalance_bentDual_add_linear, CryptBoolean.abs_affineSubspaceRestrictionImbalance_bentDual_add_linear, CryptBoolean.autocorrelation_flatSwitch, CryptBoolean.isBent_flatSwitch_iff_derivative_balanced_on_affineFlat, CryptBoolean.isBent_flatSwitch_iff_bentDual_add_linear_constant_or_balanced, CryptBoolean.derivative_balanced_on_affineFlat_iff_bentDual_add_linear_constant_or_balanced, CryptBoolean.two_pow_half_dvd_walshTransform_affineFlatRestriction, CryptBoolean.half_dimension_le_finrank_of_isBent_flatSwitch, CryptBoolean.functionAlgebraicDegree_affineFlatRestriction_le_of_isBent_flatSwitch, CryptBoolean.isBent_flatSwitch_of_half_dimension_of_restriction_degree_le_one") (uses := "carlet-6-theorem-8-perfect-nonlinearity, carlet-6-rel-46-dual-poisson, carlet-2-prop-11-walsh-divisibility, carlet-3-prop-12") (tags := "carlet, chapter-6, theorem-9, pages-90-91, fidelity-exact")
+:::theorem "carlet-6-theorem-9-flat-switching" (parent := "carlet-chapter-6") (lean := "CryptBoolean.flatSwitch, CryptBoolean.IsBalancedOnAffineFlat, CryptBoolean.IsConstantOrBalancedOnAffineFlat, CryptBoolean.affineFlatWalshSum, CryptBoolean.affineFlatSubtypeEquiv, CryptBoolean.walshTransform_sub_flatSwitch, CryptBoolean.affineFlatWalshSum_eq_bitSignInt_mul_walshTransform_restriction, CryptBoolean.affineSubspaceRestrictionImbalance_bentDual_add_linear, CryptBoolean.abs_affineSubspaceRestrictionImbalance_bentDual_add_linear, CryptBoolean.autocorrelation_flatSwitch, CryptBoolean.isBent_flatSwitch_iff_derivative_balanced_on_affineFlat, CryptBoolean.isBent_flatSwitch_iff_bentDual_add_linear_constant_or_balanced, CryptBoolean.derivative_balanced_on_affineFlat_iff_bentDual_add_linear_constant_or_balanced, CryptBoolean.bitSignInt_mul_self, CryptBoolean.two_pow_half_dvd_walshTransform_affineFlatRestriction, CryptBoolean.half_dimension_le_finrank_of_isBent_flatSwitch, CryptBoolean.functionAlgebraicDegree_affineFlatRestriction_le_of_isBent_flatSwitch, CryptBoolean.isBent_flatSwitch_of_half_dimension_of_restriction_degree_le_one") (uses := "carlet-6-theorem-8-perfect-nonlinearity, carlet-6-rel-46-dual-poisson, carlet-2-prop-11-walsh-divisibility, carlet-3-prop-12") (tags := "carlet, chapter-6, theorem-9, pages-90-91, fidelity-exact")
 *Theorem 9 (Carlet, pp. 90--91).* Let $`f` be bent on $`V_n`, let
 $`b+E` be an affine flat, and put $`f^*=f+\mathbf1_{b+E}`. Then $`f^*` is
 bent if and only if either of the following equivalent conditions holds:
@@ -54,7 +56,44 @@ $`\dim E-n/2+1`. Conversely, if $`\dim E=n/2` and that restriction is
 affine, then $`f^*` is bent.
 :::
 
-:::theorem "carlet-6-theorem-10-slice-construction" (parent := "carlet-chapter-6") (lean := "CryptBoolean.firstBlockSlice, CryptBoolean.dualSliceFunction, CryptBoolean.walshTransform_eq_two_pow_half_mul_walshTransform_dualSliceFunction, CryptBoolean.isBent_iff_forall_isBent_dualSliceFunction, CryptBoolean.bentDual_append_eq_bentDual_dualSliceFunction") (uses := "carlet-6-def-7-bent, carlet-6-dual") (tags := "carlet, chapter-6, theorem-10, pages-91-92, fidelity-exact")
+:::theorem "carlet-6-class-d-zero" (parent := "carlet-chapter-6") (lean := "CryptBoolean.classDZero, CryptBoolean.classDZero_append, CryptBoolean.walshTransform_classDZero, CryptBoolean.isBent_classDZero, CryptBoolean.bentDual_classDZero_append") (uses := "carlet-6-maiorana-mcfarland, carlet-6-theorem-9-flat-switching") (tags := "carlet, chapter-6, class-d-zero, pages-90-91, fidelity-exact")
+*Class $`D_0` (Carlet, pp. 90--91).* Let $`\pi` be a permutation of
+$`V_m`. The function
+$$`
+f(x,y)=x\mathbin\cdot\pi(y)+\delta_0(x)
+`
+is bent on $`V_m\times V_m`, and its dual is
+$$`
+\widetilde f(a,b)=b\mathbin\cdot\pi^{-1}(a)+\delta_0(b).
+`
+:::
+
+:::theorem "carlet-6-class-d" (parent := "carlet-chapter-6") (lean := "CryptBoolean.classD, CryptBoolean.classD_append, CryptBoolean.isBent_classD") (uses := "carlet-6-maiorana-mcfarland, carlet-6-theorem-9-flat-switching") (tags := "carlet, chapter-6, class-d, pages-90-91, fidelity-exact")
+*Class $`D` (Carlet, pp. 90--91).* Let $`E_1,E_2` be subspaces of
+$`V_m` and let $`\pi` be a permutation such that
+$`\pi(E_2)=E_1^\perp`. Then
+$$`
+f(x,y)=x\mathbin\cdot\pi(y)+\mathbf 1_{E_1}(x)\mathbf 1_{E_2}(y)
+`
+is bent on $`V_m\times V_m`.
+:::
+
+:::theorem "carlet-6-class-c" (parent := "carlet-chapter-6") (lean := "CryptBoolean.HasAffinePerpendicularCosetPreimages, CryptBoolean.IsAffineOnPerpendicularCosetPreimages, CryptBoolean.isAffineOnPerpendicularCosetPreimages_zero, CryptBoolean.classC, CryptBoolean.classC_append, CryptBoolean.isBent_classC, CryptBoolean.isBent_classC_zero") (uses := "carlet-6-maiorana-mcfarland, carlet-6-theorem-9-flat-switching") (tags := "carlet, chapter-6, class-c, pages-90-91, fidelity-exact")
+*Class $`C` (Carlet, pp. 90--91).* Let $`L` be a subspace of $`V_m`
+and let $`\pi` be a permutation such that every set
+$`\pi^{-1}(a+L^\perp)` is an affine flat. Then
+$$`
+f(x,y)=x\mathbin\cdot\pi(y)+\mathbf 1_L(x)
+`
+is bent. More generally,
+$$`
+f_g(x,y)=x\mathbin\cdot\pi(y)+\mathbf 1_L(x)+g(y)
+`
+is bent whenever the restriction of $`g` to every
+$`\pi^{-1}(a+L^\perp)` is affine.
+:::
+
+:::theorem "carlet-6-theorem-10-slice-construction" (parent := "carlet-chapter-6") (lean := "CryptBoolean.finAppend_add, CryptBoolean.firstBlockSlice, CryptBoolean.secondBlockSlice, CryptBoolean.walshTransform_append_cast_eq_rawFourierTransform_sliceWalsh, CryptBoolean.dualSliceFunction, CryptBoolean.walshTransform_eq_two_pow_half_mul_walshTransform_dualSliceFunction, CryptBoolean.isBent_iff_forall_isBent_dualSliceFunction, CryptBoolean.bentDual_append_eq_bentDual_dualSliceFunction") (uses := "carlet-6-def-7-bent, carlet-6-dual") (tags := "carlet, chapter-6, theorem-10, pages-91-92, fidelity-exact")
 *Theorem 10 (Carlet, pp. 91--92).* Let $`n,m` be even and let
 $`f:V_n\times V_m\to\mathbb F_2`. Suppose every slice
 $`f_y(x)=f(x,y)` is bent, and define $`\varphi_s(y)=\widetilde{f_y}(s)`.
@@ -72,6 +111,27 @@ h(x,y)=f_1(x)+g_1(y)+(f_1+f_2)(x)(g_1+g_2)(y)
 `
 is bent. Its dual is obtained by applying the same formula to the four
 duals.
+:::
+
+:::theorem "carlet-6-maiorana-mcfarland-bent-family-extension" (parent := "carlet-chapter-6") (lean := "CryptBoolean.maioranaMcFarlandBentFamilyExtension, CryptBoolean.maioranaMcFarlandBentFamilyExtension_append, CryptBoolean.isBent_maioranaMcFarlandBentFamilyExtension") (uses := "carlet-6-theorem-10-slice-construction, carlet-6-maiorana-mcfarland") (tags := "carlet, chapter-6, secondary-construction, page-93, fidelity-exact")
+*Maiorana--McFarland bent-family extension (Carlet, p. 93).* Let $`\pi` be a
+permutation of $`V_r`, let $`g:V_r\to\mathbb F_2`, and let
+$`(h_y)_{y\in V_r}` be a family of bent functions on $`V_m`, where $`m` is
+even. Then
+$$`
+F(x,y,z)=h_y(z)+x\mathbin\cdot\pi(y)+g(y)
+`
+is bent on $`V_r\times V_r\times V_m`.
+:::
+
+:::theorem "carlet-6-class-d-zero-four-block" (parent := "carlet-chapter-6") (lean := "CryptBoolean.classDZeroFourBlock, CryptBoolean.classDZeroFourBlock_append, CryptBoolean.isBent_classDZeroFourBlock") (uses := "carlet-6-theorem-10-slice-construction, carlet-6-maiorana-mcfarland, carlet-6-class-d-zero") (tags := "carlet, chapter-6, secondary-construction, page-93, fidelity-strengthened-zero-dimensional")
+*Four-block class-$`D_0` construction (Carlet, p. 93).* Let $`r,s` be
+positive, let $`\pi` and $`\pi'` be permutations of $`V_r` and $`V_s`,
+respectively, and let $`h:V_s\to\mathbb F_2` be arbitrary. Then
+$$`
+F(x,y,z,t)=x\mathbin\cdot\pi(y)+z\mathbin\cdot\pi'(t)+\delta_0(x)h(t)
+`
+is bent on $`V_r\times V_r\times V_s\times V_s`.
 :::
 
 :::proposition "carlet-6-prop-21-permutation-reindexing" (parent := "carlet-chapter-6") (lean := "CryptBoolean.hammingDistance_comp_perm, CryptBoolean.hammingDistance_comp_perm_symm_linearFunction, CryptBoolean.walshTransform_comp_perm_symm_eq_two_pow_sub_two_hammingDistance, CryptBoolean.isBent_comp_perm_symm_of_hammingDistance") (uses := "carlet-6-def-7-bent, carlet-2-def-hamming-distance") (tags := "carlet, chapter-6, proposition-21, pages-93-94, fidelity-exact")

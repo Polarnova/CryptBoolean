@@ -28,8 +28,8 @@ matching Verso entry and production declaration.
 
 ## Current verified surface
 
-The Blueprint baseline is 209 source-facing statement nodes: 206 formalized nodes associated with
-1338 proved Lean declarations and 3 visibly open nodes, connected by 467 reviewed dependency
+The Blueprint baseline is 222 source-facing statement nodes: 219 formalized nodes associated with
+1418 proved Lean declarations and 3 visibly open nodes, connected by 493 reviewed dependency
 edges.
 
 - Chapter 2 contributes 41 formalized nodes, 174 declarations, and 56 incoming
@@ -57,9 +57,14 @@ edges.
   and nonlinearity, the full restriction bound and its equality case, exact random nonnormality,
   covering-sequence consequences, quadratic trace representation, and the conditional
   character-sum/nonlinearity reduction.
-- Chapter 6 contributes 57 formalized nodes, 361 declarations, and 163 incoming edges. It covers
-  bentness, duality, algebraic-degree bounds and Relation (47), primary and secondary
-  constructions, decompositions and counting, NNF, geometric and second-order characterizations,
+- Chapter 6 contributes 70 formalized nodes, 441 declarations, and 189 incoming edges. It covers
+  bentness, its Hadamard-matrix, difference-set, and strongly regular Cayley-graph
+  characterizations, duality,
+  algebraic-degree bounds and Relation (47), primary and secondary constructions including
+  Classes D₀, D, and C, the Maiorana--McFarland bent-family extension and four-block
+  class-D₀ construction, hyperplane and codimension-two decompositions, the exact `PS_ap` count,
+  NNF, geometric and
+  second-order characterizations,
   hyper-bent functions, partially bent and plateaued superclasses, normal extensions, and the
   Kerdock field construction and parameters. The proof of Relation (47) includes the reusable
   McEliece--Ax character-sum divisibility theorem.

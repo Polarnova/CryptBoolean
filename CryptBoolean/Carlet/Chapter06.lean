@@ -5,7 +5,9 @@ Authors: Asher Yan with Codex
 -/
 module
 
+public import CryptBoolean.Carlet.Chapter06.AdditionalDecompositions
 public import CryptBoolean.Carlet.Chapter06.Bentness
+public import CryptBoolean.Carlet.Chapter06.CayleyGraph
 public import CryptBoolean.Carlet.Chapter06.CompleteQuadratic
 public import CryptBoolean.Carlet.Chapter06.DegreeBounds
 public import CryptBoolean.Carlet.Chapter06.DegreeRelation
@@ -19,6 +21,7 @@ public import CryptBoolean.Carlet.Chapter06.DualPoisson
 public import CryptBoolean.Carlet.Chapter06.FlatSwitching
 public import CryptBoolean.Carlet.Chapter06.FourierUncertainty
 public import CryptBoolean.Carlet.Chapter06.GeometricCharacterization
+public import CryptBoolean.Carlet.Chapter06.HadamardDifferenceSet
 public import CryptBoolean.Carlet.Chapter06.HyperBent
 public import CryptBoolean.Carlet.Chapter06.HyperBentPartialSpread
 public import CryptBoolean.Carlet.Chapter06.HyperplaneRestriction
@@ -27,6 +30,8 @@ public import CryptBoolean.Carlet.Chapter06.Kerdock
 public import CryptBoolean.Carlet.Chapter06.KerdockCoordinateIdentity
 public import CryptBoolean.Carlet.Chapter06.KerdockFieldConstruction
 public import CryptBoolean.Carlet.Chapter06.MaioranaMcFarland
+public import CryptBoolean.Carlet.Chapter06.MaioranaMcFarlandBalance
+public import CryptBoolean.Carlet.Chapter06.MaioranaMcFarlandBentSubspace
 public import CryptBoolean.Carlet.Chapter06.MaioranaMcFarlandCounting
 public import CryptBoolean.Carlet.Chapter06.MaioranaMcFarlandGeneral
 public import CryptBoolean.Carlet.Chapter06.McElieceAx
@@ -39,6 +44,7 @@ public import CryptBoolean.Carlet.Chapter06.PartialBentCounterexamples
 public import CryptBoolean.Carlet.Chapter06.PartiallyBent
 public import CryptBoolean.Carlet.Chapter06.PartialSpreads
 public import CryptBoolean.Carlet.Chapter06.PermutationReindex
+public import CryptBoolean.Carlet.Chapter06.PSapCounting
 public import CryptBoolean.Carlet.Chapter06.Plateaued
 public import CryptBoolean.Carlet.Chapter06.PlateauedOrphan
 public import CryptBoolean.Carlet.Chapter06.PlateauedSecondOrder
@@ -46,7 +52,10 @@ public import CryptBoolean.Carlet.Chapter06.PlateauedSupport
 public import CryptBoolean.Carlet.Chapter06.QuadraticBent
 public import CryptBoolean.Carlet.Chapter06.Rothaus
 public import CryptBoolean.Carlet.Chapter06.SecondOrderCharacterization
+public import CryptBoolean.Carlet.Chapter06.SecondaryClasses
+public import CryptBoolean.Carlet.Chapter06.SecondarySpecializations
 public import CryptBoolean.Carlet.Chapter06.SupportCode
+public import CryptBoolean.Carlet.Chapter06.SupportCodeAlternatives
 public import CryptBoolean.Carlet.Chapter06.ThreeFunctionBent
 public import CryptBoolean.Carlet.Chapter06.ThreeFunctionIdentity
 public import CryptBoolean.Carlet.Chapter06.WalshCongruence

@@ -41,33 +41,6 @@ private theorem xor_cancel_left (a b c : FABL.𝔽₂) :
     a + c + (a + b) = b + c := by
   fin_cases a <;> fin_cases b <;> fin_cases c <;> decide
 
-private theorem bentDual_add_constant
-    (f : BooleanFunction n) (hf : IsBent f) (c : FABL.𝔽₂)
-    (a : FABL.F₂Cube n) :
-    bentDual (f + FABL.affineFunction c 0) a = bentDual f a + c := by
-  have hg : IsBent (f + FABL.affineFunction c 0) :=
-    (isBent_add_affineFunction_iff f c 0).2 hf
-  have hdualG :=
-    walshTransform_eq_two_pow_half_mul_bitSignInt_bentDual
-      (f + FABL.affineFunction c 0) hg a
-  have hshift := walshTransform_add_affineFunction f c 0 a
-  have hdualF :=
-    walshTransform_eq_two_pow_half_mul_bitSignInt_bentDual f hf a
-  apply bitSignInt_injective
-  apply mul_left_cancel₀ (by positivity : (2 ^ (n / 2) : ℤ) ≠ 0)
-  calc
-    (2 ^ (n / 2) : ℤ) *
-        bitSignInt (bentDual (f + FABL.affineFunction c 0) a) =
-        walshTransform (f + FABL.affineFunction c 0) a := hdualG.symm
-    _ = bitSignInt c * walshTransform f (a + 0) := hshift
-    _ = bitSignInt c *
-        ((2 ^ (n / 2) : ℤ) * bitSignInt (bentDual f a)) := by
-      rw [add_zero, hdualF]
-    _ = (2 ^ (n / 2) : ℤ) *
-        (bitSignInt (bentDual f a) * bitSignInt c) := by ring
-    _ = (2 ^ (n / 2) : ℤ) * bitSignInt (bentDual f a + c) := by
-      rw [bitSignInt_add]
-
 private theorem firstBlockSlice_indirectSum
     (f₁ f₂ : BooleanFunction n) (g₁ g₂ : BooleanFunction m)
     (y : FABL.F₂Cube m) :
