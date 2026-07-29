@@ -1,0 +1,960 @@
+source: carlet-2010
+chapter: 9
+status: source-reviewed
+summary:
+  statements: 19
+  source_statements: 19
+  core_items: 19
+  blueprint_ready_statements: 19
+  source_recovery_items: 10
+  total_records: 29
+  formalized: 19
+  open: 0
+  declarations: 109
+  dependency_edges: 64
+scope_note: >-
+  The 19 source-facing items below retain the theorem-complete statements from
+  Carlet pages 133--140. Ten additional records preserve citation-only
+  families, incomplete asymptotic claims, a vectorial almost-bent refinement,
+  and empirical fast-algebraic observations under source_recovery. The random
+  algebraic-immunity sentence is not promoted because Carlet states it for
+  random Boolean functions while the cited primary theorem is for uniformly
+  random balanced functions. The Carlet--Feng construction uses n>=2, restored
+  from the cited primary theorem: the survey's printed positive-integer domain
+  makes the support endpoint and Relation (70) invalid at n=1.
+items:
+  - id: carlet-9-trace-power-run-bound
+    kind: theorem
+    location: >-
+      Algebraic immunity of monomial functions (Carlet, Section 9.1.2,
+      p. 134)
+    statement: |-
+      Let n>0, let K=GF(2^n), let a in K, and represent the exponent d modulo
+      2^n-1 by an n-bit word. Let r(d) be the number of cyclic maximal
+      nonempty blocks of consecutive ones in that word. Set
+
+      f(x)=Tr_n(a x^d).
+
+      If r(d)<sqrt(n)/2, then
+
+      AI(f) <= r(d) floor(sqrt(n))
+               + ceil(n/floor(sqrt(n))) - 1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.binaryWeight_ofBits
+      - CryptBoolean.binaryWeight_two_pow_sub_one
+      - CryptBoolean.ofBits_eq_sum
+      - CryptBoolean.rotateBinaryExponent
+      - CryptBoolean.testBit_rotateBinaryExponent
+      - CryptBoolean.binaryCyclicExponent
+      - CryptBoolean.binaryCyclicExponent_lt
+      - CryptBoolean.binaryCyclicExponent_succ_eq_rotate
+      - CryptBoolean.binaryWeight_binaryCyclicExponent
+      - CryptBoolean.binaryCyclicExponent_pos
+      - CryptBoolean.pow_binaryCyclicExponent
+      - CryptBoolean.functionAlgebraicDegree_traceMonomial_le_binaryWeight
+      - CryptBoolean.tracePowerFunction
+      - CryptBoolean.cyclicOneRunCount
+      - CryptBoolean.cyclicOneRunCount_binaryCyclicExponent
+      - CryptBoolean.cyclicOneRunCount_pos
+      - CryptBoolean.traceRunMultiplierPositions
+      - CryptBoolean.traceRunMultiplierExponent
+      - CryptBoolean.bitIndices_traceRunMultiplierExponent
+      - CryptBoolean.testBit_traceRunMultiplierExponent
+      - CryptBoolean.traceRunMultiplierExponent_lt_two_pow
+      - CryptBoolean.binaryWeight_traceRunMultiplierExponent
+      - CryptBoolean.positiveCyclicSum
+      - CryptBoolean.pow_positiveCyclicSum
+      - CryptBoolean.binaryWeight_positiveCyclicSum_traceRunMultiplier_le
+      - CryptBoolean.binaryWeight_traceRunMultiplier_add_binaryCyclicExponent_le
+      - CryptBoolean.algebraicImmunity_tracePowerFunction_le_runBound
+    references: [282]
+    fidelity_note: >-
+      The ceiling in the quotient and the floor in its denominator were
+      checked against the rendered page and the cited Nawaz--Gong--Gupta
+      theorem. Reference [282] explicitly counts cyclic runs, so the first and
+      last bit belong to one run when both are one. The exponent residue and
+      positive-n domain are explicit so that the run count and quotient are
+      total; cyclic shifts within a binary cyclotomic coset preserve r(d).
+      The production proof first establishes the stronger carry estimate
+      r(d)(floor(sqrt(n))-1)+ceil(n/floor(sqrt(n))) and then derives the
+      printed bound for nonzero exponents. The final theorem retains the
+      source's real inequality r(d)<sqrt(n)/2, although the multiplier estimate
+      itself holds without that restriction.
+    reuse_note: >-
+      Reuse absolute trace, trace-monomial algebraic degree, univariate binary
+      degree, algebraic-immunity witnesses, and the FABL product-degree bound.
+      The new mathematics is the run-count arithmetic and the explicit
+      low-degree multiplier from the cited proof.
+    dependencies:
+      - carlet-2-trace-monomial-degree
+      - carlet-2-univariate-binary-degree
+      - carlet-4-def-annihilator-algebraic-immunity
+
+  - id: carlet-9-prop-38
+    kind: proposition
+    location: >-
+      Proposition 38 (Carlet, Sections 9.1.3, pp. 134--135)
+    statement: |-
+      Let n be odd and let f:V_n -> F_2 be balanced. If f has no nonzero
+      annihilator of algebraic degree at most (n-1)/2, then
+
+      AI(f)=(n+1)/2.
+
+      Equivalently, under balancedness it is enough to exclude low-degree
+      annihilators of f; the same exclusion for f+1 follows automatically.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.algebraicImmunity_eq_ceiling_half_of_odd_balanced_of_no_annihilator
+    references: [38]
+    reuse_note: >-
+      Reuse the Reed--Muller dimension and duality theorems, the annihilator
+      evaluation linear map and its finite dimensions, balancedness, and the
+      universal ceiling-half upper bound for algebraic immunity. Add a general
+      pure coding lemma saying that the complement of an information set in a
+      binary self-dual code is again an information set.
+    dependencies:
+      - carlet-3-reed-muller-code
+      - carlet-3-reed-muller-dimension
+      - carlet-3-theorem-2
+      - carlet-4-annihilator-linear-system
+      - carlet-4-ai-upper-bound
+
+  - id: carlet-9-normality-ai-bound
+    kind: theorem
+    location: >-
+      Relationship between normality and algebraic immunity (Carlet,
+      Section 9.1.4, p. 135)
+    statement: |-
+      Let f:V_n -> F_2. If f is k-normal, then
+
+      AI(f) <= n-k.
+
+      More precisely, if f is constantly epsilon on a k-dimensional affine
+      flat A, then the indicator of A is a nonzero annihilator of f+epsilon
+      and has algebraic degree n-k.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.algebraicImmunity_le_sub_of_isKNormal
+    reuse_note: >-
+      This is a direct composition of the existing fixed-k normality
+      predicate, affine-flat indicator support and degree theorems, and the
+      algebraic-immunity witness API.
+    dependencies:
+      - carlet-5-def-4-normality
+      - carlet-3-prop-12
+      - carlet-4-def-annihilator-algebraic-immunity
+
+  - id: carlet-9-ai-does-not-force-normality
+    kind: asymptotic-corollary
+    location: >-
+      Failure of the converse normality implication (Carlet,
+      Section 9.1.4, p. 135)
+    statement: |-
+      Let a>1. As n tends to infinity, the uniform probability that an
+      n-variable Boolean function is not floor(a log_2(n))-normal tends to
+      one, while every n-variable Boolean function satisfies
+
+      AI(f)<=ceil(n/2).
+
+      In particular, for every a>1 and all sufficiently large n there exists
+      f such that
+
+      AI(f)<=n-floor(a log_2(n))
+
+      but f is not floor(a log_2(n))-normal. Thus an algebraic-immunity upper
+      bound does not imply the converse normality conclusion.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.tendsto_carletNonnormalityDimension_div
+      - CryptBoolean.eventually_ceilingHalf_le_sub_carletNonnormalityDimension
+      - CryptBoolean.eventually_exists_algebraicImmunity_le_sub_not_isKNormal
+    references: [65]
+    fidelity_note: >-
+      The universal algebraic-immunity bound is written with its exact
+      ceiling; the survey informally writes n/2. The existential conclusion
+      is the precise eventual form of the printed converse failure.
+    reuse_note: >-
+      Reuse the already formalized random nonnormality limit and universal
+      algebraic-immunity upper bound. Only the eventual comparison
+      ceil(n/2)<=n-floor(a log_2(n)) is new.
+    dependencies:
+      - carlet-9-normality-ai-bound
+      - carlet-5-random-nonnormality
+      - carlet-4-ai-upper-bound
+
+  - id: carlet-9-ai-weight-bounds
+    kind: theorem
+    location: >-
+      Weight bounds from algebraic immunity (Carlet, Section 9.1.5,
+      pp. 135--136)
+    statement: |-
+      Let f:V_n -> F_2 and k=AI(f). Then
+
+      sum_{i=0}^{k-1} binom(n,i)
+        <= w_H(f)
+        <= sum_{i=0}^{n-k} binom(n,i).
+
+      An empty lower sum is zero. The upper bound is the corresponding lower
+      bound for f+1, using AI(f+1)=AI(f) and w_H(f+1)=2^n-w_H(f).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.algebraicImmunity_add_constant_one
+      - CryptBoolean.sum_choose_below_algebraicImmunity_le_hammingWeight
+      - CryptBoolean.hammingWeight_le_sum_choose_to_sub_algebraicImmunity
+    reuse_note: >-
+      Reuse the exact domain and codomain dimensions of the annihilator
+      evaluation map and rank--nullity for the lower bound. Reuse the Chapter
+      5 complement-weight identity for the upper bound. Prove complement
+      invariance of algebraic immunity once for this and later nodes.
+    dependencies:
+      - carlet-4-def-annihilator-algebraic-immunity
+      - carlet-4-annihilator-linear-system
+      - carlet-2-def-support-weight
+      - carlet-5-quadratic-weight-nonlinearity-values
+
+  - id: carlet-9-optimal-odd-ai-balanced
+    kind: corollary
+    location: >-
+      Consequence of the weight bounds (Carlet, Section 9.1.5, p. 136)
+    statement: |-
+      Let n be odd and let f:V_n -> F_2. If
+
+      AI(f)=(n+1)/2,
+
+      then f is balanced, equivalently w_H(f)=2^(n-1).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBalanced_of_odd_of_algebraicImmunity_eq_ceiling_half
+    reuse_note: >-
+      Specialize the preceding two-sided weight bound and close the result by
+      the standard half-binomial-sum identity.
+    dependencies:
+      - carlet-9-ai-weight-bounds
+      - carlet-2-def-support-weight
+
+  - id: carlet-9-ai-addition-stability
+    kind: theorem
+    location: >-
+      Low-degree perturbation inequality (Carlet, Section 9.1.5, p. 136)
+    statement: |-
+      Let f,h:V_n -> F_2 and suppose deg(h)<=r. Then
+
+      AI(f) <= AI(f+h)+r
+
+      and
+
+      AI(f+h) <= AI(f)+r.
+
+      Equivalently, with integer subtraction,
+
+      AI(f)-r <= AI(f+h) <= AI(f)+r.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.algebraicImmunity_add_le_add_functionAlgebraicDegree
+      - CryptBoolean.algebraicImmunity_sub_functionAlgebraicDegree_le_add
+    references: [75, 119]
+    fidelity_note: >-
+      The two addition inequalities are the total natural-number form of the
+      printed subtraction inequality and do not hide truncated subtraction.
+      Allowing any upper bound r on deg(h) is the monotone generalization of
+      the source's choice r=deg(h).
+    reuse_note: >-
+      Multiply a minimum-degree annihilator by the appropriate low-degree
+      perturbation and use FABL.functionAlgebraicDegree_mul_le_add. Apply the
+      same argument again because (f+h)+h=f.
+    dependencies:
+      - carlet-4-def-annihilator-algebraic-immunity
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-9-basic-nonlinearity-from-ai
+    kind: theorem
+    location: >-
+      First-order consequence of low-degree perturbation (Carlet,
+      Section 9.1.5, p. 136)
+    statement: |-
+      Let n>0 and let f:V_n -> F_2. Then
+
+      nl(f) >= sum_{i=0}^{AI(f)-2} binom(n,i),
+
+      with the sum equal to zero when AI(f)<2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_choose_below_algebraicImmunity_sub_one_le_nonlinearity
+    references: [75, 119]
+    reuse_note: >-
+      Choose a closest affine function, apply algebraic-immunity stability
+      with r=1, and apply the weight lower bound to their sum. Reuse the
+      canonical nonlinearity minimizer theorem.
+    dependencies:
+      - carlet-9-ai-weight-bounds
+      - carlet-9-ai-addition-stability
+      - carlet-4-def-nonlinearity
+      - carlet-3-reed-muller-code
+
+  - id: carlet-9-basic-higher-order-nonlinearity-from-ai
+    kind: theorem
+    location: >-
+      Higher-order consequence of low-degree perturbation (Carlet,
+      Section 9.1.5, p. 136)
+    statement: |-
+      Let f:V_n -> F_2 and let r be a natural number. Then
+
+      nl_r(f) >= sum_{i=0}^{AI(f)-r-1} binom(n,i),
+
+      with the sum equal to zero when AI(f)<=r.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_choose_below_algebraicImmunity_sub_le_higherOrderNonlinearity
+    references: [75, 119]
+    reuse_note: >-
+      Choose a closest word of R(r,n), use the degree-r form of algebraic-
+      immunity stability, and apply the weight lower bound to the difference.
+    dependencies:
+      - carlet-9-ai-weight-bounds
+      - carlet-9-ai-addition-stability
+      - carlet-4-def-higher-order-nonlinearity
+      - carlet-3-reed-muller-code
+
+  - id: carlet-9-lobanov-bound
+    kind: theorem
+    location: >-
+      Lobanov's tight bound (Carlet, Section 9.1.5, p. 136)
+    statement: |-
+      Let f:V_n -> F_2. Then
+
+      nl(f) >= 2 sum_{i=0}^{AI(f)-2} binom(n-1,i),
+
+      with the sum equal to zero when AI(f)<2.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.algebraicImmunity_le_firstCoordinateSlice_add_one
+      - CryptBoolean.exists_dotProduct_normalizing_linearEquiv
+      - CryptBoolean.two_mul_sum_choose_below_algebraicImmunity_sub_one_le_nonlinearity
+    references: [253]
+    fidelity_note: >-
+      Carlet states that the bound improves the elementary first-order bound
+      in every case and is tight; only the explicit inequality is retained in
+      this theorem node.
+    reuse_note: >-
+      Reuse the existing nonlinearity, algebraic-immunity, derivative,
+      restriction, and Reed--Muller APIs. The sharpened factor-two argument is
+      new Chapter 9 mathematics.
+    dependencies:
+      - carlet-9-ai-weight-bounds
+      - carlet-4-def-nonlinearity
+      - carlet-4-def-annihilator-algebraic-immunity
+      - carlet-3-reed-muller-code
+
+  - id: carlet-9-carlet-higher-order-bound
+    kind: theorem
+    location: >-
+      Carlet's higher-order extension of Lobanov's bound (Carlet,
+      Section 9.1.5, p. 136; exact domain recovered from reference [70],
+      Theorem 1)
+    statement: |-
+      Let f:V_n -> F_2 and let r be a natural number such that
+
+      0<r<AI(f).
+
+      Then
+
+      nl_r(f) >= 2 sum_{i=0}^{AI(f)-r-1} binom(n-r,i).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.annihilatorSpaceDimension_add_sum_choose_sub_degree_le
+      - CryptBoolean.sum_choose_sub_degree_le_hammingWeight_mul
+      - CryptBoolean.two_mul_sum_choose_sub_le_higherOrderNonlinearity
+    references: [70]
+    fidelity_note: >-
+      The survey's phrase "in most cases" describes when this valid universal
+      inequality improves the earlier elementary bound; it is not a missing
+      theorem hypothesis. Reference [70, Definition 1 and Theorem 1] requires
+      positive order and AI(f)-r-1>=0, and also gives the survey's mentioned
+      stronger max--min refinement. The positive-order hypothesis is necessary
+      for the displayed factor-two inequality under the project's total
+      order-zero definition.
+    reuse_note: >-
+      Reuse the higher-order minimizer, algebraic-immunity witnesses, the
+      Chapter 9 weight bound, and finite-dimensional annihilator spaces. The
+      proof refines the weight split of a closest Reed--Muller word.
+    dependencies:
+      - carlet-9-ai-weight-bounds
+      - carlet-9-basic-higher-order-nonlinearity-from-ai
+      - carlet-4-def-higher-order-nonlinearity
+      - carlet-4-annihilator-linear-system
+
+  - id: carlet-9-mesnager-higher-order-bound
+    kind: theorem
+    location: >-
+      Mesnager's higher-order improvement (Carlet, Section 9.1.5, p. 136)
+    statement: |-
+      Let f:V_n -> F_2, set k=AI(f), and let 0<r<k. Then
+
+      nl_r(f)
+        >= sum_{i=0}^{k-r-1} binom(n,i)
+         + sum_{i=k-2r}^{k-r-1} binom(n-r,i).
+
+      Binomial coefficients with negative lower index are zero; equivalently,
+      the second sum begins at max(0,k-2r).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.annihilatorSpaceDimension_le_hammingWeight_productMismatch
+      - CryptBoolean.annihilatorSpaceDimensions_add_le_hammingWeight_add
+      - CryptBoolean.sum_choose_add_degreeBand_le_higherOrderNonlinearity
+    references: [277]
+    fidelity_note: >-
+      The positive-order and r<AI(f) hypotheses are explicit in the cited
+      primary theorem. The integer-index convention prevents natural-number
+      subtraction from changing the second sum when k<2r.
+    reuse_note: >-
+      Reuse the Chapter 4 higher-order nonlinearity minimizer and Chapter 9
+      weight and perturbation bounds. The refined partition of the closest
+      Reed--Muller difference is new.
+    dependencies:
+      - carlet-9-ai-weight-bounds
+      - carlet-9-ai-addition-stability
+      - carlet-9-basic-higher-order-nonlinearity-from-ai
+      - carlet-4-def-higher-order-nonlinearity
+      - carlet-3-reed-muller-code
+
+  - id: carlet-9-optimal-ai-lobanov-corollaries
+    kind: corollary-family
+    location: >-
+      Optimal-immunity specializations of Lobanov's bound (Carlet,
+      Section 9.2, p. 137)
+    statement: |-
+      Let n>0 and let f:V_n -> F_2 have optimal algebraic immunity.
+
+      If n is even and AI(f)=n/2, then
+
+      nl(f) >= 2^(n-1)-2 binom(n-1,n/2-1)
+             = 2^(n-1)-binom(n,n/2).
+
+      If n is odd and AI(f)=(n+1)/2, then
+
+      nl(f) >= 2^(n-1)-binom(n-1,(n-1)/2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.nonlinearity_lowerBound_of_even_optimalAlgebraicImmunity
+      - CryptBoolean.even_optimalAlgebraicImmunity_lowerBound_eq
+      - CryptBoolean.centralBinomial_le_nonlinearity_of_even_optimalAlgebraicImmunity
+      - CryptBoolean.nonlinearity_lowerBound_of_odd_optimalAlgebraicImmunity
+    reuse_note: >-
+      These are parity specializations of Lobanov's theorem followed by
+      finite binomial-sum and Pascal identities.
+    dependencies:
+      - carlet-9-lobanov-bound
+
+  - id: carlet-9-majority-parameters
+    kind: theorem-family
+    location: >-
+      Majority function (Carlet, Sections 9.1.4, 9.2, and 9.3,
+      pp. 135, 137)
+    statement: |-
+      Let n>0. Define Maj_n:V_n -> F_2 by
+
+      Maj_n(x)=1 iff 2 w_H(x)>=n,
+
+      equivalently iff w_H(x)>=ceil(n/2). Then Maj_n is symmetric,
+      floor(n/2)-normal, and
+
+      AI(Maj_n)=ceil(n/2).
+
+      Its exact nonlinearity is
+
+      nl(Maj_n)=2^(n-1)-binom(n-1,n/2)                 when n is even,
+
+      nl(Maj_n)=2^(n-1)-binom(n-1,(n-1)/2)           when n is odd.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.carletMajority
+      - CryptBoolean.carletMajority_apply_eq_one_iff
+      - CryptBoolean.carletMajority_apply_eq_one_iff_ceiling_half
+      - CryptBoolean.carletMajority_eq_of_support_card_eq
+      - CryptBoolean.carletMajority_symmetric
+      - CryptBoolean.carletMajority_isKNormal
+      - CryptBoolean.algebraicImmunity_carletMajority
+      - CryptBoolean.fourierInfinityNorm_majority_even
+      - CryptBoolean.fourierInfinityNorm_majority_odd
+      - CryptBoolean.maxWalshMagnitude_carletStrictMajority_even
+      - CryptBoolean.maxWalshMagnitude_carletStrictMajority_odd
+      - CryptBoolean.nonlinearity_carletStrictMajority_odd
+      - CryptBoolean.nonlinearity_carletStrictMajority_even
+      - CryptBoolean.nonlinearity_carletStrictMajority
+      - CryptBoolean.nonlinearity_add_constant_one
+      - CryptBoolean.nonlinearity_carletMajority_eq_strictMajority
+      - CryptBoolean.nonlinearity_carletMajority
+      - CryptBoolean.nonlinearity_carletMajority_of_even
+      - CryptBoolean.nonlinearity_carletMajority_of_odd
+    references: [75, 120, 122, 211]
+    fidelity_note: >-
+      The doubled-weight predicate is the total interpretation of the printed
+      threshold w_H(x)>=n/2. The exact nonlinearities are the values printed
+      in Section 9.2; the odd value attains Lobanov's bound.
+    reuse_note: >-
+      Reuse normality, the Chapter 9 normality bound, balancedness and
+      nonlinearity APIs, and finite weight-layer counts. The symmetric
+      threshold function and its annihilator optimality proof are new and can
+      later be shared with Chapter 10.
+    dependencies:
+      - carlet-5-def-4-normality
+      - carlet-9-normality-ai-bound
+      - carlet-9-lobanov-bound
+      - carlet-4-def-nonlinearity
+      - carlet-2-def-support-weight
+
+  - id: carlet-9-majority-threshold-variants
+    kind: corollary-family
+    location: >-
+      Majority threshold variants (Carlet, footnote 54, p. 137)
+    statement: |-
+      Replacing the majority condition w_H(x)>=n/2 by any of
+
+      w_H(x)>n/2,  w_H(x)<=n/2,  or  w_H(x)<n/2
+
+      gives a function affinely equivalent to Maj_n, possibly after adding
+      the constant one. Consequently all four threshold variants have the
+      same algebraic immunity ceil(n/2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.binaryComplementAffineEquiv
+      - CryptBoolean.binaryComplementAffineEquiv_apply
+      - CryptBoolean.carletStrictMajority
+      - CryptBoolean.carletStrictMinority
+      - CryptBoolean.carletWeakMinority
+      - CryptBoolean.f₂Support_binaryCubeComplement
+      - CryptBoolean.card_f₂Support_binaryCubeComplement
+      - CryptBoolean.carletStrictMajority_apply_eq_one_iff
+      - CryptBoolean.carletStrictMinority_apply_eq_one_iff
+      - CryptBoolean.carletWeakMinority_apply_eq_one_iff
+      - CryptBoolean.carletStrictMinority_eq_affineReindexing
+      - CryptBoolean.carletWeakMinority_eq_outputComplement
+      - CryptBoolean.carletMajority_eq_affineReindexing_add_one
+      - CryptBoolean.algebraicImmunity_carletStrictMajority
+      - CryptBoolean.algebraicImmunity_carletStrictMinority
+      - CryptBoolean.algebraicImmunity_carletWeakMinority
+      - CryptBoolean.nonlinearity_carletWeakMinority
+      - CryptBoolean.nonlinearity_carletStrictMinority
+    fidelity_note: >-
+      Affine equivalence and output complementation are retained as distinct
+      operations, exactly as in the footnote.
+    reuse_note: >-
+      Reuse affine invariance of algebraic immunity and the complement
+      invariance proved for the weight bound. The only new step is the
+      coordinate-complement Hamming-weight identity.
+    dependencies:
+      - carlet-9-majority-parameters
+      - carlet-9-ai-weight-bounds
+      - carlet-4-def-annihilator-algebraic-immunity
+
+  - id: carlet-9-theorem-15
+    kind: theorem
+    location: >-
+      Theorem 15 (Carlet, Sections 9.3, pp. 138--139; domain restored from
+      Carlet--Feng, Theorem 1)
+    statement: |-
+      Let n>=2, let K=GF(2^n), and let alpha be a primitive element of K.
+      Let f:K -> F_2 have support
+
+      {0} union {alpha^i | 0 <= i <= 2^(n-1)-2}.
+
+      Then f is balanced and
+
+      AI(f)=ceil(n/2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.carletFengSupport
+      - CryptBoolean.carletFengFieldFunction
+      - CryptBoolean.carletFengBooleanFunction
+      - CryptBoolean.mem_carletFengSupport_iff
+      - CryptBoolean.carletFengSupport_card
+      - CryptBoolean.support_carletFengBooleanFunction
+      - CryptBoolean.isBalanced_carletFengBooleanFunction
+      - CryptBoolean.algebraicImmunity_carletFengBooleanFunction
+      - CryptBoolean.carletFeng_balanced_and_algebraicImmunity
+    references: [80, 149]
+    fidelity_note: >-
+      The survey prints "any positive integer". The cited Carlet--Feng
+      theorem requires n>=2, and n=1 makes the printed endpoint and Relation
+      (70) incoherent, so the primary-source domain is restored explicitly.
+      The support has exactly 2^(n-1) elements by primitivity of alpha.
+    reuse_note: >-
+      Reuse the bounded univariate representation, binary exponent weight,
+      the univariate binary-degree formula, algebraic-immunity witnesses, and
+      finite-field cardinality. Isolate the reusable Vandermonde/BCH
+      consecutive-zero support bound from the construction theorem.
+    dependencies:
+      - carlet-2-univariate-representation
+      - carlet-2-univariate-binary-degree
+      - carlet-4-def-annihilator-algebraic-immunity
+      - carlet-4-ai-upper-bound
+      - carlet-2-def-support-weight
+
+  - id: carlet-9-rel-70
+    kind: theorem
+    location: >-
+      Relation (70) (Carlet, Sections 9.3, pp. 139--140)
+    statement: |-
+      Under the hypotheses of Theorem 15, the bounded univariate
+      representation of f is
+
+      f(x)=1+sum_{i=1}^{2^n-2}
+                 (alpha^i/(1+alpha^i)^(1/2)) x^i,
+
+      where u^(1/2)=u^(2^(n-1)) in GF(2^n).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.carletFengUnivariateRepresentation
+      - CryptBoolean.coeff_carletFengUnivariateRepresentation
+      - CryptBoolean.coeff_top_carletFengUnivariateRepresentation
+      - CryptBoolean.carletFengClosedPolynomial
+      - CryptBoolean.carletFengUnivariateRepresentation_eq_closedPolynomial
+      - CryptBoolean.carletFeng_relation_70
+    references: [80]
+    reuse_note: >-
+      Reuse the canonical bounded univariate representation and prove the
+      coefficients by the finite geometric sum over the primitive-power
+      support. The half-power notation is the inverse Frobenius automorphism.
+    dependencies:
+      - carlet-9-theorem-15
+      - carlet-2-univariate-representation
+
+  - id: carlet-9-carlet-feng-degree
+    kind: corollary
+    location: >-
+      Algebraic-degree consequence of Relation (70) (Carlet, Section 9.3,
+      p. 140)
+    statement: |-
+      Under the hypotheses of Theorem 15,
+
+      deg(f)=n-1.
+
+      This is the maximum possible algebraic degree of a balanced Boolean
+      function.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.coeff_two_pow_sub_two_carletFengUnivariateRepresentation_ne_zero
+      - CryptBoolean.functionAlgebraicDegree_carletFengBooleanFunction
+    references: [80]
+    reuse_note: >-
+      The coefficient at exponent 2^n-2 in Relation (70) is nonzero and that
+      exponent has binary weight n-1. Reuse the exact univariate binary-degree
+      theorem.
+    dependencies:
+      - carlet-9-rel-70
+      - carlet-2-univariate-binary-degree
+
+  - id: carlet-9-carlet-feng-nonlinearity
+    kind: theorem
+    location: >-
+      Nonlinearity bound following Relation (70) (Carlet, Section 9.3,
+      p. 140)
+    statement: |-
+      Under the hypotheses of Theorem 15,
+
+      nl(f) >= 2^(n-1) - n ln(2) 2^(n/2) - 1.
+
+      The inequality is interpreted after embedding the integer nonlinearity
+      in the real numbers.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maxWalshMagnitude_carletFengBooleanFunction_cast_le
+      - CryptBoolean.nonlinearity_carletFengBooleanFunction_lower_bound
+    references: [80]
+    fidelity_note: >-
+      This is the weaker bound printed in the survey. The cited primary
+      theorem proves the stronger real bound
+      2^(n-1)+(2^(n/2+1)/pi) ln(pi/(4(2^n-1)))-1, from which the survey
+      inequality is derived.
+    reuse_note: >-
+      Reuse the raw Walsh/nonlinearity identity, trace-pairing coordinates,
+      and Mathlib finite-field Gauss sums where available. Keep the analytic
+      estimate separate from the algebraic construction.
+    dependencies:
+      - carlet-9-theorem-15
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-2-trace-pairing-coordinates
+
+source_recovery:
+  - id: carlet-9-random-algebraic-immunity
+    kind: asymptotic-theorem
+    location: >-
+      Algebraic immunity of random functions (Carlet, Section 9.1.1,
+      p. 134)
+    source_claim: |-
+      Carlet states that, for every a<1, as n tends to infinity a random
+      Boolean function f almost surely satisfies
+
+      AI(f) > n/2-sqrt((n/2) ln(n/(2a ln(2)))).
+    statement_status: primary-domain-mismatch
+    formal_status: open
+    declarations: []
+    references: [131]
+    first_release_scope: required-after-source-recovery
+    recovered_primary_statement: |-
+      Didier's cited theorem is for a uniformly random balanced Boolean
+      function and requires 0<a<1 for the displayed logarithm. With
+      probability tending to one it places AI(f) between the displayed lower
+      threshold and (n+1)/2.
+    fidelity_note: >-
+      Replacing all random Boolean functions by balanced random Boolean
+      functions would silently change the source domain. Conversely, the
+      survey's all-functions statement needs an independent proof or a
+      transfer argument not supplied by the citation.
+    reuse_note: >-
+      Any formalization should reuse the finite uniform-probability patterns
+      from random nonlinearity and random nonnormality and the annihilator
+      evaluation linear map.
+    blocker: >-
+      Reconcile the source/citation sampling domains and recover a complete
+      finite probability inequality before promotion.
+    dependencies:
+      - carlet-4-def-annihilator-algebraic-immunity
+      - carlet-4-annihilator-linear-system
+
+  - id: carlet-9-trace-power-asymptotic-scope
+    kind: asymptotic-claim
+    location: >-
+      Discussion after the trace-power run bound (Carlet, Section 9.1.2,
+      p. 134)
+    source_claim: >-
+      Carlet says the run bound improves the universal bound for only a
+      negligible part of power mappings, while covering all exponents of
+      bounded binary weight or bounded run count.
+    statement_status: incomplete-asymptotic-model
+    formal_status: open
+    declarations: []
+    references: [282]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      No sampling space, sequence of exponent sets, or quantitative meaning of
+      negligible is specified.
+    reuse_note: >-
+      A recovered claim should reuse the run-count definition from the
+      promoted trace-power theorem.
+    blocker: >-
+      Exact counting quantifiers and normalization are absent.
+    dependencies:
+      - carlet-9-trace-power-run-bound
+
+  - id: carlet-9-almost-bent-power-ai-bound
+    kind: theorem
+    location: >-
+      Almost-bent refinement (Carlet, Section 9.1.2, p. 134)
+    source_claim: >-
+      When n is odd and the power mapping is almost bent, its algebraic
+      immunity is at most 2 floor(sqrt(n)).
+    statement_status: external-vectorial-definition
+    formal_status: open
+    declarations: []
+    references: [282]
+    first_release_scope: required-after-vectorial-interface
+    fidelity_note: >-
+      Almost bent is a property of the vectorial power mapping, not of its
+      scalar trace component. Replacing it by a scalar Walsh condition would
+      change the statement.
+    reuse_note: >-
+      After a canonical vectorial almost-bent interface exists, specialize the
+      multiplier proof used by the promoted trace-power run bound.
+    blocker: >-
+      The first-release scalar library has no vectorial Boolean-function or
+      almost-bent semantic layer.
+    dependencies:
+      - carlet-9-trace-power-run-bound
+
+  - id: carlet-9-random-joint-cryptographic-criteria
+    kind: existence-family
+    location: >-
+      Opening of the construction problem (Carlet, Section 9.2,
+      pp. 136--137)
+    source_claim: >-
+      Carlet says that functions with optimal or suboptimal algebraic immunity
+      and simultaneously high algebraic degree and high nonlinearity exist by
+      random-function results.
+    statement_status: incomplete-thresholds
+    formal_status: open
+    declarations: []
+    references: [131, 306]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      Neither suboptimal nor high is assigned a quantitative threshold in this
+      sentence, and the sampling domain inherits the random-AI citation issue.
+    reuse_note: >-
+      A recovered joint probability theorem should compose the Chapter 4
+      sharp random-nonlinearity interval with an exact random-AI theorem.
+    blocker: >-
+      Exact thresholds, joint quantifiers, and a common probability space are
+      missing.
+    dependencies:
+      - carlet-9-random-algebraic-immunity
+      - carlet-4-rodier-sharp-random-nonlinearity-interval
+
+  - id: carlet-9-ai-algorithms-and-tables
+    kind: computational-result-family
+    location: >-
+      Algorithms and tables (Carlet, Section 9.2, p. 137)
+    source_claim: >-
+      Efficient algorithms for computing algebraic immunity are reported and
+      numerical tables are cited.
+    statement_status: incomplete-computational-artifacts
+    formal_status: open
+    declarations: []
+    references: [5, 132]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey contains neither an algorithm, a complexity model, nor the
+      table entries and certificates.
+    reuse_note: >-
+      Any executable decision procedure must compute from the actual function
+      and produce checkable annihilator or rank certificates; static tables
+      are not production evidence.
+    blocker: >-
+      Primary algorithms, complexity parameters, and table data are absent.
+    dependencies:
+      - carlet-4-annihilator-linear-system
+
+  - id: carlet-9-sporadic-power-functions
+    kind: construction-family
+    location: >-
+      Sporadic functions (Carlet, Section 9.3, p. 137)
+    source_claim: >-
+      Balanced highly nonlinear functions derived from power functions with
+      high algebraic immunity are reported for dimensions up to 20.
+    statement_status: incomplete-construction-data
+    formal_status: open
+    declarations: []
+    references: [5, 82]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      No exponents, coefficients, dimensions, truth tables, or parameter
+      values are printed in the survey.
+    reuse_note: >-
+      Recovered examples should use trace-monomial and algebraic-immunity
+      evaluators with independently checkable certificates.
+    blocker: >-
+      The cited construction parameters and certificates must be recovered.
+    dependencies:
+      - carlet-9-trace-power-run-bound
+
+  - id: carlet-9-additional-optimal-ai-constructions
+    kind: construction-family
+    location: >-
+      Other infinite classes (Carlet, Section 9.3, pp. 137--138)
+    source_claim: >-
+      Carlet reports an iterative optimum-immunity construction, further
+      families with better nonlinearities, and the constructions of
+      references [71], [243], and [244].
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [71, 75, 120, 243, 244]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      This chapter provides no recursive operator, base cases, family
+      formulas, parameter ranges, or exact nonlinearity statements.
+    reuse_note: >-
+      Recovered constructions should reuse the canonical algebraic-immunity,
+      nonlinearity, and affine-equivalence APIs rather than create parallel
+      criteria.
+    blocker: >-
+      Primary definitions and theorem-complete parameter statements are
+      required.
+    dependencies:
+      - carlet-9-majority-parameters
+
+  - id: carlet-9-carlet-feng-fast-algebraic-checks
+    kind: finite-computation-family
+    location: >-
+      Computer investigations of the Carlet--Feng class (Carlet,
+      Section 9.3, p. 140)
+    source_claim: |-
+      For degree e=1, nonexistence of relations fg=h was checked through
+      n<=12 with d=n-2 for odd n and d=n-3 for even n.
+
+      For e>1, nonexistence of relations with e+d<n-1 was checked
+      exhaustively for n<=9 and e<n/2, for n=10 and e<=3, and for n=11 and
+      e<=2.
+    statement_status: finite-checks-without-certificates
+    formal_status: open
+    declarations: []
+    references: [5, 80]
+    first_release_scope: required-after-verifiable-computation
+    fidelity_note: >-
+      These are finite empirical checks, not proofs for arbitrary n. The
+      survey does not include the computed matrices, ranks, or certificates.
+    reuse_note: >-
+      A verified finite result should instantiate the existing fast-algebraic
+      relation linear map and compute certified kernel triviality from the
+      actual Carlet--Feng function.
+    blocker: >-
+      A production evaluator and independently checkable certificates are
+      needed; hard-coded pass/fail tables are forbidden.
+    dependencies:
+      - carlet-9-theorem-15
+      - carlet-4-fast-algebraic-optimality
+
+  - id: carlet-9-carlet-feng-finite-nonlinearity-values
+    kind: finite-computation-family
+    location: >-
+      Small-dimension nonlinearity observations (Carlet, Section 9.3,
+      p. 140; values recovered from reference [80], Table 1)
+    source_claim: >-
+      Carlet reports that the exact nonlinearities computed for small n are
+      much larger than the displayed analytic lower bound and behave like
+      2^(n-1)-2^(n/2).
+    statement_status: primary-table-recovered-without-certificates
+    formal_status: open
+    declarations: []
+    references: [80]
+    first_release_scope: required-after-verifiable-computation
+    recovered_primary_values: |-
+      For n=6,7,8,9,10,11, reference [80, Table 1] reports respectively
+
+      nl(f)=24,54,112,232,478,980.
+    fidelity_note: >-
+      The survey prints neither the tested range nor the exact values. The
+      finite table is therefore retained as primary-source recovery rather
+      than silently inserted into the source-facing theorem node.
+    reuse_note: >-
+      A verified finite theorem should compute the Walsh spectrum of the
+      actual Carlet--Feng function and reduce it through the canonical exact
+      nonlinearity/Walsh identity.
+    blocker: >-
+      The cited paper supplies values but no proof certificates consumable by
+      Lean; hard-coded values are not accepted as mathematical evidence.
+    dependencies:
+      - carlet-9-theorem-15
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-9-carlet-feng-fast-algebraic-conjectures
+    kind: conjecture-family
+    location: >-
+      Conjectural fast-algebraic behavior (Carlet, Section 9.3, p. 140)
+    source_claim: |-
+      For the Carlet--Feng function, Carlet conjectures that no nonzero g and
+      h with fg=h exist with
+
+      (deg(g),deg(h))=(1,n-2) for odd n,
+
+      or (deg(g),deg(h))=(1,n-3) for even n.
+
+      The absence observed for e>1 whenever e+deg(h)<n-1 is presented only as
+      a suggested general behavior.
+    statement_status: conjectural
+    formal_status: open
+    declarations: []
+    references: [5, 80]
+    first_release_scope: visible-conjecture-no-declaration-association
+    fidelity_note: >-
+      Neither claim is promoted as a proved theorem. The second is phrased as
+      an empirical suggestion rather than a formally named conjecture.
+    reuse_note: >-
+      Any future proof should use the existing fast-algebraic relation API and
+      the exact Carlet--Feng univariate representation.
+    blocker: >-
+      The source supplies computation only in the finite ranges recorded in
+      the preceding recovery item.
+    dependencies:
+      - carlet-9-carlet-feng-fast-algebraic-checks
+      - carlet-9-rel-70

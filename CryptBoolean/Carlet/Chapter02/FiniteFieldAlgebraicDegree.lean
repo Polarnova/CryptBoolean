@@ -542,7 +542,9 @@ private theorem sum_pow_binaryGaloisField {n m : ℕ}
         rw [← Nat.card_eq_fintype_card, GaloisField.card 2 n hn]
         split_ifs <;> simp [CharTwo.neg_eq]
 
-private theorem univariate_coefficient_eq_weighted_sum {n i : ℕ} (hn : n ≠ 0)
+/-- A nonconstant coefficient of a bounded polynomial over `GF(2^n)` is its
+finite-field weighted power sum. -/
+theorem univariate_coefficient_eq_weighted_sum {n i : ℕ} (hn : n ≠ 0)
     [Fintype (BinaryGaloisField n)]
     (P : (BinaryGaloisField n)[X])
     (hP : P.degree < (2 ^ n : ℕ)) (hi0 : 0 < i) (hi : i < 2 ^ n) :

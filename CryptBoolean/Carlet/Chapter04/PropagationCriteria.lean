@@ -171,6 +171,54 @@ private theorem coordinateRestriction_apply
     change z ⟨i, hi⟩ = FABL.binarySignEquiv (FABL.binarySignEquiv.symm (z ⟨i, _⟩))
     rw [FABL.binarySignEquiv.apply_symm_apply]
 
+/-- Fixing every complementary coordinate to binary zero realizes the canonical
+coordinate restriction by extension along the free-coordinate embedding. -/
+theorem coordinateRestriction_zeroFixed_apply
+    (f : BooleanFunction n) (J : Finset (Fin n))
+    (x : FABL.F₂Cube J.card) :
+    coordinateRestriction f J (fun _ ↦ 1) x =
+      f (Function.extend (FABL.freeCoordinateEmbedding J) x 0) := by
+  rw [coordinateRestriction_apply]
+  have hfixed : fixedBinaryAssignment J (fun _ ↦ 1) = 0 := by
+    funext i
+    unfold fixedBinaryAssignment
+    split
+    · rfl
+    · rfl
+  rw [hfixed]
+
+/-- Encode the values of a binary cube on the coordinates fixed outside `J`. -/
+def coordinateFixedSignAssignment
+    (J : Finset (Fin n)) (x : FABL.F₂Cube n) : FABL.FixedSignCube J :=
+  fun i ↦ FABL.binarySignEquiv (x i)
+
+/-- A coordinate restriction with its fixed values taken from an ambient
+binary cube is extension along the canonical free-coordinate embedding. -/
+theorem coordinateRestriction_fixedAssignment_apply
+    (f : BooleanFunction n) (J : Finset (Fin n)) (x₀ : FABL.F₂Cube n)
+    (x : FABL.F₂Cube J.card) :
+    coordinateRestriction f J (coordinateFixedSignAssignment J x₀) x =
+      f (Function.extend (FABL.freeCoordinateEmbedding J) x x₀) := by
+  rw [coordinateRestriction_apply]
+  congr 1
+  funext i
+  by_cases hi : i ∈ J
+  · let q : Fin J.card := J.equivFin ⟨i, hi⟩
+    have hqi : FABL.freeCoordinateEmbedding J q = i := by
+      dsimp [q]
+      exact FABL.freeCoordinateEmbedding_equivFin J ⟨i, hi⟩
+    rw [← hqi, (FABL.freeCoordinateEmbedding J).injective.extend_apply,
+      (FABL.freeCoordinateEmbedding J).injective.extend_apply]
+  · have hnotImage : ¬ ∃ q, FABL.freeCoordinateEmbedding J q = i := by
+      rintro ⟨q, hqi⟩
+      apply hi
+      rw [← hqi]
+      change (J.equivFin.symm q : Fin n) ∈ J
+      exact (J.equivFin.symm q).property
+    rw [Function.extend_apply' x _ i hnotImage,
+      Function.extend_apply' x _ i hnotImage]
+    simp [fixedBinaryAssignment, coordinateFixedSignAssignment, hi]
+
 /-- Extend a direction on the free coordinates by zero on the fixed coordinates. -/
 private noncomputable def liftRestrictionDirection
     (J : Finset (Fin n)) (a : FABL.F₂Cube J.card) : FABL.F₂Cube n :=
@@ -436,6 +484,40 @@ private theorem isBalanced_coordinateRestriction_of_fourierCoeff_zero
         simp [FABL.liftFreeFrequency],
     hzero (FABL.liftFixedFrequency T) hsubset, zero_mul]
 
+/-- All restrictions obtained by fixing the coordinates outside `J` are
+balanced exactly when the raw Walsh spectrum vanishes at every frequency
+supported outside `J`. -/
+theorem all_coordinateRestrictions_balanced_iff_walshTransform_eq_zero
+    (g : BooleanFunction n) (J : Finset (Fin n)) :
+    (∀ z : FABL.FixedSignCube J,
+      IsBalanced (coordinateRestriction g J z)) ↔
+      ∀ b : FABL.F₂Cube n, FABL.f₂Support b ⊆ Jᶜ →
+        walshTransform g b = 0 := by
+  constructor
+  · intro hbalanced b hsupport
+    have hcoefficient :=
+      fourierCoeff_eq_zero_of_all_coordinateRestrictions_balanced
+        g J hbalanced (FABL.f₂Support b) hsupport
+    rw [signCubeView_toReal] at hcoefficient
+    apply walshTransform_eq_zero_iff_vectorFourierCoeff_eq_zero g b |>.mpr
+    exact
+      (FABL.vectorFourierCoeff_eq_fourierCoeff_binaryFunctionOnSignCube
+        (realSignView g) b).trans hcoefficient
+  · intro hzero z
+    apply isBalanced_coordinateRestriction_of_fourierCoeff_zero
+    intro S hSJ
+    let b : FABL.F₂Cube n := FABL.f₂CubeOfFinset S
+    have hsupport : FABL.f₂Support b = S :=
+      (FABL.f₂CubeEquivFinset n).right_inv S
+    have hwalsh : walshTransform g b = 0 :=
+      hzero b (by simpa [hsupport] using hSJ)
+    have hvector :=
+      walshTransform_eq_zero_iff_vectorFourierCoeff_eq_zero g b |>.mp hwalsh
+    rw [signCubeView_toReal, ← hsupport]
+    exact
+      (FABL.vectorFourierCoeff_eq_fourierCoeff_binaryFunctionOnSignCube
+        (realSignView g) b).symm.trans hvector
+
 /-- The order-`k` propagation criterion: every restriction fixing exactly `k`
 coordinates satisfies `PC(l)`. -/
 def SatisfiesPropagationCriterionOfOrder
@@ -467,6 +549,30 @@ private theorem isBalanced_coordinateDerivative_of_order
   have hbalanced := hf J z hcard b ⟨hb0, hbw⟩
   rw [← coordinateRestriction_booleanDerivative, hlift] at hbalanced
   exact hbalanced
+
+/-- Order-`k` propagation is equivalently balancedness of every restriction
+of each eligible ambient derivative whose direction remains free. -/
+theorem satisfiesPropagationCriterionOfOrder_iff_derivativeRestrictions_balanced
+    (l k : ℕ) (f : BooleanFunction n) :
+    SatisfiesPropagationCriterionOfOrder l k f ↔
+      ∀ (a : FABL.F₂Cube n), a ≠ 0 →
+        (FABL.f₂Support a).card ≤ l →
+          ∀ (J : Finset (Fin n)) (z : FABL.FixedSignCube J),
+            Fintype.card (FABL.FixedIndex J) = k →
+              FABL.f₂Support a ⊆ J →
+                IsBalanced
+                  (coordinateRestriction (FABL.booleanDerivative f a) J z) := by
+  constructor
+  · intro hf a ha hweight J z hcard hsupport
+    exact isBalanced_coordinateDerivative_of_order
+      hf a ha hweight J z hcard hsupport
+  · intro hrestrictions J z hcard a ha
+    rw [← coordinateRestriction_booleanDerivative]
+    apply hrestrictions (liftRestrictionDirection J a)
+    · simpa using ha.1
+    · simpa using ha.2
+    · exact hcard
+    · exact f₂Support_liftRestrictionDirection_subset J a
 
 /-- Carlet's order monotonicity: in the source range `k ≤ n - l`, order `k`
 implies every lower restriction order. -/

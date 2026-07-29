@@ -1,0 +1,753 @@
+source: carlet-2010
+chapter: 8
+title: Strict avalanche and propagation criteria
+status: source-reviewed
+summary:
+  statements: 14
+  source_statements: 14
+  core_items: 14
+  blueprint_ready_statements: 14
+  source_recovery_items: 5
+  total_records: 19
+  formalized: 14
+  open: 0
+  declarations: 131
+  dependency_edges: 42
+scope_note: >-
+  The 14 source-facing items below retain the theorem-complete statements from
+  Carlet pages 131--133. The five records under source_recovery preserve
+  citation-only maximum-correlation, construction, and ANF families whose
+  formulas or parameter ranges are not complete in the survey. The even
+  extremal criterion excludes the vacuous two-variable PC(0) case. The general
+  PC degree bound and the SAC-of-order degree bound explicitly retain the
+  residual-dimension hypotheses needed to avoid the two-variable quadratic
+  counterexample. Proposition 37 uses disjoint supports of the complements of
+  its high-weight indexing vectors, as required by Proposition 36.
+items:
+  - id: carlet-8-even-pc-pred-two-bent
+    kind: theorem
+    location: >-
+      Extremal even-dimensional propagation criterion (Carlet, Section 8.1,
+      p. 131)
+    statement: |-
+      Let n be even with n\ge4 and let f:V_n\to\mathbb F_2. If f satisfies
+      PC(n-2), then f satisfies PC(n). Equivalently,
+
+      f\text{ satisfies }PC(n-2)
+      \quad\Longleftrightarrow\quad
+      f\text{ is bent}.
+
+      Consequently, no balanced n-variable function satisfies PC(n-2).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBent_of_satisfiesPropagationCriterion_pred_two_of_even
+      - CryptBoolean.satisfiesPropagationCriterion_pred_two_iff_isBent_of_even
+      - CryptBoolean.satisfiesPropagationCriterion_dimension_of_pred_two_of_even
+      - CryptBoolean.not_satisfiesPropagationCriterion_pred_two_of_even_of_isBalanced
+    fidelity_note: >-
+      Carlet prints the assertion for even n without a lower bound. The
+      condition n\ge4 is necessary: at n=2, PC(n-2)=PC(0) is vacuous and does
+      not imply bentness. The n=4 endpoint is valid; the cited primary paper
+      states the result only for n>4.
+    reuse_note: >-
+      Reuse the canonical propagation predicate and the Chapter 6 equivalence
+      between bentness and balancedness of every nonzero derivative.
+    dependencies:
+      - carlet-4-def-propagation-criteria
+      - carlet-6-theorem-8-perfect-nonlinearity
+
+  - id: carlet-8-odd-pc-pred-one-classification
+    kind: classification
+    location: >-
+      Odd-dimensional PC(n-1) classification (Carlet, Section 8.1, p. 131)
+    statement: |-
+      Let n\ge3 be odd and let f:V_n\to\mathbb F_2. Then f satisfies PC(n-1)
+      if and only if there exist a bent function
+      g:V_{n-1}\to\mathbb F_2 and an affine function
+      \ell:V_n\to\mathbb F_2 such that
+
+      f(x_1,\ldots,x_n)
+      =g(x_1\oplus x_n,\ldots,x_{n-1}\oplus x_n)
+       \oplus\ell(x_1,\ldots,x_n).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.oddDiagonalProjection
+      - CryptBoolean.oddDiagonalBentLift
+      - CryptBoolean.HasOddDiagonalBentNormalForm
+      - CryptBoolean.satisfiesPropagationCriterion_pred_one_iff_hasOddDiagonalBentNormalForm
+    fidelity_note: >-
+      The odd-dimensional domain, the n\ge3 endpoint, all n-1 arguments of g,
+      and the arbitrary affine summand are exactly the reviewed survey
+      statement. Bentness is on the even-dimensional space V_{n-1}.
+    reuse_note: >-
+      Express the displayed coordinate map as a linear map, then reuse bent
+      derivative balance and affine-addition invariance rather than introducing
+      a second propagation or bentness predicate.
+    dependencies:
+      - carlet-4-def-propagation-criteria
+      - carlet-6-def-7-bent
+      - carlet-2-def-affine-functions
+
+  - id: carlet-8-odd-pc-pred-two-classification
+    kind: classification
+    location: >-
+      Odd-dimensional PC(n-2) classification (Carlet, Section 8.1, p. 131;
+      equivalent form in reference [60], Proposition 1)
+    statement: |-
+      Let n\ge3 be odd and let f:V_n\to\mathbb F_2. Then f satisfies PC(n-2)
+      if and only if there exist a bent function
+      g:V_{n-1}\to\mathbb F_2, an affine function
+      \ell:V_n\to\mathbb F_2, and coordinates y_1,\ldots,y_{n-1} of one of
+      the following forms:
+
+      * y_j=x_j\oplus x_n for every j;
+      * for one index i, y_i=x_i and y_j=x_j\oplus x_n for j\ne i;
+      * y_j=x_j\oplus x_{n-1} for 1\le j\le n-2, and y_{n-1}=x_n;
+
+      such that f(x)=g(y_1,\ldots,y_{n-1})\oplus\ell(x).
+
+      Equivalently, there is a nonzero a\in V_n with w_H(a)\ge n-1 such that
+      D_af is constant, while D_bf is balanced for every nonzero b\ne a.
+      Thus f has exactly one nonzero linear structure, of weight n-1 or n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.coordinateDirection
+      - CryptBoolean.HasUniqueHighWeightLinearStructure
+      - CryptBoolean.satisfiesPropagationCriterion_pred_two_iff_hasUniqueHighWeightLinearStructure
+      - CryptBoolean.puncturedDiagonalShearLinearMap
+      - CryptBoolean.puncturedDiagonalShearLinearMap_involutive
+      - CryptBoolean.puncturedDiagonalShearLinearEquiv
+      - CryptBoolean.oddPuncturedDiagonalProjection
+      - CryptBoolean.oddPuncturedDiagonalProjection_apply_same
+      - CryptBoolean.oddPuncturedDiagonalProjection_apply_of_ne
+      - CryptBoolean.coordinateSwapLinearEquiv
+      - CryptBoolean.coordinateSwapLinearEquiv_apply
+      - CryptBoolean.oddTerminalDiagonalProjectionAt
+      - CryptBoolean.oddTerminalDiagonalProjectionAt_apply_same
+      - CryptBoolean.oddTerminalDiagonalProjectionAt_apply_of_ne
+      - CryptBoolean.oddTerminalDiagonalProjection
+      - CryptBoolean.oddTerminalDiagonalProjection_apply_castSucc
+      - CryptBoolean.oddTerminalDiagonalProjection_apply_last
+      - CryptBoolean.oddPuncturedDiagonalBentLift
+      - CryptBoolean.oddTerminalDiagonalBentLiftAt
+      - CryptBoolean.oddPenultimateIndex
+      - CryptBoolean.HasOddPredTwoBentNormalForm
+      - CryptBoolean.hasOddPredTwoBentNormalForm_of_satisfiesPropagationCriterion
+      - CryptBoolean.satisfiesPropagationCriterion_of_hasOddPredTwoBentNormalForm
+      - CryptBoolean.satisfiesPropagationCriterion_pred_two_iff_hasOddPredTwoBentNormalForm
+    references: [60]
+    fidelity_note: >-
+      The three coordinate alternatives are the explicit forms (1)--(3) in
+      reference [60], Proposition 1. In particular, form (3) has kernel
+      generated by (1,\ldots,1,0), not by a coordinate vector. The derivative
+      and unique-linear-structure form is the equivalent characterization in
+      the cited primary source; it is not substituted for the coordinate
+      classification.
+    reuse_note: >-
+      Reuse the preceding PC(n-1) normal form, the canonical linear kernel, and
+      the Chapter 6 bent derivative characterization. The coordinate variants
+      should be represented by explicit linear equivalences.
+    dependencies:
+      - carlet-8-odd-pc-pred-one-classification
+      - carlet-4-def-linear-kernel
+      - carlet-6-def-7-bent
+
+  - id: carlet-8-pc-algebraic-degree-bound
+    kind: theorem
+    location: >-
+      Algebraic-degree bound for propagation criteria (Carlet, Section 8.1,
+      p. 131)
+    statement: |-
+      Let n\ge3, let 1\le l<n, and let f:V_n\to\mathbb F_2. If f satisfies
+      PC(l), then
+
+      \deg(f)\le n-1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.differenceMultiplicity_even
+      - CryptBoolean.functionAlgebraicDegree_le_pred_of_satisfiesPropagationCriterion
+    fidelity_note: >-
+      The survey calls n-1 the only known general upper bound. Its surrounding
+      section assumes l<n and a nontrivial propagation criterion. The explicit
+      n\ge3 condition is necessary: the two-variable function x_1x_2 satisfies
+      PC(1) but has degree 2.
+    reuse_note: >-
+      Reuse FABL's canonical ANF algebraic degree and the existing PC
+      derivative-balance predicate; no Fourier-degree notion is involved.
+    dependencies:
+      - carlet-4-def-propagation-criteria
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-8-propagating-subspace-nonlinearity-bound
+    kind: theorem-family
+    location: >-
+      Nonlinearity bound from a propagating subspace (Carlet, Section 8.1,
+      p. 131)
+    statement: |-
+      Let F\le V_n have dimension l, and let f:V_n\to\mathbb F_2. Assume that
+      D_af is balanced for every nonzero a\in F. Then, for every u\in V_n,
+
+      W_f(u)^2\le 2^{2n-l},
+
+      and hence, with the second exponent interpreted over the reals,
+
+      \operatorname{nl}(f)
+      \ge 2^{n-1}-2^{n-l/2-1}.
+
+      In particular, if 0\le l\le n and f satisfies PC(l), then the same
+      nonlinearity bound holds.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_sq_le_of_balanced_derivatives_on_subspace
+      - CryptBoolean.nonlinearity_lowerBound_of_balanced_derivatives_on_subspace
+      - CryptBoolean.walshTransform_sq_le_of_satisfiesPropagationCriterion
+      - CryptBoolean.nonlinearity_lowerBound_of_satisfiesPropagationCriterion
+    references: [355]
+    fidelity_note: >-
+      The raw integer Walsh-square bound is recorded before the real square-root
+      form, so odd l introduces no hidden integer exponent or rounding. The
+      PC(l) corollary uses an l-dimensional coordinate subspace, every nonzero
+      vector of which has weight at most l.
+    reuse_note: >-
+      Specialize raw Poisson summation and Wiener--Khintchine to F^\perp, then
+      compose the resulting Walsh bound with Relation (35). Existing subspace,
+      autocorrelation, and raw-Walsh APIs suffice.
+    dependencies:
+      - carlet-4-def-propagation-criteria
+      - carlet-2-cor-1-poisson-summation
+      - carlet-2-rel-25-wiener-khinchin
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-8-propagation-bound-equality-parameters
+    kind: theorem
+    location: >-
+      Equality restriction for the propagation nonlinearity bound (Carlet,
+      Section 8.1, p. 131)
+    statement: |-
+      Let 1\le l\le n and let f:V_n\to\mathbb F_2 satisfy PC(l). If
+
+      \operatorname{nl}(f)=2^{n-1}-2^{n-l/2-1},
+
+      then either n is odd and l=n-1, or n is even and l=n.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.propagationCriterion_nonlinearity_equality_parameters
+    fidelity_note: >-
+      This is only a necessary restriction on equality cases, exactly as the
+      phrase “equality can occur only if” states; it does not assert existence
+      at either endpoint. The exponent retains the real square-root
+      normalization of the preceding item.
+    reuse_note: >-
+      Reuse the propagating-subspace bound, Parseval, and the perfect-
+      nonlinearity characterization to isolate the only possible parity
+      endpoints.
+    dependencies:
+      - carlet-8-propagating-subspace-nonlinearity-bound
+      - carlet-2-parseval
+      - carlet-6-theorem-8-perfect-nonlinearity
+
+  - id: carlet-8-walsh-square-pc-characterization
+    kind: characterization
+    location: >-
+      Wiener--Khintchine characterization (Carlet, Section 8.1.1, p. 131)
+    statement: |-
+      Let 0\le l\le n and let f:V_n\to\mathbb F_2. Then f satisfies PC(l)
+      if and only if, for every nonzero a\in V_n with w_H(a)\le l,
+
+      \sum_{u\in V_n}(-1)^{a\cdot u}W_f(u)^2=0.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_vectorWalshCharacter_mul_walshTransform_sq
+      - CryptBoolean.satisfiesPropagationCriterion_iff_sum_vectorWalshCharacter_mul_walshTransform_sq_eq_zero
+    fidelity_note: >-
+      The statement uses Carlet's unnormalized integer Walsh transform. The
+      missing factor 2^n in Fourier inversion is harmless only because the
+      asserted value is zero; no normalized FABL coefficient is silently
+      substituted.
+    reuse_note: >-
+      Compose the canonical PC/autocorrelation equivalence with Relation (25)
+      and raw Fourier involution.
+    dependencies:
+      - carlet-4-def-propagation-criteria
+      - carlet-2-rel-25-wiener-khinchin
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-8-prop-35-affine-flat-walsh-square-characterization
+    kind: proposition
+    location: >-
+      Proposition 35 (Carlet, pp. 131--132)
+    statement: |-
+      Let 0\le l\le n and let f:V_n\to\mathbb F_2. Write w\preceq u when
+      \operatorname{supp}(w)\subseteq\operatorname{supp}(u). Then f satisfies
+      PC(l) if and only if, for every u,v\in V_n with w_H(u)\ge n-l,
+
+      \sum_{w\preceq u}W_f(w\oplus v)^2
+      =2^{n+w_H(u)}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.predecessorWalshSquareSum
+      - CryptBoolean.predecessorWalshSquareSum_eq_autocorrelationSum
+      - CryptBoolean.satisfiesPropagationCriterion_iff_predecessorWalshSquareSum
+    references: [60]
+    fidelity_note: >-
+      The sum is over support inclusion w\preceq u, not a complement relation,
+      and includes every affine shift v. The right side and every transform use
+      the raw Walsh normalization printed in Proposition 35.
+    reuse_note: >-
+      Derive the equivalence from Relation (27) using the existing raw Poisson,
+      autocorrelation, support, and coordinate-subspace APIs.
+    dependencies:
+      - carlet-4-def-propagation-criteria
+      - carlet-2-cor-1-poisson-summation
+      - carlet-2-rel-25-wiener-khinchin
+
+  - id: carlet-8-maiorana-mcfarland-pc-construction
+    kind: construction
+    location: >-
+      Maiorana--McFarland propagation construction (Carlet, Section 8.1.2,
+      p. 132)
+    statement: |-
+      Let \phi:V_s\to V_r and g:V_s\to\mathbb F_2, and define
+
+      f(x,y)=x\cdot\phi(y)\oplus g(y)
+      \qquad(x\in V_r,\ y\in V_s).
+
+      For a\in V_r and b\in V_s,
+
+      D_{(a,b)}f(x,y)
+      =x\cdot D_b\phi(y)\oplus a\cdot\phi(y\oplus b)\oplus D_bg(y).
+
+      Suppose that:
+
+      1. for every nonzero b\in V_s with w_H(b)\le l and every y\in V_s,
+         D_b\phi(y)\ne0; equivalently, every fiber \phi^{-1}(u) is empty, a
+         singleton, or has minimum distance greater than l;
+      2. for every nonzero a\in V_r with w_H(a)\le l, the Boolean function
+         y\mapsto a\cdot\phi(y) is balanced.
+
+      Then f satisfies PC(l) on V_r\times V_s.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.binaryMapDerivative
+      - CryptBoolean.binaryMapDerivative_zero
+      - CryptBoolean.MaioranaMcFarlandFibersHaveMinimumDistanceGreaterThan
+      - CryptBoolean.booleanDerivative_booleanMaioranaMcFarlandGeneral_append
+      - CryptBoolean.booleanDerivative_booleanMaioranaMcFarlandGeneral_append_apply
+      - CryptBoolean.binaryMapDerivative_ne_zero_iff_fibersHaveMinimumDistanceGreaterThan
+      - CryptBoolean.satisfiesPropagationCriterion_booleanMaioranaMcFarlandGeneral
+      - CryptBoolean.satisfiesPropagationCriterion_booleanMaioranaMcFarlandGeneral_of_fibers
+    fidelity_note: >-
+      Condition 2 is exactly the balance of every sum of between one and l
+      coordinate functions of \phi. Condition 1 retains both the pointwise
+      derivative form and Carlet's fiber-distance equivalence. No injectivity
+      or linearity of \phi is added.
+    reuse_note: >-
+      Reuse the Chapter 7 general Maiorana--McFarland function and differentiate
+      it compositionally. For b\ne0, balance follows by summing over the x
+      block; the b=0 case is precisely condition 2.
+    dependencies:
+      - carlet-7-rel-59-maiorana-mcfarland-general
+      - carlet-2-def-2-derivative
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-8-dobbertin-pc-obstruction
+    kind: theorem
+    location: >-
+      Dobbertin-construction obstruction (Carlet, Section 8.1.2, p. 132)
+    statement: |-
+      Let n>0 be even. Let f:V_{n/2}\times V_{n/2}\to\mathbb F_2 be bent and
+      satisfy f(x,0)=0 for every x, let g:V_{n/2}\to\mathbb F_2 be balanced,
+      and define Dobbertin's function
+
+      h(x,y)=f(x,y)\oplus\delta_0(y)g(x).
+
+      If n/2\le l\le n, then h does not satisfy PC(l).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.not_satisfiesPropagationCriterion_dobbertinConstruction
+    fidelity_note: >-
+      This records the exact Chapter 7 Dobbertin construction to which the
+      survey's obstruction refers. Relation (64) makes W_h(0,v)=0 for every v;
+      Proposition 35 then contradicts the required positive Walsh-square sum.
+    reuse_note: >-
+      Reuse the compiled zero-first-block spectrum from Proposition 33 and
+      specialize Proposition 35 to the vector supported on the second block.
+    dependencies:
+      - carlet-8-prop-35-affine-flat-walsh-square-characterization
+      - carlet-7-prop-33-dobbertin-walsh
+
+  - id: carlet-8-prop-36-order-characterization
+    kind: proposition
+    location: >-
+      Proposition 36 (Carlet, Section 8.2, p. 132)
+    statement: |-
+      Let l+k\le n and let f:V_n\to\mathbb F_2. Then f satisfies EPC(l) of
+      order k if and only if, for every a,b\in V_n with
+      w_H(a)\le l, w_H(b)\le k, and (a,b)\ne(0,0),
+
+      \sum_{x\in V_n}
+        (-1)^{f(x)\oplus f(x\oplus a)\oplus b\cdot x}=0.
+
+      The function f satisfies PC(l) of order k if and only if the same
+      identity holds for every such a,b that additionally satisfy
+
+      \operatorname{supp}(a)\cap\operatorname{supp}(b)=\varnothing.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.all_coordinateRestrictions_balanced_iff_walshTransform_eq_zero
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_iff_derivativeRestrictions_balanced
+      - CryptBoolean.walshTransform_booleanDerivative_eq_sum_bitSignInt
+      - CryptBoolean.walshTransform_booleanDerivative_zero_direction
+      - CryptBoolean.satisfiesExtendedPropagationCriterion_iff_walshTransform_booleanDerivative_eq_zero
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_iff_walshTransform_booleanDerivative_eq_zero
+    references: [299]
+    fidelity_note: >-
+      The standard domain l+k\le n is made explicit so the exact-coordinate-
+      restriction definition is nonvacuous and equivalent to the displayed
+      ambient spectral condition. Cases with a=0 are retained as printed and
+      reduce to orthogonality of a nontrivial character.
+    reuse_note: >-
+      Identify the displayed sum with the raw Walsh transform of D_af at b,
+      then reuse the Chapter 4 Walsh-zero characterization of resiliency and
+      the canonical EPC and coordinate-restriction PC predicates.
+    dependencies:
+      - carlet-4-def-propagation-criteria
+      - carlet-4-theorem-3
+      - carlet-2-def-2-derivative
+
+  - id: carlet-8-prop-37-restriction-walsh-characterization
+    kind: proposition
+    location: >-
+      Proposition 37 (Carlet, Section 8.2, p. 133)
+    statement: |-
+      Let l+k\le n and let f:V_n\to\mathbb F_2. For v\in V_n define the raw
+      Walsh transform of the restriction of f to the coordinate subspace
+      V_v=\{x\in V_n\mid x\preceq v\} by
+
+      W_f^v(w)=\sum_{x\preceq v}(-1)^{f(x)\oplus w\cdot x}.
+
+      Then f satisfies EPC(l) of order k if and only if, for every u,v\in V_n
+      with w_H(u)\ge n-l and w_H(v)\ge n-k,
+
+      \sum_{w\preceq u}W_f(w)W_f^v(w)
+      =2^{w_H(u)+w_H(v)}.
+
+      The function f satisfies PC(l) of order k if and only if the same
+      identity holds for all such u,v whose complements have disjoint
+      supports:
+
+      \operatorname{supp}(\bar u)\cap\operatorname{supp}(\bar v)
+      =\varnothing.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.predecessorSubspace
+      - CryptBoolean.mem_predecessorSubspace_iff
+      - CryptBoolean.card_predecessorSubspace
+      - CryptBoolean.perpendicular_predecessorSubspace
+      - CryptBoolean.mem_perpendicular_predecessorSubspace_iff
+      - CryptBoolean.coordinateRestrictedWalshTransform
+      - CryptBoolean.predecessorWalshRestrictionProductSum
+      - CryptBoolean.derivativeWalshRectangleSum
+      - CryptBoolean.predecessorWalshRestrictionProductSum_eq_derivativeWalshRectangleSum
+      - CryptBoolean.satisfiesExtendedPropagationCriterion_iff_predecessorWalshRestrictionProductSum
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_iff_predecessorWalshRestrictionProductSum
+    references: [303]
+    fidelity_note: >-
+      The support condition is on the complements of the high-weight vectors
+      u and v. Dropping the complement bars would contradict Proposition 36.
+      The restricted transform is written as an ambient character sum over
+      V_v, eliminating any hidden choice of a coordinate-space identification.
+    reuse_note: >-
+      Apply raw Poisson summation to the bivariate function
+      (a,b)\mapsto W_{D_af}(b), using Proposition 36 for its vanishing region
+      and the existing restriction and support-inclusion APIs.
+    dependencies:
+      - carlet-8-prop-36-order-characterization
+      - carlet-2-cor-1-poisson-summation
+
+  - id: carlet-8-sac-order-algebraic-degree
+    kind: theorem
+    location: >-
+      Preneel's SAC-of-order degree bound (Carlet, Section 8.2, p. 133)
+    statement: |-
+      Let k+3\le n and let f:V_n\to\mathbb F_2 satisfy SAC of order k. Then
+
+      \deg(f)\le n-k-1.
+
+      More precisely, every restriction of f obtained by fixing any k input
+      coordinates has algebraic degree at most n-k-1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.coordinateRestriction_zeroFixed_apply
+      - CryptBoolean.anfCoeff_coordinateRestriction_zeroFixed_univ
+      - CryptBoolean.coordinateRestriction_degree_le_of_satisfiesStrictAvalancheCriterionOfOrder
+      - CryptBoolean.functionAlgebraicDegree_le_of_satisfiesStrictAvalancheCriterionOfOrder
+    references: [297]
+    fidelity_note: >-
+      The survey prints only k<n. The stronger residual-dimension condition
+      n-k\ge3 is necessary for the unqualified statement: the complete
+      quadratic q_n satisfies SAC of order n-2, while its two-variable
+      restrictions have degree 2 rather than 1. This correction preserves the
+      source claim on its valid range instead of silently formalizing a false
+      endpoint.
+    reuse_note: >-
+      Apply the general PC degree bound to each canonical coordinate
+      restriction and reuse the existing restriction-recovery theorem for
+      algebraic degree.
+    dependencies:
+      - carlet-8-pc-algebraic-degree-bound
+      - carlet-4-def-propagation-criteria
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-8-extremal-order-complete-quadratic-classification
+    kind: classification
+    location: >-
+      Extremal high-order propagation classification (Carlet, Section 8.2,
+      p. 133; reference [60], Theorem 5)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 and suppose either
+
+      * n\ge6, l is positive and even, and l\le n-4; or
+      * n\ge10, l is odd, and 5\le l\le n-5.
+
+      Then f satisfies PC(l) of order n-l-2 if and only if there exists an
+      affine function h:V_n\to\mathbb F_2 such that
+
+      f(x_1,\ldots,x_n)
+      =\bigoplus_{1\le i<j\le n}x_ix_j\oplus h(x_1,\ldots,x_n).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isBalanced_add_constant_iff
+      - CryptBoolean.eq_constant_of_coordinateDerivatives_eq_zero
+      - CryptBoolean.completeQuadraticPolarFrequency_apply_eq_sum_add
+      - CryptBoolean.booleanDerivative_completeQuadraticBit_eq_affineFunction
+      - CryptBoolean.ne_completeQuadraticPolarFrequency_of_disjoint_of_support_card_add_lt
+      - CryptBoolean.booleanDerivative_domainTranslate
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_domainTranslate_iff
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_add_affineFunction_iff
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_completeQuadraticBit
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_completeQuadraticBit_add_affineFunction
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_extremal_completeQuadraticBit_add_affineFunction
+      - CryptBoolean.completeQuadraticBit_finAppend
+      - CryptBoolean.secondBooleanDerivative_same_direction
+      - CryptBoolean.secondBooleanDerivative_add
+      - CryptBoolean.secondBooleanDerivative_completeQuadraticBit_coordinateDirections_eq_one
+      - CryptBoolean.exists_completeQuadraticBit_add_affineFunction_of_coordinateSecondDerivatives_eq_one
+      - CryptBoolean.exists_firstBlockSlice_completeQuadraticBit_add_affineFunction
+      - CryptBoolean.isBent_firstBlockSlice_completeQuadraticBit_add_affineFunction
+      - CryptBoolean.cubeReindexLinearEquiv
+      - CryptBoolean.hammingWeight_comp_cubeReindexLinearEquiv
+      - CryptBoolean.isBalanced_comp_cubeReindexLinearEquiv_iff
+      - CryptBoolean.card_f₂Support_cubeReindexLinearEquiv
+      - CryptBoolean.f₂Support_cubeReindexLinearEquiv
+      - CryptBoolean.booleanDerivative_comp_cubeReindexLinearEquiv
+      - CryptBoolean.satisfiesPropagationCriterion_comp_cubeReindexLinearEquiv_iff
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_comp_cubeReindexLinearEquiv_iff
+      - CryptBoolean.embeddingFinsetEquiv
+      - CryptBoolean.canonicalEmbeddingReindexEquiv
+      - CryptBoolean.freeCoordinateEmbedding_canonicalEmbeddingReindexEquiv
+      - CryptBoolean.embeddedCoordinateRestriction
+      - CryptBoolean.satisfiesPropagationCriterion_embeddedCoordinateRestriction_of_order
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_embeddedCoordinateRestriction
+      - CryptBoolean.isBent_comp_cubeReindexLinearEquiv_iff
+      - CryptBoolean.isBent_embeddedCoordinateRestriction_iff
+      - CryptBoolean.isBent_embeddedCoordinateRestriction_of_order_dimension
+      - CryptBoolean.isBent_embeddedCoordinateRestriction_of_order_pred_two
+      - CryptBoolean.standardPredThreeDirection
+      - CryptBoolean.false_of_satisfiesPropagationCriterionOfOrder_pred_three_of_standardDirection_linearStructure
+      - CryptBoolean.satisfiesPropagationCriterion_firstBlockSlice_of_order_one
+      - CryptBoolean.isLinearStructure_or_isBalanced_of_satisfiesPropagationCriterion_pred_two_odd
+      - CryptBoolean.hammingWeight_eq_add_firstBlockSlices
+      - CryptBoolean.isBalanced_of_firstBlockSlices
+      - CryptBoolean.firstBlockSlice_eq_complement_of_isBalanced
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_comp_coordinateSwapLinearEquiv_iff
+      - CryptBoolean.lastTwoCoordinateProduct
+      - CryptBoolean.standardDirectionInsertion
+      - CryptBoolean.false_of_satisfiesPropagationCriterionOfOrder_pred_three_of_standardDirection_product
+      - CryptBoolean.isBent_of_satisfiesPropagationCriterionOfOrder_pred_three_of_even
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_dimension_completeQuadraticBit_add_affineFunction
+      - CryptBoolean.exists_completeQuadraticBit_add_affineFunction_of_order_dimension
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_dimension_iff_completeQuadratic_add_affine
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_add_two_of_even
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_extremal_add_two_of_even
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_extremal_iff_completeQuadratic_of_even
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_extremal_add_three_of_odd
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_extremal_iff_completeQuadratic_of_odd
+      - CryptBoolean.satisfiesPropagationCriterionOfOrder_extremal_iff_completeQuadratic
+    references: [60]
+    fidelity_note: >-
+      The inclusive ranges agree with both Carlet's survey and reference [60],
+      Theorem 5. Proposition 4 is printed for dimension greater than 8, but its
+      proof only needs dimension at least 8; the explicit counterexample in the
+      preceding remark has dimension 6. The reviewed strengthening to
+      dimension 8 closes the odd lower endpoint l=5. The upper endpoint
+      l=n-5 is covered by reference [60], Proposition 2. The quadratic term is
+      Carlet's complete quadratic q_n; no affine-equivalence weakening replaces
+      the displayed equality up to an affine summand.
+    reuse_note: >-
+      Reuse FABL.completeQuadraticBit, its compiled Chapter 6 polar and bentness
+      theory, the canonical affine-function API, and the existing order
+      monotonicity for propagation criteria.
+    dependencies:
+      - carlet-4-def-propagation-criteria
+      - carlet-6-rel-56-complete-quadratic
+      - carlet-2-def-affine-functions
+      - carlet-8-even-pc-pred-two-bent
+      - carlet-8-odd-pc-pred-two-classification
+      - carlet-6-codimension-two-restrictions
+
+source_recovery:
+  - id: carlet-8-maximum-correlation-bound
+    kind: theorem-family
+    location: >-
+      Maximum-correlation consequence (Carlet, Section 8.1, p. 131)
+    source_claim: >-
+      Carlet reports that maximum-correlation bounds for PC(l) functions, in
+      particular bent functions, follow directly from Relations (40) and (27).
+      Reference [37] gives the special consequence that if f satisfies PC(t)
+      and a comparison function depends on k coordinates with k\ge n-t, then
+      their distance is at least
+      2^{n-1}-2^{(n+k)/2-1}, equivalently the corresponding normalized maximum
+      correlation is at most 2^{(k-n)/2}.
+    statement_status: survey-incomplete-primary-specialization-recovered
+    formal_status: open
+    declarations: []
+    references: [37]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey displays no formula or quantification over coordinate sets.
+      The cited primary paper supplies the stated special bound and a more
+      general derivative-nonlinearity theorem; the exact general theorem must
+      be inventoried before deciding which result Carlet intended here.
+    reuse_note: >-
+      Any promoted form should compose Relation (40) with the propagating-
+      subspace Walsh-square estimate, using the existing maximum-correlation
+      and distance-to-coordinate-functions normalizations.
+    blocker: >-
+      Recover and review the complete primary theorem, including its general
+      derivative parameter and all coordinate-cardinality ranges.
+    dependencies:
+      - carlet-4-rel-40-maximum-correlation-bound
+      - carlet-8-propagating-subspace-nonlinearity-bound
+
+  - id: carlet-8-additional-pc-constructions
+    kind: construction-family
+    location: >-
+      Construction references following the Maiorana--McFarland criterion
+      (Carlet, Section 8.1.2, p. 132)
+    source_claim: >-
+      Carlet reports constructions of maps \phi satisfying the two promoted
+      Maiorana--McFarland propagation conditions.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [59, 60, 221]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey supplies neither explicit maps nor existence ranges, code
+      parameters, balance certificates, or equivalence classes for these
+      additional PC(l) families.
+    reuse_note: >-
+      Recovered constructions should instantiate the promoted pure sufficient
+      condition and reuse existing finite-code and Maiorana--McFarland layers.
+    blocker: >-
+      The cited primary construction formulas and complete parameter
+      hypotheses are required.
+    dependencies:
+      - carlet-8-maiorana-mcfarland-pc-construction
+
+  - id: carlet-8-sac-pred-three-anf-characterization
+    kind: characterization-family
+    location: >-
+      SAC(n-3) ANF characterization (Carlet, Section 8.2, p. 133)
+    source_claim: >-
+      Carlet reports a characterization of SAC(n-3) through the algebraic
+      normal form, together with further properties of this class.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [250]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      No ANF coefficient condition, dimension range, equivalence relation, or
+      list of the further properties is stated in the survey.
+    reuse_note: >-
+      A recovered characterization should use FABL's canonical ANF encoding,
+      algebraic degree, coordinate restrictions, and SAC-of-order predicate.
+    blocker: >-
+      Reference [250] is needed for the exact coefficient pattern, hypotheses,
+      and auxiliary conclusions.
+    dependencies:
+      - carlet-8-sac-order-algebraic-degree
+      - carlet-2-anf-skeleton
+
+  - id: carlet-8-order-k-maiorana-code-constructions
+    kind: construction-family
+    location: >-
+      Maiorana--McFarland constructions for PC(l) of order k (Carlet,
+      Section 8.2, p. 133)
+    source_claim: |-
+      Carlet reports a linear-code construction [221] and nonlinear-code
+      generalizations [59,60]. Reference [59], Corollary 9, gives the recovered
+      sufficient condition for
+
+      f(x,y)=x\cdot\phi(y)\oplus g(y):
+
+      every sum of between one and l coordinate functions of \phi is
+      k-resilient, and
+
+      w_H(\phi(y)\oplus\phi(y\oplus b))\ge k+1
+
+      for every y and every nonzero b with w_H(b)\le l. Under these conditions
+      f satisfies PC(l) of order k.
+    statement_status: primary-condition-recovered-code-families-incomplete
+    formal_status: open
+    declarations: []
+    references: [59, 60, 221]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The recovered sufficient condition is theorem-complete, but the survey's
+      advertised linear- and nonlinear-code constructions require additional
+      generator, systematic-code, minimum-distance, and dual-distance data not
+      present on page 133.
+    reuse_note: >-
+      Promote the recovered condition by reusing the Chapter 7 general
+      Maiorana--McFarland map and canonical resiliency predicate. Add a code
+      layer only when the primary construction theorems require it.
+    blocker: >-
+      Recover the exact code constructions and their parameter-existence
+      theorems from references [59,60,221].
+    dependencies:
+      - carlet-8-maiorana-mcfarland-pc-construction
+      - carlet-4-theorem-3
+      - carlet-4-code-generator-resilient
+
+  - id: carlet-8-balanced-full-degree-sac-order-constructions
+    kind: construction-family
+    location: >-
+      Balanced SAC-of-order constructions (Carlet, Section 8.2, p. 133)
+    source_claim: >-
+      Carlet reports constructions of n-variable balanced functions satisfying
+      SAC of order k and having algebraic degree n-k-1, using reference [221]
+      when n-k-1 is odd and reference [315] when it is even; the latter also
+      studies balancedness and nonlinearity.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [221, 315]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey gives the parity split but omits the construction formulas,
+      admissible ranges of n and k, exceptional endpoints, and the promised
+      nonlinearity values or bounds.
+    reuse_note: >-
+      Recovered families should target the canonical balancedness, SAC-of-order,
+      algebraic-degree, and nonlinearity APIs and compose with the promoted
+      degree upper bound.
+    blocker: >-
+      The primary formulas, parameter ranges, and nonlinearity statements are
+      required before a total existence theorem can be stated.
+    dependencies:
+      - carlet-8-sac-order-algebraic-degree
+      - carlet-2-def-algebraic-degree
+      - carlet-2-balanced-zero-walsh

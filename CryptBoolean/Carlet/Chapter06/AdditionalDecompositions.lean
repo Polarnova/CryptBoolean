@@ -68,7 +68,9 @@ private theorem autocorrelation_standardHyperplaneDirection
       rw [sum_singletonF₂Cube]
       rfl
 
-private theorem sq_add_sq_two_pow (k : ℕ) (x y : ℤ)
+/-- If two integer squares sum to an odd power of two, both absolute
+values are the preceding power of two. -/
+theorem natAbs_eq_two_pow_of_sq_add_sq_eq_two_pow_odd (k : ℕ) (x y : ℤ)
     (h : x ^ 2 + y ^ 2 = (2 : ℤ) ^ (2 * k + 1)) :
     x.natAbs = 2 ^ k ∧ y.natAbs = 2 ^ k := by
   induction k generalizing x y with
@@ -161,7 +163,7 @@ private theorem isBent_firstBlockSlices_of_balanced_hyperplane_derivatives
         walshTransform h₀ a ^ 2 + walshTransform h₁ a ^ 2 =
           (2 : ℤ) ^ (2 * k + 1) := by
       exact_mod_cast hsquaresReal
-    exact sq_add_sq_two_pow k _ _ hsquaresInt
+    exact natAbs_eq_two_pow_of_sq_add_sq_eq_two_pow_odd k _ _ hsquaresInt
   have hbent₀ : IsBent h₀ :=
     (isBent_iff_forall_natAbs_walshTransform_eq_two_pow_half h₀).2 (by
       intro a

@@ -375,7 +375,9 @@ private theorem exists_paired_quadratic_affine_decomposition
       _ = quadraticNormalForm l r x +
           FABL.affineFunction c a x := by rw [hh]
 
-private theorem exists_dotProduct_normalizing_linearEquiv
+/-- A nonzero binary dot-product functional can be made the first coordinate
+by a linear change of variables. -/
+theorem exists_dotProduct_normalizing_linearEquiv
     {r : ℕ} (a : FABL.F₂Cube r) (ha : a ≠ 0) :
     ∃ hr : 0 < r,
       ∃ e : FABL.F₂Cube r ≃ₗ[FABL.𝔽₂] FABL.F₂Cube r,

@@ -8,15 +8,17 @@ Plancherel, relative Hamming distance, balancedness, restrictions, ANF, algebrai
 functions, and derivatives needed by CryptBoolean. FABL is the canonical owner of those shared APIs;
 this project imports them directly and adds only source-facing or cross-representation laws.
 
-The current Blueprint baseline contains 261 source-facing statement nodes: 258 formalized nodes
-associated with 1642 proved Lean declarations and 3 visibly open nodes, connected by 607 reviewed
+The current Blueprint baseline contains 294 source-facing statement nodes: 291 formalized nodes
+associated with 1882 proved Lean declarations and 3 visibly open nodes, connected by 713 reviewed
 dependency edges. Chapter 2 contributes 41 formalized nodes, 174 declarations, and 56 incoming
 edges. Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized nodes, 568 declarations, and 159 incoming edges. Chapter
 5 contributes 31 nodes (28 formalized and 3 open), 203 declarations, and 70 incoming edges. Chapter
 6 contributes 70 formalized nodes, 441 declarations, and 189 incoming edges. Chapter 7 contributes
-39 formalized nodes, 224 declarations, and 114 incoming edges. These counts are a synchronized
-verification contract shared by the inventories,
+39 formalized nodes, 224 declarations, and 114 incoming edges. Chapter 8 contributes 14 formalized
+nodes, 131 declarations, and 42 incoming edges. Chapter 9 contributes 19 formalized nodes, 109
+declarations, and 64 incoming edges. These counts are a synchronized verification contract shared
+by the inventories,
 Verso sources, `blueprint-verso/scripts/validate_manifest.py`, and `AGENTS.md`.
 
 Automated PDF text extraction finds 93 numbered definition/theorem/proposition/lemma/corollary
@@ -78,11 +80,13 @@ tooling pipeline runs, and no local filesystem path appears in package metadata.
 
 ## Phase 1 - Complete Carlet inventory
 
-Status: in progress. Chapters 2--7 are source-reviewed and Blueprint-synchronized under
+Status: in progress. Chapters 2--9 are source-reviewed and Blueprint-synchronized under
 `.agents/inventory/`. Chapter 6 has 70 promoted mathematical statements and 18 additional
 source-recovery records; Chapter 7 has 39 promoted mathematical statements and 10 additional
+source-recovery records; Chapter 8 has 14 promoted mathematical statements and 5 additional
+source-recovery records; Chapter 9 has 19 promoted mathematical statements and 10 additional
 source-recovery records. These recovery records preserve cited or underspecified families that are
-not promoted to Blueprint nodes. Chapters 8--10 are not yet inventoried.
+not promoted to Blueprint nodes. Chapter 10 is not yet inventoried.
 
 Read Chapters 2--10 in full and create one Blueprint node per in-scope item. Record full statements,
 source locations, representation decisions, and mathematical dependencies. Mark referenced results
@@ -266,16 +270,26 @@ Parseval bound, the positive-order equality case in the resiliency--propagation 
 optimal general Maiorana--McFarland parameter classification, the partial-spread and Dobbertin
 families, the direct and indirect composition formulas, and the finite counting results.
 
-## Phase 8 - Chapter 8 propagation criteria
+## Phase 8 - Chapter 8 strict avalanche and propagation criteria
+
+Status: complete. All 14 source-facing nodes are formalized by 131 proved declarations with 42
+reviewed dependency edges. The chapter reuses the canonical derivative, propagation, bentness,
+Walsh, affine-function, nonlinearity, and algebraic-degree APIs.
 
 - binary derivative and autocorrelation foundations;
 - `PC(l)`, strict avalanche, and their characterizations;
 - construction theorems;
 - order-`k` propagation and extended propagation criteria.
 
-This phase reuses the Phase 4 predicates and derivative correspondence.
+The completed layer includes the even and odd extremal classifications, propagating-subspace
+nonlinearity bounds, Walsh-square and affine-flat characterizations, order criteria, and the exact
+complete-quadratic classification.
 
-## Phase 9 - Chapter 9 algebraic immunity
+## Phase 9 - Chapter 9 algebraic immune functions
+
+Status: complete. All 19 source-facing nodes are formalized by 109 proved declarations with 64
+reviewed dependency edges. The chapter composes the existing annihilator, Reed--Muller, normality,
+nonlinearity, finite-field trace, and algebraic-degree layers.
 
 - annihilator spaces and the standard algebraic-immunity minimum;
 - general bounds and relationships with weight, normality, and nonlinearity;
@@ -284,8 +298,10 @@ This phase reuses the Phase 4 predicates and derivative correspondence.
 - parameter tables represented as proved finite computations only when the source supplies complete
   data and the computation is independently checkable.
 
-No hard-coded table is evidence for a theorem. Data-dependent claims need an explicit checked input
-artifact and a verified evaluator.
+The completed layer includes the cyclic trace-power run bound, optimal majority and threshold
+families, higher-order nonlinearity consequences, and the Carlet--Feng construction with exact
+degree and survey-form nonlinearity bounds. Citation-only tables and empirical claims remain
+source-recovery records rather than theorem evidence.
 
 ## Phase 10 - Chapter 10 symmetric functions
 

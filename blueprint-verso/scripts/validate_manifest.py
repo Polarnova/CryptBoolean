@@ -8,10 +8,10 @@ from collections import Counter
 from pathlib import Path
 
 
-EXPECTED_STATEMENTS = 261
-EXPECTED_FORMALIZED = 258
-EXPECTED_DECLARATIONS = 1642
-EXPECTED_EDGES = 607
+EXPECTED_STATEMENTS = 294
+EXPECTED_FORMALIZED = 291
+EXPECTED_DECLARATIONS = 1882
+EXPECTED_EDGES = 713
 EXPECTED_CHAPTERS = {
     "chapter-2": 41,
     "chapter-3": 7,
@@ -19,6 +19,8 @@ EXPECTED_CHAPTERS = {
     "chapter-5": 31,
     "chapter-6": 70,
     "chapter-7": 39,
+    "chapter-8": 14,
+    "chapter-9": 19,
 }
 EXPECTED_GROUPS = {
     "«carlet-chapter-2»": 41,
@@ -27,6 +29,8 @@ EXPECTED_GROUPS = {
     "«carlet-chapter-5»": 31,
     "«carlet-chapter-6»": 70,
     "«carlet-chapter-7»": 39,
+    "«carlet-chapter-8»": 14,
+    "«carlet-chapter-9»": 19,
 }
 EXPECTED_OPEN = {
     "carlet-5-theorem-7-weil-bound",

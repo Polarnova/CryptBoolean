@@ -65,7 +65,30 @@ private theorem binaryWeight_eq_truncatedBinaryWeight
     · apply Fin.ext
       rfl
 
-private theorem ofBits_eq_sum {n : ℕ} (f : Fin n → Bool) :
+/-- The binary weight of an `n`-bit word is the sum of its Boolean digits. -/
+theorem binaryWeight_ofBits {n : ℕ} (f : Fin n → Bool) :
+    binaryWeight (Nat.ofBits f) = ∑ i : Fin n, (f i).toNat := by
+  rw [binaryWeight_eq_truncatedBinaryWeight n _ (Nat.ofBits_lt_two_pow f),
+    truncatedBinaryWeight_eq_sum_testBit]
+  simp only [Nat.testBit_ofBits_lt _ _ (Fin.isLt _)]
+
+/-- The all-ones `n`-bit word has binary weight `n`. -/
+theorem binaryWeight_two_pow_sub_one (n : ℕ) :
+    binaryWeight (2 ^ n - 1) = n := by
+  have hlt : 2 ^ n - 1 < 2 ^ n := Nat.sub_lt (Nat.two_pow_pos n) (by omega)
+  rw [binaryWeight_eq_truncatedBinaryWeight n _ hlt, truncatedBinaryWeight,
+    truncatedBinarySupport]
+  have hfull :
+      Finset.univ.filter (fun i : Fin n ↦ (2 ^ n - 1).testBit i) = Finset.univ := by
+    apply Finset.filter_eq_self.mpr
+    intro i hi
+    rw [Nat.testBit_two_pow_sub_succ
+      (x := 0) (Nat.two_pow_pos n) (i : ℕ)]
+    simp
+  rw [hfull, Finset.card_univ, Fintype.card_fin]
+
+/-- Reconstructing a bounded binary word is its place-value expansion. -/
+theorem ofBits_eq_sum {n : ℕ} (f : Fin n → Bool) :
     Nat.ofBits f = ∑ i : Fin n, (f i).toNat * 2 ^ (i : ℕ) := by
   induction n with
   | zero => simp
@@ -82,8 +105,14 @@ private theorem ofBits_eq_sum {n : ℕ} (f : Fin n → Bool) :
         ring
       rw [hsum, Nat.add_comm]
 
-private def rotateBinaryExponent (n k : ℕ) : ℕ :=
+/-- One cyclic left rotation of the low `n` binary digits of an exponent. -/
+def rotateBinaryExponent (n k : ℕ) : ℕ :=
   Nat.ofBits fun i : Fin n ↦ k.testBit ((finRotate n).symm i)
+
+@[simp] theorem testBit_rotateBinaryExponent (n k : ℕ) (i : Fin n) :
+    (rotateBinaryExponent n k).testBit i =
+      k.testBit ((finRotate n).symm i) := by
+  exact Nat.testBit_ofBits_lt _ _ (Fin.isLt i)
 
 private theorem rotateBinaryExponent_weight (n k : ℕ) :
     truncatedBinaryWeight n (rotateBinaryExponent n k) = truncatedBinaryWeight n k := by
@@ -186,7 +215,9 @@ private theorem double_mod_eq_rotateBinaryExponent
       (hk.trans (Nat.sub_lt (Nat.two_pow_pos n) (by omega))))
   exact rotateBinaryExponent_lt_modulus n hn k hk
 
-private def binaryCyclicExponent (n k s : ℕ) : ℕ :=
+/-- Multiplication of an exponent by a Frobenius power, reduced modulo
+`2^n-1`. -/
+def binaryCyclicExponent (n k s : ℕ) : ℕ :=
   (k * 2 ^ s) % (2 ^ n - 1)
 
 private theorem binaryCyclicExponent_succ (n k s : ℕ) :
@@ -203,13 +234,25 @@ private theorem binaryCyclicExponent_succ (n k s : ℕ) :
       convert (Nat.mul_mod 2 ((k * 2 ^ s) % M) M).symm using 1
       simp only [Nat.mod_mod]
 
-private theorem binaryCyclicExponent_lt
+/-- A positive-dimensional cyclic exponent is the canonical residue modulo
+`2^n-1`. -/
+theorem binaryCyclicExponent_lt
     (n k : ℕ) (hn : 0 < n) (s : ℕ) :
     binaryCyclicExponent n k s < 2 ^ n - 1 := by
   apply Nat.mod_lt
   exact Nat.sub_pos_of_lt (by simpa using Nat.one_lt_two_pow hn.ne')
 
-private theorem binaryWeight_binaryCyclicExponent
+/-- Successive Frobenius multiplication applies one cyclic binary rotation. -/
+theorem binaryCyclicExponent_succ_eq_rotate
+    (n k s : ℕ) (hn : 0 < n) :
+    binaryCyclicExponent n k (s + 1) =
+      rotateBinaryExponent n (binaryCyclicExponent n k s) := by
+  rw [binaryCyclicExponent_succ,
+    double_mod_eq_rotateBinaryExponent n hn _ (binaryCyclicExponent_lt n k hn s)]
+
+/-- Frobenius multiplication cyclically rotates the `n`-bit exponent and
+preserves its binary weight. -/
+theorem binaryWeight_binaryCyclicExponent
     (n k s : ℕ) (hn : 0 < n) (hk : k < 2 ^ n - 1) :
     binaryWeight (binaryCyclicExponent n k s) = binaryWeight k := by
   induction s with
@@ -231,7 +274,8 @@ private theorem binaryWeight_binaryCyclicExponent
               (Nat.sub_lt (Nat.two_pow_pos n) (by omega)))).symm
         _ = binaryWeight k := ih
 
-private theorem binaryCyclicExponent_pos {n k : ℕ} (hn : 0 < n)
+/-- A nonzero canonical exponent stays nonzero under Frobenius rotation. -/
+theorem binaryCyclicExponent_pos {n k : ℕ} (hn : 0 < n)
     (hk0 : 0 < k) (hk : k < 2 ^ n - 1) (s : ℕ) :
     0 < binaryCyclicExponent n k s := by
   have hqEven : Even (2 ^ n) := by
@@ -249,7 +293,9 @@ private theorem binaryCyclicExponent_pos {n k : ℕ} (hn : 0 < n)
   have hdivk : 2 ^ n - 1 ∣ k := hcop.dvd_of_dvd_mul_right hdvd
   exact (Nat.not_dvd_of_pos_of_lt hk0 hk) hdivk
 
-private theorem pow_binaryCyclicExponent {n k : ℕ} (hn : 0 < n)
+/-- Reducing a positive exponent in its Frobenius orbit does not change the
+associated finite-field power function, including at zero. -/
+theorem pow_binaryCyclicExponent {n k : ℕ} (hn : 0 < n)
     (hk0 : 0 < k) (hk : k < 2 ^ n - 1)
     (x : BinaryGaloisField n) (s : ℕ) :
     x ^ binaryCyclicExponent n k s = x ^ (k * 2 ^ s) := by
@@ -398,6 +444,26 @@ theorem functionAlgebraicDegree_traceMonomial
       obtain ⟨s, hs, rfl⟩ := Finset.mem_image.mp
         (support_traceMonomialOrbitPolynomial_subset a hj)
       exact binaryWeight_binaryCyclicExponent n k s hn hk
+
+/-- A trace monomial whose exponent is represented by at most `n` binary
+digits has algebraic degree at most the exponent's binary weight. -/
+theorem functionAlgebraicDegree_traceMonomial_le_binaryWeight
+    {n k : ℕ} (hn : 0 < n) (hk : k ≤ 2 ^ n - 1)
+    (θ : FABL.F₂Cube n ≃ₗ[FABL.𝔽₂] BinaryGaloisField n)
+    (a : BinaryGaloisField n) :
+    FABL.functionAlgebraicDegree
+        (fun x : FABL.F₂Cube n ↦ absoluteTrace n (a * (θ x) ^ k)) ≤
+      binaryWeight k := by
+  by_cases hktop : k = 2 ^ n - 1
+  · subst k
+    rw [binaryWeight_two_pow_sub_one]
+    exact FABL.functionAlgebraicDegree_le_dimension _
+  · have hklt : k < 2 ^ n - 1 := lt_of_le_of_ne hk hktop
+    by_cases hfun : (fun x : FABL.F₂Cube n ↦
+        absoluteTrace n (a * (θ x) ^ k)) = 0
+    · rw [hfun, FABL.functionAlgebraicDegree_zero]
+      exact Nat.zero_le _
+    · exact (functionAlgebraicDegree_traceMonomial hn hklt θ a hfun).le
 
 end
 

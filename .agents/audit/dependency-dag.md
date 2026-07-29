@@ -18,7 +18,9 @@ spine. The current baseline is:
 | Carlet Chapter 5 | 31 | 28 | 3 | 203 | 70 |
 | Carlet Chapter 6 | 70 | 70 | 0 | 441 | 189 |
 | Carlet Chapter 7 | 39 | 39 | 0 | 224 | 114 |
-| **Total** | **261** | **258** | **3** | **1642** | **607** |
+| Carlet Chapter 8 | 14 | 14 | 0 | 131 | 42 |
+| Carlet Chapter 9 | 19 | 19 | 0 | 109 | 64 |
+| **Total** | **294** | **291** | **3** | **1882** | **713** |
 
 An item marked `[open]` has a complete mathematical statement but no Lean association. In the
 tables below, `consumer <- prerequisite-1, prerequisite-2` denotes one incoming edge from each
@@ -1045,6 +1047,140 @@ carlet-7-naive-resilient-count-bound
 The exact Maiorana--McFarland parameter count records the exceptional
 `r=2` counterexample to the printed upper bound. The naive count is extensional
 over Boolean functions and uses uniqueness of algebraic normal form.
+
+## Chapter 8 reviewed dependency DAG
+
+### Extremal propagation and spectral criteria
+
+```text
+carlet-8-even-pc-pred-two-bent
+  <- carlet-4-def-propagation-criteria, carlet-6-theorem-8-perfect-nonlinearity
+carlet-8-odd-pc-pred-one-classification
+  <- carlet-4-def-propagation-criteria, carlet-6-def-7-bent,
+     carlet-2-def-affine-functions
+carlet-8-odd-pc-pred-two-classification
+  <- carlet-8-odd-pc-pred-one-classification, carlet-4-def-linear-kernel,
+     carlet-6-def-7-bent
+carlet-8-pc-algebraic-degree-bound
+  <- carlet-4-def-propagation-criteria, carlet-2-def-algebraic-degree
+carlet-8-propagating-subspace-nonlinearity-bound
+  <- carlet-4-def-propagation-criteria, carlet-2-cor-1-poisson-summation,
+     carlet-2-rel-25-wiener-khinchin, carlet-4-rel-35-nonlinearity-walsh
+carlet-8-propagation-bound-equality-parameters
+  <- carlet-8-propagating-subspace-nonlinearity-bound, carlet-2-parseval,
+     carlet-6-theorem-8-perfect-nonlinearity
+carlet-8-walsh-square-pc-characterization
+  <- carlet-4-def-propagation-criteria, carlet-2-rel-25-wiener-khinchin,
+     carlet-2-balanced-zero-walsh
+carlet-8-prop-35-affine-flat-walsh-square-characterization
+  <- carlet-4-def-propagation-criteria, carlet-2-cor-1-poisson-summation,
+     carlet-2-rel-25-wiener-khinchin
+```
+
+### Constructions and order refinements
+
+```text
+carlet-8-maiorana-mcfarland-pc-construction
+  <- carlet-7-rel-59-maiorana-mcfarland-general, carlet-2-def-2-derivative,
+     carlet-2-balanced-zero-walsh
+carlet-8-dobbertin-pc-obstruction
+  <- carlet-8-prop-35-affine-flat-walsh-square-characterization,
+     carlet-7-prop-33-dobbertin-walsh
+carlet-8-prop-36-order-characterization
+  <- carlet-4-def-propagation-criteria, carlet-4-theorem-3,
+     carlet-2-def-2-derivative
+carlet-8-prop-37-restriction-walsh-characterization
+  <- carlet-8-prop-36-order-characterization, carlet-2-cor-1-poisson-summation
+carlet-8-sac-order-algebraic-degree
+  <- carlet-8-pc-algebraic-degree-bound, carlet-4-def-propagation-criteria,
+     carlet-2-def-algebraic-degree
+carlet-8-extremal-order-complete-quadratic-classification
+  <- carlet-4-def-propagation-criteria, carlet-6-rel-56-complete-quadratic,
+     carlet-2-def-affine-functions, carlet-8-even-pc-pred-two-bent,
+     carlet-8-odd-pc-pred-two-classification,
+     carlet-6-codimension-two-restrictions
+```
+
+The extremal-order classification deliberately retains its even- and odd-dimensional local
+classification dependencies. These are mathematical proof edges, not merely implementation
+imports. The codimension-two bent restriction theorem is the spectral input to the even
+order-one step; together these account for three additional Chapter 8 edges beyond the initial
+inventory draft.
+
+## Chapter 9 reviewed dependency DAG
+
+### General algebraic-immunity consequences
+
+```text
+carlet-9-trace-power-run-bound
+  <- carlet-2-trace-monomial-degree, carlet-2-univariate-binary-degree,
+     carlet-4-def-annihilator-algebraic-immunity
+carlet-9-prop-38
+  <- carlet-3-reed-muller-code, carlet-3-reed-muller-dimension,
+     carlet-3-theorem-2, carlet-4-annihilator-linear-system,
+     carlet-4-ai-upper-bound
+carlet-9-normality-ai-bound
+  <- carlet-5-def-4-normality, carlet-3-prop-12,
+     carlet-4-def-annihilator-algebraic-immunity
+carlet-9-ai-does-not-force-normality
+  <- carlet-9-normality-ai-bound, carlet-5-random-nonnormality,
+     carlet-4-ai-upper-bound
+carlet-9-ai-weight-bounds
+  <- carlet-4-def-annihilator-algebraic-immunity,
+     carlet-4-annihilator-linear-system, carlet-2-def-support-weight,
+     carlet-5-quadratic-weight-nonlinearity-values
+carlet-9-optimal-odd-ai-balanced
+  <- carlet-9-ai-weight-bounds, carlet-2-def-support-weight
+carlet-9-ai-addition-stability
+  <- carlet-4-def-annihilator-algebraic-immunity,
+     carlet-2-def-algebraic-degree
+```
+
+### Nonlinearity and higher-order bounds
+
+```text
+carlet-9-basic-nonlinearity-from-ai
+  <- carlet-9-ai-weight-bounds, carlet-9-ai-addition-stability,
+     carlet-4-def-nonlinearity, carlet-3-reed-muller-code
+carlet-9-basic-higher-order-nonlinearity-from-ai
+  <- carlet-9-ai-weight-bounds, carlet-9-ai-addition-stability,
+     carlet-4-def-higher-order-nonlinearity, carlet-3-reed-muller-code
+carlet-9-lobanov-bound
+  <- carlet-9-ai-weight-bounds, carlet-4-def-nonlinearity,
+     carlet-4-def-annihilator-algebraic-immunity, carlet-3-reed-muller-code
+carlet-9-carlet-higher-order-bound
+  <- carlet-9-ai-weight-bounds, carlet-9-basic-higher-order-nonlinearity-from-ai,
+     carlet-4-def-higher-order-nonlinearity, carlet-4-annihilator-linear-system
+carlet-9-mesnager-higher-order-bound
+  <- carlet-9-ai-weight-bounds, carlet-9-ai-addition-stability,
+     carlet-9-basic-higher-order-nonlinearity-from-ai,
+     carlet-4-def-higher-order-nonlinearity, carlet-3-reed-muller-code
+carlet-9-optimal-ai-lobanov-corollaries
+  <- carlet-9-lobanov-bound
+```
+
+### Explicit optimal-immunity families
+
+```text
+carlet-9-majority-parameters
+  <- carlet-5-def-4-normality, carlet-9-normality-ai-bound,
+     carlet-9-lobanov-bound, carlet-4-def-nonlinearity,
+     carlet-2-def-support-weight
+carlet-9-majority-threshold-variants
+  <- carlet-9-majority-parameters, carlet-9-ai-weight-bounds,
+     carlet-4-def-annihilator-algebraic-immunity
+carlet-9-theorem-15
+  <- carlet-2-univariate-representation, carlet-2-univariate-binary-degree,
+     carlet-4-def-annihilator-algebraic-immunity, carlet-4-ai-upper-bound,
+     carlet-2-def-support-weight
+carlet-9-rel-70
+  <- carlet-9-theorem-15, carlet-2-univariate-representation
+carlet-9-carlet-feng-degree
+  <- carlet-9-rel-70, carlet-2-univariate-binary-degree
+carlet-9-carlet-feng-nonlinearity
+  <- carlet-9-theorem-15, carlet-4-rel-35-nonlinearity-walsh,
+     carlet-2-trace-pairing-coordinates
+```
 
 ## Remaining proof frontier
 

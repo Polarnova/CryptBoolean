@@ -28,8 +28,8 @@ matching Verso entry and production declaration.
 
 ## Current verified surface
 
-The Blueprint baseline is 261 source-facing statement nodes: 258 formalized nodes associated with
-1642 proved Lean declarations and 3 visibly open nodes, connected by 607 reviewed dependency
+The Blueprint baseline is 294 source-facing statement nodes: 291 formalized nodes associated with
+1882 proved Lean declarations and 3 visibly open nodes, connected by 713 reviewed dependency
 edges.
 
 - Chapter 2 contributes 41 formalized nodes, 174 declarations, and 56 incoming
@@ -72,6 +72,14 @@ edges.
   resilient and correlation-immune degree and divisibility bounds, sharp nonlinearity and entropy
   estimates, maximum-correlation and propagation tradeoffs, primary and secondary constructions,
   exact degree and nonlinearity formulas, and finite counting bounds.
+- Chapter 8 contributes 14 formalized nodes, 131 declarations, and 42 incoming edges. It covers
+  extremal propagation classifications, Walsh-square and affine-flat characterizations,
+  propagating-subspace nonlinearity bounds, constructions, propagation criteria of order, and the
+  complete-quadratic extremal classification.
+- Chapter 9 contributes 19 formalized nodes, 109 declarations, and 64 incoming edges. It covers
+  algebraic-immunity consequences for weight, normality, and nonlinearity, higher-order bounds,
+  optimal majority and threshold families, the trace-power cyclic-run estimate, and the
+  Carlet--Feng construction with its degree and nonlinearity bounds.
 - Chapter 2 has no open source node. Its binary-degree formula and trace-pairing coordinates,
   together with cyclotomic-orbit noncancellation, close Carlet Proposition 3 on trace-monomial
   algebraic degree.
@@ -84,6 +92,8 @@ edges.
   Reed--Muller, nonlinearity, quadratic, trace, restriction, and normality layers.
 - Chapter 7 has no open source node. Its proofs reuse the Chapter 2--6 Walsh, Parseval, Poisson,
   algebraic-degree, nonlinearity, propagation, bent, normality, and McEliece--Ax layers.
+- Chapters 8 and 9 have no open source nodes. Their proofs reuse the preceding derivative, Walsh,
+  bentness, affine, Reed--Muller, normality, trace, nonlinearity, and algebraic-immunity layers.
 - The three open Chapter 5 nodes are the analytic Weil character-sum bound, its nonlinearity
   corollary, and the reciprocal character-sum bound.
 - Carlet's Reed--Muller coset-distance equality is formalized with the necessary pairwise-distinct-
