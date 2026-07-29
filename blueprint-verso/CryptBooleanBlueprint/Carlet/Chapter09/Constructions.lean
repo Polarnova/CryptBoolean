@@ -7,6 +7,7 @@ import Verso
 import VersoManual
 import VersoBlueprint
 import CryptBoolean.Carlet.Chapter09.CarletFeng
+import CryptBoolean.Carlet.Chapter09.CarletFengNonlinearity
 import CryptBoolean.Carlet.Chapter09.Majority
 
 open Verso.Genre
