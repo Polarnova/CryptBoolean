@@ -32,13 +32,14 @@ PDFs, manifests, graphs, and caches are not sources of truth.
 
 ## Current verified baseline
 
-The reviewed Blueprint contains 222 source-facing statements, of which 219 are associated with
-1418 proved Lean declarations and 3 remain visibly open, connected by 493 mathematical dependency
+The reviewed Blueprint contains 261 source-facing statements, of which 258 are associated with
+1642 proved Lean declarations and 3 remain visibly open, connected by 607 mathematical dependency
 edges. Chapter 2 contributes 41 formalized statements, 174 declarations, and 56
 incoming edges. Chapter 3 contributes 7 formalized statements, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized statements, 568 declarations, and 159 incoming edges.
 Chapter 5 contributes 31 statements (28 formalized and 3 open), 203 declarations, and 70 incoming
 edges. Chapter 6 contributes 70 formalized statements, 441 declarations, and 189 incoming edges.
+Chapter 7 contributes 39 formalized statements, 224 declarations, and 114 incoming edges.
 
 The completed Chapter 2 frontier includes Proposition 5's numerical-normal-form integrality
 criterion, the full raw Poisson formula, affine invariance, restriction recovery, the
@@ -79,6 +80,13 @@ code parameters. The proofs reuse FABL's canonical Fourier, ANF, degree, affine,
 interfaces and the Chapter 2--5 Walsh, Reed--Muller, nonlinearity, quadratic, trace, restriction,
 and normality layers.
 
+The Chapter 7 inventory is source-reviewed and Blueprint-synchronized. Its 39 formalized nodes
+cover Siegenthaler degree bounds, Walsh and weight divisibility, degree-sensitive and
+entropy-refined nonlinearity bounds, maximum correlation, the sharp resiliency--propagation
+tradeoff, primary and secondary constructions, exact degree and nonlinearity formulas, and finite
+counting bounds. The proofs reuse the established Chapter 2--6 representations and the canonical
+FABL algebraic-degree, affine, derivative, and Fourier APIs.
+
 Chapter 2 has no open node: the finite-field coordinate theorem identifies ANF degree with the
 maximum binary weight in the univariate support, cyclotomic-orbit noncancellation closes Carlet
 Proposition 3, and the trace-pairing coordinate theorem is compiled. Chapter 3 likewise has no open node: the
@@ -90,6 +98,12 @@ dimension lower bound; the partial-spread constructions use their valid positive
 punctured two-level partial-bent definition yields a corrected type formula and counterexamples to
 two printed consequences; Langevin's orphan statement assumes a non-affine representative; and the
 self-dual-normal-basis Kerdock identity states its coordinate hypotheses.
+
+Chapter 7 has no open node. Its fidelity record makes explicit the positive propagation order in
+the tradeoff equality case, the positive entropy domain in Relation (58), the binary
+Maiorana--McFarland endpoint, the hypotheses needed by the concatenation and indirect-sum degree
+formulas, the positive-degree linear-pullback range, Dobbertin's dimension range, and the exceptional
+two-dimensional count.
 
 Source-facing splits remain explicit in Chapter 4. Rodier's one-sided lower endpoint and sharp
 interval have distinct nodes, as do the finite Hamming-ball and Plotkin lemmas and the resulting

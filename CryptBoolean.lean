@@ -11,6 +11,7 @@ public import CryptBoolean.Carlet.Chapter03
 public import CryptBoolean.Carlet.Chapter04
 public import CryptBoolean.Carlet.Chapter05
 public import CryptBoolean.Carlet.Chapter06
+public import CryptBoolean.Carlet.Chapter07
 
 /-!
 # CryptBoolean

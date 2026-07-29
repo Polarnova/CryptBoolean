@@ -1,0 +1,1688 @@
+source: carlet-2010
+chapter: 7
+status: source-reviewed
+summary:
+  statements: 39
+  source_statements: 39
+  core_items: 39
+  blueprint_ready_statements: 39
+  source_recovery_items: 10
+  total_records: 49
+  formalized: 39
+  open: 0
+  declarations: 224
+  dependency_edges: 114
+scope_note: >-
+  The 39 source-facing items below retain the theorem-complete statements from
+  Carlet pages 111--130 and have proved Blueprint associations. The ten
+  records under source_recovery preserve citation-only families, incomplete
+  refinements, and asymptotic counting claims whose quantifiers or
+  primary-source parameters are not complete in the survey. Relation (58)
+  records the positive-order entropy domain needed by its displayed
+  denominator. Theorem 14 records the nonconstant-difference hypothesis used
+  by its printed proof; mere distinctness does not exclude complementary
+  inputs and is insufficient for the printed degree formula.
+items:
+  - id: carlet-7-siegenthaler-degree-bounds
+    kind: theorem-family
+    location: >-
+      Siegenthaler's inequalities (Carlet, Section 7.1, p. 111)
+    statement: |-
+      Let f:V_n\to\mathbb F_2.
+
+      If 0\le m<n-1 and f is m-resilient, then
+
+      \deg(f)\le n-m-1.
+
+      Every (n-1)-resilient function is affine. More generally, if f is
+      correlation immune of order m<n, then
+
+      \deg(f)\le n-m.
+
+      If in addition 2^{m+1} divides the Hamming weight of f, then the sharper
+      resilient bound \deg(f)\le n-m-1 holds.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanFunctionF₂Encoding_signCubeView
+      - CryptBoolean.functionAlgebraicDegree_le_sub_sub_one_of_isResilient
+      - CryptBoolean.functionAlgebraicDegree_le_sub_of_isCorrelationImmune
+      - CryptBoolean.functionAlgebraicDegree_le_one_of_isResilient_natPred
+      - CryptBoolean.exists_affineFunction_of_isResilient_natPred
+      - CryptBoolean.functionAlgebraicDegree_le_sub_sub_one_of_isCorrelationImmune_of_weight
+    fidelity_note: >-
+      The resilient and correlation-immune forms keep their distinct endpoint
+      conventions. The additional weight hypothesis is the one printed in
+      footnote 47.
+    reuse_note: >-
+      The main two degree inequalities are supplied by FABL v0.5.6 after the
+      exact Carlet/FABL representation identity is proved.
+    dependencies:
+      - carlet-4-def-resiliency-correlation-immunity
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-7-prop-32-nnf-characterization
+    kind: proposition
+    location: >-
+      Proposition 32 (Carlet, pp. 111--112)
+    statement: |-
+      Let n>0, let m<n, and let f:V_n\to\mathbb F_2. Define
+
+      g(x)=f(x)\oplus x_1\oplus\cdots\oplus x_n.
+
+      Then f is m-resilient if and only if the numerical normal form of g has
+      degree at most n-m-1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.functionNumericalDegree_booleanRealEmbedding_eq_fourierDegree_signCubeView
+      - CryptBoolean.functionNumericalDegree_booleanRealEmbedding_le_iff_walshTransform
+      - CryptBoolean.proposition_32_resilient_iff_functionNumericalDegree_le
+    fidelity_note: >-
+      Numerical degree is kept distinct from algebraic degree. The full parity
+      shift complements Walsh-frequency supports, exactly as in the source.
+    reuse_note: >-
+      The proof composes the Chapter 4 Walsh-zero characterization with the
+      Chapter 2 NNF/Fourier identities and FABL's canonical numerical degree.
+    dependencies:
+      - carlet-4-theorem-3
+      - carlet-2-rel-30-nnf-fourier
+      - carlet-2-nnf-existence-uniqueness
+
+  - id: carlet-7-walsh-weight-divisibility
+    kind: theorem-family
+    location: >-
+      Divisibility consequences following Proposition 32 (Carlet, p. 112)
+    statement: |-
+      Let 0\le m\le n-2.
+
+      If f:V_n\to\mathbb F_2 is m-resilient, then every value W_f(a) is
+      divisible by 2^{m+2}.
+
+      If f is correlation immune of order m, then every W_f(a) is divisible by
+      2^{m+1}, and the Hamming weight of f is divisible by 2^m. If moreover
+      2^{m+1} divides the Hamming weight of f, then every W_f(a) is divisible
+      by 2^{m+2}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.bitSignInt_cast_eq_realSignView
+      - CryptBoolean.sum_walshTransform_submodule_eq
+      - CryptBoolean.two_pow_m_add_two_dvd_walshTransform_of_isResilient
+      - CryptBoolean.two_pow_m_add_one_dvd_walshTransform_of_isCorrelationImmune
+      - CryptBoolean.two_pow_m_dvd_hammingWeight_of_isCorrelationImmune
+      - CryptBoolean.two_pow_m_add_two_dvd_walshTransform_of_isCorrelationImmune_of_weight
+    fidelity_note: >-
+      The endpoint m=n-1 is excluded exactly as in the printed divisibility
+      paragraph.
+    reuse_note: >-
+      The proof reuses Proposition 32, the exact Walsh/NNF coefficient formulas,
+      and the zero-frequency weight identity. Its subspace Walsh-sum identity
+      is shared with the later degree-sensitive divisibility proof.
+    dependencies:
+      - carlet-7-prop-32-nnf-characterization
+      - carlet-2-rel-30-nnf-fourier
+      - carlet-2-def-support-weight
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-7-sarkar-maitra-nonlinearity-bound
+    kind: theorem-family
+    location: >-
+      Sarkar--Maitra bound and equality case (Carlet, pp. 112--113)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be m-resilient, where m\le n-2. Then
+
+      \operatorname{nl}(f)\le 2^{n-1}-2^{m+1}.
+
+      If equality holds, then every Walsh coefficient belongs to
+
+      \{0,\,-2^{m+2},\,2^{m+2}\};
+
+      equivalently, f is plateaued with nonzero Walsh magnitude 2^{m+2}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_mul_nonlinearity_add_two_pow_m_add_two_le_of_isResilient
+      - CryptBoolean.nonlinearity_add_two_pow_m_add_one_le_two_pow_sub_one_of_isResilient
+      - CryptBoolean.nonlinearity_le_two_pow_sub_two_pow_of_isResilient
+      - CryptBoolean.nonlinearity_eq_sarkarMaitra_bound_iff_hasPlateauedWalshAmplitude
+      - CryptBoolean.walshTransform_eq_zero_or_eq_neg_two_pow_or_eq_two_pow_of_sarkarMaitra_equality
+      - CryptBoolean.isPlateaued_of_sarkarMaitra_equality
+    fidelity_note: >-
+      The minimum sum-of-squares-indicator sentence is retained separately as
+      source recovery because the survey gives neither its comparison class nor
+      the minimum value.
+    reuse_note: >-
+      The inequality composes the preceding divisibility theorem with
+      Parseval and Carlet's exact nonlinearity/Walsh identity.
+    dependencies:
+      - carlet-7-walsh-weight-divisibility
+      - carlet-2-parseval
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-6-def-plateaued
+
+  - id: carlet-7-theorem-13-degree-divisibility
+    kind: theorem
+    location: >-
+      Theorem 13, resilient form (Carlet, p. 113)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be m-resilient, let m\le n-2, and let
+      d=\deg(f)>0. Every Walsh coefficient of f is divisible by
+
+      2^{\,m+2+\lfloor (n-m-2)/d\rfloor}.
+
+      Consequently, \operatorname{nl}(f) is divisible by
+
+      2^{\,m+1+\lfloor (n-m-2)/d\rfloor}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_m_add_two_add_degree_quotient_dvd_walshTransform_of_isResilient
+      - CryptBoolean.two_pow_m_add_one_add_degree_quotient_dvd_nonlinearity_of_isResilient
+    fidelity_note: >-
+      Positivity of d is explicit so that the printed quotient is total.
+      A resilient function in the stated range cannot be constant.
+    reuse_note: >-
+      The source proof composes raw Poisson summation with the
+      McEliece--Ax character-sum divisibility theorem.
+    dependencies:
+      - carlet-7-walsh-weight-divisibility
+      - carlet-2-cor-1-poisson-summation
+      - carlet-6-prop-19
+      - carlet-4-theorem-3
+
+  - id: carlet-7-correlation-immune-degree-divisibility
+    kind: theorem-family
+    location: >-
+      Correlation-immune companion to Theorem 13 (Carlet, p. 113)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be correlation immune of order m, let
+      m\le n-1, and let d=\deg(f)>0. Every Walsh coefficient is divisible by
+
+      2^{\,m+1+\lfloor (n-m-1)/d\rfloor}.
+
+      If m\le n-2 and the Hamming weight of f is divisible by
+
+      2^{\,m+1+\lfloor (n-m-2)/d\rfloor},
+
+      then every Walsh coefficient is divisible by
+
+      2^{\,m+2+\lfloor (n-m-2)/d\rfloor}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_pow_m_add_one_add_degree_quotient_dvd_walshTransform_of_isCorrelationImmune
+      - CryptBoolean.two_pow_m_add_two_add_degree_quotient_dvd_walshTransform_of_isCorrelationImmune_of_weight
+    fidelity_note: >-
+      The two divisibility exponents and their different endpoint ranges are
+      stated separately.
+    reuse_note: >-
+      This is the correlation-immune branch of the same Poisson and
+      McEliece--Ax induction used by Theorem 13.
+    dependencies:
+      - carlet-6-prop-19
+      - carlet-2-cor-1-poisson-summation
+      - carlet-4-theorem-3
+      - carlet-2-def-support-weight
+
+  - id: carlet-7-degree-sensitive-nonlinearity-bound
+    kind: theorem-family
+    location: >-
+      Consequence of Theorem 13 (Carlet, p. 114)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be m-resilient, let m\le n-2, and let
+      d=\deg(f)>0. Then
+
+      \operatorname{nl}(f)
+      \le 2^{n-1}-2^{\,m+1+\lfloor (n-m-2)/d\rfloor}.
+
+      In particular, equality in the Sarkar--Maitra bound
+
+      \operatorname{nl}(f)=2^{n-1}-2^{m+1}
+
+      is possible only when d=n-m-1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.nonlinearity_le_two_pow_sub_two_pow_degree_quotient_of_isResilient
+      - CryptBoolean.functionAlgebraicDegree_eq_sub_sub_one_of_sarkarMaitra_equality
+    fidelity_note: >-
+      The statement records the global algebraic-degree consequence. The
+      restriction-minimum refinement is kept under source recovery because the
+      survey does not define the minimum when its indexing family is empty.
+    reuse_note: >-
+      The proof is the direct composition of Theorem 13 with Relation (35) and
+      the Siegenthaler degree bound.
+    dependencies:
+      - carlet-7-theorem-13-degree-divisibility
+      - carlet-7-siegenthaler-degree-bounds
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-7-even-dimension-nonlinearity-bound
+    kind: theorem
+    location: >-
+      Even-dimensional balanced-function improvement (Carlet, p. 114)
+    statement: |-
+      Let n be positive and even, let m\le n/2-2, and let
+      f:V_n\to\mathbb F_2 be m-resilient. Then
+
+      \operatorname{nl}(f)
+      \le 2^{n-1}-2^{n/2-1}-2^{m+1}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.nonlinearity_le_even_dimension_resilient_bound
+    fidelity_note: >-
+      The natural-number inequality m\le n/2-2 makes the source range explicit.
+    reuse_note: >-
+      The proof combines Walsh divisibility with the strict even-dimensional
+      upper bound for balanced Boolean functions.
+    dependencies:
+      - carlet-7-walsh-weight-divisibility
+      - carlet-4-rel-36-covering-radius-bent
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-7-rel-57-parseval-nonlinearity-bound
+    kind: theorem
+    location: >-
+      Relation (57) (Carlet, pp. 114--115)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be m-resilient, where m\le n-2. Then
+
+      \operatorname{nl}(f)\le
+      2^{n-1}-2^{m+1}
+      \left\lceil
+        \frac{2^{n-m-2}}
+        {\sqrt{\,2^n-\sum_{i=0}^{m}\binom ni\,}}
+      \right\rceil.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.nonlinearity_le_parseval_resilient_bound
+    fidelity_note: >-
+      The outer brackets in the printed formula are ceilings. Its denominator
+      is positive because m<n.
+    reuse_note: >-
+      The proof counts the non-forced Walsh frequencies, applies Parseval to
+      their integer quotients, and then uses Relation (35).
+    dependencies:
+      - carlet-7-walsh-weight-divisibility
+      - carlet-4-theorem-3
+      - carlet-2-parseval
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-7-rel-58-entropy-nonlinearity-bound
+    kind: theorem
+    location: >-
+      Relation (58) (Carlet, p. 115)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be m-resilient, where
+      1\le m\le n/2. Define
+
+      H_2(x)=-x\log_2x-(1-x)\log_2(1-x).
+
+      Then
+
+      \operatorname{nl}(f)\le
+      2^{n-1}-2^{m+1}
+      \left\lceil
+        \frac{2^{n-m-2}}
+        {\sqrt{\,2^n-
+          2^{nH_2(m/n)}/\sqrt{8m(1-m/n)}\,}}
+      \right\rceil.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.binaryEntropyBaseTwo
+      - CryptBoolean.entropyPower_div_sqrt_le_choose
+      - CryptBoolean.nonlinearity_le_entropy_resilient_bound
+    fidelity_note: >-
+      The survey inherits a standard finite binomial estimate without printing
+      its domain. The positive-order half-range is made explicit because m=0
+      would make the displayed denominator undefined. Binary entropy is
+      normalized in bits by dividing Mathlib's natural-log entropy by log 2.
+      The numerator retains the real exponent 2^{-1} at n=2,m=1 rather than
+      truncating the exponent as a natural number.
+    reuse_note: >-
+      A finite Stirling decomposition proves the binomial lower estimate,
+      including the two smallest dimensions. Monotonicity of square root,
+      division, and ceiling then specializes Relation (57).
+    dependencies:
+      - carlet-7-rel-57-parseval-nonlinearity-bound
+
+  - id: carlet-7-maximum-correlation-support
+    kind: theorem-family
+    location: >-
+      Maximum correlation with coordinate subsets (Carlet, Section 7.3, p. 115)
+    statement: |-
+      Let f:V_n\to\mathbb F_2 be m-resilient and let I\subseteq[n].
+      Among the Walsh frequencies supported inside I, at most
+
+      \sum_{j=m+1}^{|I|}\binom{|I|}{j}
+
+      can be nonzero.
+
+      If |I|=m+1 and u_I is the unique frequency with support I, then the
+      maximum correlation of f with functions depending only on I is
+
+      2^{-n}|W_f(u_I)|.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.card_highWeightFrequenciesSupportedIn_eq_sum_choose
+      - CryptBoolean.card_walshSupport_filter_subset_le_sum_choose_of_isResilient
+      - CryptBoolean.maximumCorrelation_eq_abs_walshTransform_f₂CubeOfFinset_div_of_isResilient
+    fidelity_note: >-
+      The source's application to optimal LFSR attacks is excluded because the
+      attack model is not defined in the survey.
+    reuse_note: >-
+      The exact formula specializes Chapter 4 Relation (40) after the
+      low-weight Walsh coefficients vanish.
+    dependencies:
+      - carlet-4-def-maximum-correlation
+      - carlet-4-rel-40-maximum-correlation-bound
+      - carlet-4-theorem-3
+
+  - id: carlet-7-resiliency-propagation-tradeoff
+    kind: theorem
+    location: >-
+      Resiliency and propagation criteria (Carlet, Section 7.4, p. 116)
+    statement: |-
+      If an n-variable Boolean function is m-resilient and satisfies the
+      propagation criterion PC(\ell), then
+
+      m+\ell\le n-1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.resilient_propagationCriterion_parameter_tradeoff
+    fidelity_note: >-
+      This is a necessary condition only; the survey does not claim the
+      converse.
+    reuse_note: >-
+      The proof composes the Walsh-zero characterization, the canonical
+      propagation predicate, and the full subspace Fourier/autocorrelation
+      identity.
+    dependencies:
+      - carlet-4-def-resiliency-correlation-immunity
+      - carlet-4-def-propagation-criteria
+      - carlet-4-theorem-3
+      - carlet-2-cor-1-poisson-summation
+      - carlet-2-rel-25-wiener-khinchin
+
+  - id: carlet-7-resiliency-propagation-equality
+    kind: theorem
+    location: >-
+      Equality case of the resiliency--propagation tradeoff (Carlet,
+      Section 7.4, p. 116)
+    statement: |-
+      Let \ell>0. If an n-variable m-resilient Boolean function satisfies
+      PC(\ell) and
+
+      m+\ell=n-1,
+
+      then n is odd, \ell=n-1, and m=0.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.resilient_propagationCriterion_equality_classification
+    fidelity_note: >-
+      Positive \ell is implicit in the source's propagation-criterion
+      convention and explicit in the formal declaration. With a natural-number
+      parameter, PC(0) is vacuous and parity gives a counterexample to the
+      unqualified endpoint.
+    reuse_note: >-
+      The proof composes the Chapter 2 Poisson and autocorrelation identities
+      with the canonical propagation and resiliency predicates, then uses
+      Walsh-square parity to force odd dimension.
+    dependencies:
+      - carlet-7-resiliency-propagation-tradeoff
+
+  - id: carlet-7-rel-59-maiorana-mcfarland-general
+    kind: definition
+    location: >-
+      Maiorana--McFarland general construction, Relation (59) (Carlet, p. 117)
+    statement: |-
+      Let r>0, let r<n, put s=n-r, let
+      \phi:V_s\to V_r, and let g:V_s\to\mathbb F_2. Define
+
+      f_{\phi,g}(x,y)
+      =x\mathbin\cdot\phi(y)\oplus g(y)
+      =\bigoplus_{i=1}^r x_i\phi_i(y)\oplus g(y).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanMaioranaMcFarlandGeneral
+      - CryptBoolean.booleanMaioranaMcFarlandGeneral_append
+    fidelity_note: >-
+      The two coordinate blocks and the unnormalized Boolean dot product match
+      the source convention.
+    reuse_note: >-
+      This is the same general Maiorana--McFarland representation already used
+      by the Chapter 6 fiber-character-sum theorem.
+    dependencies:
+      - carlet-5-def-maiorana-mcfarland
+
+  - id: carlet-7-rel-60-maiorana-mcfarland-walsh
+    kind: theorem
+    location: >-
+      Relation (60) (Carlet, p. 117)
+    statement: |-
+      For the function f_{\phi,g} of Relation (59), every a\in V_r and
+      b\in V_s satisfy
+
+      W_{f_{\phi,g}}(a,b)
+      =2^r\sum_{y\in\phi^{-1}(a)}
+        (-1)^{g(y)\oplus b\cdot y}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_booleanMaioranaMcFarlandGeneral
+    fidelity_note: >-
+      This is Carlet's raw integer Walsh normalization.
+    reuse_note: >-
+      The Chapter 6 declaration
+      `walshTransform_maioranaMcFarlandGeneral` proves this exact identity and
+      is reused without a parallel transform.
+    dependencies:
+      - carlet-7-rel-59-maiorana-mcfarland-general
+      - carlet-6-prop-20-general-maiorana-mcfarland
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-7-maiorana-mcfarland-resiliency
+    kind: theorem-family
+    location: >-
+      Resiliency consequences of Relation (60) (Carlet, pp. 117--118)
+    statement: |-
+      Let f_{\phi,g} be as in Relation (59).
+
+      If w_H(\phi(y))>k for every y\in V_s, then f_{\phi,g} is
+      k-resilient. In particular, if 0 is not in the image of \phi, then
+      f_{\phi,g} is balanced.
+
+      If additionally, for every a\in V_r, the restriction of g to
+      \phi^{-1}(a) is balanced, then f_{\phi,g} is (k+1)-resilient.
+      An empty fiber satisfies this condition vacuously through its zero
+      signed character sum.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isResilient_booleanMaioranaMcFarlandGeneral
+      - CryptBoolean.isBalanced_booleanMaioranaMcFarlandGeneral
+      - CryptBoolean.isResilient_succ_booleanMaioranaMcFarlandGeneral
+    fidelity_note: >-
+      “m\ge k” and “m\ge k+1” are represented by the monotone predicates
+      `IsResilient k` and `IsResilient (k+1)`, without inventing an exact
+      maximal order.
+    reuse_note: >-
+      Relation (60) and the Chapter 4 Walsh-zero characterization make both
+      conclusions direct spectral specializations.
+    dependencies:
+      - carlet-7-rel-60-maiorana-mcfarland-walsh
+      - carlet-4-theorem-3
+
+  - id: carlet-7-maiorana-mcfarland-degree
+    kind: theorem-family
+    location: >-
+      Degree of the general Maiorana--McFarland construction (Carlet, p. 118;
+      corrected one-variable endpoint)
+    statement: |-
+      For f_{\phi,g} on V_r\times V_s,
+
+      \deg(f_{\phi,g})\le s+1,
+
+      and equality holds exactly when some coordinate of \phi has degree s.
+      If every value of \phi has weight greater than k, this can happen only
+      for k\le r-2.
+
+      Suppose the resiliency order is k. Then f_{\phi,g} reaches
+      Siegenthaler's degree bound n-k-1 exactly in either of the following
+      cases:
+
+      * k=r-2 and \deg(\phi)=s=n-k-2;
+      * k=r-1, \phi is the constant all-one map, and either s=1 or
+        \deg(g)=s=n-k-1.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maioranaMcFarlandCoordinate
+      - CryptBoolean.maioranaMcFarlandMapAlgebraicDegree
+      - CryptBoolean.functionAlgebraicDegree_maioranaMcFarlandCoordinate_le
+      - CryptBoolean.maioranaMcFarlandMapAlgebraicDegree_le_dimension
+      - CryptBoolean.maioranaMcFarlandMapAlgebraicDegree_eq_dimension_iff
+      - CryptBoolean.functionAlgebraicDegree_booleanMaioranaMcFarlandGeneral_le
+      - CryptBoolean.functionAlgebraicDegree_booleanMaioranaMcFarlandGeneral_eq_iff
+      - CryptBoolean.functionAlgebraicDegree_booleanMaioranaMcFarlandGeneral_eq_iff_mapDegree
+      - CryptBoolean.functionAlgebraicDegree_booleanMaioranaMcFarlandGeneral_constant_one
+      - CryptBoolean.le_r_sub_two_of_weight_gt_of_maioranaMcFarland_degree_eq
+      - CryptBoolean.functionAlgebraicDegree_booleanMaioranaMcFarlandGeneral_eq_siegenthalerBound_iff
+      - CryptBoolean.isResilient_and_functionAlgebraicDegree_eq_siegenthalerBound_iff
+    fidelity_note: >-
+      The printed second branch says only `deg(g)=s`; when s=1 the x-linear
+      term already gives degree one for every unary g. The explicit `s=1`
+      alternative corrects that endpoint.
+    reuse_note: >-
+      The proof uses the canonical FABL ANF and algebraic-degree operations and
+      Relation (59), with no new degree representation.
+    dependencies:
+      - carlet-7-rel-59-maiorana-mcfarland-general
+      - carlet-7-siegenthaler-degree-bounds
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-7-rel-61-maiorana-nonlinearity-lower
+    kind: theorem
+    location: >-
+      Relation (61) (Carlet, p. 118)
+    statement: |-
+      Let M=\max_{a\in V_r}|\phi^{-1}(a)|. Then
+
+      \operatorname{nl}(f_{\phi,g})
+      \ge 2^{n-1}-2^{r-1}M.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maioranaMcFarlandFiberCardinality
+      - CryptBoolean.maxMaioranaMcFarlandFiberCardinality
+      - CryptBoolean.maioranaMcFarlandFiberCardinality_le_max
+      - CryptBoolean.maioranaMcFarlandFiberCharacterSum_natAbs_le_cardinality
+      - CryptBoolean.maxWalshMagnitude_booleanMaioranaMcFarlandGeneral_le
+      - CryptBoolean.relation_61_booleanMaioranaMcFarlandGeneral
+      - CryptBoolean.nonlinearity_booleanMaioranaMcFarlandGeneral_lower_bound
+    fidelity_note: >-
+      Fiber cardinality is a natural number and the displayed expression keeps
+      Carlet's raw Walsh scaling.
+    reuse_note: >-
+      This follows immediately from Relation (60), the triangle inequality,
+      and Relation (35).
+    dependencies:
+      - carlet-7-rel-60-maiorana-mcfarland-walsh
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-7-rel-62-maiorana-nonlinearity-upper
+    kind: theorem-family
+    location: >-
+      Relation (62) and its square-sum proof (Carlet, pp. 118--119)
+    statement: |-
+      Let M=\max_{a\in V_r}|\phi^{-1}(a)|. Then
+
+      \operatorname{nl}(f_{\phi,g})
+      \le 2^{n-1}-2^{r-1}\lceil\sqrt M\rceil.
+
+      More precisely, for every a\in V_r,
+
+      \sum_{b\in V_s}
+        \left(
+          \sum_{y\in\phi^{-1}(a)}(-1)^{g(y)\oplus b\cdot y}
+        \right)^2
+      =2^s|\phi^{-1}(a)|.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.sum_sq_maioranaMcFarlandFiberCharacterSum
+      - CryptBoolean.two_pow_mul_ceil_sqrt_maxFiber_le_maxWalshMagnitude
+      - CryptBoolean.nonlinearity_booleanMaioranaMcFarlandGeneral_upper_bound
+    fidelity_note: >-
+      The large brackets in Relation (62) are a ceiling, forced also by the
+      integer-valued character sum in the proof.
+    reuse_note: >-
+      The square-sum identity is finite character orthogonality; Relation (60)
+      and Relation (35) then give the upper bound.
+    dependencies:
+      - carlet-7-rel-60-maiorana-mcfarland-walsh
+      - carlet-2-parseval
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-7-maiorana-optimal-classification
+    kind: theorem-family
+    location: >-
+      Classification following Relation (62) (Carlet, p. 119)
+    statement: |-
+      Suppose w_H(\phi(y))>k for every y and
+
+      \operatorname{nl}(f_{\phi,g})=2^{n-1}-2^{k+1}.
+
+      Then r=k+1 or r=k+2.
+
+      If r=k+1, then \phi is the constant all-one map, n\le k+3, and
+      either s=1 with arbitrary unary g, or s=2 with
+      g(y_1,y_2)=y_1y_2\oplus\ell(y) for an affine \ell.
+
+      If r=k+2, then \phi is injective,
+
+      n\le k+2+\log_2(k+3),
+
+      g is arbitrary, and
+
+      \deg(f_{\phi,g})\le 1+\log_2(k+3).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maxWalshMagnitude_eq_two_pow_m_add_two_of_nonlinearity_eq
+      - CryptBoolean.map_eq_one_of_weight_gt_natPred
+      - CryptBoolean.booleanMaioranaMcFarlandGeneral_constant_one_eq_directSum
+      - CryptBoolean.twoVariableProduct
+      - CryptBoolean.twoVariableProduct_apply
+      - CryptBoolean.twoVariableProductAt
+      - CryptBoolean.maxWalshMagnitude_eq_of_maioranaMcFarland_optimal
+      - CryptBoolean.leftDimension_eq_succ_or_add_two_of_maioranaMcFarland_optimal
+      - CryptBoolean.maxMaioranaMcFarlandFiberCardinality_const
+      - CryptBoolean.exists_eq_twoVariableProduct_add_affine_of_maxWalshMagnitude_eq_two
+      - CryptBoolean.exists_eq_twoVariableProductAt_add_affine_of_maxWalshMagnitude_eq_two
+      - CryptBoolean.maioranaMcFarland_optimal_constant_branch
+      - CryptBoolean.injective_of_maioranaMcFarland_optimal_add_two_branch
+      - CryptBoolean.card_highWeightCube
+      - CryptBoolean.two_pow_rightDimension_le_k_add_three_of_add_two_branch
+      - CryptBoolean.rightDimension_cast_le_logb_two_k_add_three
+      - CryptBoolean.maioranaMcFarland_optimal_injective_branch
+      - CryptBoolean.maioranaMcFarland_optimal_classification
+    fidelity_note: >-
+      The inequalities involving logarithms are the real-valued inequalities
+      printed in the source. The constant-map branch states the feasible
+      unary endpoint separately: when s=1 the offset is arbitrary, whereas
+      the quadratic-affine normal form applies to s=2.
+    reuse_note: >-
+      Relation (35) first fixes the maximum Walsh magnitude. Relation (62)
+      reduces the two possible block sizes to finite fiber-cardinality
+      classifications, while the existing Maiorana--McFarland degree bound
+      supplies the final logarithmic degree estimate.
+    dependencies:
+      - carlet-7-rel-62-maiorana-nonlinearity-upper
+      - carlet-7-maiorana-mcfarland-degree
+
+  - id: carlet-7-linear-pullback-construction
+    kind: theorem
+    location: >-
+      Linear-map construction (Carlet, p. 120)
+    statement: |-
+      Let k<n, let g:V_k\to\mathbb F_2, let
+      L:V_n\to V_k be a surjective linear map, and let s\in V_n.
+      Let C be the row space of a matrix for L and put
+
+      d=\operatorname{dist}(s,C).
+
+      If d>0, then
+
+      f(x)=g(Lx)\oplus s\cdot x
+
+      is (d-1)-resilient.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.vectorFourierCoeff_comp_linearMap_eq_zero_of_not_mem_perpendicular_ker
+      - CryptBoolean.binaryCosetMinimumWeight
+      - CryptBoolean.binaryCosetMinimumWeight_le
+      - CryptBoolean.binaryCosetMinimumWeight_le_dimension
+      - CryptBoolean.linearPullbackWithFrequency
+      - CryptBoolean.walshTransform_linearPullbackWithFrequency
+      - CryptBoolean.isResilient_linearPullbackWithFrequency
+    fidelity_note: >-
+      The source silently treats d-1 as a nonnegative order. The explicit
+      hypothesis d>0 is necessary; if s lies in the row space, f need not be
+      balanced. The production theorem is coordinate-free: the row space is
+      represented canonically as the perpendicular complement of the kernel.
+      Its proof does not require surjectivity, so it deliberately generalizes
+      that source hypothesis.
+    reuse_note: >-
+      The proof identifies the Walsh support of a linear pullback with an
+      affine row-space coset and then applies the Chapter 4 Walsh-zero
+      characterization.
+    dependencies:
+      - carlet-4-theorem-3
+      - carlet-2-prop-6-fourier-shifts
+      - carlet-4-resiliency-support-dual-distance
+
+  - id: carlet-7-rel-63-partial-spread-resilient
+    kind: theorem
+    location: >-
+      Partial-spread-derived construction, Relation (63) (Carlet, pp. 120--121)
+    statement: |-
+      Let k,r be positive, let n\ge r, put s=n-r, and identify V_r with
+      \mathbb F_{2^r}. Let g:\mathbb F_{2^r}\to\mathbb F_2, let
+      \phi:V_s\to\mathbb F_{2^r} be linear, and let
+      \phi^*:\mathbb F_{2^r}\to V_s be its adjoint for the trace pairing.
+      Choose a\in\mathbb F_{2^r} and b\in V_s such that
+
+      a+\phi(y)\ne0\quad(y\in V_s)
+
+      and
+
+      w_H(\phi^*(z)+b)>k\quad(z\in\mathbb F_{2^r}).
+
+      Then
+
+      f(x,y)=g\!\left(\frac{x}{a+\phi(y)}\right)\oplus b\cdot y
+
+      is k-resilient.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.partialSpreadResilientFunction
+      - CryptBoolean.partialSpreadResilientFunction_append
+      - CryptBoolean.walshTransform_partialSpreadResilientFunction_append
+      - CryptBoolean.isResilient_partialSpreadResilientFunction
+    fidelity_note: >-
+      “m\ge k” is represented as k-resiliency. The field/cube identification
+      and the adjoint trace pairing are explicit data rather than silently
+      inferred from coordinates.
+    reuse_note: >-
+      This construction reuses the Chapter 6 `PS_ap` field layer, the Chapter 2
+      trace-pairing coordinates, and the canonical Walsh-zero criterion.
+    dependencies:
+      - carlet-6-partial-spread-construction
+      - carlet-2-trace-pairing-coordinates
+      - carlet-4-theorem-3
+
+  - id: carlet-7-prop-33-dobbertin-walsh
+    kind: proposition
+    location: >-
+      Proposition 33 and Relation (64) (Carlet, p. 121)
+    statement: |-
+      Let n be positive and even. Let
+      f:V_{n/2}\times V_{n/2}\to\mathbb F_2 be bent and satisfy
+      f(x,0)=0 for every x. Let g:V_{n/2}\to\mathbb F_2 be balanced and define
+
+      h(x,y)=f(x,y)\oplus\delta_0(y)g(x).
+
+      Then
+
+      W_h(u,v)=
+      \begin{cases}
+      0,&u=0,\\
+      W_f(u,v)+W_g(u),&u\ne0.
+      \end{cases}
+
+      In particular, h is balanced.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.dobbertinConstruction
+      - CryptBoolean.dobbertinConstruction_append
+      - CryptBoolean.walshTransform_dobbertinConstruction_general
+      - CryptBoolean.walshTransform_dobbertinConstruction
+      - CryptBoolean.walshTransform_zeroFirstBlock_eq_two_pow_of_isBent
+      - CryptBoolean.walshTransform_dobbertinConstruction_of_isBent_of_isBalanced
+      - CryptBoolean.walshTransform_dobbertinConstruction_zeroFirstBlock
+      - CryptBoolean.walshTransform_dobbertinConstruction_ne_zeroFirstBlock
+      - CryptBoolean.isBalanced_dobbertinConstruction
+    fidelity_note: >-
+      The block dimensions and the zero-flat normal form are explicit.
+    reuse_note: >-
+      The proof reuses the bent zero-flat restriction spectrum and the
+      Chapter 2 Walsh transform, adding only the used flat-switching adapter.
+    dependencies:
+      - carlet-6-def-7-bent
+      - carlet-5-def-4-normality
+      - carlet-5-flat-indicator-walsh-nonlinearity
+      - carlet-2-balanced-zero-walsh
+
+  - id: carlet-7-dobbertin-nonlinearity
+    kind: theorem-family
+    location: >-
+      Nonlinearity consequence of Proposition 33 (Carlet, pp. 121--122)
+    statement: |-
+      Under the hypotheses of Proposition 33,
+
+      \operatorname{nl}(h)
+      \ge \operatorname{nl}(f)+\operatorname{nl}(g)-2^{n/2-1}
+      =2^{n-1}-2^{n/2}+\operatorname{nl}(g).
+
+      If n\ge4, this construction cannot produce a positively resilient
+      function.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.maxWalshMagnitude_dobbertinConstruction_le
+      - CryptBoolean.nonlinearity_dobbertinConstruction_add_le
+      - CryptBoolean.nonlinearity_dobbertinConstruction_lowerBound
+      - CryptBoolean.nonlinearity_dobbertinConstruction_boundTerm_eq
+      - CryptBoolean.nonlinearity_dobbertinConstruction_lowerBound_source
+      - CryptBoolean.not_isResilient_dobbertinConstruction_of_pos
+    fidelity_note: >-
+      The printed non-resiliency sentence needs n>=4. For n=2 the claimed
+      obstruction has a finite counterexample.
+    reuse_note: >-
+      The lower bound is the triangle inequality applied to Relation (64),
+      followed by the bent Walsh magnitude and Relation (35).
+    dependencies:
+      - carlet-7-prop-33-dobbertin-walsh
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-6-def-7-bent
+
+  - id: carlet-7-adding-variable
+    kind: theorem-family
+    location: >-
+      Adding a variable (Carlet, Section 7.5.2.I.A, p. 122)
+    statement: |-
+      If f:V_r\to\mathbb F_2 is t-resilient, then
+
+      h(x,z)=f(x)\oplus z
+
+      is (t+1)-resilient. If f has parameters
+
+      (r,t,r-t-1,\,2^{r-1}-2^{t+1}),
+
+      then h has parameters
+
+      (r+1,t+1,r-t-1,\,2^r-2^{t+2}).
+
+      The last coordinate direction is a nonzero linear structure of h.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.oneVariableParity
+      - CryptBoolean.oneVariableParity_apply
+      - CryptBoolean.oneVariableParity_eq_booleanFunctionF₂Encoding
+      - CryptBoolean.oneVariableParity_eq_affineFunction
+      - CryptBoolean.oneVariableParity_isResilient
+      - CryptBoolean.nonlinearity_oneVariableParity
+      - CryptBoolean.functionAlgebraicDegree_oneVariableParity
+      - CryptBoolean.addingVariable
+      - CryptBoolean.addingVariable_append
+      - CryptBoolean.isResilient_addingVariable
+      - CryptBoolean.nonlinearity_addingVariable
+      - CryptBoolean.addedVariableDirection
+      - CryptBoolean.addedVariableDirection_ne_zero
+      - CryptBoolean.addedVariableDirection_isNonzeroLinearStructure
+      - CryptBoolean.functionAlgebraicDegree_addingVariable_eq
+      - CryptBoolean.functionAlgebraicDegree_addingVariable_eq_source
+      - CryptBoolean.nonlinearity_addingVariable_ge_source
+    fidelity_note: >-
+      The parameter sentence records lower degree/nonlinearity values in the
+      source shorthand; the first conclusion is independent of sharpness.
+    reuse_note: >-
+      This is the one-variable affine specialization of the direct-sum
+      construction.
+    dependencies:
+      - carlet-7-sarkar-maitra-nonlinearity-bound
+      - carlet-7-siegenthaler-degree-bounds
+      - carlet-4-def-linear-kernel
+
+  - id: carlet-7-direct-sum-resilient
+    kind: theorem-family
+    location: >-
+      Direct sum of functions (Carlet, Section 7.5.2.I.B, pp. 122--123)
+    statement: |-
+      Let f:V_r\to\mathbb F_2 be t-resilient and let
+      g:V_s\to\mathbb F_2 be m-resilient, with t<r and m<s. Then
+
+      h(x,y)=f(x)\oplus g(y)
+
+      is (t+m+1)-resilient and
+
+      W_h(a,b)=W_f(a)W_g(b).
+
+      \operatorname{nl}(h)
+      =2^{r+s-1}
+       -\frac12(2^r-2\operatorname{nl}(f))
+                    (2^s-2\operatorname{nl}(g))
+
+      =2^r\operatorname{nl}(g)+2^s\operatorname{nl}(f)
+       -2\operatorname{nl}(f)\operatorname{nl}(g).
+
+      Finally, h has no nonzero linear structure if and only if neither f nor
+      g has a nonzero linear structure.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.card_f₂Support_append
+      - CryptBoolean.walshTransform_natAbs_le_maxWalshMagnitude
+      - CryptBoolean.maxWalshMagnitude_booleanDirectSum
+      - CryptBoolean.isResilient_booleanDirectSum
+      - CryptBoolean.two_mul_nonlinearity_booleanDirectSum_add_product
+      - CryptBoolean.nonlinearity_booleanDirectSum_cast_eq_half_product
+      - CryptBoolean.nonlinearity_booleanDirectSum_cast_eq_source
+      - CryptBoolean.nonlinearity_booleanDirectSum
+      - CryptBoolean.booleanDerivative_booleanDirectSum_append
+      - CryptBoolean.isLinearStructure_booleanDirectSum_append
+      - CryptBoolean.noNonzeroLinearStructure_booleanDirectSum
+    fidelity_note: >-
+      Feasible resilient orders are explicit. The half-factor formula is also
+      represented by a division-free natural-number identity.
+    reuse_note: >-
+      The existing Chapter 6 direct-sum definition and Walsh product are the
+      canonical core; Chapter 7 adds only the resilience, degree, nonlinearity,
+      and linear-structure consequences.
+    dependencies:
+      - carlet-6-direct-sum
+      - carlet-4-theorem-3
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-4-def-linear-kernel
+
+  - id: carlet-7-direct-sum-degree
+    kind: theorem
+    location: >-
+      Degree of a direct sum (Carlet, Section 7.5.2.I.B, p. 123)
+    statement: |-
+      For Boolean functions f:V_r\to\mathbb F_2 and
+      g:V_s\to\mathbb F_2 on disjoint coordinate blocks,
+
+      \deg(f\oplus g)=\max(\deg f,\deg g).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.functionAlgebraicDegree_add_constant_eq
+      - CryptBoolean.functionAlgebraicDegree_eq_zero_iff_exists_constant
+      - CryptBoolean.functionAlgebraicDegree_add_eq_right_of_lt
+      - CryptBoolean.functionAlgebraicDegree_booleanDirectSum
+    fidelity_note: >-
+      The exact equality, rather than only the standard upper bound, requires
+      transporting the two ANFs into disjoint ambient coordinate blocks.
+    reuse_note: >-
+      The proof transports the canonical ANF coefficients into the two
+      disjoint ambient coordinate blocks and reuses `booleanDirectSum`.
+    dependencies:
+      - carlet-7-direct-sum-resilient
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-7-rel-65-siegenthaler-concatenation
+    kind: theorem-family
+    location: >-
+      Siegenthaler concatenation and Relation (65) (Carlet, p. 123)
+    statement: |-
+      For f,g:V_r\to\mathbb F_2 define
+
+      h(x,z)=(z\oplus1)f(x)\oplus zg(x).
+
+      Then
+
+      W_h(a,c)=W_f(a)+(-1)^cW_g(a).
+
+      If f and g are both m-resilient, then h is m-resilient. If moreover
+
+      W_f(a)+W_g(a)=0
+
+      for every frequency a of weight m+1, then h is
+      (m+1)-resilient.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.walshTransform_hyperplaneExtension_append
+      - CryptBoolean.isResilient_hyperplaneExtension
+      - CryptBoolean.isResilient_succ_hyperplaneExtension_of_walshCancellation
+    fidelity_note: >-
+      The second conclusion is a sufficient spectral cancellation condition,
+      not an iff characterization.
+    reuse_note: >-
+      The Walsh identity is proved once for the canonical concatenation and
+      feeds both resilience conclusions through Chapter 4 Theorem 3.
+    dependencies:
+      - carlet-4-theorem-3
+      - carlet-2-def-walsh-transform
+
+  - id: carlet-7-siegenthaler-concatenation-nonlinearity
+    kind: theorem-family
+    location: >-
+      Nonlinearity of Siegenthaler concatenation (Carlet, pp. 123--124)
+    statement: |-
+      For the concatenation h of f and g,
+
+      \operatorname{nl}(h)
+      \ge\operatorname{nl}(f)+\operatorname{nl}(g).
+
+      If the Walsh supports of f and g are disjoint, then
+
+      \operatorname{nl}(h)
+      =2^{r-1}+\min(\operatorname{nl}(f),\operatorname{nl}(g)).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.nonlinearity_add_le_hyperplaneExtension
+      - CryptBoolean.maxWalshMagnitude_hyperplaneExtension_of_disjointWalshSupport
+      - CryptBoolean.nonlinearity_hyperplaneExtension_of_disjointWalshSupport
+    fidelity_note: >-
+      Disjoint Walsh support means that no frequency carries nonzero
+      coefficients for both functions.
+    reuse_note: >-
+      Relation (65) supplies the spectral maximum inequalities; Relation (35)
+      supplies the exact nonlinearity conversion.
+    dependencies:
+      - carlet-7-rel-65-siegenthaler-concatenation
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-7-siegenthaler-concatenation-degree
+    kind: theorem-family
+    location: >-
+      Degree, derivatives, and linear structures of concatenation (Carlet,
+      p. 124)
+    statement: |-
+      Let q=f\oplus g and let h be their concatenation. Then
+
+      h(x,z)=f(x)\oplus zq(x)
+
+      and
+
+      D_{(a,c)}h(x,z)
+      =D_af(x)\oplus cq(x)\oplus zD_aq(x)\oplus cD_aq(x).
+
+      If q\ne0 and \deg(q)=\max(\deg f,\deg g), then
+
+      \deg(h)=1+\max(\deg f,\deg g).
+
+      If 0<\deg(q) and \deg(q)\ge\deg(f), then no direction (a,1) is a
+      linear structure of h.
+
+      A direction (a,0) is a linear structure exactly when a is a common
+      linear structure of f and g with the same derivative constant.
+
+      Consequently, under the same positive-degree condition on q, if there
+      is no nonzero a for which D_af and D_ag are equal constants, then h
+      has no nonzero linear structure.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hyperplaneExtension_append_eq_add_mul_difference
+      - CryptBoolean.hyperplaneExtension_eq_booleanDirectSum_add_booleanBlockProduct
+      - CryptBoolean.booleanDerivative_hyperplaneExtension_append
+      - CryptBoolean.HaveEqualConstantDerivative
+      - CryptBoolean.isLinearStructure_hyperplaneExtension_append_zero_iff
+      - CryptBoolean.functionAlgebraicDegree_hyperplaneExtension_eq_succ_max
+      - CryptBoolean.not_isLinearStructure_hyperplaneExtension_append_one
+      - CryptBoolean.no_nonzero_linearStructure_hyperplaneExtension
+    fidelity_note: >-
+      The degree hypothesis controlling directions (a,1) and the separate
+      common-derivative hypothesis controlling directions (a,0) are retained
+      as printed. Lean assigns degree zero to the zero function, whereas the
+      source's “highest monomials are not all the same” excludes q=0; the
+      explicit q\ne0 hypothesis preserves that condition. For the
+      linear-structure conclusion the source also needs positive degree:
+      complementary constant f and g give q=1 and make every direction
+      (a,1) a constant derivative.
+    reuse_note: >-
+      The proof uses the canonical Boolean derivative and algebraic-degree
+      operations without duplicating the linear-kernel predicate.
+    dependencies:
+      - carlet-7-rel-65-siegenthaler-concatenation
+      - carlet-4-def-linear-kernel
+      - carlet-2-def-2-derivative
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-7-concatenation-family
+    kind: theorem-family
+    location: >-
+      Generalized concatenation (Carlet, p. 124)
+    statement: |-
+      Let (f_y)_{y\in V_s} be a family of r-variable m-resilient functions and
+      define
+
+      F(x,y)=f_y(x).
+
+      Then F is m-resilient, and for every a\in V_r and b\in V_s,
+
+      W_F(a,b)=\sum_{y\in V_s}(-1)^{b\cdot y}W_{f_y}(a).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.familyConcatenation
+      - CryptBoolean.familyConcatenation_append
+      - CryptBoolean.firstBlockSlice_familyConcatenation
+      - CryptBoolean.walshTransform_familyConcatenation_append
+      - CryptBoolean.isResilient_familyConcatenation
+    fidelity_note: >-
+      The indexed family and both frequency blocks are explicit.
+    reuse_note: >-
+      This finite Walsh identity generalizes Relation (65) and the resilience
+      conclusion again uses Chapter 4 Theorem 3.
+    dependencies:
+      - carlet-7-rel-65-siegenthaler-concatenation
+      - carlet-4-theorem-3
+
+  - id: carlet-7-tarannikov-elementary-construction
+    kind: theorem-family
+    location: >-
+      Tarannikov's elementary construction (Carlet, p. 125)
+    statement: |-
+      Let g:V_r\to\mathbb F_2 and define
+
+      h(x_1,\ldots,x_r,z)
+      =z\oplus g(x_1,\ldots,x_{r-1},x_r\oplus z).
+
+      Its Walsh transform is zero when the last two frequency coordinates are
+      equal and otherwise is twice the corresponding Walsh coefficient of g.
+      Consequently,
+
+      \operatorname{nl}(h)=2\operatorname{nl}(g).
+
+      If g is m-resilient, then h is m-resilient. If additionally
+      W_g(a,1)=0 for every a of weight at most m, then h is
+      (m+1)-resilient. If \deg(g)\ge1, then \deg(h)=\deg(g).
+      The direction supported on the last two coordinates is a nonzero linear
+      structure of h.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.tarannikovPenultimateIndex
+      - CryptBoolean.tarannikovLastIndex
+      - CryptBoolean.tarannikovShearLinearMap
+      - CryptBoolean.tarannikovShearLinearMap_involutive
+      - CryptBoolean.tarannikovShearLinearEquiv
+      - CryptBoolean.tarannikovCoordinates
+      - CryptBoolean.tarannikovCoordinates_eq_append
+      - CryptBoolean.tarannikovElementaryConstruction
+      - CryptBoolean.walshTransform_oneVariableParity_singletonF₂Cube
+      - CryptBoolean.f₂DotProduct_tarannikovCoordinates
+      - CryptBoolean.exists_eq_tarannikovCoordinates
+      - CryptBoolean.f₂DotProduct_tarannikovShear
+      - CryptBoolean.walshTransform_tarannikovElementaryConstruction
+      - CryptBoolean.nonlinearity_tarannikovElementaryConstruction
+      - CryptBoolean.card_f₂Support_tarannikovCoordinates
+      - CryptBoolean.card_f₂Support_singletonF₂Cube
+      - CryptBoolean.isResilient_tarannikovElementaryConstruction
+      - CryptBoolean.isResilient_succ_tarannikovElementaryConstruction
+      - CryptBoolean.functionAlgebraicDegree_tarannikovElementaryConstruction
+      - CryptBoolean.tarannikovLinearStructureDirection
+      - CryptBoolean.tarannikovLinearStructureDirection_ne_zero
+      - CryptBoolean.tarannikovShearLinearEquiv_direction
+      - CryptBoolean.tarannikovLinearStructureDirection_isNonzeroLinearStructure
+    fidelity_note: >-
+      The spectral branch condition is retained because it is the common proof
+      source for every parameter consequence.
+    reuse_note: >-
+      This is an invertible linear change followed by adding one affine
+      coordinate, so the proof reuses affine invariance, Walsh modulation, and
+      the canonical derivative API.
+    dependencies:
+      - carlet-7-adding-variable
+      - carlet-2-affine-invariance
+      - carlet-4-theorem-3
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-4-def-linear-kernel
+
+  - id: carlet-7-theorem-14-indirect-sum
+    kind: theorem-family
+    location: >-
+      Theorem 14 and Relations (66)--(67) (Carlet, pp. 126--127)
+    statement: |-
+      Let r,s>0, let t<r and m<s. Let f_1,f_2:V_r\to\mathbb F_2 be
+      t-resilient and let g_1,g_2:V_s\to\mathbb F_2 be m-resilient. Define
+
+      h(x,y)=f_1(x)\oplus g_1(y)
+        \oplus(f_1\oplus f_2)(x)(g_1\oplus g_2)(y).
+
+      Then h is (t+m+1)-resilient and
+
+      W_h(a,b)=\frac12W_{f_1}(a)(W_{g_1}(b)+W_{g_2}(b))
+              +\frac12W_{f_2}(a)(W_{g_1}(b)-W_{g_2}(b)).
+
+      If the Walsh supports of f_1,f_2 are disjoint and likewise those of
+      g_1,g_2, then
+
+      \operatorname{nl}(h)
+      =\min_{i,j\in\{1,2\}}
+        \left(
+          2^{r+s-2}
+          +2^{r-1}\operatorname{nl}(g_j)
+          +2^{s-1}\operatorname{nl}(f_i)
+          -\operatorname{nl}(f_i)\operatorname{nl}(g_j)
+        \right).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_mul_walshTransform_indirectSum
+      - CryptBoolean.walshTransform_indirectSum_cast_eq_relation_66
+      - CryptBoolean.isResilient_indirectSum
+      - CryptBoolean.two_mul_maxWalshMagnitude_indirectSum_of_disjointWalshSupport
+      - CryptBoolean.nonlinearity_indirectSum_cast_eq_relation_67_spectral
+      - CryptBoolean.nonlinearity_indirectSum_cast_eq_relation_67
+    fidelity_note: >-
+      Relation (66) is first represented over the integers without division.
+      The Relation (67) declaration simplifies the minimum over four pairs to
+      the minimum nonlinearity in each spectrally disjoint pair.
+    reuse_note: >-
+      The existing Chapter 6 `indirectSum` is reused. Relation (66) is the sole
+      spectral controller for resilience and Relation (67).
+    dependencies:
+      - carlet-6-indirect-sum
+      - carlet-7-direct-sum-resilient
+      - carlet-4-theorem-3
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-7-theorem-14-indirect-sum-degree
+    kind: theorem-family
+    location: >-
+      Degree clause of Theorem 14 (Carlet, pp. 126--127; corrected
+      nonconstant hypotheses)
+    statement: |-
+      In the setting of Theorem 14, if f_1\oplus f_2 and
+      g_1\oplus g_2 are both nonconstant, then
+
+      \deg(h)=\max\bigl(
+        \deg f_1,\deg g_1,
+        \deg(f_1\oplus f_2)+\deg(g_1\oplus g_2)
+      \bigr).
+
+      If either difference is constant, the corresponding branch reduces to
+      a direct sum and has the degree supplied by that specialization.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.booleanBlockProduct
+      - CryptBoolean.booleanBlockProduct_append
+      - CryptBoolean.functionAlgebraicDegree_booleanBlockProduct
+      - CryptBoolean.functionAlgebraicDegree_indirectSum
+      - CryptBoolean.functionAlgebraicDegree_indirectSum_of_leftDifference_eq_zero
+      - CryptBoolean.functionAlgebraicDegree_indirectSum_of_leftDifference_eq_one
+      - CryptBoolean.functionAlgebraicDegree_indirectSum_of_rightDifference_eq_zero
+      - CryptBoolean.functionAlgebraicDegree_indirectSum_of_rightDifference_eq_one
+    fidelity_note: >-
+      The printed degree branch assumes only distinct pairs, but its proof uses
+      both pairwise sums nonconstant. Distinct complementary functions make a
+      sum constant and can invalidate the displayed degree formula.
+    reuse_note: >-
+      The nonconstant branch reuses the ANF degree of products on disjoint
+      blocks; the constant branches reuse the Chapter 7 direct-sum degree
+      theorem.
+    dependencies:
+      - carlet-7-theorem-14-indirect-sum
+      - carlet-7-direct-sum-degree
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-7-prop-34-three-function-construction
+    kind: proposition
+    location: >-
+      Proposition 34 and Relations (68)--(69) (Carlet, pp. 127--128)
+    statement: |-
+      Let n>0 and k<n. Let f_1,f_2,f_3:V_n\to\mathbb F_2 each be
+      correlation immune of order k, respectively k-resilient. Put
+
+      s_1=f_1\oplus f_2\oplus f_3,\qquad
+      s_2=f_1f_2\oplus f_1f_3\oplus f_2f_3.
+
+      Then s_1 is correlation immune of order k, respectively k-resilient, if
+      and only if s_2 has the same property.
+
+      Moreover,
+
+      \operatorname{nl}(s_2)\ge
+      \frac12\left(
+        \operatorname{nl}(s_1)+
+        \sum_{i=1}^3\operatorname{nl}(f_i)-2^{n-1}
+      \right).
+
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.isCorrelationImmune_threeFunctionSum_iff_pairwiseProductSum
+      - CryptBoolean.isResilient_threeFunctionSum_iff_pairwiseProductSum
+      - CryptBoolean.two_mul_maxWalshMagnitude_pairwiseProductSum_le
+      - CryptBoolean.relation_68_threeFunctionConstruction
+      - CryptBoolean.nonlinearity_pairwiseProductSum_cast_lower_bound
+    fidelity_note: >-
+      Both the correlation-immune and resilient branches are retained. The
+      half-factor inequalities also receive division-free integer forms.
+    reuse_note: >-
+      Chapter 6 Relation (50), already formalized as
+      `walshTransform_threeFunctionIdentity`, is reused as the exact spectral
+      identity for every conclusion.
+    dependencies:
+      - carlet-6-prop-22-three-function-identity
+      - carlet-4-theorem-3
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-7-rel-69-three-function-disjoint-spectra
+    kind: theorem
+    location: >-
+      Relation (69) (Carlet, p. 128)
+    statement: |-
+      Under the hypotheses of Proposition 34, suppose the Walsh supports of
+      f_1,f_2,f_3 are pairwise disjoint. Then
+
+      \operatorname{nl}(s_2)\ge
+      \frac12\left(
+        \operatorname{nl}(s_1)+
+        \min_{1\le i\le3}\operatorname{nl}(f_i)
+      \right).
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.two_mul_maxWalshMagnitude_pairwiseProductSum_le_of_pairwiseDisjoint
+      - CryptBoolean.relation_69_threeFunctionConstruction
+      - CryptBoolean.nonlinearity_pairwiseProductSum_cast_lower_bound_of_pairwiseDisjoint
+    fidelity_note: >-
+      Pairwise disjointness means at most one of the three input Walsh
+      coefficients is nonzero at each frequency. A division-free natural
+      inequality precedes the displayed half-factor form.
+    reuse_note: >-
+      The proof specializes Relation (50) through a shared disjoint-Walsh-
+      support predicate and then reuses Relation (35).
+    dependencies:
+      - carlet-7-prop-34-three-function-construction
+      - carlet-4-rel-35-nonlinearity-walsh
+
+  - id: carlet-7-disjoint-truth-support-sum
+    kind: theorem-family
+    location: >-
+      Disjoint-support remark (Carlet, p. 128)
+    statement: |-
+      Let g,h:V_n\to\mathbb F_2 have disjoint truth supports and put
+      f=g\oplus h.
+
+      Then f is balanced exactly when
+
+      w_H(g)+w_H(h)=2^{n-1}.
+
+      If g and h are correlation immune of order m and f is balanced, then f
+      is m-resilient and
+
+      \operatorname{nl}(f)
+      \ge\operatorname{nl}(g)+\operatorname{nl}(h)-2^{n-1}.
+
+      Also
+
+      \deg(f)\le\max(\deg g,\deg h),
+
+      and equality can occur.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.hammingWeight_add_eq_of_disjoint_truthSupport
+      - CryptBoolean.isBalanced_add_iff_hammingWeight_add_eq_two_pow_pred
+      - CryptBoolean.walshTransform_add_of_disjoint_truthSupport
+      - CryptBoolean.isResilient_add_of_disjoint_truthSupport
+      - CryptBoolean.maxWalshMagnitude_add_le_of_disjoint_truthSupport
+      - CryptBoolean.nonlinearity_add_le_two_pow_pred_add_of_disjoint_truthSupport
+      - CryptBoolean.nonlinearity_add_sub_two_pow_pred_le_of_disjoint_truthSupport
+      - CryptBoolean.functionAlgebraicDegree_add_le_max_of_disjoint_truthSupport
+      - CryptBoolean.exists_disjoint_truthSupport_functionAlgebraicDegree_add_eq_max
+    fidelity_note: >-
+      “Can be equal” is represented by a separate finite existence witness,
+      not by an unconditional equality.
+    reuse_note: >-
+      The proof composes support-cardinality addition, linearity of the raw
+      Fourier transform, Theorem 3, and Relation (35).
+    dependencies:
+      - carlet-2-def-support-weight
+      - carlet-4-theorem-3
+      - carlet-4-rel-35-nonlinearity-walsh
+      - carlet-2-def-algebraic-degree
+
+  - id: carlet-7-maiorana-mcfarland-count
+    kind: theorem-family
+    location: >-
+      Maiorana--McFarland counts (Carlet, Section 7.6, p. 129)
+    statement: |-
+      Let r>0 and s=n-r.
+
+      The number of pairs (\phi,g) in Relation (59) satisfying
+      \phi(y)\ne0 for every y is
+
+      (2^{r+1}-2)^{2^s}.
+
+      The number of pairs satisfying w_H(\phi(y))>m for every y is
+
+      \left(
+        2\sum_{i=m+1}^{r}\binom ri
+      \right)^{2^{n-r}}.
+
+      If r=1 or r\ge3, the first quantity is at most 2^{2^{n-1}}. At r=2
+      the printed bound is false and the strict reverse inequality holds.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.pointwiseConstrainedGeneralMaioranaMcFarlandParametersEquiv
+      - CryptBoolean.card_pointwiseConstrainedGeneralMaioranaMcFarlandParameters
+      - CryptBoolean.card_nonzero_f₂Cube
+      - CryptBoolean.card_f₂Cube_weight_gt_eq_sum_choose
+      - CryptBoolean.card_nonzeroGeneralMaioranaMcFarlandParameters
+      - CryptBoolean.card_highWeightGeneralMaioranaMcFarlandParameters
+      - CryptBoolean.card_nonzeroGeneralMaioranaMcFarlandParameters_le
+      - CryptBoolean.card_nonzeroGeneralMaioranaMcFarlandParameters_sourceBound_lt_at_two
+    fidelity_note: >-
+      These count construction data (\phi,g), as the source does; they do not
+      quotient different data that may define the same Boolean function.
+      The source's claimed upper bound for every positive r fails at r=2:
+      already for one fiber it asserts 6\le4. The exact valid range and the
+      strict counterexample are both formalized.
+    reuse_note: >-
+      The proof is a finite independent-choice count over fibers and reuses
+      Mathlib's Boolean-cube cardinalities.
+    dependencies:
+      - carlet-7-rel-59-maiorana-mcfarland-general
+      - carlet-7-maximum-correlation-support
+
+  - id: carlet-7-naive-resilient-count-bound
+    kind: theorem
+    location: >-
+      Naive counting bound (Carlet, p. 129)
+    statement: |-
+      The number of m-resilient n-variable Boolean functions is at most
+
+      2^{\sum_{i=0}^{n-m-1}\binom ni}.
+    formal_status: formalized
+    declarations:
+      - CryptBoolean.exists_eq_affineFunction_fullFrequency_of_isResilient_natPred
+      - CryptBoolean.natCard_isResilient_le_naiveBound
+    fidelity_note: >-
+      The finite class is counted extensionally as Boolean functions, not as
+      syntactic ANF expressions.
+    reuse_note: >-
+      This is the Chapter 4 degree count specialized through Siegenthaler's
+      bound.
+    dependencies:
+      - carlet-7-siegenthaler-degree-bounds
+      - carlet-4-degree-count
+
+source_recovery:
+  - id: carlet-7-nnf-additional-characterizations
+    kind: characterization-family
+    location: >-
+      Discussion around Proposition 32 (Carlet, pp. 111--112)
+    source_claim: >-
+      Carlet reports further characterizations of resilient functions through
+      their numerical normal forms and divisibility of NNF coefficients.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [87, 191]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      Proposition 32 is complete and promoted. The additional coefficient
+      characterizations and construction family are only referenced.
+    reuse_note: >-
+      Recovered statements should reuse the Chapter 2 NNF and raw Fourier APIs.
+    blocker: >-
+      The cited coefficient conditions, quantifiers, and construction
+      parameters are absent from the survey.
+    dependencies:
+      - carlet-7-prop-32-nnf-characterization
+
+  - id: carlet-7-refined-restriction-degree-bound
+    kind: theorem
+    location: >-
+      Refinement following Theorem 13 (Carlet, p. 114)
+    source_claim: >-
+      Theorem 13's degree-sensitive nonlinearity bound can use the minimum
+      degree of certain complementary-subspace restrictions indexed by
+      weight-(m+1) nonzero Walsh frequencies.
+    statement_status: incomplete-empty-index-convention
+    formal_status: open
+    declarations: []
+    references: [62, 93]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey does not define the minimum when no weight-(m+1) Walsh
+      coefficient is nonzero, and it does not state an exact-order hypothesis
+      ensuring the indexing family is inhabited.
+    reuse_note: >-
+      A recovered total statement should reuse Chapter 2 restrictions and
+      Theorem 13.
+    blocker: >-
+      The primary source is needed for the inhabitedness convention or the
+      intended conditional form.
+    dependencies:
+      - carlet-7-theorem-13-degree-divisibility
+
+  - id: carlet-7-additional-nonlinearity-and-indicator-claims
+    kind: theorem-family
+    location: >-
+      Nonlinearity discussion (Carlet, pp. 112--115)
+    source_claim: >-
+      Carlet reports a minimum sum-of-squares-indicator property for equality
+      cases, an equal high-order upper bound for correlation-immune functions,
+      and odd-dimensional improvements expressed through the unknown best
+      balanced nonlinearity.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [22, 258, 316, 340, 361]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The comparison class and indicator minimum are absent, the claimed
+      high-order threshold is unspecified, and the odd-dimensional bound is
+      parameterized by an unknown extremal quantity rather than a closed
+      theorem statement.
+    reuse_note: >-
+      Exact recovered claims should reuse the Chapter 4 autocorrelation
+      indicators and nonlinearity APIs.
+    blocker: >-
+      Primary sources are needed for exact hypotheses, values, and equality
+      cases.
+    dependencies:
+      - carlet-7-sarkar-maitra-nonlinearity-bound
+      - carlet-4-def-autocorrelation-indicators
+
+  - id: carlet-7-maximum-correlation-applications
+    kind: application-family
+    location: >-
+      Carlet, Section 7.3, pp. 115--116
+    source_claim: >-
+      Carlet says that an upper bound follows from Relation (40) and the
+      Sarkar bound and interprets the |I|=m+1 case as the optimum number of
+      LFSRs in a fast-correlation attack.
+    statement_status: incomplete-application-model
+    formal_status: open
+    declarations: []
+    references: []
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      No explicit maximum-correlation upper-bound formula is displayed, and no
+      LFSR attack model or optimization domain is defined.
+    reuse_note: >-
+      The complete spectral-support count and exact |I|=m+1 formula are
+      promoted separately.
+    blocker: >-
+      The missing explicit bound and operational attack semantics must be
+      recovered before formalization.
+    dependencies:
+      - carlet-7-maximum-correlation-support
+
+  - id: carlet-7-other-criteria-constructions
+    kind: theorem-family
+    location: >-
+      Carlet, Sections 7.4--7.5 opening, pp. 116--117
+    source_claim: >-
+      Carlet reports nonlinearity improvements under simultaneous resiliency
+      and propagation constraints, weakened resiliency notions, corrector
+      functions, and small-dimensional construction searches.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [103, 152, 205, 243, 244, 258, 306]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey supplies no improved bound, definitions of the weakened
+      notions, correction guarantees, or complete construction certificates.
+    reuse_note: >-
+      Recovered results should reuse the canonical propagation, resiliency,
+      nonlinearity, and affine-equivalence layers.
+    blocker: >-
+      Primary statements and parameter ranges are required.
+    dependencies:
+      - carlet-7-resiliency-propagation-tradeoff
+
+  - id: carlet-7-generalized-maiorana-families
+    kind: construction-family
+    location: >-
+      Generalizations of the Maiorana--McFarland construction (Carlet,
+      pp. 119--120)
+    source_claim: >-
+      Carlet displays two quadratic-concatenation forms and a further
+      affine-indicator concatenation, and reports Walsh formulas, resiliency
+      conditions, and nonlinearity bounds for them.
+    statement_status: mixed-complete-definitions-incomplete-results
+    formal_status: open
+    declarations: []
+    references: [63, 67, 92]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The construction formulas are visible, but the survey omits the reported
+      Walsh transforms, hypotheses, bounds, and exact duplicate-representation
+      count.
+    reuse_note: >-
+      Promotion should extend the canonical concatenation and
+      Maiorana--McFarland character-sum APIs only after the omitted statements
+      are recovered.
+    blocker: >-
+      References [63,67,92] are needed for theorem-complete conditions and
+      parameter bounds.
+    dependencies:
+      - carlet-7-rel-59-maiorana-mcfarland-general
+      - carlet-7-concatenation-family
+
+  - id: carlet-7-additional-high-nonlinearity-constructions
+    kind: construction-family
+    location: >-
+      Carlet, discussion around secondary constructions, pp. 123--126
+    source_claim: >-
+      Carlet reports iterative constructions attaining the Siegenthaler and
+      Sarkar bounds for broad parameter ranges, including Tarannikov's complex
+      construction and the Pasalic modification.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [214, 288, 289, 340]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey gives threshold inequalities but not the recursive operators,
+      base families, or exact parameter propagation needed to state the
+      existence theorems faithfully.
+    reuse_note: >-
+      Recovered constructions should compose the promoted direct-sum,
+      concatenation, and elementary Tarannikov combinators.
+    blocker: >-
+      Primary recursive definitions and base-case certificates are missing.
+    dependencies:
+      - carlet-7-tarannikov-elementary-construction
+      - carlet-7-rel-65-siegenthaler-concatenation
+
+  - id: carlet-7-exact-high-order-counts
+    kind: classification-family
+    location: >-
+      Exact high-order counts (Carlet, p. 129)
+    source_claim: >-
+      Exact numbers are known for m\ge n-3, and (n-3)- and
+      (n-4)-resilient functions have been characterized.
+    statement_status: incomplete-source-recovery
+    formal_status: open
+    declarations: []
+    references: [25, 34, 74]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey provides neither the classifications nor the exact formulas.
+    reuse_note: >-
+      Any recovered classification should reuse the canonical resilient
+      predicate, coordinate permutation action, and finite function counts.
+    blocker: >-
+      The cited representatives, equivalence relation, and count formulas are
+      required.
+    dependencies:
+      - carlet-7-naive-resilient-count-bound
+
+  - id: carlet-7-finite-counting-upper-bounds
+    kind: theorem-family
+    location: >-
+      Counting upper bounds (Carlet, pp. 129--130)
+    source_claim: >-
+      Carlet displays Schneider's product upper bound and a further product
+      bound for n/2-1\le m<n-2, and reports approximate improvements from a
+      divisibility-based bound.
+    statement_status: mixed-displayed-formulas-and-abbreviated-comparisons
+    formal_status: open
+    declarations: []
+    references: [83, 89, 156, 291, 320]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The extracted exponent typography is ambiguous, strict versus non-strict
+      counting inequalities are not normalized, and the approximate
+      improvement statements omit error terms.
+    reuse_note: >-
+      Promotion should specialize a recovered finite combinatorial counting
+      theorem and compare it to the naive bound.
+    blocker: >-
+      The primary sources are needed for exact product exponents, integer
+      rounding, and comparison ranges.
+    dependencies:
+      - carlet-7-naive-resilient-count-bound
+
+  - id: carlet-7-asymptotic-resilient-counts
+    kind: theorem-family
+    location: >-
+      Asymptotic counting results (Carlet, p. 130; corrected printed bound)
+    source_claim: >-
+      Denisov gives an asymptotic equivalent when m=o(sqrt n).
+      Tarannikov--Kirienko give, for fixed positive m, a finite essential
+      variable bound p(m), an eventual polynomial count, and the asymptotic
+      leading term. The primary result bounds
+
+      3*2^(m-2)-2 <= p(m) <= (m-1)*2^(m-2),
+
+      and p(4)=10 yields (1/2)n^10+O(n^9) functions of order n-4.
+    statement_status: incomplete-asymptotic-quantifiers-with-source-correction
+    formal_status: open
+    declarations: []
+    references: [129, 130, 278, 342, 343]
+    first_release_scope: required-after-source-recovery
+    fidelity_note: >-
+      The survey does not specify whether m is fixed or a sequence in the
+      Denisov equivalence, nor the exact normalization of `exp_2`. Its printed
+      lower bound omits `-2`, contradicting p(4)=10; the corrected bound is
+      taken from the cited primary theorem.
+    reuse_note: >-
+      Formalization requires a reusable action of coordinate permutations and
+      finite-cardinality asymptotic notation, not an ad hoc count.
+    blocker: >-
+      Exact sequence quantifiers, the corrected Denisov expression, and the
+      primary decomposition theorem must be recovered.
+    dependencies:
+      - carlet-7-naive-resilient-count-bound

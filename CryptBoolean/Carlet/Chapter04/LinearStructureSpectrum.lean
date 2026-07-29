@@ -141,7 +141,7 @@ private theorem autocorrelation_eq_two_pow_iff_derivative_eq_zero
     rw [h]
     simp
 
-private theorem autocorrelation_eq_neg_two_pow_iff_derivative_eq_one
+theorem autocorrelation_eq_neg_two_pow_iff_derivative_eq_one
     (f : BooleanFunction n) (e : FABL.F₂Cube n) :
     autocorrelation f e = -((2 : ℝ) ^ n) ↔
       FABL.booleanDerivative f e = 1 := by

@@ -34,6 +34,20 @@ abbrev hammingWeight (f : BooleanFunction n) : ℕ :=
 def bitSignInt (b : FABL.𝔽₂) : ℤ :=
   (FABL.signEncode b : ℤ)
 
+/-- The real cast of Carlet's integer sign is FABL's additive character. -/
+theorem bitSignInt_cast (b : FABL.𝔽₂) :
+    (bitSignInt b : ℝ) = FABL.binarySign b := by
+  rw [← FABL.signValue_signEncode_eq_binarySign]
+  rfl
+
+/-- Casting an integer sign value to `ℝ` agrees with the real sign view. -/
+theorem bitSignInt_cast_eq_realSignView
+    (f : BooleanFunction n) (x : FABL.F₂Cube n) :
+    (bitSignInt (f x) : ℝ) = realSignView f x := by
+  rw [bitSignInt_cast]
+  simp [realSignView, FABL.realSignEncodedFunction,
+    FABL.signEncodedFunction, FABL.signValue_signEncode_eq_binarySign]
+
 /-- The summand `(-1)^{f(x)+a·x}` in Carlet's Walsh transform. -/
 def walshTerm (f : BooleanFunction n) (a x : FABL.F₂Cube n) : ℤ :=
   bitSignInt (f x + FABL.f₂DotProduct a x)

@@ -46,12 +46,6 @@ theorem hammingDistance_cast_affineFunction
   rw [← FABL.relativeHammingDist_realSignEncodedFunction]
   rw [FABL.realSignEncodedFunction_affineFunction]
 
-/-- The real cast of Carlet's integer bit sign is FABL's additive character. -/
-theorem bitSignInt_cast (b : FABL.𝔽₂) :
-    (bitSignInt b : ℝ) = FABL.binarySign b := by
-  rw [← FABL.signValue_signEncode_eq_binarySign]
-  rfl
-
 /-- Raw distance to an affine function in terms of its signed Walsh coefficient. -/
 theorem hammingDistance_cast_affineFunction_eq
     (f : BooleanFunction n) (b : FABL.𝔽₂) (a : FABL.F₂Cube n) :

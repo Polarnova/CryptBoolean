@@ -5,7 +5,7 @@ open Lake DSL
 require FABL from git "https://github.com/Polarnova/FABL.git" @ "v0.5.6"
 
 package CryptBooleanFunction where
-  version := v!"0.5.1"
+  version := v!"0.6.0"
   description := "Cryptographic Boolean Functions in Lean"
   keywords := #["mathematics", "boolean-functions", "cryptography", "formalization"]
   license := "Apache-2.0"

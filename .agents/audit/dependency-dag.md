@@ -17,7 +17,8 @@ spine. The current baseline is:
 | Carlet Chapter 4 | 73 | 73 | 0 | 568 | 159 |
 | Carlet Chapter 5 | 31 | 28 | 3 | 203 | 70 |
 | Carlet Chapter 6 | 70 | 70 | 0 | 441 | 189 |
-| **Total** | **222** | **219** | **3** | **1418** | **493** |
+| Carlet Chapter 7 | 39 | 39 | 0 | 224 | 114 |
+| **Total** | **261** | **258** | **3** | **1642** | **607** |
 
 An item marked `[open]` has a complete mathematical statement but no Lean association. In the
 tables below, `consumer <- prerequisite-1, prerequisite-2` denotes one incoming edge from each
@@ -876,6 +877,175 @@ without conflating it with the coordinate-invariant construction.
 
 These Chapter 6 families contain exactly 189 incoming statement edges.
 
+## Chapter 7 reviewed dependency DAG
+
+### Degree, divisibility, and nonlinearity
+
+```text
+carlet-7-siegenthaler-degree-bounds
+  <- carlet-4-def-resiliency-correlation-immunity, carlet-2-def-algebraic-degree
+carlet-7-prop-32-nnf-characterization
+  <- carlet-4-theorem-3, carlet-2-rel-30-nnf-fourier,
+     carlet-2-nnf-existence-uniqueness
+carlet-7-walsh-weight-divisibility
+  <- carlet-7-prop-32-nnf-characterization, carlet-2-rel-30-nnf-fourier,
+     carlet-2-def-support-weight, carlet-2-def-walsh-transform
+carlet-7-sarkar-maitra-nonlinearity-bound
+  <- carlet-7-walsh-weight-divisibility, carlet-2-parseval,
+     carlet-4-rel-35-nonlinearity-walsh, carlet-6-def-plateaued
+carlet-7-theorem-13-degree-divisibility
+  <- carlet-7-walsh-weight-divisibility, carlet-2-cor-1-poisson-summation,
+     carlet-6-prop-19, carlet-4-theorem-3
+carlet-7-correlation-immune-degree-divisibility
+  <- carlet-6-prop-19, carlet-2-cor-1-poisson-summation,
+     carlet-4-theorem-3, carlet-2-def-support-weight
+carlet-7-degree-sensitive-nonlinearity-bound
+  <- carlet-7-theorem-13-degree-divisibility, carlet-7-siegenthaler-degree-bounds,
+     carlet-4-rel-35-nonlinearity-walsh
+carlet-7-even-dimension-nonlinearity-bound
+  <- carlet-7-walsh-weight-divisibility, carlet-4-rel-36-covering-radius-bent,
+     carlet-2-balanced-zero-walsh
+carlet-7-rel-57-parseval-nonlinearity-bound
+  <- carlet-7-walsh-weight-divisibility, carlet-4-theorem-3,
+     carlet-2-parseval, carlet-4-rel-35-nonlinearity-walsh
+carlet-7-rel-58-entropy-nonlinearity-bound
+  <- carlet-7-rel-57-parseval-nonlinearity-bound
+```
+
+Siegenthaler's bounds reuse FABL's canonical algebraic degree and the exact
+Carlet/FABL resiliency representation. Proposition 32 moves through the numerical
+normal form and the parity frequency shift. The basic divisibility family and
+Theorem 13 then compose raw Poisson summation with the generic McEliece--Ax
+character-sum theorem already recorded with Proposition 19. Relation (57) counts
+the non-forced Walsh support, applies Parseval, and rounds the resulting integral
+Walsh amplitude. Relation (58) is its entropy specialization.
+
+### Correlation and propagation criteria
+
+```text
+carlet-7-maximum-correlation-support
+  <- carlet-4-def-maximum-correlation, carlet-4-rel-40-maximum-correlation-bound,
+     carlet-4-theorem-3
+carlet-7-resiliency-propagation-tradeoff
+  <- carlet-4-def-resiliency-correlation-immunity,
+     carlet-4-def-propagation-criteria, carlet-4-theorem-3,
+     carlet-2-cor-1-poisson-summation, carlet-2-rel-25-wiener-khinchin
+carlet-7-resiliency-propagation-equality
+  <- carlet-7-resiliency-propagation-tradeoff
+```
+
+The tradeoff is the coordinate-subspace specialization of Poisson summation for
+the autocorrelation. Its equality case retains positive propagation order,
+which is implicit in the source convention for `PC(l)`; with a natural-number
+parameter the zero-order predicate is vacuous.
+
+### Primary constructions
+
+```text
+carlet-7-rel-59-maiorana-mcfarland-general
+  <- carlet-5-def-maiorana-mcfarland
+carlet-7-rel-60-maiorana-mcfarland-walsh
+  <- carlet-7-rel-59-maiorana-mcfarland-general,
+     carlet-6-prop-20-general-maiorana-mcfarland, carlet-2-def-walsh-transform
+carlet-7-maiorana-mcfarland-resiliency
+  <- carlet-7-rel-60-maiorana-mcfarland-walsh, carlet-4-theorem-3
+carlet-7-maiorana-mcfarland-degree
+  <- carlet-7-rel-59-maiorana-mcfarland-general,
+     carlet-7-siegenthaler-degree-bounds, carlet-2-def-algebraic-degree
+carlet-7-rel-61-maiorana-nonlinearity-lower
+  <- carlet-7-rel-60-maiorana-mcfarland-walsh,
+     carlet-4-rel-35-nonlinearity-walsh
+carlet-7-rel-62-maiorana-nonlinearity-upper
+  <- carlet-7-rel-60-maiorana-mcfarland-walsh, carlet-2-parseval,
+     carlet-4-rel-35-nonlinearity-walsh
+carlet-7-maiorana-optimal-classification
+  <- carlet-7-rel-62-maiorana-nonlinearity-upper,
+     carlet-7-maiorana-mcfarland-degree
+carlet-7-linear-pullback-construction
+  <- carlet-4-theorem-3, carlet-2-prop-6-fourier-shifts,
+     carlet-4-resiliency-support-dual-distance
+carlet-7-rel-63-partial-spread-resilient
+  <- carlet-6-partial-spread-construction, carlet-2-trace-pairing-coordinates,
+     carlet-4-theorem-3
+carlet-7-prop-33-dobbertin-walsh
+  <- carlet-6-def-7-bent, carlet-5-def-4-normality,
+     carlet-5-flat-indicator-walsh-nonlinearity, carlet-2-balanced-zero-walsh
+carlet-7-dobbertin-nonlinearity
+  <- carlet-7-prop-33-dobbertin-walsh,
+     carlet-4-rel-35-nonlinearity-walsh, carlet-6-def-7-bent
+```
+
+The Maiorana--McFarland branch begins with the exact fiber character sum.
+Resiliency, degree, lower and upper nonlinearity bounds, and the optimal
+parameter classification remain separate results. The linear pullback is
+coordinate-free through the perpendicular complement of the kernel. Relation
+(63) keeps the field/cube equivalence and trace-pairing adjoint as explicit
+data. Dobbertin's construction reuses bentness, zero-flat normality, and the
+flat-indicator spectrum.
+
+### Composition and secondary constructions
+
+```text
+carlet-7-adding-variable
+  <- carlet-7-sarkar-maitra-nonlinearity-bound,
+     carlet-7-siegenthaler-degree-bounds, carlet-4-def-linear-kernel
+carlet-7-direct-sum-resilient
+  <- carlet-6-direct-sum, carlet-4-theorem-3,
+     carlet-4-rel-35-nonlinearity-walsh, carlet-4-def-linear-kernel
+carlet-7-direct-sum-degree
+  <- carlet-7-direct-sum-resilient, carlet-2-def-algebraic-degree
+carlet-7-rel-65-siegenthaler-concatenation
+  <- carlet-4-theorem-3, carlet-2-def-walsh-transform
+carlet-7-siegenthaler-concatenation-nonlinearity
+  <- carlet-7-rel-65-siegenthaler-concatenation,
+     carlet-4-rel-35-nonlinearity-walsh
+carlet-7-siegenthaler-concatenation-degree
+  <- carlet-7-rel-65-siegenthaler-concatenation,
+     carlet-4-def-linear-kernel, carlet-2-def-2-derivative,
+     carlet-2-def-algebraic-degree
+carlet-7-concatenation-family
+  <- carlet-7-rel-65-siegenthaler-concatenation, carlet-4-theorem-3
+carlet-7-tarannikov-elementary-construction
+  <- carlet-7-adding-variable, carlet-2-affine-invariance,
+     carlet-4-theorem-3, carlet-4-rel-35-nonlinearity-walsh,
+     carlet-4-def-linear-kernel
+carlet-7-theorem-14-indirect-sum
+  <- carlet-6-indirect-sum, carlet-7-direct-sum-resilient,
+     carlet-4-theorem-3, carlet-4-rel-35-nonlinearity-walsh
+carlet-7-theorem-14-indirect-sum-degree
+  <- carlet-7-theorem-14-indirect-sum, carlet-7-direct-sum-degree,
+     carlet-2-def-algebraic-degree
+carlet-7-prop-34-three-function-construction
+  <- carlet-6-prop-22-three-function-identity, carlet-4-theorem-3,
+     carlet-4-rel-35-nonlinearity-walsh
+carlet-7-rel-69-three-function-disjoint-spectra
+  <- carlet-7-prop-34-three-function-construction,
+     carlet-4-rel-35-nonlinearity-walsh
+carlet-7-disjoint-truth-support-sum
+  <- carlet-2-def-support-weight, carlet-4-theorem-3,
+     carlet-4-rel-35-nonlinearity-walsh, carlet-2-def-algebraic-degree
+```
+
+The composition branch keeps Walsh, nonlinearity, degree, and linear-structure
+consequences separate. The concatenation degree theorem explicitly excludes
+the zero and complementary-constant differences that invalidate the printed
+informal shortcut. Theorem 14 likewise distinguishes its nonconstant-difference
+degree formula from its constant specializations.
+
+### Counting
+
+```text
+carlet-7-maiorana-mcfarland-count
+  <- carlet-7-rel-59-maiorana-mcfarland-general,
+     carlet-7-maximum-correlation-support
+carlet-7-naive-resilient-count-bound
+  <- carlet-7-siegenthaler-degree-bounds, carlet-4-degree-count
+```
+
+The exact Maiorana--McFarland parameter count records the exceptional
+`r=2` counterexample to the printed upper bound. The naive count is extensional
+over Boolean functions and uses uniqueness of algebraic normal form.
+
 ## Remaining proof frontier
 
 Three source statements remain open, all in the analytic Chapter 5 character-sum branch. Their complete
@@ -898,9 +1068,11 @@ and the sharp higher-order upper bound are associated with their complete produc
 their mathematical ingredients remain separately visible in the graph. Chapter 5's quadratic
 normal form, quadratic trace representation, Relation (42), random-nonnormality limit, and
 trace-character reduction are closed; the three analytic open nodes above define the remaining
-reviewed frontier. Chapter 6 is closed: all 61 nodes have proved associations, while its eighteen
+reviewed frontier. Chapter 6 is closed: all 70 nodes have proved associations, while its eighteen
 source-recovery records remain outside the graph until their cited statements or certificates can
-be recovered faithfully.
+be recovered faithfully. Chapter 7 is closed: all 39 nodes have proved associations, while its ten
+source-recovery records preserve citation-only or underspecified construction and counting
+families.
 
 ## Machine verification
 
@@ -910,7 +1082,7 @@ The current counts and edge set are enforced by
 handoff verification uses the narrow affected module and lightweight text gates:
 
 ```bash
-lake build CryptBoolean.Carlet.Chapter06
+lake build CryptBoolean.Carlet.Chapter07
 ./.github/scripts/forbidden_tokens.sh
 python3 ./blueprint-verso/scripts/check_statement_style.py
 ```

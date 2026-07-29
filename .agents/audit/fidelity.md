@@ -21,11 +21,12 @@ The generated manifest currently verifies the following baseline:
 | Carlet Chapter 3 | 7 | 7 | 0 | 32 | 19 |
 | Carlet Chapter 4 | 73 | 73 | 0 | 568 | 159 |
 | Carlet Chapter 5 | 31 | 28 | 3 | 203 | 70 |
-| Carlet Chapter 6 | 66 | 66 | 0 | 421 | 181 |
-| **Total** | **222** | **219** | **3** | **1418** | **493** |
+| Carlet Chapter 6 | 70 | 70 | 0 | 441 | 189 |
+| Carlet Chapter 7 | 39 | 39 | 0 | 224 | 114 |
+| **Total** | **261** | **258** | **3** | **1642** | **607** |
 
 The manifest count is an association count, not a claim that every printed result in Carlet
-Chapters 2--6 is complete. Coverage outside these 222 reviewed nodes remains governed by the
+Chapters 2--7 is complete. Coverage outside the reviewed nodes remains governed by the
 inventories under `.agents/inventory/`.
 
 ## Corrected source mappings
@@ -98,6 +99,14 @@ inventories under `.agents/inventory/`.
 | `carlet-6-kerdock-parameters` | Carlet pp. 108--110 derives the Kerdock size and minimum distance from a quadratic representative family with pairwise bent sums. | The associated theorem is deliberately conditional on a finite family satisfying those hypotheses. It proves containment between `R(1,n)` and `R(2,n)`, distinctness of the first-order cosets, cardinality, and minimum distance; it is not presented as an existence proof for the explicit field family. |
 | `carlet-6-kerdock-field-trace-identity` | Carlet Relation (56), pp. 109--110 identifies the complete quadratic function with a trace expression in self-dual normal coordinates. | The theorem states the exact coordinate data it consumes: Frobenius is cyclic rotation, absolute trace is coordinate sum, and the trace pairing is the binary dot product. It then proves the identity; these hypotheses are not silently inferred from an arbitrary coordinate equivalence. |
 | `carlet-6-kerdock-field-construction` | Carlet pp. 109--110 and footnote 44 allow the trace expression to define the Kerdock representatives directly. | The construction is coordinate-invariant: the Chapter 5 trace-quadratic polar formula proves every nonzero difference bent, then the conditional Kerdock parameter theorem supplies the code size and distance. It does not depend on the separate self-dual-normal-basis coordinate identity. |
+| `carlet-7-rel-58-entropy-nonlinearity-bound` | Carlet Relation (58), p. 115 specializes the preceding finite Parseval bound with a binary-entropy lower estimate for `C(n,m)`. | The formal statement makes `1 <= m <= n/2` explicit so the displayed denominator is positive and uses a real exponent for `2^(n-m-2)`, including the printed `2^(-1)` endpoint at `n=2,m=1`. A proved Stirling decomposition supplies the finite binomial estimate; no asymptotic approximation is substituted. |
+| `carlet-7-resiliency-propagation-equality` | Carlet p. 116 classifies equality in `m+l <= n-1`. | The formal theorem explicitly assumes `l>0`, as required by the source convention. With a natural-number parameter, `PC(0)` is vacuous and parity is a counterexample to the unqualified statement. |
+| `carlet-7-maiorana-mcfarland-degree` | Carlet p. 118 gives the degree criterion for the general Maiorana--McFarland construction and its equality with the Siegenthaler bound. | Coordinate degrees and the degree of the frequency map are defined through the canonical FABL ANF degree. The `s=1` endpoint is stated separately because the offset function need not have the printed two-variable quadratic form. |
+| `carlet-7-maiorana-optimal-classification` | Carlet p. 119 classifies general Maiorana--McFarland functions attaining `2^(n-1)-2^(k+1)` under the strict image-weight hypothesis. | The two branches retain `r=k+1` and `r=k+2`. The constant-map branch distinguishes arbitrary one-variable offsets from the quadratic-affine two-variable case; the injective branch proves the finite image-size, logarithmic, and degree consequences. |
+| `carlet-7-siegenthaler-concatenation-degree` | Carlet pp. 122--123 derives the concatenation degree from the difference of its two slices. | The equality formula explicitly excludes both constant differences; mere distinctness would still admit complementary inputs and does not imply the printed degree. |
+| `carlet-7-theorem-14-indirect-sum-degree` | Carlet Theorem 14, pp. 124--125 gives the degree of the indirect sum through the two input differences. | Both differences are required to be nonconstant for the general degree formula. Constant specializations remain separate, proved branches rather than silently admitted by the source shorthand. |
+| `carlet-7-linear-pullback-construction` | Carlet p. 120 constructs resilient functions by pulling a balanced function back along a binary code generator. | The coordinate-free formal theorem uses the perpendicular kernel support of a linear map and states positive code distance explicitly; the matrix-generator statement is recovered as a specialization. |
+| `carlet-7-maiorana-mcfarland-count` | Carlet pp. 128--129 gives the exact number of Maiorana--McFarland resilient functions and a displayed upper estimate. | The exact count is formalized by finite fiber enumeration. The printed upper estimate has a counterexample at `r=2`, so the valid range and exceptional finite value are stated separately. |
 
 **Proof of Proposition 13.** Carlet refers the omitted proof to reference [72]. The
 formal proof follows that source's two arguments: differentiating a closest order-`r` Reed--Muller
@@ -146,6 +155,24 @@ Each record gives the recoverable quantifiers and parameters, identifies the mis
 statement or certificate, and names the already formalized declarations that a future promotion
 must reuse.
 
+### Chapter 7 source-recovery boundary
+
+Ten Chapter 7 records remain outside the promoted Blueprint graph. They preserve citation-only
+families and survey discussions whose complete mathematical parameters cannot be recovered from
+Carlet's chapter:
+
+- additional NNF coefficient characterizations, restriction refinements, nonlinearity indicators,
+  and maximum-correlation applications whose comparison class, inhabited index family, bound, or
+  attack model is not stated;
+- generalized Maiorana--McFarland and high-nonlinearity construction families whose full Walsh
+  formulas, hypotheses, recursive operators, or certificates are deferred to cited sources;
+- exact and asymptotic counting discussions whose classifications, formulas, error terms, or
+  parameter regimes are absent or ambiguous. The printed lower counting bound also omits the
+  necessary `-2`, as witnessed by the four-variable value.
+
+These records are not weakened into source-facing statements or filled with conjectural
+parameters.
+
 ## Reviewed formalized surface
 
 The formalized statements are split by mathematical result. Implementation module boundaries
@@ -187,7 +214,13 @@ source mathematics.
 | Chapter 6 counting and characterizations | 7 formalized nodes from `carlet-6-maiorana-mcfarland-count` through `carlet-6-prop-24-second-order-characterization` | Exact Maiorana--McFarland and `PS_ap` counts, the finite naive bound, and NNF, geometric, generalized partial-spread, and second-order characterizations using the canonical raw Fourier normalization | 75 |
 | Chapter 6 hyper-bent functions and superclasses | 14 formalized nodes from `carlet-6-def-hyper-bent` through `carlet-6-plateaued-coset-orphan` | Exact field/cube coordinate equivalence, subfield-intersection and `PS_ap` construction, partially bent decomposition, uncertainty equality, partial-bent duality, corrected partial-bent type formula and two counterexamples, and plateaued support, derivative, and corrected orphan results | 97 |
 | Chapter 6 normal extensions and Kerdock codes | 10 formalized nodes from `carlet-6-def-8-normal-extension` through `carlet-6-kerdock-field-construction` | Exact coordinate-invariant extension relation, duality, composition, replacement, and direct-sum/normality results with the affine-flat correction; complete quadratic functions; conditional Kerdock parameters; the explicit trace family; and its separately hypothesized self-dual-normal-coordinate identity | 77 |
-| **Total** | **219 items** |  | **1418** |
+| Chapter 7 degree, divisibility, and nonlinearity | 10 formalized nodes from `carlet-7-siegenthaler-degree-bounds` through `carlet-7-rel-58-entropy-nonlinearity-bound` | Exact degree and divisibility families, the Sarkar--Maitra equality case, degree-sensitive and even-dimensional bounds, and finite Parseval and entropy refinements | 32 |
+| Chapter 7 correlation and propagation | 3 formalized nodes from `carlet-7-maximum-correlation-support` through `carlet-7-resiliency-propagation-equality` | Exact coordinate-support correlation formula, parameter tradeoff, and positive-order equality classification | 5 |
+| Chapter 7 primary constructions | 11 formalized nodes from `carlet-7-rel-59-maiorana-mcfarland-general` through `carlet-7-dobbertin-nonlinearity` | Exact Maiorana--McFarland Walsh, resiliency, degree, nonlinearity, and optimal-parameter results; coordinate-free linear pullback; partial-spread resiliency; and Dobbertin's spectrum and nonlinearity | 72 |
+| Chapter 7 composition | 7 formalized nodes from `carlet-7-adding-variable` through `carlet-7-concatenation-family` | Exact adding-variable, direct-sum, and concatenation formulas with separate resilience, degree, nonlinearity, and linear-structure consequences | 51 |
+| Chapter 7 secondary constructions | 6 formalized nodes from `carlet-7-tarannikov-elementary-construction` through `carlet-7-disjoint-truth-support-sum` | Exact Tarannikov, indirect-sum, three-function, disjoint-spectrum, and disjoint-truth-support statements with corrected degree hypotheses | 54 |
+| Chapter 7 counting | `carlet-7-maiorana-mcfarland-count`, `carlet-7-naive-resilient-count-bound` | Exact finite Maiorana--McFarland enumeration, corrected exceptional range, and the ANF-based naive upper bound | 10 |
+| **Total** | **258 items** |  | **1642** |
 
 The following distinctions are part of the fidelity boundary:
 
@@ -270,8 +303,29 @@ The following distinctions are part of the fidelity boundary:
   the self-dual-normal-coordinate identity remain distinct. The identity lists its Frobenius,
   trace, and trace-pairing hypotheses, while the construction uses the Chapter 5 quadratic-trace
   polar formula and does not assume those coordinates.
-- The eighteen Chapter 6 source-recovery records remain outside the 61-node graph rather than
+- Chapter 7 reuses the canonical resiliency predicate, raw Walsh transform, algebraic degree, and
+  nonlinearity rather than defining chapter-local variants. Its degree and divisibility results
+  compose the Chapter 2 NNF and Poisson identities with the Chapter 6 McEliece--Ax theorem.
+- Relation (58) uses binary entropy on the positive range `1 ≤ m ≤ n/2`, where its denominator is
+  defined, retains the real exponent at the two-variable endpoint, and is proved from a finite
+  Stirling/binomial estimate before specializing Relation (57). The propagation equality
+  classification likewise states the positive propagation order
+  implicit in Carlet's convention; natural-number `PC(0)` is vacuous and would make the printed
+  endpoint false.
+- The general Maiorana--McFarland degree theorem records the one-variable endpoint separately:
+  when the left dimension is `k+1`, the frequency map is constant one and the two-variable offset
+  is quadratic-affine, while the one-variable offset is unrestricted. The `k+2` branch uses an
+  injective high-weight image and retains the resulting finite-cardinality and logarithmic bounds.
+- The concatenation and indirect-sum degree statements make their nonconstant-difference
+  hypotheses explicit. The linear-pullback construction states the positive-distance range,
+  Dobbertin's construction retains its valid dimension lower bound, and the exact
+  Maiorana--McFarland count records the exceptional two-dimensional failure of the printed upper
+  bound.
+- The eighteen Chapter 6 source-recovery records remain outside the 70-node graph rather than
   being weakened into statements without recoverable primary-source parameters or certificates.
+- The ten Chapter 7 source-recovery records remain outside the 39-node graph for the same reason;
+  they preserve citation-only construction and counting families whose theorem-complete
+  parameters are absent from the survey.
 - Definitions, normalization laws, source propositions, and derived consequences have separate Blueprint
   nodes when their quantifiers or conclusions differ.
 
@@ -289,9 +343,10 @@ declaration association. All three are in the Chapter 5 character-sum branch.
 Chapter 3 has no open node: Proposition 12's affine-flat and equality-case slice layer is
 formalized. Chapter 4 has no open node: its former frontier statements are associated with complete
 declarations while their principal mathematical ingredients retain independent nodes. Chapter 2
-has no open node: the binary-degree formula and Proposition 3 are formalized. Chapter 6 has no open
-node: all 63 reviewed statements have proved associations. The four Chapter 5 citation-recovery
-records remain outside the 31-node Chapter 5 graph until their source statements are complete.
+has no open node: the binary-degree formula and Proposition 3 are formalized. Chapters 6 and 7
+have no open nodes: all 70 and 39 reviewed statements, respectively, have proved associations.
+The four Chapter 5 citation-recovery records remain outside the 31-node Chapter 5 graph until their
+source statements are complete.
 
 ## Verification perimeter
 
@@ -303,7 +358,7 @@ status, graph node set, open-node set, and edge count.
 Local review runs the narrow affected module and lightweight gates from the repository root:
 
 ```bash
-lake build CryptBoolean.Carlet.Chapter06
+lake build CryptBoolean.Carlet.Chapter07
 ./.github/scripts/forbidden_tokens.sh
 python3 ./blueprint-verso/scripts/check_statement_style.py
 ```

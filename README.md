@@ -17,7 +17,7 @@ statements, Lean declarations, references, and proof-dependency graph.
 
 ## Mathematical scope
 
-The current library covers Carlet Chapters 2--6:
+The current library covers Carlet Chapters 2--7:
 
 - **Representations and transforms:** support and weight, algebraic and numerical normal forms,
   Walsh and pseudo-Boolean Fourier transforms, inversion, Parseval and Poisson formulas,
@@ -35,14 +35,19 @@ The current library covers Carlet Chapters 2--6:
   primary and secondary constructions, hyperplane decompositions, counting bounds, numerical and
   geometric characterizations, partially-bent and plateaued superclasses, normal extensions, and
   the explicit finite-field Kerdock construction and its code parameters.
+- **Resilient functions:** degree, divisibility, nonlinearity, entropy, maximum-correlation, and
+  propagation tradeoffs; Maiorana--McFarland, partial-spread, Dobbertin, direct-sum,
+  concatenation, indirect-sum, and three-function constructions; and finite counting bounds.
 
-The Blueprint presents these as reader Chapters 1--5 because Carlet's introductory Chapter 1 is
+The Blueprint presents these as reader Chapters 1--6 because Carlet's introductory Chapter 1 is
 outside the formalization scope; citations and internal identifiers retain Carlet's numbering.
 
-Carlet Chapters 2--4 and 6 have no remaining open statements. Chapter 2 includes the exact
+Carlet Chapters 2--4, 6, and 7 have no remaining open statements. Chapter 2 includes the exact
 univariate binary-degree formula, Proposition 3 on trace-monomial degree, and the trace-pairing
 coordinate theorem. Chapter 6 includes the McEliece--Ax divisibility theorem used for the bent-dual
-degree relation. Chapter 5 retains three analytic open statements: the Weil character-sum bound,
+degree relation. Chapter 7 includes the entropy-refined nonlinearity bound and the sharp equality
+classifications for the resiliency--propagation and Maiorana--McFarland bounds. Chapter 5 retains
+three analytic open statements: the Weil character-sum bound,
 its nonlinearity corollary, and the reciprocal character-sum bound. Every linked Lean declaration
 is proved and kernel-checked.
 
@@ -52,14 +57,14 @@ canonical scalar Boolean functions have type `FABL.F₂Cube n → FABL.𝔽₂`.
 
 ## Using CryptBoolean
 
-Release `v0.5.1` uses Lean and Mathlib `v4.32.0` and pins FABL `v0.5.6`. Add the package to a
+Release `v0.6.0` uses Lean and Mathlib `v4.32.0` and pins FABL `v0.5.6`. Add the package to a
 downstream `lakefile.toml`:
 
 ```toml
 [[require]]
 name = "CryptBooleanFunction"
 git = "https://github.com/Polarnova/CryptBoolean.git"
-rev = "v0.5.1"
+rev = "v0.6.0"
 ```
 
 On Linux x86-64 and macOS arm64, obtain the verified release archive with:

@@ -13,6 +13,7 @@ import CryptBooleanBlueprint.Carlet.Chapter03
 import CryptBooleanBlueprint.Carlet.Chapter04
 import CryptBooleanBlueprint.Carlet.Chapter05.Classes
 import CryptBooleanBlueprint.Carlet.Chapter06
+import CryptBooleanBlueprint.Carlet.Chapter07
 import CryptBooleanBlueprint.References
 
 open Verso.Genre
@@ -33,12 +34,12 @@ Reed--Muller coding, and cryptographic criteria for scalar Boolean functions. Ca
 transform and the normalized Fourier coefficient are related throughout by the identity
 $`W_f(a)=2^n\widetilde{f_\chi}(a)`.
 
-The five chapters develop, in order, representations and the Fourier--Walsh relation,
+The six chapters develop, in order, representations and the Fourier--Walsh relation,
 Reed--Muller coding, scalar cryptographic criteria, classes with constrained weights, Walsh
-spectra, and nonlinearities, and bent functions.
+spectra, and nonlinearities, bent functions, and resilient functions.
 
-The exposition begins with Carlet's Chapter 2. Thus Chapters 1--5 below correspond respectively
-to Carlet Chapters 2--6; source references retain Carlet's numbering.
+The exposition begins with Carlet's Chapter 2. Thus Chapters 1--6 below correspond respectively
+to Carlet Chapters 2--7; source references retain Carlet's numbering.
 
 Each entry states the mathematics with explicit domains, hypotheses, quantifiers, and conclusions.
 The graph below records the mathematical dependencies among these results.
@@ -63,6 +64,10 @@ Chapter 4: Classes with Provable Spectra and Weights
 Chapter 5: Bent functions
 :::
 
+:::group "carlet-chapter-7"
+Chapter 6: Resilient functions
+:::
+
 {include 0 CryptBooleanBlueprint.Carlet.Chapter02}
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter03}
@@ -72,6 +77,8 @@ Chapter 5: Bent functions
 {include 0 CryptBooleanBlueprint.Carlet.Chapter05.Classes}
 
 {include 0 CryptBooleanBlueprint.Carlet.Chapter06}
+
+{include 0 CryptBooleanBlueprint.Carlet.Chapter07}
 
 {references}
 

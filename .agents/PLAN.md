@@ -8,14 +8,15 @@ Plancherel, relative Hamming distance, balancedness, restrictions, ANF, algebrai
 functions, and derivatives needed by CryptBoolean. FABL is the canonical owner of those shared APIs;
 this project imports them directly and adds only source-facing or cross-representation laws.
 
-The current Blueprint baseline contains 222 source-facing statement nodes: 219 formalized nodes
-associated with 1418 proved Lean declarations and 3 visibly open nodes, connected by 493 reviewed
+The current Blueprint baseline contains 261 source-facing statement nodes: 258 formalized nodes
+associated with 1642 proved Lean declarations and 3 visibly open nodes, connected by 607 reviewed
 dependency edges. Chapter 2 contributes 41 formalized nodes, 174 declarations, and 56 incoming
 edges. Chapter 3 contributes 7 formalized nodes, 32 declarations, and 19 incoming
 edges. Chapter 4 contributes 73 formalized nodes, 568 declarations, and 159 incoming edges. Chapter
 5 contributes 31 nodes (28 formalized and 3 open), 203 declarations, and 70 incoming edges. Chapter
-6 contributes 70 formalized nodes, 441 declarations, and 189 incoming edges. These counts are a
-synchronized verification contract shared by the inventories,
+6 contributes 70 formalized nodes, 441 declarations, and 189 incoming edges. Chapter 7 contributes
+39 formalized nodes, 224 declarations, and 114 incoming edges. These counts are a synchronized
+verification contract shared by the inventories,
 Verso sources, `blueprint-verso/scripts/validate_manifest.py`, and `AGENTS.md`.
 
 Automated PDF text extraction finds 93 numbered definition/theorem/proposition/lemma/corollary
@@ -77,10 +78,11 @@ tooling pipeline runs, and no local filesystem path appears in package metadata.
 
 ## Phase 1 - Complete Carlet inventory
 
-Status: in progress. Chapters 2--6 are source-reviewed and Blueprint-synchronized under
+Status: in progress. Chapters 2--7 are source-reviewed and Blueprint-synchronized under
 `.agents/inventory/`. Chapter 6 has 70 promoted mathematical statements and 18 additional
-source-recovery records covering cited or underspecified families that are not yet promoted to
-Blueprint nodes. Chapters 7--10 are not yet inventoried.
+source-recovery records; Chapter 7 has 39 promoted mathematical statements and 10 additional
+source-recovery records. These recovery records preserve cited or underspecified families that are
+not promoted to Blueprint nodes. Chapters 8--10 are not yet inventoried.
 
 Read Chapters 2--10 in full and create one Blueprint node per in-scope item. Record full statements,
 source locations, representation decisions, and mathematical dependencies. Mark referenced results
@@ -247,6 +249,10 @@ consume the minimal Chapter 3 Reed--Muller API without introducing a general cod
 
 ## Phase 7 - Chapter 7 resilient functions
 
+Status: complete. All 39 source-facing nodes are formalized. The chapter composes the existing
+Walsh, Parseval, Poisson, algebraic-degree, nonlinearity, propagation, bent, normality, and
+McEliece--Ax APIs rather than introducing parallel representations.
+
 - spectral characterization of correlation immunity and resiliency;
 - algebraic-degree and nonlinearity bounds;
 - maximum correlation with subsets;
@@ -255,7 +261,10 @@ consume the minimal Chapter 3 Reed--Muller API without introducing a general cod
 - counting results.
 
 FABL `v0.5.6` already supplies the Siegenthaler-type degree tradeoff. Reuse it through the exact
-Carlet representation theorem.
+Carlet representation theorem. The completed layer also proves the entropy specialization of the
+Parseval bound, the positive-order equality case in the resiliency--propagation tradeoff, the
+optimal general Maiorana--McFarland parameter classification, the partial-spread and Dobbertin
+families, the direct and indirect composition formulas, and the finite counting results.
 
 ## Phase 8 - Chapter 8 propagation criteria
 

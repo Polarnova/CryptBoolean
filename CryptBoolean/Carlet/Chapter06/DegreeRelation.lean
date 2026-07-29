@@ -171,13 +171,6 @@ private theorem exact_two_divisibility_perpendicular_coordinateZeroSubspace
     rw [hsum, hpowFour, hqInt] at hz
     omega
 
-private theorem bitSignInt_cast_eq_realSignView
-    (f : BooleanFunction n) (x : FABL.F₂Cube n) :
-    (bitSignInt (f x) : ℝ) = realSignView f x := by
-  rw [bitSignInt_cast]
-  simp [realSignView, FABL.realSignEncodedFunction,
-    FABL.signEncodedFunction, FABL.signValue_signEncode_eq_binarySign]
-
 private theorem bentDual_sum_coordinateZeroSubspace
     (f : BooleanFunction n) (hf : IsBent f) (I : Finset (Fin n))
     (hIhalf : I.card ≤ n / 2) :

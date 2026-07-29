@@ -207,6 +207,39 @@ private theorem lowWeight_ne_perpendicular_ker
   have hd : 0 < d := codeDistance_pos G d hG
   omega
 
+/-- The Fourier spectrum of a linear pullback is supported on the
+perpendicular complement of the kernel of the linear map. -/
+theorem vectorFourierCoeff_comp_linearMap_eq_zero_of_not_mem_perpendicular_ker
+    (L : FABL.F₂Cube n →ₗ[FABL.𝔽₂] FABL.F₂Cube k)
+    (q : FABL.F₂Cube k → ℝ) (u : FABL.F₂Cube n)
+    (hu : u ∉ FABL.perpendicularSubspace (LinearMap.ker L)) :
+    FABL.vectorFourierCoeff (fun x ↦ q (L x)) u = 0 := by
+  have hnotall :
+      ¬ ∀ v : FABL.F₂Cube n, v ∈ LinearMap.ker L →
+        FABL.f₂DotProduct u v = 0 := by
+    intro h
+    exact hu
+      ((FABL.mem_perpendicularSubspace_iff
+        (LinearMap.ker L) u).mpr h)
+  push Not at hnotall
+  obtain ⟨v, hvker, hvdot⟩ := hnotall
+  have hLv : L v = 0 := by
+    simpa [LinearMap.mem_ker] using hvker
+  have hinvariant :
+      (fun x ↦ q (L (x + v))) = fun x ↦ q (L x) := by
+    funext x
+    rw [map_add, hLv, add_zero]
+  have hdot_one : FABL.f₂DotProduct u v = 1 :=
+    Fin.eq_one_of_ne_zero _ hvdot
+  have hcharacter : FABL.vectorWalshCharacter u v = -1 := by
+    rw [FABL.vectorWalshCharacter_apply, hdot_one]
+    exact FABL.binarySign_one
+  have htranslation :=
+    FABL.vectorFourierCoeff_translate_add
+      (fun x ↦ q (L x)) v u
+  rw [hinvariant, hcharacter] at htranslation
+  linarith
+
 private theorem lowWeight_vectorFourierCoeff_eq_zero
     (G : Matrix (Fin k) (Fin n) FABL.𝔽₂) (d : ℕ)
     (hG : IsBinaryCodeGenerator G d)
@@ -217,37 +250,11 @@ private theorem lowWeight_vectorFourierCoeff_eq_zero
         (realSignView (binaryGeneratorPullback G g)) u = 0 := by
   have hnotperp :=
     lowWeight_ne_perpendicular_ker G d hG u hu hweight
-  have hnotall :
-      ¬ ∀ v : FABL.F₂Cube n, v ∈ LinearMap.ker G.mulVecLin →
-        FABL.f₂DotProduct u v = 0 := by
-    intro h
-    exact hnotperp
-      ((FABL.mem_perpendicularSubspace_iff
-        (LinearMap.ker G.mulVecLin) u).mpr h)
-  push Not at hnotall
-  obtain ⟨v, hvker, hvdot⟩ := hnotall
-  have hmul : G *ᵥ v = 0 := by
-    simpa [LinearMap.mem_ker, Matrix.mulVecLin_apply] using hvker
-  have hinvariant :
-      (fun x ↦ realSignView (binaryGeneratorPullback G g) (x + v)) =
-        realSignView (binaryGeneratorPullback G g) := by
-    funext x
-    have hinput : G *ᵥ (x + v) = G *ᵥ x := by
-      rw [Matrix.mulVec_add, hmul, add_zero]
-    change
-      FABL.signValue (FABL.signEncode (g (G *ᵥ (x + v)))) =
-        FABL.signValue (FABL.signEncode (g (G *ᵥ x)))
-    rw [hinput]
-  have hdot_one : FABL.f₂DotProduct u v = 1 :=
-    Fin.eq_one_of_ne_zero _ hvdot
-  have hcharacter : FABL.vectorWalshCharacter u v = -1 := by
-    rw [FABL.vectorWalshCharacter_apply, hdot_one]
-    exact FABL.binarySign_one
-  have htranslation :=
-    FABL.vectorFourierCoeff_translate_add
-      (realSignView (binaryGeneratorPullback G g)) v u
-  rw [hinvariant, hcharacter] at htranslation
-  linarith
+  change FABL.vectorFourierCoeff
+      (fun x ↦ realSignView g (G *ᵥ x)) u = 0
+  simpa [Matrix.mulVecLin_apply] using
+    vectorFourierCoeff_comp_linearMap_eq_zero_of_not_mem_perpendicular_ker
+      G.mulVecLin (realSignView g) u hnotperp
 
 /-- Carlet's code-generator construction: if `G` generates a binary
 `[n,k,d]` linear code and `g` is balanced, then
